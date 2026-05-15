@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thank You The Industry Accountants</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--navy:#0f1f3d;--gold:#b8922a;--gold-light:#d4a843;--gold-pale:#faf5eb;--white:#fff;--off:#f8f7f4;--gray-200:#e5e3de;--gray-400:#9b9890;--gray-600:#6b6864;--text:#1a1917;--radius:12px;--shadow:0 4px 24px rgba(15,31,61,0.10)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--off);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+    nav{background:#fff;border-bottom:1px solid var(--gray-200);padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between}
+    .nav-brand{font-family:'Playfair Display',serif;color:var(--navy);font-size:.95rem;text-decoration:none}
+    .btn-navy{background:var(--navy);color:#fff;text-decoration:none;font-size:.85rem;font-weight:500;padding:.45rem 1.1rem;border-radius:7px}
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 5vw}
+    .card{background:#fff;border:1px solid var(--gray-200);border-radius:20px;padding:3rem;max-width:640px;width:100%;box-shadow:var(--shadow);text-align:center}
+    .check{width:64px;height:64px;background:#e8f5ee;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.75rem}
+    .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif}
+    .eyebrow::before,.eyebrow::after{content:'';width:16px;height:1.5px;background:var(--gold)}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--navy);margin-bottom:.75rem;line-height:1.2}
+    .sub{font-size:.95rem;color:var(--gray-600);font-weight:300;line-height:1.7;margin-bottom:2.5rem;max-width:460px;margin-left:auto;margin-right:auto}
+    .steps{background:var(--off);border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;text-align:left}
+    .steps-title{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:1rem;font-family:'Inter',sans-serif}
+    .step-row{display:flex;gap:1rem;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid var(--gray-200)}
+    .step-row:last-child{border-bottom:none}
+    .step-dot{width:28px;height:28px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:600;flex-shrink:0;font-family:'Inter',sans-serif}
+    .step-text strong{display:block;font-size:.9rem;font-weight:600;color:var(--navy);margin-bottom:.2rem}
+    .step-text span{font-size:.82rem;color:var(--gray-600);font-weight:300}
+    .btn-primary{background:var(--navy);color:#fff;text-decoration:none;font-size:.92rem;font-weight:500;padding:.8rem 2rem;border-radius:8px;display:inline-block;margin:.4rem;transition:all .2s}
+    .btn-primary:hover{background:#1a3260}
+    .btn-gold{background:var(--gold);color:#0a0800;text-decoration:none;font-size:.92rem;font-weight:600;padding:.8rem 2rem;border-radius:8px;display:inline-block;margin:.4rem;transition:all .2s}
+    .btn-ghost{background:none;color:var(--navy);text-decoration:none;font-size:.88rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;border:1.5px solid var(--gray-200);display:inline-block;margin:.4rem;transition:all .2s}
+    .btn-ghost:hover{border-color:var(--navy)}
+    .calendly-section{background:var(--navy);border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;display:none}
+    .calendly-section h3{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400;color:#fff;margin-bottom:.5rem}
+    .calendly-section p{font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:1.25rem;font-weight:300}
+    footer{background:#fff;border-top:1px solid var(--gray-200);padding:1.5rem 5vw;text-align:center;font-size:.8rem;color:var(--gray-400);font-family:'Inter',sans-serif}
+  </style>
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#0f1f3d"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="TIA Portal"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">The Industry Accountants</a>
+  <a href="portal.html" class="btn-navy">Go to My Portal →</a>
+</nav>
+
+<main>
+  <div class="card">
+    <div class="check">✅</div>
+    <div class="eyebrow" id="eyebrow">Form Submitted</div>
+    <h1 id="title">You're all set!</h1>
+    <p class="sub" id="subtitle">Thank you for reaching out to The Industry Accountants. Here's exactly what happens next.</p>
+
+    <!-- Next steps for tax/bookkeeping/payroll -->
+    <div class="steps" id="steps-standard">
+      <div class="steps-title">What happens next</div>
+      <div class="step-row">
+        <div class="step-dot">1</div>
+        <div class="step-text">
+          <strong>Check your email</strong>
+          <span>You'll receive a welcome email within a few minutes with your portal login details and a document checklist</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-dot">2</div>
+        <div class="step-text">
+          <strong>Upload your documents</strong>
+          <span>Log in to your secure client portal and upload your W2s, 1099s, or business records</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-dot">3</div>
+        <div class="step-text">
+          <strong>We review and send your invoice</strong>
+          <span>Our team reviews your documents within 1 business day and sends you a Stripe payment link</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-dot">4</div>
+        <div class="step-text">
+          <strong>We file you relax</strong>
+          <span>Once payment is received we complete your filing within 48 hours and notify you when it's done</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendly section for consulting -->
+    <div class="calendly-section" id="calendly-consulting">
+      <h3>Book your strategy session</h3>
+      <p>Your form has been received. The next step is to book your 1:1 Business Strategy Session pick a time that works for you.</p>
+      <a href="https://calendly.com/theindustryacc/business-strategy-session" target="_blank" class="btn-gold">Book My Strategy Session →</a>
+    </div>
+
+    <!-- Calendly section for partner -->
+    <div class="calendly-section" id="calendly-partner">
+      <h3>Book your discovery call</h3>
+      <p>Your partner application has been received. Let's jump on a call to discuss how the white label program works for your business.</p>
+      <a href="https://calendly.com/theindustryacc/30min" target="_blank" class="btn-gold">Book Partner Discovery Call →</a>
+    </div>
+
+    <div id="action-btns">
+      <a href="portal.html" class="btn-primary">Go to My Portal →</a>
+      <a href="index.html" class="btn-ghost">← Back to Home</a>
+    </div>
+  </div>
+</main>
+
+<footer>© 2026 The Industry Accountants · <a href="portal.html" style="color:inherit">Client Portal</a> · <a href="index.html" style="color:inherit">Home</a></footer>
+
+<script>
+// Read URL param to customize the page per service
+const params = new URLSearchParams(window.location.search);
+const type = params.get('type') || 'tax';
+
+const config = {
+  tax: {
+    eyebrow: 'Tax Filing Request Received',
+    title: 'Your tax filing request is in!',
+    sub: 'Thank you for choosing The Industry Accountants. Log in to your portal, upload your documents, and we\'ll take it from there.'
+  },
+  bookkeeping: {
+    eyebrow: 'Bookkeeping Request Received',
+    title: 'Welcome aboard!',
+    sub: 'Your bookkeeping intake is received. Log in to your portal and upload your bank statements or accounting files to get started.'
+  },
+  payroll: {
+    eyebrow: 'Payroll Setup Request Received',
+    title: 'Let\'s get your payroll set up!',
+    sub: 'Your payroll intake is received. Upload your employee details and business documents in your portal and we\'ll be in touch within 1 business day.'
+  },
+  consulting: {
+    eyebrow: 'Consulting Request Received',
+    title: 'Great let\'s build your business!',
+    sub: 'Your consulting intake is received. The next step is to book your 1:1 Business Strategy Session below.'
+  },
+  partner: {
+    eyebrow: 'Partner Application Received',
+    title: 'Excited to connect with you!',
+    sub: 'Your partner application is in. Book your discovery call below and we\'ll walk you through how the white label program works.'
+  }
+};
+
+const c = config[type] || config.tax;
+document.getElementById('eyebrow').textContent = c.eyebrow;
+document.getElementById('title').textContent = c.title;
+document.getElementById('subtitle').textContent = c.sub;
+
+if (type === 'consulting') {
+  document.getElementById('steps-standard').style.display = 'none';
+  document.getElementById('calendly-consulting').style.display = 'block';
+} else if (type === 'partner') {
+  document.getElementById('steps-standard').style.display = 'none';
+  document.getElementById('calendly-partner').style.display = 'block';
+}
+</script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW error:', err));
+      });
+    }
+  </script>
+</body>
+</html>
