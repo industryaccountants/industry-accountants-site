@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Business Intelligence, The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1829;--gold:#c9a84c;--gold-light:#e0c06a;--gold-pale:rgba(201,168,76,0.12);--white:#ffffff;--green:#2dd4a0;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa}
+body{background:var(--navy);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;overflow-x:hidden}
+.header{text-align:center;margin-bottom:3rem}
+.brand{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:400;color:var(--white);line-height:1.15;margin-bottom:.6rem}
+.title em{color:var(--gold);font-style:italic}
+.sub{font-size:.92rem;color:rgba(255,255,255,.45);font-weight:300}
+.scene{width:100%;max-width:900px}
+.track{display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:3rem;position:relative}
+.track::before{content:'';position:absolute;top:22px;left:10%;right:10%;height:1px;background:rgba(255,255,255,.08)}
+.progress-line{position:absolute;top:22px;left:10%;height:1px;background:linear-gradient(90deg,var(--gold),var(--gold-light));width:0%;transition:width .6s ease;box-shadow:0 0 8px rgba(201,168,76,.5)}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:.6rem;position:relative;z-index:1;opacity:.3;transition:opacity .5s}
+.step.active{opacity:1}.step.done{opacity:.7}
+.step-dot{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .5s}
+.step.active .step-dot{background:var(--gold-pale);border-color:var(--gold);box-shadow:0 0 0 6px rgba(201,168,76,.12),0 0 20px rgba(201,168,76,.3)}
+.step.done .step-dot{background:rgba(45,212,160,.15);border-color:var(--green)}
+.step-dot .check{display:none;color:var(--green);font-size:1.1rem}
+.step.done .step-dot .icon{display:none}.step.done .step-dot .check{display:block}
+.step-label{font-size:.68rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.4;max-width:70px;transition:color .5s}
+.step.active .step-label{color:var(--gold)}.step.done .step-label{color:rgba(255,255,255,.5)}
+.card{background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.08);border-radius:24px;padding:2.5rem;min-height:340px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:.5px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+.panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2.5rem;opacity:0;transition:opacity .7s;pointer-events:none}
+.panel.active{opacity:1;pointer-events:all}
+.controls{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:2rem}
+.ctrl-btn{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);border-radius:8px;color:rgba(255,255,255,.6);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;padding:.6rem 1.25rem;cursor:pointer;transition:all .2s}
+.ctrl-btn:hover{background:rgba(255,255,255,.08);color:var(--white);border-color:rgba(255,255,255,.2)}
+.ctrl-btn.primary{background:var(--gold);color:#0a0800;border-color:var(--gold);font-weight:600}
+.step-counter{font-size:.75rem;color:rgba(255,255,255,.3);font-family:monospace}
+.footer{margin-top:2.5rem;text-align:center;font-size:.7rem;color:rgba(255,255,255,.2);letter-spacing:.04em}
+
+/* P0: Data Intake */
+.data-wrap{display:flex;flex-direction:column;gap:.75rem;width:360px}
+.data-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
+.data-sub{font-size:.7rem;color:rgba(255,255,255,.35);margin-bottom:.25rem}
+.source-row{display:flex;align-items:center;gap:.75rem;padding:.6rem .9rem;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.07);border-radius:9px;opacity:0;transform:translateX(-15px);animation:slideInR .4s ease forwards}
+.source-row:nth-child(3){animation-delay:.1s}.source-row:nth-child(4){animation-delay:.25s}.source-row:nth-child(5){animation-delay:.4s}.source-row:nth-child(6){animation-delay:.55s}
+.src-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.src-info{flex:1}.src-name{font-size:.75rem;color:rgba(255,255,255,.75);font-weight:500}.src-detail{font-size:.63rem;color:rgba(255,255,255,.35)}
+.src-status{font-size:.62rem;font-weight:500;padding:2px 8px;border-radius:999px}
+.ss-live{background:rgba(45,212,160,.1);color:var(--green);border:.5px solid rgba(45,212,160,.2)}
+.ss-sync{background:rgba(201,168,76,.1);color:var(--gold);border:.5px solid rgba(201,168,76,.2)}
+
+/* P1: KPI Analysis */
+.kpi-wrap{display:flex;flex-direction:column;gap:.75rem;width:360px}
+.kpi-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
+.kpi-sub{font-size:.7rem;color:rgba(255,255,255,.35)}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.kpi-box{background:rgba(13,20,37,.9);border:.5px solid rgba(255,255,255,.08);border-radius:10px;padding:.9rem;opacity:0;animation:fadeIn .4s ease forwards}
+.kpi-box:nth-child(1){animation-delay:.1s;border-color:rgba(45,212,160,.2)}
+.kpi-box:nth-child(2){animation-delay:.25s;border-color:rgba(201,168,76,.2)}
+.kpi-box:nth-child(3){animation-delay:.4s;border-color:rgba(96,165,250,.2)}
+.kpi-box:nth-child(4){animation-delay:.55s;border-color:rgba(167,139,250,.2)}
+.kpi-label{font-size:.63rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.kpi-value{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.2rem}
+.kv-green{color:var(--green)}.kv-gold{color:var(--gold)}.kv-blue{color:var(--blue)}.kv-purple{color:var(--purple)}
+.kpi-change{font-size:.65rem;font-weight:500}
+.kc-up{color:var(--green)}.kc-down{color:var(--red)}
+.kpi-spark{height:24px;display:flex;align-items:flex-end;gap:2px;margin-top:.4rem}
+.ks{flex:1;border-radius:1px 1px 0 0;background:rgba(255,255,255,.08);animation:growSpark .5s ease forwards;--h:50%}
+.ks.g{background:rgba(45,212,160,.25)}.ks.gold{background:rgba(201,168,76,.25)}.ks.b{background:rgba(96,165,250,.25)}.ks.p{background:rgba(167,139,250,.25)}
+
+/* P2: Trend Chart */
+.chart-wrap{display:flex;flex-direction:column;gap:.75rem;width:380px}
+.chart-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
+.chart-legend{display:flex;gap:1rem;font-size:.65rem;color:rgba(255,255,255,.4);margin-bottom:.25rem}
+.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+.chart-area{background:rgba(13,20,37,.8);border:.5px solid rgba(255,255,255,.07);border-radius:10px;padding:1rem;height:140px;position:relative;overflow:hidden}
+.chart-lines{position:absolute;inset:1rem;display:flex;align-items:flex-end;gap:0}
+svg.trend-svg{width:100%;height:100%;overflow:visible}
+.chart-labels{display:flex;justify-content:space-between;font-size:.6rem;color:rgba(255,255,255,.25);padding:0 .25rem;margin-top:.25rem}
+.trend-badge{display:flex;gap:.6rem;justify-content:center}
+.tb{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.07);border-radius:999px;padding:.3rem .85rem;font-size:.7rem;color:rgba(255,255,255,.55)}
+.tb.pos{border-color:rgba(45,212,160,.2);color:var(--green);background:rgba(45,212,160,.05)}
+
+/* P3: Insights & Recommendations */
+.insights-wrap{display:flex;flex-direction:column;gap:.65rem;width:360px}
+.ins-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
+.ins-sub{font-size:.7rem;color:rgba(255,255,255,.35);margin-bottom:.1rem}
+.ins-card{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem .9rem;border-radius:10px;opacity:0;animation:fadeIn .4s ease forwards}
+.ins-card:nth-child(3){animation-delay:.1s}.ins-card:nth-child(4){animation-delay:.25s}.ins-card:nth-child(5){animation-delay:.4s}.ins-card:nth-child(6){animation-delay:.55s}
+.ins-card.good{background:rgba(45,212,160,.05);border:.5px solid rgba(45,212,160,.15)}
+.ins-card.warn{background:rgba(201,168,76,.05);border:.5px solid rgba(201,168,76,.15)}
+.ins-card.action{background:rgba(96,165,250,.05);border:.5px solid rgba(96,165,250,.15)}
+.ins-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.ins-body{flex:1}
+.ins-head{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:2px}
+.ins-text{font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5}
+.ins-tag{font-size:.6rem;font-weight:600;margin-top:.25rem;display:inline-block;padding:1px 7px;border-radius:999px}
+.it-save{background:rgba(45,212,160,.1);color:var(--green)}
+.it-act{background:rgba(96,165,250,.1);color:var(--blue)}
+.it-warn{background:rgba(201,168,76,.1);color:var(--gold)}
+
+/* P4: Strategic Plan */
+.plan-wrap{display:flex;flex-direction:column;gap:.75rem;width:360px}
+.plan-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
+.plan-sub{font-size:.7rem;color:rgba(255,255,255,.35)}
+.plan-timeline{display:flex;flex-direction:column;gap:.5rem;position:relative}
+.plan-timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:1px;background:rgba(255,255,255,.08)}
+.plan-item{display:flex;gap:.75rem;align-items:flex-start;opacity:0;animation:fadeSlideUp .4s ease forwards}
+.plan-item:nth-child(1){animation-delay:.1s}.plan-item:nth-child(2){animation-delay:.3s}.plan-item:nth-child(3){animation-delay:.5s}.plan-item:nth-child(4){animation-delay:.7s}
+.plan-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;position:relative;z-index:1}
+.pd-done{background:rgba(45,212,160,.15);border:1px solid rgba(45,212,160,.3);color:var(--green)}
+.pd-active{background:var(--gold-pale);border:1px solid var(--gold);color:var(--gold)}
+.pd-next{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4)}
+.plan-content{flex:1;padding-top:4px}
+.plan-head{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:2px}
+.plan-detail{font-size:.65rem;color:rgba(255,255,255,.4);line-height:1.4}
+
+/* P5: Results */
+.results-wrap{display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center}
+.results-seal{width:80px;height:80px;border-radius:50%;background:rgba(201,168,76,.1);border:2px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;animation:sealPop .6s cubic-bezier(.34,1.56,.64,1) forwards;position:relative}
+.results-seal::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(201,168,76,.15);animation:ripple 2s ease-out infinite}
+.results-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white)}
+.results-sub{font-size:.82rem;color:rgba(255,255,255,.4);max-width:300px;line-height:1.6}
+.results-stats{display:flex;gap:1.5rem}
+.rs{text-align:center}
+.rs-val{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold)}
+.rs-lbl{font-size:.62rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em}
+
+@keyframes slideInR{to{transform:translateX(0);opacity:1}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes growSpark{from{height:0}to{height:var(--h)}}
+@keyframes fadeSlideUp{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes sealPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes ripple{0%{transform:scale(1);opacity:.4}100%{transform:scale(1.3);opacity:0}}
+</style>
+</head>
+<body>
+<div class="header">
+ <div class="brand">The Industry Accountants</div>
+ <h1 class="title">Business Intelligence, <em>Built Around You</em></h1>
+ <p class="sub">From raw numbers to clear decisions, your financial story, told simply</p>
+</div>
+<div class="scene">
+ <div class="track">
+ <div class="progress-line" id="progressLine"></div>
+ <div class="step active" id="step-0"><div class="step-dot"><span class="icon"></span><span class="check"></span></div><div class="step-label">Data Sources</div></div>
+ <div class="step" id="step-1"><div class="step-dot"><span class="icon"></span><span class="check"></span></div><div class="step-label">KPI Analysis</div></div>
+ <div class="step" id="step-2"><div class="step-dot"><span class="icon"></span><span class="check"></span></div><div class="step-label">Trend Mapping</div></div>
+ <div class="step" id="step-3"><div class="step-dot"><span class="icon"></span><span class="check"></span></div><div class="step-label">Insights</div></div>
+ <div class="step" id="step-4"><div class="step-dot"><span class="icon"></span><span class="check"></span></div><div class="step-label">Strategy Plan</div></div>
+ <div class="step" id="step-5"><div class="step-dot"><span class="icon"></span><span class="check"></span></div><div class="step-label">Results</div></div>
+ </div>
+ <div class="card">
+
+ <div class="panel active" id="panel-0">
+ <div class="data-wrap">
+ <div class="data-title">Connecting Your Data Sources</div>
+ <div class="data-sub">We pull from every corner of your business</div>
+ <div class="source-row"><div class="src-icon" style="background:rgba(45,212,160,.1)"></div><div class="src-info"><div class="src-name">General Ledger</div><div class="src-detail">Chart of accounts · All transactions</div></div><span class="src-status ss-live">Live</span></div>
+ <div class="source-row"><div class="src-icon" style="background:rgba(201,168,76,.1)"></div><div class="src-info"><div class="src-name">Bank & Credit Accounts</div><div class="src-detail">Chase, TD, Amex · 3 accounts</div></div><span class="src-status ss-live">Live</span></div>
+ <div class="source-row"><div class="src-icon" style="background:rgba(96,165,250,.1)"></div><div class="src-info"><div class="src-name">Accounts Receivable</div><div class="src-detail">14 open invoices · $38,400 outstanding</div></div><span class="src-status ss-sync">Syncing</span></div>
+ <div class="source-row"><div class="src-icon" style="background:rgba(167,139,250,.1)"></div><div class="src-info"><div class="src-name">Payroll Records</div><div class="src-detail">4 employees · YTD wages</div></div><span class="src-status ss-live">Live</span></div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-1">
+ <div class="kpi-wrap">
+ <div class="kpi-title">Key Performance Indicators</div>
+ <div class="kpi-sub">Real-time metrics across your business</div>
+ <div class="kpi-grid">
+ <div class="kpi-box"><div class="kpi-label">Annual Revenue</div><div class="kpi-value kv-green">$284K</div><div class="kpi-change kc-up">+ 31% vs last year</div><div class="kpi-spark"><div class="ks g" style="--h:30%"></div><div class="ks g" style="--h:45%"></div><div class="ks g" style="--h:55%"></div><div class="ks g" style="--h:70%"></div><div class="ks g" style="--h:90%"></div></div></div>
+ <div class="kpi-box"><div class="kpi-label">Profit Margin</div><div class="kpi-value kv-gold">67%</div><div class="kpi-change kc-up">+ 8pts vs last year</div><div class="kpi-spark"><div class="ks gold" style="--h:50%"></div><div class="ks gold" style="--h:55%"></div><div class="ks gold" style="--h:62%"></div><div class="ks gold" style="--h:70%"></div><div class="ks gold" style="--h:85%"></div></div></div>
+ <div class="kpi-box"><div class="kpi-label">Avg. Invoice Value</div><div class="kpi-value kv-blue">$2,740</div><div class="kpi-change kc-up">+ 12% vs Q1</div><div class="kpi-spark"><div class="ks b" style="--h:40%"></div><div class="ks b" style="--h:50%"></div><div class="ks b" style="--h:48%"></div><div class="ks b" style="--h:65%"></div><div class="ks b" style="--h:80%"></div></div></div>
+ <div class="kpi-box"><div class="kpi-label">Operating Expenses</div><div class="kpi-value kv-purple">$94K</div><div class="kpi-change kc-down">+ 4%, review needed</div><div class="kpi-spark"><div class="ks p" style="--h:55%"></div><div class="ks p" style="--h:60%"></div><div class="ks p" style="--h:58%"></div><div class="ks p" style="--h:72%"></div><div class="ks p" style="--h:75%"></div></div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-2">
+ <div class="chart-wrap">
+ <div class="chart-title">Revenue & Profit Trends</div>
+ <div class="chart-legend">
+ <span><span class="leg-dot" style="background:var(--green)"></span>Revenue</span>
+ <span><span class="leg-dot" style="background:var(--gold)"></span>Net Profit</span>
+ <span><span class="leg-dot" style="background:rgba(255,255,255,.2)"></span>Expenses</span>
+ </div>
+ <div class="chart-area">
+ <svg class="trend-svg" viewBox="0 0 340 100" preserveAspectRatio="none">
+ <defs>
+ <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2dd4a0" stop-opacity=".3"/><stop offset="100%" stop-color="#2dd4a0" stop-opacity="0"/></linearGradient>
+ <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c9a84c" stop-opacity=".25"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></linearGradient>
+ </defs>
+ <!-- Revenue area -->
+ <path d="M0,80 C40,72 80,60 120,50 C160,40 200,28 240,18 C280,8 320,4 340,2 L340,100 L0,100 Z" fill="url(#gGreen)" opacity=".8"/>
+ <path d="M0,80 C40,72 80,60 120,50 C160,40 200,28 240,18 C280,8 320,4 340,2" fill="none" stroke="#2dd4a0" stroke-width="1.5" stroke-dasharray="340" stroke-dashoffset="340" style="animation:drawLine 1.5s ease forwards"/>
+ <!-- Profit area -->
+ <path d="M0,88 C40,82 80,74 120,65 C160,56 200,44 240,34 C280,24 320,18 340,15 L340,100 L0,100 Z" fill="url(#gGold)" opacity=".7"/>
+ <path d="M0,88 C40,82 80,74 120,65 C160,56 200,44 240,34 C280,24 320,18 340,15" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="340" stroke-dashoffset="340" style="animation:drawLine 1.5s ease .3s forwards"/>
+ <!-- Expense line -->
+ <path d="M0,92 C40,90 80,88 120,86 C160,85 200,84 240,83 C280,82 320,81 340,81" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="340" stroke-dashoffset="340" style="animation:drawLine 1.5s ease .5s forwards"/>
+ </svg>
+ </div>
+ <div class="chart-labels"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div>
+ <div class="trend-badge">
+ <div class="tb pos">+ Revenue growing every month</div>
+ <div class="tb pos">+ Margin improving</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-3">
+ <div class="insights-wrap">
+ <div class="ins-title">AI-Assisted Insights</div>
+ <div class="ins-sub">Reviewed and confirmed by your accountant</div>
+ <div class="ins-card good"><div class="ins-icon"></div><div class="ins-body"><div class="ins-head">Revenue on track for $320K year</div><div class="ins-text">At current growth rate, you'll exceed last year by 31%. Q3 bookings are ahead of schedule.</div><div class="ins-tag it-save">Positive</div></div></div>
+ <div class="ins-card warn"><div class="ins-icon"></div><div class="ins-body"><div class="ins-head">Software expenses up 22%</div><div class="ins-text">3 subscriptions flagged as potentially unused. Cutting them saves ~$4,200/year.</div><div class="ins-tag it-warn">Review</div></div></div>
+ <div class="ins-card action"><div class="ins-icon"></div><div class="ins-body"><div class="ins-head">S-Corp election could save $18K in taxes</div><div class="ins-text">Based on your current profit, electing S-Corp status before Oct 15 would reduce self-employment tax significantly.</div><div class="ins-tag it-act">Action Item</div></div></div>
+ <div class="ins-card good"><div class="ins-icon"></div><div class="ins-body"><div class="ins-head">Cash reserve is healthy, 4.2 months runway</div><div class="ins-text">Your cash position covers operating expenses through October. Consider a high-yield business savings account.</div><div class="ins-tag it-save">Strong</div></div></div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-4">
+ <div class="plan-wrap">
+ <div class="plan-title">Your Strategic Financial Plan</div>
+ <div class="plan-sub">Built from your actual numbers, not generic advice</div>
+ <div class="plan-timeline">
+ <div class="plan-item"><div class="plan-dot pd-done"></div><div class="plan-content"><div class="plan-head">Q1, Clean books & baseline set</div><div class="plan-detail">Chart of accounts restructured. YTD financials reconciled.</div></div></div>
+ <div class="plan-item"><div class="plan-dot pd-done"></div><div class="plan-content"><div class="plan-head">Q2, Expense audit complete</div><div class="plan-detail">$7,400 in unnecessary expenses identified and cut.</div></div></div>
+ <div class="plan-item"><div class="plan-dot pd-active">-></div><div class="plan-content"><div class="plan-head">Q3, S-Corp election & tax planning</div><div class="plan-detail">Targeting $18K+ in tax savings before year-end deadline.</div></div></div>
+ <div class="plan-item"><div class="plan-dot pd-next">4</div><div class="plan-content"><div class="plan-head">Q4, Growth reinvestment strategy</div><div class="plan-detail">Cash allocation plan for scaling to $500K revenue in 2025.</div></div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-5">
+ <div class="results-wrap">
+ <div class="results-seal"></div>
+ <div class="results-title">Your Business, Optimized</div>
+ <div class="results-sub">You now have a clear financial picture, real insights, and a plan, not just a spreadsheet.</div>
+ <div class="results-stats">
+ <div class="rs"><div class="rs-val">$18K</div><div class="rs-lbl">Tax Savings Found</div></div>
+ <div class="rs"><div class="rs-val">31%</div><div class="rs-lbl">Revenue Growth</div></div>
+ <div class="rs"><div class="rs-val">67%</div><div class="rs-lbl">Profit Margin</div></div>
+ </div>
+ </div>
+ </div>
+
+ </div>
+ <div class="controls">
+ <button class="ctrl-btn" id="prevBtn" onclick="changeStep(-1)" style="opacity:.3">← Back</button>
+ <span class="step-counter" id="stepCounter">Step 1 of 6</span>
+ <button class="ctrl-btn primary" id="nextBtn" onclick="changeStep(1)">Next -></button>
+ </div>
+</div>
+<div class="footer">The Industry Accountants · Business Intelligence · Strategy Built From Your Numbers</div>
+<script>
+let current=0;const TOTAL=6;const STOPS=[0,20,40,60,80,100];let autoTimer=null;
+function changeStep(dir){const next=current+dir;if(next<0||next>=TOTAL)return;goToStep(next)}
+function goToStep(idx){
+ document.getElementById('panel-'+current).classList.remove('active');
+ document.getElementById('step-'+current).classList.remove('active');
+ for(let i=0;i<TOTAL;i++){const s=document.getElementById('step-'+i);s.classList.remove('active','done');if(i<idx)s.classList.add('done')}
+ current=idx;
+ document.getElementById('step-'+current).classList.add('active');
+ const panel=document.getElementById('panel-'+current);const clone=panel.cloneNode(true);clone.id='panel-'+current;clone.classList.add('active');panel.parentNode.replaceChild(clone,panel);
+ document.getElementById('progressLine').style.width=STOPS[current]+'%';
+ document.getElementById('stepCounter').textContent='Step '+(current+1)+' of '+TOTAL;
+ document.getElementById('prevBtn').style.opacity=current===0?'0.3':'1';
+ document.getElementById('nextBtn').textContent=current===TOTAL-1?'↺ Replay':'Next ->';
+ clearTimeout(autoTimer);if(current<TOTAL-1)autoTimer=setTimeout(()=>changeStep(1),3500);
+}
+document.getElementById('nextBtn').addEventListener('click',()=>{if(current===TOTAL-1)goToStep(0)});
+autoTimer=setTimeout(()=>changeStep(1),3500);
+
+/* Draw SVG lines on panel 2 */
+const style=document.createElement('style');
+style.textContent='@keyframes drawLine{to{stroke-dashoffset:0}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>

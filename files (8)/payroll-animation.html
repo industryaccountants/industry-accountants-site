@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payroll Management, The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1829;--navy-light:#1a2840;--gold:#c9a84c;--gold-light:#e0c06a;--gold-pale:rgba(201,168,76,0.12);--white:#ffffff;--green:#2dd4a0;--red:#f87171;--blue:#60a5fa}
+body{background:var(--navy);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;overflow-x:hidden}
+.header{text-align:center;margin-bottom:.75rem}
+.brand{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.title{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2vw,1.5rem);font-weight:400;color:var(--white);line-height:1.15;margin-bottom:.6rem}
+.title em{color:var(--gold);font-style:italic}
+.sub{font-size:.75rem;color:rgba(255,255,255,.45);font-weight:300}
+.scene{width:100%;max-width:900px}
+.track{display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:.75rem;position:relative}
+.track::before{content:'';position:absolute;top:22px;left:10%;right:10%;height:1px;background:rgba(255,255,255,.08)}
+.progress-line{position:absolute;top:22px;left:10%;height:1px;background:linear-gradient(90deg,var(--gold),var(--gold-light));width:0%;transition:width .6s ease;box-shadow:0 0 8px rgba(201,168,76,.5)}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:.6rem;position:relative;z-index:1;opacity:.3;transition:opacity .5s}
+.step.active{opacity:1}.step.done{opacity:.7}
+.step-dot{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:all .5s}
+.step.active .step-dot{background:var(--gold-pale);border-color:var(--gold);box-shadow:0 0 0 6px rgba(201,168,76,.12),0 0 20px rgba(201,168,76,.3)}
+.step.done .step-dot{background:rgba(45,212,160,.15);border-color:var(--green)}
+.step-dot .check{display:none;color:var(--green);font-size:1.2rem;font-weight:700;line-height:1}
+.step.done .step-dot .icon{display:none}.step.done .step-dot .check{display:block}
+.step-label{font-size:.58rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.4;max-width:70px;transition:color .5s}
+.step.active .step-label{color:var(--gold)}.step.done .step-label{color:rgba(255,255,255,.5)}
+.card{background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.08);border-radius:24px;padding:1.25rem;min-height:220px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:.5px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+.panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:1.25rem;opacity:0;transition:opacity .7s;pointer-events:none}
+.panel.active{opacity:1;pointer-events:all}
+.controls{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:2rem}
+.ctrl-btn{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);border-radius:8px;color:rgba(255,255,255,.6);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;padding:.6rem 1.25rem;cursor:pointer;transition:all .2s}
+.ctrl-btn:hover{background:rgba(255,255,255,.08);color:var(--white);border-color:rgba(255,255,255,.2)}
+.ctrl-btn.primary{background:var(--gold);color:#0a0800;border-color:var(--gold);font-weight:600}
+.step-counter{font-size:.75rem;color:rgba(255,255,255,.3);font-family:monospace}
+.footer{margin-top:2.5rem;text-align:center;font-size:.7rem;color:rgba(255,255,255,.2);letter-spacing:.04em}
+
+/* P0: Employee Roster */
+.roster-wrap{display:flex;flex-direction:column;gap:.75rem;width:360px}
+.roster-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.25rem}
+.roster-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white)}
+.roster-badge{background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.25);border-radius:999px;padding:2px 10px;font-size:.62rem;color:var(--gold);font-weight:500}
+.emp-row{display:flex;align-items:center;gap:.75rem;padding:.6rem .9rem;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.07);border-radius:9px;opacity:0;transform:translateY(10px);animation:slideUp .4s ease forwards}
+.emp-row:nth-child(2){animation-delay:.1s}.emp-row:nth-child(3){animation-delay:.25s}.emp-row:nth-child(4){animation-delay:.4s}.emp-row:nth-child(5){animation-delay:.55s}
+.emp-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--gold);border:.5px solid rgba(201,168,76,.25);flex-shrink:0}
+.emp-info{flex:1}.emp-name{font-size:.78rem;color:rgba(255,255,255,.8);font-weight:500}.emp-role{font-size:.65rem;color:rgba(255,255,255,.35)}
+.emp-type{font-size:.62rem;padding:2px 8px;border-radius:999px;font-weight:500}
+.type-w2{background:rgba(96,165,250,.1);color:var(--blue);border:.5px solid rgba(96,165,250,.2)}
+.type-1099{background:rgba(201,168,76,.1);color:var(--gold);border:.5px solid rgba(201,168,76,.2)}
+.emp-rate{font-size:.72rem;color:rgba(255,255,255,.5)}
+
+/* P1: Hours & Calculations */
+.calc-wrap{display:flex;flex-direction:column;gap:.75rem;width:350px}
+.calc-title{font-size:.72rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em}
+.calc-card{background:rgba(13,20,37,.9);border:.5px solid rgba(201,168,76,.2);border-radius:12px;padding:1rem 1.25rem}
+.calc-emp{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
+.calc-avatar{width:26px;height:26px;border-radius:50%;background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:var(--gold)}
+.calc-name{font-size:.8rem;color:var(--white);font-weight:500}
+.calc-period{font-size:.65rem;color:rgba(255,255,255,.35)}
+.calc-rows{display:flex;flex-direction:column;gap:.35rem}
+.calc-row{display:flex;justify-content:space-between;font-size:.73rem}
+.calc-lbl{color:rgba(255,255,255,.45)}.calc-val{color:rgba(255,255,255,.75);font-weight:500}
+.calc-row.deduct .calc-val{color:var(--red)}
+.calc-row.net{border-top:.5px solid rgba(255,255,255,.08);margin-top:.35rem;padding-top:.35rem}
+.calc-row.net .calc-lbl{color:var(--white);font-weight:600}.calc-row.net .calc-val{color:var(--green);font-weight:700}
+.tax-badge{display:flex;align-items:center;gap:.5rem;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.15);border-radius:8px;padding:.5rem .75rem;font-size:.7rem;color:rgba(255,255,255,.5);margin-top:.25rem}
+
+/* P2: Payslips Generated */
+.slip-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%}
+.slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;width:360px}
+.slip-card{background:rgba(13,20,37,.9);border:.5px solid rgba(255,255,255,.08);border-radius:10px;padding:.9rem;opacity:0;animation:fadeIn .4s ease forwards}
+.slip-card:nth-child(1){animation-delay:.1s}.slip-card:nth-child(2){animation-delay:.25s}.slip-card:nth-child(3){animation-delay:.4s}.slip-card:nth-child(4){animation-delay:.55s}
+.slip-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.slip-name{font-size:.72rem;color:rgba(255,255,255,.7);font-weight:500}
+.slip-amount{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--green)}
+.slip-detail{font-size:.62rem;color:rgba(255,255,255,.3)}.slip-status{font-size:.6rem;color:var(--green);font-weight:500}
+.send-bar{display:flex;align-items:center;gap:.6rem;background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:8px;padding:.5rem .9rem;font-size:.72rem;color:var(--green);animation:fadeSlideUp .5s ease .8s both}
+
+/* P3: Tax Filings */
+.tax-wrap{display:flex;flex-direction:column;gap:.75rem;width:340px}
+.tax-header{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
+.tax-sub{font-size:.7rem;color:rgba(255,255,255,.35);margin-bottom:.25rem}
+.tax-row{display:flex;align-items:center;gap:.75rem;padding:.65rem .9rem;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.07);border-radius:9px;opacity:0;animation:fadeIn .4s ease forwards}
+.tax-row:nth-child(3){animation-delay:.1s}.tax-row:nth-child(4){animation-delay:.25s}.tax-row:nth-child(5){animation-delay:.4s}.tax-row:nth-child(6){animation-delay:.55s}
+.tax-icon{font-size:.8rem;width:28px;text-align:center}
+.tax-info{flex:1}.tax-form{font-size:.75rem;color:rgba(255,255,255,.8);font-weight:500}.tax-desc{font-size:.63rem;color:rgba(255,255,255,.35)}
+.tax-status{font-size:.62rem;font-weight:600;padding:2px 8px;border-radius:999px}
+.ts-filed{background:rgba(45,212,160,.1);color:var(--green);border:.5px solid rgba(45,212,160,.2)}
+.ts-due{background:rgba(201,168,76,.1);color:var(--gold);border:.5px solid rgba(201,168,76,.2)}
+.ts-upcoming{background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:.5px solid rgba(255,255,255,.08)}
+
+/* P4: Direct Deposit */
+.dd-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem}
+.dd-card{background:rgba(13,20,37,.9);border:.5px solid rgba(201,168,76,.25);border-radius:14px;padding:1.25rem;width:300px}
+.dd-title{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--white);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.dd-rows{display:flex;flex-direction:column;gap:.4rem}
+.dd-row{display:flex;align-items:center;justify-content:space-between;padding:.45rem .6rem;background:rgba(255,255,255,.03);border-radius:7px;border:.5px solid rgba(255,255,255,.06);opacity:0;animation:fadeIn .4s ease forwards}
+.dd-row:nth-child(1){animation-delay:.1s}.dd-row:nth-child(2){animation-delay:.25s}.dd-row:nth-child(3){animation-delay:.4s}.dd-row:nth-child(4){animation-delay:.55s}
+.dd-emp{font-size:.73rem;color:rgba(255,255,255,.7)}.dd-acct{font-size:.63rem;color:rgba(255,255,255,.3)}.dd-amt{font-size:.73rem;font-weight:600;color:var(--green)}
+.dd-total{display:flex;justify-content:space-between;padding:.5rem .6rem;margin-top:.25rem;border-top:.5px solid rgba(255,255,255,.08)}
+.dd-total-lbl{font-size:.72rem;font-weight:600;color:var(--white)}.dd-total-val{font-family:'Playfair Display',serif;font-size:.8rem;color:var(--green)}
+.dd-confirm{display:flex;align-items:center;gap:.5rem;background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:.4rem 1rem;font-size:.72rem;color:var(--green);animation:fadeSlideUp .5s ease .8s both}
+
+/* P5: Done, Reports & Compliance */
+.done-wrap{display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center}
+.done-seal{width:80px;height:80px;border-radius:50%;background:rgba(45,212,160,.1);border:2px solid rgba(45,212,160,.3);display:flex;align-items:center;justify-content:center;font-size:2.2rem;animation:sealPop .6s cubic-bezier(.34,1.56,.64,1) forwards;position:relative}
+.done-seal::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(45,212,160,.12);animation:ripple 2s ease-out infinite}
+.done-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white)}
+.done-sub{font-size:.82rem;color:rgba(255,255,255,.4);max-width:280px;line-height:1.6}
+.done-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.dpill{display:flex;align-items:center;gap:.4rem;border-radius:999px;padding:.35rem .9rem;font-size:.72rem}
+.dpill.g{background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);color:var(--green)}
+.dpill.gold{background:rgba(201,168,76,.08);border:.5px solid rgba(201,168,76,.2);color:var(--gold)}
+
+@keyframes slideUp{to{transform:translateY(0);opacity:1}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes fadeSlideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes sealPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes ripple{0%{transform:scale(1);opacity:.4}100%{transform:scale(1.3);opacity:0}}
+</style>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow:hidden;width:100%;height:100%}
+</style>
+<script>
+!function(){
+  var NW=900,NH=700;
+  function s(){
+    var sw=window.innerWidth,sh=window.innerHeight;
+    var r=sw/NW;
+    var el=document.body;
+    el.style.transform='scale('+r+')';
+    el.style.transformOrigin='top left';
+    el.style.width=NW+'px';
+    el.style.height='auto';
+    el.style.position='absolute';
+    el.style.top='0';
+    el.style.left='0';
+  }
+  document.addEventListener('DOMContentLoaded',s);
+  window.addEventListener('resize',s);
+}();
+</script>
+</head>
+<body>
+<div class="header">
+ <div class="brand">The Industry Accountants</div>
+ <h1 class="title">Payroll, <em>Handled End to End</em></h1>
+ <p class="sub">W-2s, 1099s, direct deposit, and tax filings, all managed for you</p>
+</div>
+<div class="scene">
+ <div class="track">
+ <div class="progress-line" id="progressLine"></div>
+ <div class="step active" id="step-0"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Roster Setup</div></div>
+ <div class="step" id="step-1"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Calculate Pay</div></div>
+ <div class="step" id="step-2"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Payslips Ready</div></div>
+ <div class="step" id="step-3"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Tax Filings</div></div>
+ <div class="step" id="step-4"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Direct Deposit</div></div>
+ <div class="step" id="step-5"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">All Done</div></div>
+ </div>
+ <div class="card">
+
+ <div class="panel active" id="panel-0">
+ <div class="roster-wrap">
+ <div class="roster-header"><div class="roster-title">Employee Roster</div><div class="roster-badge">4 Active</div></div>
+ <div class="emp-row"><div class="emp-avatar" style="background:rgba(96,165,250,.1)">JW</div><div class="emp-info"><div class="emp-name">Jordan Williams</div><div class="emp-role">Senior Associate</div></div><span class="emp-type type-w2">W-2</span><div class="emp-rate">$72K / yr</div></div>
+ <div class="emp-row"><div class="emp-avatar" style="background:rgba(249,115,22,.1)">MT</div><div class="emp-info"><div class="emp-name">Marcus Thompson</div><div class="emp-role">Consultant</div></div><span class="emp-type type-1099">1099</span><div class="emp-rate">$95/hr</div></div>
+ <div class="emp-row"><div class="emp-avatar" style="background:rgba(139,92,246,.1)">SR</div><div class="emp-info"><div class="emp-name">Sofia Rodriguez</div><div class="emp-role">Office Manager</div></div><span class="emp-type type-w2">W-2</span><div class="emp-rate">$58K / yr</div></div>
+ <div class="emp-row"><div class="emp-avatar" style="background:rgba(45,212,160,.1)">DK</div><div class="emp-info"><div class="emp-name">David Kim</div><div class="emp-role">Contractor</div></div><span class="emp-type type-1099">1099</span><div class="emp-rate">$120/hr</div></div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-1">
+ <div class="calc-wrap">
+ <div class="calc-title">Pay period: May 1–15, 2024</div>
+ <div class="calc-card">
+ <div class="calc-emp"><div class="calc-avatar">JW</div><div><div class="calc-name">Jordan Williams</div><div class="calc-period">Bi-weekly · W-2 Employee</div></div></div>
+ <div class="calc-rows">
+ <div class="calc-row"><span class="calc-lbl">Gross Pay</span><span class="calc-val">$2,769.23</span></div>
+ <div class="calc-row deduct"><span class="calc-lbl">Federal Tax (22%)</span><span class="calc-val">-$609.23</span></div>
+ <div class="calc-row deduct"><span class="calc-lbl">State Tax</span><span class="calc-val">-$138.46</span></div>
+ <div class="calc-row deduct"><span class="calc-lbl">Social Security</span><span class="calc-val">-$171.69</span></div>
+ <div class="calc-row deduct"><span class="calc-lbl">Medicare</span><span class="calc-val">-$40.15</span></div>
+ <div class="calc-row deduct"><span class="calc-lbl">Health Insurance</span><span class="calc-val">-$125.00</span></div>
+ <div class="calc-row net"><span class="calc-lbl">Net Pay</span><span class="calc-val">$1,684.70</span></div>
+ </div>
+ </div>
+ <div class="tax-badge"> All deductions calculated and remitted automatically</div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-2">
+ <div class="slip-wrap">
+ <div style="font-size:.72rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em">Payslips generated & sent</div>
+ <div class="slip-grid">
+ <div class="slip-card"><div class="slip-top"><div class="slip-name">Jordan W.</div><div class="slip-amount">$1,684</div></div><div class="slip-detail">May 1–15 · W-2</div><div class="slip-status"> Sent</div></div>
+ <div class="slip-card"><div class="slip-top"><div class="slip-name">Marcus T.</div><div class="slip-amount">$2,850</div></div><div class="slip-detail">30hrs · 1099</div><div class="slip-status"> Sent</div></div>
+ <div class="slip-card"><div class="slip-top"><div class="slip-name">Sofia R.</div><div class="slip-amount">$1,346</div></div><div class="slip-detail">May 1–15 · W-2</div><div class="slip-status"> Sent</div></div>
+ <div class="slip-card"><div class="slip-top"><div class="slip-name">David K.</div><div class="slip-amount">$3,600</div></div><div class="slip-detail">30hrs · 1099</div><div class="slip-status"> Sent</div></div>
+ </div>
+ <div class="send-bar"> All payslips delivered to employee portal</div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-3">
+ <div class="tax-wrap">
+ <div class="tax-header">Tax Filings & Compliance</div>
+ <div class="tax-sub">Automatically filed on your behalf</div>
+ <div class="tax-row"><div class="tax-icon"></div><div class="tax-info"><div class="tax-form">Form 941</div><div class="tax-desc">Employer Quarterly Federal Tax Return</div></div><span class="tax-status ts-filed">Filed</span></div>
+ <div class="tax-row"><div class="tax-icon"></div><div class="tax-info"><div class="tax-form">FUTA 940</div><div class="tax-desc">Federal Unemployment Tax Annual</div></div><span class="tax-status ts-upcoming">Q4 Due</span></div>
+ <div class="tax-row"><div class="tax-icon"></div><div class="tax-info"><div class="tax-form">State Unemployment</div><div class="tax-desc">SUI quarterly remittance</div></div><span class="tax-status ts-filed">Filed</span></div>
+ <div class="tax-row"><div class="tax-icon"></div><div class="tax-info"><div class="tax-form">W-2 / 1099-NEC</div><div class="tax-desc">Year-end employee & contractor forms</div></div><span class="tax-status ts-due">Jan 31</span></div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-4">
+ <div class="dd-wrap">
+ <div class="dd-card">
+ <div class="dd-title"> Direct Deposits Initiated</div>
+ <div class="dd-rows">
+ <div class="dd-row"><span class="dd-emp">Jordan Williams</span><span class="dd-acct">----4821</span><span class="dd-amt">$1,684.70</span></div>
+ <div class="dd-row"><span class="dd-emp">Marcus Thompson</span><span class="dd-acct">----9234</span><span class="dd-amt">$2,850.00</span></div>
+ <div class="dd-row"><span class="dd-emp">Sofia Rodriguez</span><span class="dd-acct">----7712</span><span class="dd-amt">$1,346.15</span></div>
+ <div class="dd-row"><span class="dd-emp">David Kim</span><span class="dd-acct">----3381</span><span class="dd-amt">$3,600.00</span></div>
+ </div>
+ <div class="dd-total"><span class="dd-total-lbl">Total Disbursed</span><span class="dd-total-val">$9,480.85</span></div>
+ </div>
+ <div class="dd-confirm"> All deposits arrive by pay date · 2-day ACH processing</div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-5">
+ <div class="done-wrap">
+ <div class="done-seal"></div>
+ <div class="done-title">Payroll Complete</div>
+ <div class="done-sub">Your team is paid, taxes are filed, and records are stored, all without lifting a finger.</div>
+ <div class="done-pills">
+ <div class="dpill g"> All employees paid</div>
+ <div class="dpill g"> Taxes remitted</div>
+ <div class="dpill gold"> W-2s on file</div>
+ <div class="dpill gold"> 1099s on file</div>
+ <div class="dpill g"> Compliance met</div>
+ </div>
+ </div>
+ </div>
+
+ </div>
+ <div class="controls">
+ <button class="ctrl-btn" id="prevBtn" onclick="changeStep(-1)" style="opacity:.3">← Back</button>
+ <span class="step-counter" id="stepCounter">Step 1 of 6</span>
+ <button class="ctrl-btn primary" id="nextBtn" onclick="changeStep(1)">Next -></button>
+ </div>
+</div>
+<div class="footer">The Industry Accountants · Payroll Management · W-2, 1099, Direct Deposit</div>
+<script>
+let current=0;const TOTAL=6;const STOPS=[0,20,40,60,80,100];let autoTimer=null;
+function changeStep(dir){const next=current+dir;if(next<0||next>=TOTAL)return;goToStep(next)}
+function goToStep(idx){
+ document.getElementById('panel-'+current).classList.remove('active');
+ document.getElementById('step-'+current).classList.remove('active');
+ for(let i=0;i<TOTAL;i++){const s=document.getElementById('step-'+i);s.classList.remove('active','done');if(i<idx)s.classList.add('done')}
+ current=idx;
+ document.getElementById('step-'+current).classList.add('active');
+ const panel=document.getElementById('panel-'+current);const clone=panel.cloneNode(true);clone.id='panel-'+current;clone.classList.add('active');panel.parentNode.replaceChild(clone,panel);
+ document.getElementById('progressLine').style.width=STOPS[current]+'%';
+ document.getElementById('stepCounter').textContent='Step '+(current+1)+' of '+TOTAL;
+ document.getElementById('prevBtn').style.opacity=current===0?'0.3':'1';
+ document.getElementById('nextBtn').textContent=current===TOTAL-1?'↺ Replay':'Next ->';
+ clearTimeout(autoTimer);if(current<TOTAL-1)autoTimer=setTimeout(()=>changeStep(1),3500);
+}
+document.getElementById('nextBtn').addEventListener('click',()=>{if(current===TOTAL-1)goToStep(0)});
+autoTimer=setTimeout(()=>changeStep(1),3500);
+</script>
+</body>
+</html>

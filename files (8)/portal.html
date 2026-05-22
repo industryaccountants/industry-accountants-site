@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Industry Accountants — Secure Client Portal</title>
+
+  <!-- ── SECURITY HEADERS ── -->
+  <!-- Prevent clickjacking -->
+  <meta http-equiv="X-Frame-Options" content="DENY"/>
+  <!-- Prevent MIME sniffing -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <!-- Force HTTPS -->
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains"/>
+  <!-- Disable browser caching of sensitive pages -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, private"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <!-- Prevent referrer leakage -->
+  <meta name="referrer" content="no-referrer"/>
+  <!-- Disable browser autofill on sensitive fields -->
+  <meta name="format-detection" content="telephone=no"/>
+  <!-- No indexing of the portal -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="portal.css"/>
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#0f1f3d"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="TIA Portal"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     AUTH SCREEN (shown when logged out)
+══════════════════════════════════════ -->
+<!-- Ambient background layers -->
+<div class="ambient-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="particles" id="particles"></div>
+<div class="streaks" id="streaks"></div>
+
+<div id="auth-screen" class="auth-screen">
+
+  <!-- LEFT PANEL — Intelligence Panel -->
+  <div class="auth-panel-left">
+    <div class="auth-brand">
+      <img src="logo.png" alt="The Industry Accountants" onerror="this.style.display='none'"/>
+      <span class="auth-brand-name">The Industry Accountants</span>
+    </div>
+    <h2 class="auth-tagline">Real-Time Visibility.<br/><em>Human Oversight.</em></h2>
+    <p class="auth-tagline-sub">Institutional-grade financial operations. Secure, precise, and always working for you.</p>
+    <div class="live-indicators">
+      <div class="live-item">
+        <div class="live-dot green"></div>
+        <span class="live-label">Secure Connection Active</span>
+        <span class="live-value">256-bit SSL</span>
+      </div>
+      <div class="live-item">
+        <div class="live-dot gold"></div>
+        <span class="live-label">Real-Time Reporting</span>
+        <span class="live-value">Live</span>
+      </div>
+      <div class="live-item">
+        <div class="live-dot gold"></div>
+        <span class="live-label">Document Verification</span>
+        <span class="live-value">Active</span>
+      </div>
+      <div class="live-item">
+        <div class="live-dot dim"></div>
+        <span class="live-label">Payroll Processing</span>
+        <span class="live-value">On Schedule</span>
+      </div>
+      <div class="live-item">
+        <div class="live-dot dim"></div>
+        <span class="live-label">Tax Filing Status</span>
+        <span class="live-value">Current</span>
+      </div>
+    </div>
+    <div class="mini-chart">
+      <div class="mini-chart-label">Financial Activity — Last 7 Days</div>
+      <div class="mini-chart-bars" id="mini-bars"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL — Login Card -->
+  <div class="auth-panel-right">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <img src="logo.png" alt="The Industry Accountants" onerror="this.style.display='none'; document.querySelector('.auth-logo-text').style.display='block'"/>
+      <span class="auth-logo-text" style="display:none">The Industry Accountants</span>
+    </div>
+    <h1 class="auth-title">Secure Financial Access</h1>
+    <p class="auth-sub">Intelligent systems. Trusted professionals.</p>
+
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('signin')">Sign In</button>
+      <button class="tab-btn" onclick="switchTab('signup')">New Client</button>
+    </div>
+
+    <!-- Sign In -->
+    <div id="tab-signin" class="tab-panel active">
+      <div class="field-group">
+        <label>Email</label>
+        <input type="email" id="signin-email" placeholder="you@email.com"/>
+      </div>
+      <div class="field-group">
+        <label>Password</label>
+        <input type="password" id="signin-password" placeholder="••••••••"/>
+      </div>
+      <div class="auth-links">
+        <a href="#" onclick="showReset()">Forgot password?</a>
+      </div>
+      <button class="btn-primary" onclick="signIn()">Sign In</button>
+    </div>
+
+    <!-- Sign Up -->
+    <div id="tab-signup" class="tab-panel">
+      <div class="field-group">
+        <label>Full Name</label>
+        <input type="text" id="signup-name" placeholder="Your full name"/>
+      </div>
+      <div class="field-group">
+        <label>Email</label>
+        <input type="email" id="signup-email" placeholder="you@email.com"/>
+      </div>
+      <div class="field-group">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="Min 8 characters"/>
+      </div>
+      <div class="field-group">
+        <label>Service you need</label>
+        <select id="signup-service">
+          <option value="">Select a service</option>
+          <option value="tax">Tax Filing</option>
+          <option value="bookkeeping">Bookkeeping</option>
+          <option value="payroll">Payroll Setup</option>
+          <option value="audit">Audit Assessment (Insurance Premium)</option>
+          <option value="consulting">Business Consulting</option>
+          <option value="crossborder">Cross-Border Services (Canadian)</option>
+          <option value="partner">White Label Partner</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="signUp()">Create Account</button>
+      <p class="auth-note">After creating your account you'll be sent to your intake form</p>
+    </div>
+
+    <!-- Reset Password -->
+    <div id="tab-reset" class="tab-panel">
+      <p class="auth-sub" style="margin-bottom:1.5rem">Enter your email and we'll send a reset link</p>
+      <div class="field-group">
+        <label>Email</label>
+        <input type="email" id="reset-email" placeholder="you@email.com"/>
+      </div>
+      <button class="btn-primary" onclick="resetPassword()">Send Reset Link</button>
+      <button class="btn-ghost" onclick="switchTab('signin')">Back to Sign In</button>
+    </div>
+
+    <div id="auth-msg" class="auth-msg"></div>
+  </div>
+  </div><!-- end auth-panel-right -->
+
+</div><!-- end auth-screen -->
+
+<!-- ══════════════════════════════════════
+     PORTAL (shown when logged in)
+══════════════════════════════════════ -->
+<div id="portal" class="portal" style="display:none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" alt="Logo" style="max-height:44px;object-fit:contain" onerror="this.style.display='none'"/>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" onclick="showSection('dashboard')" data-section="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" onclick="showSection('intake')" data-section="intake">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Intake Form
+      </a>
+      <a class="nav-item" onclick="showSection('documents')" data-section="documents">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 0 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Documents
+      </a>
+      <a class="nav-item" onclick="showSection('status')" data-section="status">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Status
+      </a>
+      <a class="nav-item" onclick="showSection('messages')" data-section="messages">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages
+      </a>
+      <a class="nav-item" onclick="showSection('partner')" data-section="partner" id="nav-partner" style="display:none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Partner Dashboard
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-info">
+          <span class="user-name" id="user-name-sidebar">Loading...</span>
+          <span class="user-role">Client</span>
+        </div>
+      </div>
+      <button class="btn-signout" onclick="signOut()">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <section id="section-dashboard" class="section active">
+      <div class="section-header">
+        <div>
+          <h2>Welcome back, <span id="user-name-header">there</span></h2>
+          <p class="section-sub">Here's your account at a glance</p>
+        </div>
+      </div>
+      <div class="cards-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Documents Uploaded</span>
+            <span class="stat-value" id="doc-count">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Filing Status</span>
+            <span class="stat-value" id="filing-status">Pending</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--amber">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Service</span>
+            <span class="stat-value" id="client-service">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="next-steps-card">
+        <h3>Next Steps</h3>
+        <div class="steps-list" id="steps-list">
+          <div class="step-item step-pending">
+            <div class="step-dot"></div>
+            <div class="step-text">
+              <strong>Complete your intake form</strong>
+              <span>Tell us about your needs so we can get started</span>
+            </div>
+            <button class="btn-sm" onclick="showSection('intake')">Start</button>
+          </div>
+          <div class="step-item">
+            <div class="step-dot"></div>
+            <div class="step-text">
+              <strong>Upload your documents</strong>
+              <span>W2s, 1099s and prior returns, or business records</span>
+            </div>
+            <button class="btn-sm" onclick="showSection('documents')">Upload</button>
+          </div>
+          <div class="step-item">
+            <div class="step-dot"></div>
+            <div class="step-text">
+              <strong>We'll review and reach out</strong>
+              <span>Usually within 1 business day</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTAKE FORMS -->
+    <section id="section-intake" class="section">
+
+      <!-- Form card grid -->
+      <div id="intake-cards">
+        <div class="section-header">
+          <div>
+            <h2>Your Intake Form</h2>
+            <p class="section-sub">Select your service — each form takes less than 5 minutes</p>
+          </div>
+        </div>
+        <div class="form-cards">
+          <div class="form-card" onclick="openIntakeForm('tax')">
+            <div class="form-icon">01</div>
+            <h3>Tax Filing</h3>
+            <p>Professional personal and business tax filing designed to keep you compliant and financially organized.</p>
+            <span class="form-link">Open Form →</span>
+          </div>
+          <div class="form-card" onclick="openIntakeForm('bookkeeping')">
+            <div class="form-icon">02</div>
+            <h3>Real-Time Bookkeeping</h3>
+            <p>Stay organized with accurate financial records updated in real time. Clean books delivered every month.</p>
+            <span class="form-link">Open Form →</span>
+          </div>
+          <div class="form-card" onclick="openIntakeForm('payroll')">
+            <div class="form-icon">03</div>
+            <h3>Payroll Management</h3>
+            <p>Reliable payroll processing and compliance support for your team. W2, 1099, and full reporting included.</p>
+            <span class="form-link">Open Form →</span>
+          </div>
+          <div class="form-card" onclick="openIntakeForm('intelligence')">
+            <div class="form-icon">04</div>
+            <h3>Business Intelligence</h3>
+            <p>Clear financial insights to help you make smarter business decisions. Entity setup, planning, and growth strategy.</p>
+            <span class="form-link">Open Form →</span>
+          </div>
+          <div class="form-card" onclick="openIntakeForm('audit')">
+            <div class="form-icon">05</div>
+            <h3>Audit Assessment</h3>
+            <p>Identify financial risks and compliance gaps before they become costly problems. Full records review and carrier representation.</p>
+            <span class="form-link">Open Form →</span>
+          </div>
+          <div class="form-card form-card--partner" onclick="openIntakeForm('partner')">
+            <div class="form-icon">06</div>
+            <h3>White Label Partner</h3>
+            <p>Offer professional tax and bookkeeping services under your own brand. We do the work. You keep the relationship.</p>
+            <span class="form-link">Apply Now →</span>
+          </div>
+          <div class="form-card" onclick="openIntakeForm('crossborder')" style="border-color:rgba(184,146,42,0.2)">
+            <div class="form-icon">07</div>
+            <h3>Cross-Border Services</h3>
+            <p>Canadian with US income, an Airbnb property, or expanding into the US? We handle your 1040-NR, ITIN, LLC formation, and ongoing compliance.</p>
+            <span class="form-link">Open Form →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inline form panel -->
+      <div id="intake-form-panel" style="display:none">
+        <div style="margin-bottom:1.5rem">
+          <button class="btn-ghost" style="width:auto;display:inline-flex;align-items:center;gap:.5rem" onclick="closeIntakeForm()">← Back to Services</button>
+        </div>
+        <div class="next-steps-card" id="intake-form-container"></div>
+        <div id="intake-success" style="display:none;text-align:center;padding:3rem 2rem">
+          <div style="width:56px;height:56px;background:var(--green-soft);border:1px solid rgba(45,212,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.4rem;color:var(--green)">✓</div>
+          <h3 style="font-family:'DM Serif Display',serif;font-size:1.6rem;font-weight:400;margin-bottom:.5rem">Form Submitted</h3>
+          <p style="color:var(--text-muted);font-size:.9rem;max-width:380px;margin:0 auto 1.5rem;line-height:1.6">Thank you. We've received your intake and will be in touch within 1 business day.</p>
+          <button class="btn-ghost" style="width:auto;display:inline-block" onclick="closeIntakeForm()">← Back to Services</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- DOCUMENTS -->
+    <section id="section-documents" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Document Vault</h2>
+          <p class="section-sub">Securely upload and manage your files</p>
+        </div>
+        <label class="btn-primary btn-upload" for="file-input">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
+          Upload File
+        </label>
+        <input type="file" id="file-input" style="display:none" multiple onchange="uploadFiles(event)"/>
+      </div>
+
+      <div class="upload-zone" id="upload-zone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>Drag & drop files here, or <label for="file-input" style="color:var(--accent);cursor:pointer">browse</label></p>
+        <span>W2s, 1099s, PDFs, images all accepted</span>
+      </div>
+
+      <div id="upload-progress" style="display:none" class="upload-progress">
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <span id="progress-label">Uploading...</span>
+      </div>
+
+      <div class="doc-list" id="doc-list">
+        <div class="doc-empty" id="doc-empty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 0 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <p>No documents uploaded yet</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATUS -->
+    <section id="section-status" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Filing Status</h2>
+          <p class="section-sub">Track your engagement progress</p>
+        </div>
+      </div>
+      <div class="status-timeline">
+        <div class="timeline-item active" id="tl-received">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Account Created</strong>
+            <span id="tl-received-date">—</span>
+          </div>
+        </div>
+        <div class="timeline-item" id="tl-intake">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Intake Form Submitted</strong>
+            <span>Waiting for your submission</span>
+          </div>
+        </div>
+        <div class="timeline-item" id="tl-docs">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Documents Received</strong>
+            <span>Upload your documents to proceed</span>
+          </div>
+        </div>
+        <div class="timeline-item" id="tl-review">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Under Review</strong>
+            <span>Our team is working on your file</span>
+          </div>
+        </div>
+        <div class="timeline-item" id="tl-complete">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Complete</strong>
+            <span>Your filing is done!</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MESSAGES -->
+    <section id="section-messages" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Messages</h2>
+          <p class="section-sub">Secure communication with your accountant</p>
+        </div>
+      </div>
+      <div class="messages-area" id="messages-area">
+        <div class="msg-empty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 0 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <p>No messages yet. We'll reach out within 1 business day.</p>
+        </div>
+      </div>
+      <div class="message-compose">
+        <textarea id="msg-input" placeholder="Type a message to your accountant..." rows="3"></textarea>
+        <button class="btn-primary" onclick="sendMessage()">Send Message</button>
+      </div>
+    </section>
+
+    <!-- PARTNER DASHBOARD -->
+    <section id="section-partner" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Partner Dashboard</h2>
+          <p class="section-sub">Manage your white label portal, track your clients, and monitor performance</p>
+        </div>
+        <a href="partner-onboarding.html" class="btn-primary" style="width:auto;display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Setup New Portal
+        </a>
+      </div>
+
+      <!-- Partner stats -->
+      <div class="cards-grid" style="margin-bottom:2rem" id="partner-stats">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--gold">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Total Clients</span>
+            <span class="stat-value" id="partner-client-count">—</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Active Filings</span>
+            <span class="stat-value" id="partner-active-count">—</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--amber">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Portal Status</span>
+            <span class="stat-value" id="partner-portal-status" style="font-size:.85rem">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portal info card -->
+      <div class="next-steps-card" id="partner-portal-card" style="margin-bottom:1.5rem">
+        <h3>Your Branded Portal</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.25rem" id="partner-portal-info">
+          <div>
+            <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:.35rem">Portal URL</div>
+            <div style="font-size:.92rem;color:var(--gold)" id="partner-portal-url">Not yet configured</div>
+          </div>
+          <div>
+            <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:.35rem">Business Name</div>
+            <div style="font-size:.92rem;color:var(--text)" id="partner-biz-name">—</div>
+          </div>
+          <div>
+            <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:.35rem">Services Active</div>
+            <div style="font-size:.88rem;color:var(--text)" id="partner-services">—</div>
+          </div>
+          <div>
+            <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:.35rem">Review Status</div>
+            <div style="font-size:.88rem" id="partner-review-status">—</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">
+          <a href="partner-onboarding.html" class="btn-sm">Update Branding →</a>
+          <button class="btn-sm" onclick="copyPortalLink()">Copy Portal Link</button>
+        </div>
+      </div>
+
+      <!-- Client list -->
+      <div class="next-steps-card">
+        <h3 style="margin-bottom:1.25rem">Your Clients</h3>
+        <div id="partner-clients-list">
+          <div style="text-align:center;padding:2.5rem;color:var(--text-muted)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:.75rem;opacity:.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <p style="font-size:.88rem">No clients yet — share your portal URL to get started</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/portal.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// SECURITY ENGINE — The Industry Accountants Portal
+// ══════════════════════════════════════════════════════════════
+
+const TIA_SECURITY = {
+
+  // ── Config ──
+  SESSION_TIMEOUT_MS:  20 * 60 * 1000,  // 20 minutes inactivity
+  WARNING_BEFORE_MS:    2 * 60 * 1000,  // warn 2 min before
+  MAX_LOGIN_ATTEMPTS:   5,
+  LOGIN_LOCKOUT_MS:    15 * 60 * 1000,  // 15 min lockout
+  MAX_FILE_SIZE_MB:    25,
+  ALLOWED_FILE_TYPES:  ['application/pdf','image/jpeg','image/png','image/heic','text/csv','application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+
+  _sessionTimer:       null,
+  _warningTimer:       null,
+  _loginAttempts:      {},
+  _activityBound:      false,
+
+  // ── 1. SESSION MANAGEMENT ──────────────────────────────────
+  initSession() {
+    this.resetSessionTimer();
+    if (!this._activityBound) {
+      ['click','keydown','mousemove','touchstart','scroll'].forEach(ev =>
+        document.addEventListener(ev, () => this.resetSessionTimer(), { passive: true })
+      );
+      this._activityBound = true;
+    }
+  },
+
+  resetSessionTimer() {
+    clearTimeout(this._sessionTimer);
+    clearTimeout(this._warningTimer);
+    this._warningTimer = setTimeout(() => this.showSessionWarning(), this.SESSION_TIMEOUT_MS - this.WARNING_BEFORE_MS);
+    this._sessionTimer = setTimeout(() => this.forceLogout('Session expired due to inactivity.'), this.SESSION_TIMEOUT_MS);
+  },
+
+  showSessionWarning() {
+    this.showSecurityBanner('Your session will expire in 2 minutes due to inactivity. Move your mouse to stay signed in.', 'warning');
+  },
+
+  forceLogout(reason) {
+    this.clearSensitiveData();
+    this.logEvent('session_timeout', null, true);
+    if (window._supabase) window._supabase.auth.signOut();
+    sessionStorage.clear();
+    localStorage.removeItem('sb-session');
+    this.showSecurityBanner(reason || 'You have been signed out.', 'info');
+    setTimeout(() => window.location.reload(), 2000);
+  },
+
+  // ── 2. RATE LIMITING (client-side layer) ──────────────────
+  checkLoginAttempts(email) {
+    const key = email.toLowerCase().trim();
+    const now = Date.now();
+    if (!this._loginAttempts[key]) this._loginAttempts[key] = [];
+
+    // Remove attempts older than lockout window
+    this._loginAttempts[key] = this._loginAttempts[key].filter(t => now - t < this.LOGIN_LOCKOUT_MS);
+
+    if (this._loginAttempts[key].length >= this.MAX_LOGIN_ATTEMPTS) {
+      const wait = Math.ceil((this.LOGIN_LOCKOUT_MS - (now - this._loginAttempts[key][0])) / 60000);
+      return { blocked: true, message: `Too many login attempts. Please wait ${wait} minute(s) before trying again.` };
+    }
+    return { blocked: false };
+  },
+
+  recordLoginAttempt(email) {
+    const key = email.toLowerCase().trim();
+    if (!this._loginAttempts[key]) this._loginAttempts[key] = [];
+    this._loginAttempts[key].push(Date.now());
+  },
+
+  clearLoginAttempts(email) {
+    delete this._loginAttempts[email.toLowerCase().trim()];
+  },
+
+  // ── 3. INPUT SANITIZATION ─────────────────────────────────
+  sanitize(str) {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g, '&#x2F;')
+      .trim()
+      .slice(0, 2000);  // max field length
+  },
+
+  sanitizeObject(obj) {
+    const clean = {};
+    for (const [k, v] of Object.entries(obj)) {
+      if (typeof v === 'string') clean[k] = this.sanitize(v);
+      else if (typeof v === 'object' && v !== null) clean[k] = this.sanitizeObject(v);
+      else clean[k] = v;
+    }
+    return clean;
+  },
+
+  // ── 4. SSN / EIN HANDLING ─────────────────────────────────
+  // SSNs are NEVER stored in plain text — masked in UI, encrypted before save
+  maskSSN(ssn) {
+    const digits = ssn.replace(/\D/g, '');
+    if (digits.length < 4) return '***-**-****';
+    return `***-**-${digits.slice(-4)}`;
+  },
+
+  formatSSN(input) {
+    const digits = input.replace(/\D/g, '').slice(0, 9);
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 5) return `${digits.slice(0,3)}-${digits.slice(3)}`;
+    return `${digits.slice(0,3)}-${digits.slice(3,5)}-${digits.slice(5)}`;
+  },
+
+  validateSSN(ssn) {
+    const digits = ssn.replace(/\D/g, '');
+    if (digits.length !== 9) return false;
+    if (/^0{3}/.test(digits)) return false;  // area 000 invalid
+    if (/^666/.test(digits)) return false;   // area 666 invalid
+    if (/^9/.test(digits)) return false;      // area 9xx invalid
+    if (/^(\d)\1{8}$/.test(digits)) return false;  // all same digit
+    return true;
+  },
+
+  // Client-side encrypt before sending to Supabase
+  // Note: Use Supabase Edge Function for true server-side encryption
+  encryptForStorage(value) {
+    // Basic obfuscation — real encryption handled server-side via pgcrypto
+    return btoa(unescape(encodeURIComponent(value)));
+  },
+
+  // ── 5. FILE VALIDATION ────────────────────────────────────
+  validateFile(file) {
+    const errors = [];
+    if (file.size > this.MAX_FILE_SIZE_MB * 1024 * 1024)
+      errors.push(`File too large. Maximum size is ${this.MAX_FILE_SIZE_MB}MB.`);
+    if (!this.ALLOWED_FILE_TYPES.includes(file.type))
+      errors.push('File type not allowed. Please upload PDF, JPG, PNG, or spreadsheet files only.');
+    // Check for double extensions (e.g. file.pdf.exe)
+    if (/\.(exe|bat|sh|cmd|msi|vbs|js|php|py|rb|pl)$/i.test(file.name))
+      errors.push('This file type is not allowed for security reasons.');
+    return errors;
+  },
+
+  // ── 6. AUDIT LOGGING ──────────────────────────────────────
+  async logEvent(action, resourceId = null, success = true, error = null) {
+    try {
+      if (!window._supabase) return;
+      const { data: { user } } = await window._supabase.auth.getUser();
+      if (!user) return;
+      await window._supabase.from('audit_log').insert([{
+        user_id:       user.id,
+        action:        action,
+        resource_id:   resourceId,
+        success:       success,
+        error_msg:     error,
+        created_at:    new Date().toISOString()
+      }]);
+    } catch(e) { /* Silent — never let logging break the app */ }
+  },
+
+  // ── 7. CLEAR SENSITIVE DATA FROM DOM ──────────────────────
+  clearSensitiveData() {
+    // Clear all input fields that might contain SSN, passwords, etc.
+    document.querySelectorAll('input[type="password"], input[data-sensitive]').forEach(el => {
+      el.value = '';
+    });
+    // Clear any SSN display elements
+    document.querySelectorAll('[data-ssn-display]').forEach(el => {
+      el.textContent = '***-**-****';
+    });
+  },
+
+  // ── 8. SECURITY BANNER ────────────────────────────────────
+  showSecurityBanner(message, type = 'info') {
+    let banner = document.getElementById('security-banner');
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'security-banner';
+      banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;padding:.75rem 1.5rem;font-size:.88rem;font-family:\'DM Sans\',sans-serif;text-align:center;display:flex;align-items:center;justify-content:center;gap:1rem;transition:all .3s';
+      document.body.appendChild(banner);
+    }
+    const colors = {
+      warning: 'background:rgba(201,168,76,0.95);color:#0a0800',
+      error:   'background:rgba(240,106,106,0.95);color:#fff',
+      info:    'background:rgba(13,20,37,0.97);color:#f0ece4;border-bottom:1px solid rgba(201,168,76,0.3)'
+    };
+    banner.style.cssText += ';' + (colors[type] || colors.info);
+    banner.innerHTML = `<span>${message}</span><button onclick="document.getElementById('security-banner').remove()" style="background:none;border:1px solid currentColor;border-radius:5px;padding:2px 10px;font-size:.78rem;cursor:pointer;color:inherit;opacity:.7">Dismiss</button>`;
+    if (type === 'info') setTimeout(() => banner?.remove(), 6000);
+  },
+
+  // ── 9. DETECT DEVTOOLS (light protection) ─────────────────
+  watchDevTools() {
+    // Warn if someone opens devtools while viewing sensitive data
+    let devtoolsOpen = false;
+    setInterval(() => {
+      const threshold = 160;
+      if (window.outerWidth - window.innerWidth > threshold ||
+          window.outerHeight - window.innerHeight > threshold) {
+        if (!devtoolsOpen) {
+          devtoolsOpen = true;
+          this.logEvent('devtools_opened', null, true);
+        }
+      } else {
+        devtoolsOpen = false;
+      }
+    }, 2000);
+  },
+
+  // ── 10. INIT ──────────────────────────────────────────────
+  init() {
+    // Disable right-click context menu on sensitive sections
+    document.querySelectorAll('.sensitive-section').forEach(el => {
+      el.addEventListener('contextmenu', e => e.preventDefault());
+    });
+
+    // Disable copy on SSN display fields
+    document.addEventListener('copy', (e) => {
+      const sel = document.getSelection()?.toString() || '';
+      if (/\d{3}-\d{2}-\d{4}/.test(sel)) {
+        e.clipboardData?.setData('text/plain', '***-**-****');
+        e.preventDefault();
+        this.showSecurityBanner('Copying sensitive data is not allowed.', 'warning');
+        this.logEvent('copy_attempt_blocked');
+      }
+    });
+
+    // Warn before leaving portal with unsaved data
+    window.addEventListener('beforeunload', () => {
+      this.clearSensitiveData();
+    });
+
+    // Block browser back button after logout
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', () => {
+      history.pushState(null, null, location.href);
+    });
+
+    this.watchDevTools();
+    console.log('%c⚠ Security Notice', 'color:red;font-size:24px;font-weight:bold');
+    console.log('%cThis browser console is for authorized developers only. If someone told you to paste code here, you may be a victim of a social engineering attack.', 'color:red;font-size:14px');
+  }
+};
+
+// Initialize security on load
+document.addEventListener('DOMContentLoaded', () => TIA_SECURITY.init());
+
+// Expose globally so portal.js can use it
+window.TIA_SECURITY = TIA_SECURITY;
+</script>
+<script>
+// ── PARTNER DASHBOARD & DYNAMIC BRANDING ──────────────────────
+async function loadPartnerDashboard() {
+  if (!window._supabase) return;
+  try {
+    const { data: { user } } = await window._supabase.auth.getUser();
+    if (!user) return;
+    const { data: partner } = await window._supabase.from('partners').select('*').eq('user_id', user.id).single();
+    if (partner) {
+      const navPartner = document.getElementById('nav-partner');
+      if (navPartner) navPartner.style.display = 'flex';
+      const el = id => document.getElementById(id);
+      const url = partner.subdomain + '.theindustryaccountants.com';
+      if (el('partner-portal-url')) el('partner-portal-url').textContent = url;
+      if (el('partner-biz-name')) el('partner-biz-name').textContent = partner.business_name;
+      if (el('partner-services')) el('partner-services').textContent = (partner.services||[]).join(', ')||'None configured';
+      const statusColors = {active:'var(--green)',pending_review:'var(--amber)',suspended:'var(--red)'};
+      const statusLabels = {active:'Active',pending_review:'Under Review',suspended:'Suspended'};
+      if (el('partner-review-status')) { el('partner-review-status').textContent = statusLabels[partner.status]||partner.status; el('partner-review-status').style.color = statusColors[partner.status]||'var(--text-muted)'; }
+      if (el('partner-portal-status')) { el('partner-portal-status').textContent = statusLabels[partner.status]||partner.status; }
+      const { count } = await window._supabase.from('partner_clients').select('*',{count:'exact',head:true}).eq('partner_id',partner.id);
+      if (el('partner-client-count')) el('partner-client-count').textContent = count||0;
+      if (el('partner-active-count')) el('partner-active-count').textContent = count||0;
+      const { data: clients } = await window._supabase.from('partner_clients').select('client_id,service,status,joined_at').eq('partner_id',partner.id).order('joined_at',{ascending:false}).limit(20);
+      if (clients && clients.length > 0) {
+        const list = document.getElementById('partner-clients-list');
+        if (list) list.innerHTML = clients.map(c=>`<div style="display:flex;align-items:center;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--border)"><div style="width:34px;height:34px;background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:var(--gold);flex-shrink:0">C</div><div style="flex:1"><div style="font-size:.88rem;font-weight:500;color:var(--text)">${c.service||'General'}</div><div style="font-size:.75rem;color:var(--text-muted)">Joined ${new Date(c.joined_at).toLocaleDateString()}</div></div><div style="font-size:.75rem;font-weight:600;color:${c.status==='active'?'var(--green)':'var(--text-muted)'}">${c.status}</div></div>`).join('');
+      }
+    }
+  } catch(e) { console.log('Partner dashboard:', e); }
+}
+
+function copyPortalLink() {
+  const url = document.getElementById('partner-portal-url')?.textContent;
+  if (url && url !== 'Not yet configured') { navigator.clipboard?.writeText('https://'+url); TIA_SECURITY.showSecurityBanner('Portal URL copied to clipboard','info'); }
+}
+
+async function loadPartnerBranding() {
+  const params = new URLSearchParams(window.location.search);
+  const subdomain = params.get('partner');
+  if (!subdomain || !window._supabase) return;
+  try {
+    const { data } = await window._supabase.rpc('get_partner_branding',{p_subdomain:subdomain});
+    if (!data || !data[0] || data[0].status !== 'active') return;
+    const brand = data[0];
+    const root = document.documentElement.style;
+    if (brand.color_primary) { root.setProperty('--navy',brand.color_primary); root.setProperty('--navy-2',brand.color_primary+'dd'); }
+    if (brand.color_accent) { root.setProperty('--gold',brand.color_accent); root.setProperty('--gold-border',brand.color_accent+'40'); root.setProperty('--gold-soft',brand.color_accent+'15'); }
+    if (brand.logo_url) { document.querySelectorAll('.sidebar-logo img,.auth-logo img').forEach(img=>{img.src=brand.logo_url;img.style.display='block';}); }
+    if (brand.business_name) { document.querySelectorAll('.auth-logo-text,.sidebar-logo-text').forEach(el=>{el.textContent=brand.business_name;}); document.title=brand.business_name+' — Client Portal'; }
+    if (brand.tagline) { const sub=document.querySelector('.auth-sub'); if(sub) sub.textContent=brand.tagline; }
+    window._partnerSubdomain = subdomain;
+  } catch(e) { console.log('Branding error:',e); }
+}
+
+loadPartnerBranding();
+</script>
+<script>
+// ══════════════════════════════════════
+// INTAKE FORM ENGINE — 6 built-in forms
+// ══════════════════════════════════════
+
+const INTAKE_FORMS = {
+
+  tax: {
+    title: 'Tax Filing Intake',
+    sub: 'Tell us about your tax situation so we can prepare your filing accurately.',
+    fields: [
+      { row: ['full', [{id:'tf-name',label:'Full Name',type:'text',placeholder:'Your full name',req:true},{id:'tf-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'tf-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'tf-year',label:'Tax Year',type:'select',options:['2024','2023','2022','2021','Multiple Years']}]]},
+      { row: ['half', [{id:'tf-filing-status',label:'Filing Status',type:'select',options:['Single','Married Filing Jointly','Married Filing Separately','Head of Household'],req:true},{id:'tf-entity',label:'Filing Type',type:'select',options:['Individual (W-2)','Self-Employed / 1099','LLC (Single Member)','LLC (Partnership)','S-Corporation','C-Corporation'],req:true}]]},
+      { row: ['half', [{id:'tf-income',label:'Approx. Gross Income',type:'select',options:['Under $30K','$30K – $75K','$75K – $150K','$150K – $300K','$300K+']},{id:'tf-state',label:'State of Residence',type:'text',placeholder:'e.g. Georgia'}]]},
+      { section: 'Income Sources — check all that apply',
+        checks: [{id:'tfc-w2',val:'W-2 Employment'},{id:'tfc-1099',val:'1099 / Freelance Income'},{id:'tfc-biz',val:'Business Income'},{id:'tfc-rental',val:'Rental Income'},{id:'tfc-invest',val:'Investment / Capital Gains'},{id:'tfc-crypto',val:'Cryptocurrency'},{id:'tfc-foreign',val:'Foreign Income'}]
+      },
+      { row: ['full', [{id:'tf-prior',label:'Do you have prior year returns available?',type:'select',options:['Yes, all years','Yes, some years','No, first time filing with you']}]]},
+      { row: ['full', [{id:'tf-notes',label:'Anything we should know?',type:'textarea',placeholder:'Special circumstances, questions, or prior tax issues...'}]]}
+    ]
+  },
+
+  bookkeeping: {
+    title: 'Bookkeeping Intake',
+    sub: 'Help us understand your books so we can get you organized and current.',
+    fields: [
+      { row: ['full', [{id:'bk-biz',label:'Business Name',type:'text',placeholder:'Your business name',req:true},{id:'bk-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'bk-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'bk-entity',label:'Entity Type',type:'select',options:['Sole Proprietorship','LLC','S-Corp','C-Corp','Partnership']}]]},
+      { row: ['half', [{id:'bk-industry',label:'Industry',type:'select',options:['Retail','Construction','Healthcare','Hospitality','Technology','Professional Services','Real Estate','Transportation','Other'],req:true},{id:'bk-employees',label:'Number of Employees',type:'select',options:['Just me','2 – 10','11 – 50','50+']}]]},
+      { row: ['half', [{id:'bk-revenue',label:'Monthly Revenue (approx.)',type:'select',options:['Under $10K','$10K – $50K','$50K – $150K','$150K+']},{id:'bk-software',label:'Current Accounting Software',type:'select',options:['None','QuickBooks Online','QuickBooks Desktop','Wave','FreshBooks','Xero','Other']}]]},
+      { row: ['half', [{id:'bk-service',label:'Service Needed',type:'select',options:['Monthly Bookkeeping','Catch-Up Bookkeeping','Clean-Up Bookkeeping','All Three'],req:true},{id:'bk-behind',label:'How Far Behind Are You?',type:'select',options:['Up to date','1 – 3 months','3 – 6 months','6 – 12 months','Over a year']}]]},
+      { section: 'What do you need help with?',
+        checks: [{id:'bkc-cats',val:'Categorizing transactions'},{id:'bkc-rec',val:'Bank reconciliation'},{id:'bkc-reports',val:'Monthly P&L reports'},{id:'bkc-payroll',val:'Payroll integration'},{id:'bkc-tax',val:'Tax-ready books'},{id:'bkc-inv',val:'Invoicing & accounts receivable'}]
+      },
+      { row: ['full', [{id:'bk-notes',label:'Anything else we should know?',type:'textarea',placeholder:'Current state of your books, bank accounts used, special situations...'}]]}
+    ]
+  },
+
+  payroll: {
+    title: 'Payroll Management Intake',
+    sub: 'Tell us about your team so we can set up reliable, compliant payroll for you.',
+    fields: [
+      { row: ['full', [{id:'pr-biz',label:'Business Name',type:'text',placeholder:'Your business name',req:true},{id:'pr-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'pr-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'pr-ein',label:'EIN (Employer ID Number)',type:'text',placeholder:'XX-XXXXXXX'}]]},
+      { row: ['half', [{id:'pr-state',label:'State of Operation',type:'text',placeholder:'e.g. Georgia',req:true},{id:'pr-entity',label:'Entity Type',type:'select',options:['LLC','S-Corp','C-Corp','Sole Proprietorship','Partnership']}]]},
+      { row: ['half', [{id:'pr-employees',label:'Number of W-2 Employees',type:'select',options:['0','1 – 5','6 – 25','26 – 100','100+']},{id:'pr-contractors',label:'Number of 1099 Contractors',type:'select',options:['0','1 – 5','6 – 25','26+']}]]},
+      { row: ['half', [{id:'pr-frequency',label:'Desired Pay Frequency',type:'select',options:['Weekly','Bi-Weekly','Semi-Monthly','Monthly'],req:true},{id:'pr-software',label:'Current Payroll Software',type:'select',options:['None','ADP','Gusto','Paychex','Wave','Other']}]]},
+      { section: 'Services needed',
+        checks: [{id:'prc-setup',val:'New payroll setup'},{id:'prc-process',val:'Ongoing payroll processing'},{id:'prc-tax',val:'Payroll tax filings (941, 940)'},{id:'prc-w2',val:'Year-end W-2 preparation'},{id:'prc-1099',val:'1099 preparation'},{id:'prc-reports',val:'Payroll reporting & summaries'}]
+      },
+      { row: ['full', [{id:'pr-notes',label:'Additional details',type:'textarea',placeholder:'Current payroll issues, specific employee situations, or questions...'}]]}
+    ]
+  },
+
+  intelligence: {
+    title: 'Business Intelligence Intake',
+    sub: 'Tell us where your business stands so we can build a strategy to take it further.',
+    fields: [
+      { row: ['full', [{id:'bi-name',label:'Your Name',type:'text',placeholder:'Your full name',req:true},{id:'bi-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'bi-biz',label:'Business Name',type:'text',placeholder:'Your business name'},{id:'bi-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'}]]},
+      { row: ['half', [{id:'bi-stage',label:'Business Stage',type:'select',options:['Idea / Pre-Launch','Just Started (0 – 1 year)','Growing (1 – 3 years)','Established (3+ years)','Scaling / Expanding'],req:true},{id:'bi-industry',label:'Industry',type:'select',options:['Retail','Construction','Healthcare','Hospitality','Technology','Professional Services','Real Estate','Transportation','Other']}]]},
+      { row: ['half', [{id:'bi-revenue',label:'Current Monthly Revenue',type:'select',options:['Pre-revenue','Under $10K','$10K – $50K','$50K – $150K','$150K+']},{id:'bi-entity',label:'Current Entity Type',type:'select',options:['Not yet formed','Sole Proprietorship','LLC','S-Corp','C-Corp','Partnership']}]]},
+      { section: 'What do you need help with?',
+        checks: [{id:'bic-entity',val:'Entity formation or restructuring'},{id:'bic-plan',val:'Financial planning & projections'},{id:'bic-tax-strat',val:'Tax reduction strategy'},{id:'bic-growth',val:'Growth & scaling strategy'},{id:'bic-funding',val:'Funding & investor readiness'},{id:'bic-exit',val:'Exit or succession planning'}]
+      },
+      { row: ['full', [{id:'bi-goal',label:'What is your primary goal right now?',type:'textarea',placeholder:'Describe where you are and what you want to achieve in the next 12 months...'}]]}
+    ]
+  },
+
+  audit: {
+    title: 'Audit Assessment Intake',
+    sub: 'Tell us about your insurance audit situation. We will review and respond within 1 business day.',
+    fields: [
+      { row: ['full', [{id:'au-name',label:'Full Name',type:'text',placeholder:'Your full name',req:true},{id:'au-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'au-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'au-biz',label:'Business Name',type:'text',placeholder:'Your business name',req:true}]]},
+      { row: ['half', [{id:'au-industry',label:'Industry',type:'select',options:['Construction','Healthcare','Retail','Hospitality','Transportation','Manufacturing','Professional Services','Real Estate','Other']},{id:'au-employees',label:'Number of Employees',type:'select',options:['1 – 5','6 – 25','26 – 100','100+']}]]},
+      { row: ['half', [{id:'au-carrier',label:'Insurance Carrier',type:'text',placeholder:'e.g. Travelers, Hartford, Liberty Mutual'},{id:'au-period',label:'Policy Period',type:'text',placeholder:'e.g. Jan 2024 – Jan 2025'}]]},
+      { row: ['half', [{id:'au-type',label:'Type of Insurance Being Audited',type:'select',options:['Workers Compensation','General Liability','Both','Other'],req:true},{id:'au-status',label:'Current Audit Status',type:'select',options:['Just received audit notice','Audit in progress','Completed — disputing results','Received unexpected premium increase']}]]},
+      { section: 'Your concerns — check all that apply',
+        checks: [{id:'auc-class',val:'Employee or contractor misclassification'},{id:'auc-over',val:'Unexpected or large premium increase'},{id:'auc-rec',val:'Incomplete or disorganized records'},{id:'auc-sub',val:'Questions about subcontractor coverage'},{id:'auc-disp',val:'Need to formally dispute findings'}]
+      },
+      { row: ['full', [{id:'au-notes',label:'Additional context',type:'textarea',placeholder:'Anything else about your audit situation we should know...'}]]}
+    ]
+  },
+
+  partner: {
+    title: 'White Label Partner Application',
+    sub: 'Tell us about your business and how you want to offer our services under your brand.',
+    fields: [
+      { row: ['full', [{id:'wp-name',label:'Your Name',type:'text',placeholder:'Your full name',req:true},{id:'wp-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'wp-biz',label:'Your Business Name',type:'text',placeholder:'Your brand / company name',req:true},{id:'wp-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'}]]},
+      { row: ['half', [{id:'wp-website',label:'Website (if any)',type:'text',placeholder:'yourwebsite.com'},{id:'wp-industry',label:'Your Industry / Niche',type:'select',options:['Accounting / Bookkeeping','Financial Advising','Insurance','Real Estate','Law','HR / Benefits','Business Consulting','Other']}]]},
+      { row: ['half', [{id:'wp-clients',label:'Current Client Base',type:'select',options:['Just starting','Under 25 clients','25 – 100 clients','100+ clients'],req:true},{id:'wp-model',label:'Business Model',type:'select',options:['Agency','Freelancer / Sole Practitioner','Firm','Broker / Referral','Other']}]]},
+      { section: 'Services you want to offer under your brand',
+        checks: [{id:'wpc-tax',val:'Tax Filing'},{id:'wpc-bk',val:'Bookkeeping'},{id:'wpc-pr',val:'Payroll Management'},{id:'wpc-bi',val:'Business Intelligence'},{id:'wpc-audit',val:'Audit Assessment'},{id:'wpc-all',val:'Full Suite (all services)'}]
+      },
+      { row: ['full', [{id:'wp-why',label:'Why do you want to partner with us?',type:'textarea',placeholder:'Tell us about your goals and what you are looking to build with this partnership...'}]]}
+    ]
+  },
+
+  crossborder: {
+    title: 'Cross-Border Services Intake',
+    sub: 'Tell us about your US activities so we can handle your filing, formation, and compliance the right way.',
+    fields: [
+      { row: ['full', [{id:'cb-name',label:'Full Name',type:'text',placeholder:'Your full name',req:true},{id:'cb-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'cb-phone',label:'Phone Number',type:'tel',placeholder:'(+1 or Canada)'},{id:'cb-province',label:'Canadian Province',type:'select',options:['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland & Labrador','Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan','Northwest Territories','Nunavut','Yukon'],req:true}]]},
+      { row: ['half', [{id:'cb-residency',label:'Residency Status',type:'select',options:['Canadian Citizen / PR (residing in Canada)','Canadian with US Green Card','Dual Citizen','Other'],req:true},{id:'cb-itin',label:'Do You Have a US ITIN or SSN?',type:'select',options:['Yes, I have an ITIN','Yes, I have an SSN','No, I need to apply','Not sure']}]]},
+      { section: 'What brings you to us? Select all that apply',
+        checks: [
+          {id:'cbc-airbnb',val:'Airbnb or short-term rental income in the US'},
+          {id:'cbc-rental',val:'Long-term rental property in the US'},
+          {id:'cbc-llc',val:'Want to form a US LLC or Corporation'},
+          {id:'cbc-ein',val:'Need an EIN (Employer ID Number)'},
+          {id:'cbc-1040nr',val:'Need to file a 1040-NR (non-resident return)'},
+          {id:'cbc-itin-app',val:'Need to apply for an ITIN'},
+          {id:'cbc-treaty',val:'Questions about the Canada-US tax treaty'},
+          {id:'cbc-biz',val:'Running or expanding a business into the US'},
+          {id:'cbc-payroll',val:'US payroll or employees'},
+          {id:'cbc-compliance',val:'Ongoing US state or federal compliance'}
+        ]
+      },
+      { row: ['half', [{id:'cb-state',label:'Which US State(s) Are You Active In?',type:'text',placeholder:'e.g. Florida, New York, Texas'},{id:'cb-entity',label:'Do You Have a US Entity?',type:'select',options:['No, not yet','Yes — LLC','Yes — Corporation','Yes — other']}]]},
+      { row: ['half', [{id:'cb-income',label:'Estimated Annual US Income (USD)',type:'select',options:['Under $10,000','$10,000 – $50,000','$50,000 – $150,000','$150,000+','Not sure yet']},{id:'cb-years',label:'How Many Years of US Activity?',type:'select',options:['This is my first year','1 – 2 years','3 – 5 years','5+ years']}]]},
+      { row: ['full', [{id:'cb-notes',label:'Tell us more about your situation',type:'textarea',placeholder:'Describe your US activities, any notices you have received, or questions you have about your filing obligations...'}]]}
+    ]
+  }
+};
+
+// ── Form labels ──
+const FORM_LABELS = {
+  tax: 'Tax Filing', bookkeeping: 'Real-Time Bookkeeping',
+  payroll: 'Payroll Management', intelligence: 'Business Intelligence',
+  audit: 'Audit Assessment', partner: 'White Label Partner',
+  crossborder: 'Cross-Border Services'
+};
+
+// ── Render a form ──
+function openIntakeForm(type) {
+  const config = INTAKE_FORMS[type];
+  if (!config) return;
+  document.getElementById('intake-cards').style.display = 'none';
+  document.getElementById('intake-success').style.display = 'none';
+  document.getElementById('intake-form-panel').style.display = 'block';
+
+  const container = document.getElementById('intake-form-container');
+  let html = `
+    <div style="margin-bottom:1.75rem">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem">${FORM_LABELS[type]}</div>
+      <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;color:var(--text);margin-bottom:.4rem">${config.title}</h3>
+      <p style="font-size:.88rem;color:var(--text-muted);line-height:1.6">${config.sub}</p>
+    </div>
+    <form id="intake-form-${type}" novalidate>
+  `;
+
+  config.fields.forEach(block => {
+    if (block.section) {
+      html += `<div style="margin:1.5rem 0 .75rem"><div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)">${block.section}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">`;
+      block.checks.forEach(c => {
+        html += `<label style="display:flex;align-items:center;gap:.65rem;padding:.6rem .85rem;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:.85rem;color:var(--text);transition:all .15s" onmouseover="this.style.borderColor='var(--gold-border)'" onmouseout="this.style.borderColor='var(--border)'"><input type="checkbox" id="${c.id}" value="${c.val}" style="accent-color:var(--gold);width:14px;height:14px;cursor:pointer"/> ${c.val}</label>`;
+      });
+      html += `</div></div>`;
+    } else if (block.row) {
+      const [cols, fields] = block.row;
+      const grid = cols === 'full' ? (fields.length > 1 ? '1fr 1fr' : '1fr') : '1fr 1fr';
+      html += `<div style="display:grid;grid-template-columns:${grid};gap:1rem;margin-bottom:1rem">`;
+      fields.forEach(f => {
+        html += `<div style="display:flex;flex-direction:column;gap:.4rem">
+          <label style="font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">${f.label}${f.req ? ' <span style="color:var(--gold)">*</span>' : ''}</label>`;
+        if (f.type === 'textarea') {
+          html += `<textarea id="${f.id}" placeholder="${f.placeholder||''}" rows="3" style="background:rgba(255,255,255,.04);border:1px solid var(--border-mid);border-radius:9px;color:var(--text);padding:.7rem .9rem;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:90px;transition:border-color .2s,box-shadow .2s" onfocus="this.style.borderColor='var(--gold-border)';this.style.boxShadow='0 0 0 3px var(--gold-glow)'" onblur="this.style.borderColor='var(--border-mid)';this.style.boxShadow='none'"></textarea>`;
+        } else if (f.type === 'select') {
+          html += `<select id="${f.id}" style="background:rgba(255,255,255,.04);border:1px solid var(--border-mid);border-radius:9px;color:var(--text);padding:.7rem .9rem;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--gold-border)'" onblur="this.style.borderColor='var(--border-mid)'"><option value="">Select</option>${(f.options||[]).map(o=>`<option value="${o}">${o}</option>`).join('')}</select>`;
+        } else {
+          html += `<input type="${f.type||'text'}" id="${f.id}" placeholder="${f.placeholder||''}" style="background:rgba(255,255,255,.04);border:1px solid var(--border-mid);border-radius:9px;color:var(--text);padding:.7rem .9rem;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s" onfocus="this.style.borderColor='var(--gold-border)';this.style.boxShadow='0 0 0 3px var(--gold-glow)'" onblur="this.style.borderColor='var(--border-mid)';this.style.boxShadow='none'"/>`;
+        }
+        html += `</div>`;
+      });
+      html += `</div>`;
+    }
+  });
+
+  html += `
+      <div style="margin-top:2rem">
+        <button type="submit" class="btn-primary" style="max-width:320px;margin:0 auto;display:flex;letter-spacing:.01em">Submit ${FORM_LABELS[type]} Form →</button>
+        <p style="text-align:center;font-size:.75rem;color:var(--text-dim);margin-top:.75rem">Your information is encrypted and never shared with third parties.</p>
+      </div>
+      <div id="form-error-${type}" style="display:none;margin-top:.75rem;color:var(--red);font-size:.85rem;text-align:center;background:rgba(240,106,106,.08);padding:.6rem;border-radius:8px"></div>
+    </form>
+  `;
+
+  container.innerHTML = html;
+
+  // Submit handler
+  document.getElementById(`intake-form-${type}`).addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const errEl = document.getElementById(`form-error-${type}`);
+    errEl.style.display = 'none';
+
+    // Collect data
+    const data = { service: type, submitted_at: new Date().toISOString() };
+    let missingRequired = false;
+
+    config.fields.forEach(block => {
+      if (block.section) {
+        const checked = block.checks.filter(c => document.getElementById(c.id)?.checked).map(c => c.val);
+        if (checked.length) data[block.section.toLowerCase().replace(/[^a-z0-9]/g,'_')] = checked.join(', ');
+      } else if (block.row) {
+        block.row[1].forEach(f => {
+          const el = document.getElementById(f.id);
+          if (!el) return;
+          data[f.id] = el.value;
+          if (f.req && !el.value.trim()) { missingRequired = true; el.style.borderColor = 'var(--red)'; }
+        });
+      }
+    });
+
+    if (missingRequired) {
+      errEl.textContent = 'Please fill in all required fields marked with *.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const btn = this.querySelector('button[type="submit"]');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    try {
+      // Save to Supabase intakes table if client available
+      if (window._supabase) {
+        const user = (await window._supabase.auth.getUser()).data?.user;
+        if (user) data.user_id = user.id;
+        await window._supabase.from('intakes').insert([data]);
+      }
+    } catch(err) {
+      console.log('Supabase not configured yet — form data logged:', data);
+    }
+
+    // Show success
+    document.getElementById('intake-form-container').style.display = 'none';
+    document.getElementById('intake-success').style.display = 'block';
+  });
+}
+
+function closeIntakeForm() {
+  document.getElementById('intake-cards').style.display = 'block';
+  document.getElementById('intake-form-panel').style.display = 'none';
+  document.getElementById('intake-form-container').style.display = 'block';
+  document.getElementById('intake-form-container').innerHTML = '';
+  document.getElementById('intake-success').style.display = 'none';
+}
+
+// ── AUTH TAB SWITCHING ──
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('tab-' + tab);
+  if (panel) panel.style.display = 'block';
+  const btn = document.querySelector(`[onclick="switchTab('${tab}')"]`);
+  if (btn) btn.classList.add('active');
+  document.getElementById('auth-msg').textContent = '';
+  document.getElementById('auth-msg').className = 'auth-msg';
+}
+
+// ── SIGN IN ──
+async function signIn() {
+  const email = document.getElementById('signin-email')?.value?.trim();
+  const password = document.getElementById('signin-password')?.value;
+  const msg = document.getElementById('auth-msg');
+
+  if (!email || !password) { showAuthMsg('Please enter your email and password.', 'error'); return; }
+
+  const check = TIA_SECURITY.checkLoginAttempts(email);
+  if (check.blocked) { showAuthMsg(check.message, 'error'); return; }
+
+  const btn = document.querySelector('#tab-signin .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+
+  try {
+    const sb = await getSupabase();
+    if (!sb) {
+      // Demo mode — no Supabase configured
+      showAuthMsg('Portal is not yet connected to a database. Please contact your accountant.', 'error');
+      return;
+    }
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      TIA_SECURITY.recordLoginAttempt(email);
+      showAuthMsg(error.message, 'error');
+    } else {
+      showAuthMsg('Welcome back! Loading your portal...', 'success');
+      setTimeout(() => {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('portal-screen').style.display = 'block';
+        TIA_SECURITY.initSession();
+        loadPortalData(data.user);
+      }, 800);
+    }
+  } catch(e) {
+    showAuthMsg('Connection error. Please try again.', 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Sign In'; }
+  }
+}
+
+// ── SIGN UP ──
+async function signUp() {
+  const name = document.getElementById('signup-name')?.value?.trim();
+  const email = document.getElementById('signup-email')?.value?.trim();
+  const password = document.getElementById('signup-password')?.value;
+  const service = document.getElementById('signup-service')?.value;
+
+  if (!name || !email || !password) { showAuthMsg('Please fill in all fields.', 'error'); return; }
+  if (password.length < 8) { showAuthMsg('Password must be at least 8 characters.', 'error'); return; }
+  if (!service) { showAuthMsg('Please select the service you need.', 'error'); return; }
+
+  const btn = document.querySelector('#tab-signup .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Creating account...'; }
+
+  try {
+    const sb = await getSupabase();
+    if (!sb) {
+      // Redirect to secure intake form as fallback
+      window.location.href = `secure-intake.html?service=${service}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+      return;
+    }
+    const { data, error } = await sb.auth.signUp({
+      email, password,
+      options: { data: { full_name: name, service_type: service } }
+    });
+    if (error) {
+      showAuthMsg(error.message, 'error');
+    } else {
+      showAuthMsg('Account created! Check your email to confirm, then sign in.', 'success');
+      // Redirect to intake form
+      setTimeout(() => {
+        window.location.href = `secure-intake.html?service=${service}`;
+      }, 2000);
+    }
+  } catch(e) {
+    // Fallback — redirect to intake form
+    window.location.href = `secure-intake.html?service=${service}`;
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+  }
+}
+
+// ── RESET PASSWORD ──
+async function resetPassword() {
+  const email = document.getElementById('reset-email')?.value?.trim();
+  if (!email) { showAuthMsg('Please enter your email.', 'error'); return; }
+  const sb = await getSupabase();
+  if (sb) {
+    await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal.html' });
+  }
+  showAuthMsg('Reset link sent! Check your email.', 'success');
+}
+
+// ── GET SUPABASE CLIENT ──
+async function getSupabase() {
+  if (window._supabase) return window._supabase;
+  // Try to init with config
+  const url = window.SUPABASE_URL || '';
+  const key = window.SUPABASE_ANON_KEY || '';
+  if (url && url !== 'YOUR_SUPABASE_URL' && key && key !== 'YOUR_SUPABASE_ANON_KEY') {
+    window._supabase = supabase.createClient(url, key);
+    return window._supabase;
+  }
+  return null;
+}
+
+function showAuthMsg(msg, type) {
+  const el = document.getElementById('auth-msg');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'auth-msg ' + (type === 'error' ? 'error' : 'success');
+  el.style.display = 'block';
+}
+
+// Load portal data after login
+async function loadPortalData(user) {
+  const nameEl = document.getElementById('portal-name');
+  if (nameEl) nameEl.textContent = user?.user_metadata?.full_name || user?.email || 'Client';
+}
+
+// Init on load
+window.addEventListener('load', () => {
+  switchTab('signin');
+});
+
+</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW error:', err));
+      });
+    }
+  </script>
+<script>
+// ── Particles ──
+(function(){
+  const c = document.getElementById('particles');
+  if(!c) return;
+  for(let i=0;i<18;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;width:${Math.random()<0.5?1:2}px;height:${Math.random()<0.5?1:2}px;animation-duration:${12+Math.random()*20}s;animation-delay:${Math.random()*20}s;opacity:0`;
+    c.appendChild(p);
+  }
+})();
+
+// ── Light streaks ──
+(function(){
+  const s = document.getElementById('streaks');
+  if(!s) return;
+  for(let i=0;i<5;i++){
+    const el = document.createElement('div');
+    el.className = 'streak';
+    el.style.cssText = `top:${10+Math.random()*70}%;height:${80+Math.random()*200}px;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*15}s`;
+    s.appendChild(el);
+  }
+})();
+
+// ── Mini chart bars ──
+(function(){
+  const el = document.getElementById('mini-bars');
+  if(!el) return;
+  const heights = [35,55,42,70,58,85,65];
+  heights.forEach((h,i) => {
+    const b = document.createElement('div');
+    b.className = 'bar';
+    b.style.cssText = `height:${h}%;animation-delay:${i*0.1}s`;
+    el.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Secure Client Intake — The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1829;--gold:#c9a84c;--green:#2dd4a0;--red:#f87171;
+  --white:#f5f0e8;--gray:#6b7280;--border:#e5e7eb;--bg:#f9fafb;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-height:100vh}
+
+/* NAV */
+.nav{background:var(--navy);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1rem;text-decoration:none}
+.nav-secure{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:rgba(255,255,255,.5)}
+.lock-icon{color:var(--green)}
+
+/* PROGRESS */
+.progress-bar{background:#e5e7eb;height:4px;width:100%}
+.progress-fill{background:var(--gold);height:4px;transition:width .4s ease}
+
+/* LAYOUT */
+.container{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem}
+
+/* STEPS */
+.step-header{text-align:center;margin-bottom:2.5rem}
+.step-label{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.step-title{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy);margin-bottom:.5rem}
+.step-sub{font-size:.9rem;color:var(--gray);line-height:1.6}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem}
+.card-title{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+
+/* FORM FIELDS */
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-grid.full{grid-template-columns:1fr}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.78rem;font-weight:600;color:#374151;margin-bottom:.35rem}
+.field input,.field select,.field textarea{
+  width:100%;background:#f9fafb;border:1.5px solid var(--border);
+  border-radius:8px;padding:.65rem .9rem;font-size:.9rem;
+  font-family:'DM Sans',sans-serif;color:#111827;outline:none;
+  transition:border-color .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(201,168,76,.08)}
+.field .hint{font-size:.72rem;color:var(--gray);margin-top:.3rem}
+.field .error{font-size:.72rem;color:var(--red);margin-top:.3rem;display:none}
+.field.has-error input,.field.has-error select{border-color:var(--red)}
+.field.has-error .error{display:block}
+
+/* SENSITIVE FIELD */
+.sensitive-wrap{position:relative}
+.sensitive-wrap input{padding-right:2.5rem;font-family:monospace;letter-spacing:.12em}
+.sensitive-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:.85rem;padding:0}
+.sensitive-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.3);border-radius:999px;padding:.25rem .75rem;font-size:.68rem;color:var(--green);font-weight:600;margin-bottom:.75rem}
+
+/* COUNTRY TOGGLE */
+.country-toggle{display:flex;background:#f3f4f6;border:1px solid var(--border);border-radius:8px;padding:3px;margin-bottom:1.25rem;gap:3px}
+.ct-btn{flex:1;text-align:center;padding:.5rem;border-radius:6px;font-size:.82rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--gray);transition:all .2s}
+.ct-btn.active{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s}
+.upload-zone:hover,.upload-zone.drag-over{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.upload-icon{font-size:1.75rem;margin-bottom:.5rem}
+.upload-text{font-size:.88rem;color:var(--gray)}.upload-text strong{color:var(--navy)}
+.upload-types{font-size:.72rem;color:#9ca3af;margin-top:.25rem}
+.file-list{margin-top:1rem;display:flex;flex-direction:column;gap:.5rem}
+.file-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .9rem;background:#f9fafb;border:1px solid var(--border);border-radius:8px;font-size:.82rem}
+.file-item .fi-name{flex:1;color:#111827;font-weight:500}
+.file-item .fi-size{color:var(--gray);font-size:.72rem}
+.file-item .fi-status{font-size:.7rem;font-weight:600}
+.fi-status.uploading{color:var(--gold)}
+.fi-status.done{color:var(--green)}
+.fi-status.error{color:var(--red)}
+.fi-remove{background:none;border:none;cursor:pointer;color:#9ca3af;font-size:.85rem;padding:0}
+
+/* SUBMIT BUTTON */
+.submit-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:1rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s;margin-top:.5rem}
+.submit-btn:hover{background:#162038;transform:translateY(-1px);box-shadow:0 4px 16px rgba(13,24,41,.2)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.submit-btn.gold{background:var(--gold);color:#0a0800}
+.submit-btn.gold:hover{background:#d4ac50}
+
+/* ALERT */
+.alert{padding:.85rem 1rem;border-radius:8px;font-size:.85rem;margin-bottom:1rem;display:none}
+.alert.success{background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.3);color:#065f46}
+.alert.error{background:rgba(248,113,113,.1);border:.5px solid rgba(248,113,113,.3);color:#991b1b}
+.alert.show{display:block}
+
+/* STEP PANELS */
+.step-panel{display:none}.step-panel.active{display:block}
+
+/* SUCCESS */
+.success-screen{text-align:center;padding:3rem 1.5rem}
+.success-icon{width:72px;height:72px;border-radius:50%;background:rgba(45,212,160,.12);border:2px solid rgba(45,212,160,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.8rem}
+.success-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy);margin-bottom:.6rem}
+.success-sub{font-size:.9rem;color:var(--gray);line-height:1.7;max-width:420px;margin:0 auto 2rem}
+.success-items{display:flex;flex-direction:column;gap:.5rem;text-align:left;max-width:320px;margin:0 auto 2rem}
+.si{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:#374151}
+.si-check{color:var(--green);font-weight:700}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">The Industry Accountants</a>
+  <div class="nav-secure"><span class="lock-icon">+</span> 256-bit SSL · Encrypted at rest</div>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
+
+<div class="container">
+
+  <!-- ── STEP 1: Personal Info ── -->
+  <div class="step-panel active" id="step-1">
+    <div class="step-header">
+      <div class="step-label">Step 1 of 4</div>
+      <h1 class="step-title">Personal Information</h1>
+      <p class="step-sub">Tell us about yourself so we can create your secure client profile.</p>
+    </div>
+    <div class="alert" id="s1-alert"></div>
+    <div class="card">
+      <div class="card-title">Your Details</div>
+      <div class="field-grid">
+        <div class="field" id="f-name">
+          <label>Full Legal Name *</label>
+          <input type="text" id="full_name" placeholder="As it appears on your tax documents"/>
+          <div class="error">Required</div>
+        </div>
+        <div class="field" id="f-email">
+          <label>Email Address *</label>
+          <input type="email" id="email" placeholder="you@email.com"/>
+          <div class="error">Valid email required</div>
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" id="phone" placeholder="(555) 000-0000"/>
+        </div>
+        <div class="field">
+          <label>Date of Birth *</label>
+          <input type="date" id="dob"/>
+          <div class="error">Required</div>
+        </div>
+      </div>
+      <div class="card-title" style="margin-top:1.25rem">Address</div>
+      <div class="field">
+        <label>Country *</label>
+        <div class="country-toggle">
+          <button class="ct-btn active" id="btn-us" onclick="setCountry('US')">United States</button>
+          <button class="ct-btn" id="btn-ca" onclick="setCountry('CA')">Canada</button>
+        </div>
+      </div>
+      <div class="field-grid">
+        <div class="field field-grid full">
+          <div class="field">
+            <label>Street Address</label>
+            <input type="text" id="street" placeholder="123 Main St"/>
+          </div>
+        </div>
+        <div class="field">
+          <label>City</label>
+          <input type="text" id="city" placeholder="City"/>
+        </div>
+        <div class="field">
+          <label id="province-label">State</label>
+          <input type="text" id="state_province" placeholder="e.g. NY or Ontario"/>
+        </div>
+        <div class="field">
+          <label id="postal-label">ZIP Code</label>
+          <input type="text" id="postal_code" placeholder="10001"/>
+        </div>
+        <div class="field">
+          <label>Entity Type *</label>
+          <select id="entity_type">
+            <option value="">Select...</option>
+            <option value="individual">Individual / Personal</option>
+            <option value="sole_prop">Sole Proprietor</option>
+            <option value="llc">LLC</option>
+            <option value="scorp">S-Corporation</option>
+            <option value="corp">Corporation</option>
+            <option value="partnership">Partnership</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button class="submit-btn gold" onclick="goStep2()">Continue to Tax Information →</button>
+  </div>
+
+  <!-- ── STEP 2: Tax ID ── -->
+  <div class="step-panel" id="step-2">
+    <div class="step-header">
+      <div class="step-label">Step 2 of 4</div>
+      <h1 class="step-title">Tax Identification</h1>
+      <p class="step-sub">Your tax ID is encrypted before it reaches our servers. It is submitted once and never displayed again.</p>
+    </div>
+    <div class="alert" id="s2-alert"></div>
+    <div class="card">
+      <div class="card-title">Secure Tax ID Submission</div>
+      <div class="sensitive-badge">+ End-to-end encrypted · Submit once · Never stored in plain text</div>
+      <div class="field" id="f-taxid">
+        <label id="taxid-label">Social Security Number (SSN) *</label>
+        <div class="sensitive-wrap">
+          <input type="password" id="tax_id" placeholder="XXX-XX-XXXX" maxlength="11" autocomplete="off" inputmode="numeric" oninput="formatTaxId(this)"/>
+          <button class="sensitive-toggle" onclick="toggleTaxId()" id="toggle-btn" title="Show/hide">Show</button>
+        </div>
+        <div class="hint" id="taxid-hint">US clients: 9-digit Social Security Number · Format: XXX-XX-XXXX</div>
+        <div class="error" id="taxid-error">Please enter a valid tax ID</div>
+      </div>
+      <div class="field" id="ein-field" style="display:none">
+        <label>EIN (Employer ID Number) — if applicable</label>
+        <div class="sensitive-wrap">
+          <input type="password" id="ein" placeholder="XX-XXXXXXX" maxlength="10" autocomplete="off" inputmode="numeric" oninput="formatEIN(this)"/>
+          <button class="sensitive-toggle" onclick="toggleEIN()" title="Show/hide">Show</button>
+        </div>
+        <div class="hint">Only required if you have a business entity with employees</div>
+      </div>
+      <div style="background:#fef9ec;border:1px solid #fde68a;border-radius:8px;padding:.85rem 1rem;font-size:.78rem;color:#92400e;margin-top:.5rem">
+        <strong>Why we need this:</strong> Your tax ID is required for filing returns with the IRS or CRA. It is encrypted using AES-256 before storage. Our staff access only the last 4 digits for verification.
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem">
+      <button class="submit-btn" style="background:#f3f4f6;color:#374151;width:auto;padding:.75rem 1.5rem" onclick="goStep(1)">Back</button>
+      <button class="submit-btn gold" onclick="goStep3()">Submit Securely →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Documents ── -->
+  <div class="step-panel" id="step-3">
+    <div class="step-header">
+      <div class="step-label">Step 3 of 4</div>
+      <h1 class="step-title">Upload Documents</h1>
+      <p class="step-sub">Upload your tax documents securely. Files are stored in encrypted private storage — only you and your accountant can access them.</p>
+    </div>
+    <div class="alert" id="s3-alert"></div>
+    <div class="card">
+      <div class="card-title">Tax Documents</div>
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+        <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx" style="display:none" onchange="handleFiles(this.files)"/>
+        <div class="upload-icon">+</div>
+        <div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>
+        <div class="upload-types">PDF, JPG, PNG, Word · Max 25MB per file</div>
+      </div>
+      <div style="margin-top:1rem;font-size:.78rem;color:var(--gray)">
+        <strong>What to upload:</strong> W-2s, 1099s (US) · T4s, T4As (Canada) · Business income/expense records · Prior year returns · Any IRS/CRA notices
+      </div>
+      <div class="file-list" id="file-list"></div>
+    </div>
+    <div style="display:flex;gap:.75rem">
+      <button class="submit-btn" style="background:#f3f4f6;color:#374151;width:auto;padding:.75rem 1.5rem" onclick="goStep(2)">Back</button>
+      <button class="submit-btn gold" id="s3-next" onclick="goStep4()">Continue →</button>
+    </div>
+    <p style="text-align:center;font-size:.75rem;color:var(--gray);margin-top:.75rem">You can also upload documents later from your client portal</p>
+  </div>
+
+  <!-- ── STEP 4: Review & Submit ── -->
+  <div class="step-panel" id="step-4">
+    <div class="step-header">
+      <div class="step-label">Step 4 of 4</div>
+      <h1 class="step-title">Review & Submit</h1>
+      <p class="step-sub">Review your information before we create your secure client account.</p>
+    </div>
+    <div class="alert" id="s4-alert"></div>
+    <div class="card" id="review-card"></div>
+    <div class="card">
+      <div class="card-title">Consent & Authorization</div>
+      <div style="display:flex;flex-direction:column;gap:.75rem">
+        <label style="display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;font-size:.85rem;color:#374151">
+          <input type="checkbox" id="consent-accuracy" style="margin-top:2px;accent-color:var(--gold);flex-shrink:0"/>
+          I certify that the information I have provided is accurate and complete to the best of my knowledge.
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;font-size:.85rem;color:#374151">
+          <input type="checkbox" id="consent-auth" style="margin-top:2px;accent-color:var(--gold);flex-shrink:0"/>
+          I authorize The Industry Accountants to use my tax information to prepare and file my returns on my behalf.
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;font-size:.85rem;color:#374151">
+          <input type="checkbox" id="consent-privacy" style="margin-top:2px;accent-color:var(--gold);flex-shrink:0"/>
+          I have read and agree to the <a href="#" style="color:var(--gold)">Privacy Policy</a> and <a href="#" style="color:var(--gold)">Terms of Service</a>.
+        </label>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem">
+      <button class="submit-btn" style="background:#f3f4f6;color:#374151;width:auto;padding:.75rem 1.5rem" onclick="goStep(3)">Back</button>
+      <button class="submit-btn gold" id="final-submit" onclick="submitForm()">Create My Secure Account →</button>
+    </div>
+  </div>
+
+  <!-- ── SUCCESS ── -->
+  <div class="step-panel" id="step-success">
+    <div class="success-screen">
+      <div class="success-icon">+</div>
+      <h2 class="success-title">You're all set!</h2>
+      <p class="success-sub">Your secure client account has been created. Your accountant will review your documents and be in touch within 1 business day.</p>
+      <div class="success-items">
+        <div class="si"><span class="si-check">+</span> Personal information saved</div>
+        <div class="si"><span class="si-check">+</span> Tax ID encrypted and stored securely</div>
+        <div class="si" id="docs-success-item" style="display:none"><span class="si-check">+</span> Documents uploaded to secure storage</div>
+        <div class="si"><span class="si-check">+</span> Account created — check your email</div>
+      </div>
+      <a href="portal.html" style="display:inline-block;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.92rem;font-weight:700;padding:.85rem 2rem;border-radius:8px;font-family:'DM Sans',sans-serif">Go to Your Client Portal →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── CONFIG ──
+// Replace with your actual Supabase credentials
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentStep = 1;
+let clientCountry = 'US';
+let clientId = null;
+let uploadedFiles = [];
+let formData = {};
+
+// ── COUNTRY ──
+function setCountry(c) {
+  clientCountry = c;
+  document.getElementById('btn-us').classList.toggle('active', c === 'US');
+  document.getElementById('btn-ca').classList.toggle('active', c === 'CA');
+  document.getElementById('province-label').textContent = c === 'CA' ? 'Province' : 'State';
+  document.getElementById('postal-label').textContent = c === 'CA' ? 'Postal Code' : 'ZIP Code';
+  document.getElementById('state_province').placeholder = c === 'CA' ? 'e.g. Ontario' : 'e.g. NY';
+  document.getElementById('postal_code').placeholder = c === 'CA' ? 'M5V 1A1' : '10001';
+  const taxType = c === 'CA' ? 'SIN' : 'SSN';
+  document.getElementById('taxid-label').textContent = c === 'CA' ? 'Social Insurance Number (SIN) *' : 'Social Security Number (SSN) *';
+  document.getElementById('taxid-hint').textContent = c === 'CA' ? 'Canadian SIN: 9-digit number · Format: XXX-XXX-XXX' : 'US SSN: 9-digit number · Format: XXX-XX-XXXX';
+  document.getElementById('tax_id').placeholder = c === 'CA' ? 'XXX-XXX-XXX' : 'XXX-XX-XXXX';
+}
+
+// ── FORMAT TAX ID ──
+function formatTaxId(input) {
+  let v = input.value.replace(/\D/g, '');
+  if (clientCountry === 'US') {
+    if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+    if (v.length > 6) v = v.slice(0,6) + '-' + v.slice(6,10);
+  } else {
+    if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+    if (v.length > 7) v = v.slice(0,7) + '-' + v.slice(7,10);
+  }
+  input.value = v;
+}
+
+function formatEIN(input) {
+  let v = input.value.replace(/\D/g, '');
+  if (v.length > 2) v = v.slice(0,2) + '-' + v.slice(2,9);
+  input.value = v;
+}
+
+// ── TOGGLE VISIBILITY ──
+function toggleTaxId() {
+  const inp = document.getElementById('tax_id');
+  const btn = document.getElementById('toggle-btn');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? 'Show' : 'Hide';
+}
+function toggleEIN() {
+  const inp = document.getElementById('ein');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+// ── STEP NAVIGATION ──
+function goStep(n) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('step-' + currentStep).classList.add('active');
+  document.getElementById('progressFill').style.width = (n * 25) + '%';
+  window.scrollTo(0, 0);
+}
+
+// ── STEP 1 → 2 ──
+async function goStep2() {
+  const name = document.getElementById('full_name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const dob = document.getElementById('dob').value;
+
+  let valid = true;
+  if (!name) { setFieldError('f-name', true); valid = false; }
+  else { setFieldError('f-name', false); }
+  if (!email || !email.includes('@')) { setFieldError('f-email', true); valid = false; }
+  else { setFieldError('f-email', false); }
+  if (!dob) { setFieldError('f-dob', true); valid = false; }
+
+  if (!valid) return;
+
+  formData = {
+    full_name: name, email, phone: document.getElementById('phone').value,
+    date_of_birth: dob, street: document.getElementById('street').value,
+    city: document.getElementById('city').value,
+    state_province: document.getElementById('state_province').value,
+    postal_code: document.getElementById('postal_code').value,
+    country: clientCountry,
+    entity_type: document.getElementById('entity_type').value,
+    service_type: new URLSearchParams(window.location.search).get('service') || 'tax'
+  };
+
+  // Show EIN field for business entities
+  const bizTypes = ['llc', 'scorp', 'corp', 'partnership', 'sole_prop'];
+  document.getElementById('ein-field').style.display = bizTypes.includes(formData.entity_type) ? 'block' : 'none';
+
+  goStep(2);
+}
+
+// ── STEP 2 → 3 (Encrypt & Submit Tax ID) ──
+async function goStep3() {
+  const taxIdRaw = document.getElementById('tax_id').value.replace(/\D/g, '');
+  if (taxIdRaw.length !== 9) {
+    setFieldError('f-taxid', true);
+    document.getElementById('taxid-error').textContent = clientCountry === 'CA' ? 'SIN must be 9 digits' : 'SSN must be 9 digits';
+    return;
+  }
+  setFieldError('f-taxid', false);
+
+  const btn = document.querySelector('#step-2 .submit-btn.gold');
+  btn.disabled = true;
+  btn.textContent = 'Encrypting...';
+
+  try {
+    // Sign up / sign in the user
+    let { data: signUpData, error: signUpError } = await sb.auth.signUp({
+      email: formData.email,
+      password: generateSecurePassword(),
+      options: { data: { full_name: formData.full_name } }
+    });
+
+    // If already exists, try to sign in
+    if (signUpError && signUpError.message.includes('already')) {
+      const { data: signInData, error: signInError } = await sb.auth.signInWithOtp({ email: formData.email });
+      if (signInError) throw signInError;
+    }
+
+    const { data: { session } } = await sb.auth.getSession();
+    const jwt = session?.access_token;
+
+    // Create client record
+    const { data: clientRec, error: clientErr } = await sb.from('clients').insert({
+      user_id: (await sb.auth.getUser()).data.user?.id,
+      ...formData
+    }).select().single();
+
+    if (clientErr) throw clientErr;
+    clientId = clientRec.id;
+
+    // Submit tax ID via secure Netlify function
+    const taxIdType = clientCountry === 'CA' ? 'SIN' : 'SSN';
+    const resp = await fetch('/.netlify/functions/submit-tax-id', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tax_id: taxIdRaw, tax_id_type: taxIdType, client_id: clientId, jwt })
+    });
+
+    const result = await resp.json();
+    if (!resp.ok) throw new Error(result.error || 'Submission failed');
+
+    // Submit EIN if provided
+    const einRaw = document.getElementById('ein').value.replace(/\D/g, '');
+    if (einRaw.length === 9) {
+      await fetch('/.netlify/functions/submit-tax-id', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tax_id: einRaw, tax_id_type: 'EIN', client_id: clientId, jwt })
+      });
+    }
+
+    goStep(3);
+  } catch (err) {
+    showAlert('s2-alert', 'error', 'Error: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Submit Securely →';
+  }
+}
+
+// ── STEP 3 → 4 ──
+async function goStep4() {
+  buildReviewCard();
+  goStep(4);
+}
+
+// ── FINAL SUBMIT ──
+async function submitForm() {
+  if (!document.getElementById('consent-accuracy').checked ||
+      !document.getElementById('consent-auth').checked ||
+      !document.getElementById('consent-privacy').checked) {
+    showAlert('s4-alert', 'error', 'Please check all consent boxes to continue.');
+    return;
+  }
+
+  const btn = document.getElementById('final-submit');
+  btn.disabled = true;
+  btn.textContent = 'Creating your account...';
+
+  try {
+    // Create intake form record
+    await sb.from('intake_forms').insert({
+      client_id: clientId,
+      service_type: formData.service_type,
+      form_data: { country: clientCountry, entity_type: formData.entity_type },
+      status: 'submitted'
+    });
+
+    // Initial status update
+    await sb.from('status_updates').insert({
+      client_id: clientId,
+      step: 'documents_received',
+      message: 'Your intake form has been received. We will review your information within 1 business day.',
+      is_visible_to_client: true
+    });
+
+    if (uploadedFiles.length > 0) document.getElementById('docs-success-item').style.display = 'flex';
+
+    goStep('success');
+    document.getElementById('progressFill').style.width = '100%';
+  } catch (err) {
+    showAlert('s4-alert', 'error', 'Error: ' + err.message);
+    btn.disabled = false;
+    btn.textContent = 'Create My Secure Account →';
+  }
+}
+
+// ── FILE UPLOAD ──
+function handleDragOver(e) { e.preventDefault(); document.getElementById('upload-zone').classList.add('drag-over'); }
+function handleDragLeave(e) { document.getElementById('upload-zone').classList.remove('drag-over'); }
+function handleDrop(e) { e.preventDefault(); handleFiles(e.dataTransfer.files); document.getElementById('upload-zone').classList.remove('drag-over'); }
+
+async function handleFiles(files) {
+  for (const file of files) {
+    if (file.size > 25 * 1024 * 1024) { alert(file.name + ' is too large (max 25MB)'); continue; }
+    addFileToList(file);
+    await uploadFile(file);
+  }
+}
+
+function addFileToList(file) {
+  const list = document.getElementById('file-list');
+  const id = 'file-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+  uploadedFiles.push({ file, id, status: 'uploading' });
+  list.innerHTML += `<div class="file-item" id="${id}">
+    <span class="fi-name">${file.name}</span>
+    <span class="fi-size">${(file.size/1024/1024).toFixed(1)}MB</span>
+    <span class="fi-status uploading" id="status-${id}">Uploading...</span>
+  </div>`;
+}
+
+async function uploadFile(file) {
+  const id = 'file-' + Date.now();
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    const jwt = session?.access_token;
+    if (!jwt || !clientId) { updateFileStatus(id, 'Pending — submit after account creation', 'uploading'); return; }
+
+    const resp = await fetch('/.netlify/functions/upload-document', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        file_name: file.name, file_type: file.type,
+        file_size: file.size, document_type: 'other',
+        tax_year: new Date().getFullYear(), client_id: clientId, jwt
+      })
+    });
+
+    const { signed_url, token } = await resp.json();
+
+    await fetch(signed_url, {
+      method: 'PUT',
+      headers: { 'Content-Type': file.type },
+      body: file
+    });
+
+    updateFileStatus(id, 'Uploaded', 'done');
+  } catch (e) {
+    updateFileStatus(id, 'Failed — try again', 'error');
+  }
+}
+
+function updateFileStatus(id, text, cls) {
+  const el = document.getElementById('status-' + id);
+  if (el) { el.textContent = text; el.className = 'fi-status ' + cls; }
+}
+
+// ── REVIEW CARD ──
+function buildReviewCard() {
+  document.getElementById('review-card').innerHTML = `
+    <div class="card-title">Your Information</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem;font-size:.85rem">
+      <div><span style="color:var(--gray)">Name</span><div style="font-weight:500;margin-top:.1rem">${formData.full_name}</div></div>
+      <div><span style="color:var(--gray)">Email</span><div style="font-weight:500;margin-top:.1rem">${formData.email}</div></div>
+      <div><span style="color:var(--gray)">Country</span><div style="font-weight:500;margin-top:.1rem">${clientCountry === 'CA' ? 'Canada' : 'United States'}</div></div>
+      <div><span style="color:var(--gray)">Entity Type</span><div style="font-weight:500;margin-top:.1rem">${formData.entity_type || 'Not specified'}</div></div>
+      <div><span style="color:var(--gray)">${clientCountry === 'CA' ? 'SIN' : 'SSN'}</span><div style="font-weight:500;margin-top:.1rem;color:var(--green)">Encrypted + stored</div></div>
+      <div><span style="color:var(--gray)">Documents</span><div style="font-weight:500;margin-top:.1rem">${uploadedFiles.length} uploaded</div></div>
+    </div>`;
+}
+
+// ── UTILS ──
+function setFieldError(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('has-error', show);
+}
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'alert ' + type + ' show';
+}
+function generateSecurePassword() {
+  return 'TIA-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36).toUpperCase();
+}
+</script>
+</body>
+</html>
