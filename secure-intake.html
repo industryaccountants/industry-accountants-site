@@ -310,8 +310,97 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
 </div>
 
 <script>
-// ── CONFIG ──
-// Replace with your actual Supabase credentials
+// ── SERVICE CONFIG ──
+const SERVICE_CONFIG = {
+  tax: {
+    title: 'Tax Filing Intake',
+    sub: 'Provide your tax information so we can prepare and file your return accurately.',
+    step2title: 'Tax Identification',
+    step2sub: 'Your SSN or SIN is required for filing. It is encrypted before reaching our servers.',
+    docsTitle: 'Tax Documents',
+    docsHint: 'W-2s, 1099s (US) · T4s, T4As (Canada) · Prior year returns · Any IRS/CRA notices',
+    needsTaxId: true
+  },
+  bookkeeping: {
+    title: 'Bookkeeping Intake',
+    sub: 'Tell us about your business so we can set up your books and keep them clean every month.',
+    step2title: 'Business Tax ID',
+    step2sub: 'Your EIN or Business Number is needed for bookkeeping records.',
+    docsTitle: 'Bank Statements & Records',
+    docsHint: 'Bank statements · Credit card statements · Receipts · Prior P&L statements',
+    needsTaxId: false
+  },
+  payroll: {
+    title: 'Payroll Setup Intake',
+    sub: 'Provide your business details so we can set up and manage payroll for your team.',
+    step2title: 'Business Tax ID',
+    step2sub: 'Your EIN is required to process payroll and file tax forms.',
+    docsTitle: 'Payroll Documents',
+    docsHint: 'Employee W-4s or TD1s · Prior payroll records · Business banking info',
+    needsTaxId: false
+  },
+  crossborder: {
+    title: 'Cross-Border Services Intake',
+    sub: 'Tell us about your cross-border situation so we can handle both US and Canadian requirements.',
+    step2title: 'Tax Identification (Both Countries)',
+    step2sub: 'You may need both a US SSN/ITIN and a Canadian SIN. Both are encrypted before storage.',
+    docsTitle: 'Cross-Border Documents',
+    docsHint: 'US W-2s/1099s · Canadian T4s/T4As · Passport/ID · Prior returns from both countries',
+    needsTaxId: true
+  },
+  audit: {
+    title: 'Audit Assessment Intake',
+    sub: 'Share your business details so we can evaluate your audit risk and prepare your defense.',
+    step2title: 'Business Identification',
+    step2sub: 'Your EIN and SSN/SIN are needed for audit representation.',
+    docsTitle: 'Audit Documents',
+    docsHint: 'IRS/CRA audit notice · Prior tax returns · Payroll records · Business expense records',
+    needsTaxId: true
+  },
+  partner: {
+    title: 'White Label Partner Application',
+    sub: 'Apply to become a white label partner and offer our services under your brand.',
+    step2title: 'Business Identification',
+    step2sub: 'Your EIN or Business Number is required for the partner agreement.',
+    docsTitle: 'Business Documents',
+    docsHint: 'Business license · Articles of incorporation · Current client list (optional)',
+    needsTaxId: false
+  }
+};
+
+// ── APPLY SERVICE CONFIG ON LOAD ──
+window.addEventListener('load', () => {
+  const service = new URLSearchParams(window.location.search).get('service') || 'tax';
+  const cfg = SERVICE_CONFIG[service] || SERVICE_CONFIG.tax;
+
+  // Update step 1 header
+  document.querySelector('#step-1 .step-title').textContent = cfg.title;
+  document.querySelector('#step-1 .step-sub').textContent = cfg.sub;
+
+  // Update step 2
+  document.querySelector('#step-2 .step-title').textContent = cfg.step2title;
+  document.querySelector('#step-2 .step-sub').textContent = cfg.step2sub;
+
+  // Update step 3
+  document.querySelector('#step-3 .step-title').textContent = 'Upload Documents';
+  document.querySelector('#step-3 .step-sub').textContent = 'Files are stored in encrypted private storage — only you and your accountant can access them.';
+  document.querySelector('.card-title').textContent = cfg.docsTitle || 'Documents';
+  const docsHintEl = document.querySelector('#step-3 .card div[style*="margin-top:1rem"]');
+  if (docsHintEl) docsHintEl.innerHTML = `<strong>What to upload:</strong> ${cfg.docsHint}`;
+
+  // Show/hide tax ID field based on service
+  const taxIdCard = document.querySelector('#step-2 .card');
+  if (!cfg.needsTaxId && service !== 'tax' && service !== 'crossborder' && service !== 'audit') {
+    document.getElementById('taxid-label').textContent = 'Business Number / EIN (if applicable)';
+    document.getElementById('taxid-hint').textContent = 'Optional for bookkeeping and payroll services';
+    document.getElementById('tax_id').placeholder = 'XX-XXXXXXX';
+    document.getElementById('tax_id').removeAttribute('required');
+  }
+
+  // Update page title
+  document.title = cfg.title + ' — The Industry Accountants';
+});
+
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

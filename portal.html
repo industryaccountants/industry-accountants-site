@@ -1002,11 +1002,9 @@ const FORM_LABELS = {
 
 // ── Render a form ──
 function openIntakeForm(type) {
-  const config = INTAKE_FORMS[type];
-  if (!config) return;
-  document.getElementById('intake-cards').style.display = 'none';
-  document.getElementById('intake-success').style.display = 'none';
-  document.getElementById('intake-form-panel').style.display = 'block';
+  // Redirect to the secure intake form with the correct service
+  window.location.href = `secure-intake.html?service=${type}`;
+}
 
   const container = document.getElementById('intake-form-container');
   let html = `
