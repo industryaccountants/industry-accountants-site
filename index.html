@@ -28,7 +28,7 @@
       --shadow-lg:0 4px 24px rgba(15,31,61,0.10);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth}body{overflow-x:hidden}
     body{background:var(--white);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-200);padding:0 5vw;height:68px;display:flex;align-items:center;justify-content:space-between}
     .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -144,8 +144,102 @@
     @keyframes pulseGlow{0%,100%{text-shadow:0 0 20px rgba(212,168,67,0.9),0 0 40px rgba(212,168,67,0.6),0 0 80px rgba(212,168,67,0.3),0 0 120px rgba(184,146,42,0.2)}50%{text-shadow:0 0 30px rgba(212,168,67,1),0 0 60px rgba(212,168,67,0.8),0 0 100px rgba(212,168,67,0.5),0 0 160px rgba(184,146,42,0.35),0 0 200px rgba(184,146,42,0.15)}}
     .fu{opacity:0;animation:fadeUp .7s ease forwards}
     .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.28s}.d4{animation-delay:.42s}.d5{animation-delay:.56s}
-    @media(max-width:960px){.hero{grid-template-columns:1fr;gap:3rem;padding-top:110px}.why-wrap{grid-template-columns:1fr;gap:3rem}.svc-grid{grid-template-columns:1fr 1fr}.p-grid{grid-template-columns:1fr}.steps-grid{grid-template-columns:1fr 1fr;gap:2rem}.steps-grid::before{display:none}.nav-links{display:none}.hero-img-mobile-hide{display:none!important}}
-    @media(max-width:600px){.svc-grid{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr}.footer-inner{flex-direction:column;text-align:center}.footer-links{justify-content:center;flex-wrap:wrap}}
+    /* ── TABLET (960px) ── */
+    @media(max-width:960px){
+      .hero{grid-template-columns:1fr;gap:2rem;padding-top:100px;padding-bottom:3rem}
+      .hero-img-mobile-hide{display:none!important}
+      .why-wrap{grid-template-columns:1fr;gap:2.5rem}
+      .svc-grid{grid-template-columns:1fr 1fr}
+      .p-grid{grid-template-columns:1fr}
+      .steps-grid{grid-template-columns:1fr 1fr;gap:2rem}
+      .steps-grid::before{display:none}
+      .nav-links{display:none}
+      .svc-row{grid-template-columns:1fr!important;gap:2rem!important}
+      .svc-row .svc-img,.svc-row [style*="order:2"]{order:0!important}
+      .detail-grid{grid-template-columns:1fr}
+    }
+
+    /* ── MOBILE (600px) ── */
+    @media(max-width:600px){
+      /* Global */
+      .sec{padding:3rem 4vw!important}
+      .svc-section{padding:3rem 4vw!important}
+      .why-wrap{padding:3rem 4vw!important}
+      .partner-sec{padding:3rem 4vw!important}
+      footer{padding:2rem 4vw!important}
+      .proof-bar{gap:1.5rem;padding:1.25rem 4vw}
+
+      /* Nav */
+      nav{padding:0 4vw!important;height:60px}
+
+      /* Hero */
+      .hero{padding-top:80px!important;padding-left:4vw!important;padding-right:4vw!important}
+      .hero h1{font-size:clamp(1.9rem,7vw,2.8rem)!important}
+      .hero-sub{font-size:.88rem!important}
+      .hero-trust{gap:.75rem!important;flex-wrap:wrap}
+
+      /* Hero pills */
+      .hero-animate-d4{display:flex;flex-wrap:wrap;gap:.4rem}
+      .hero-animate-d4 a{font-size:.72rem!important;padding:.35rem .75rem!important}
+
+      /* Services header */
+      .svc-grid{grid-template-columns:1fr}
+      .svc-row{grid-template-columns:1fr!important;gap:1.5rem!important}
+
+      /* Stats */
+      .stat-grid{grid-template-columns:1fr 1fr}
+
+      /* Steps */
+      .steps-grid{grid-template-columns:1fr;gap:1.5rem}
+
+      /* Tools tabs */
+      #home-tool-tabs{flex-wrap:wrap!important;gap:.4rem!important}
+      #home-tool-tabs button{font-size:.78rem!important;padding:.5rem .75rem!important}
+
+      /* Calculator grids */
+      .tool-3col{grid-template-columns:1fr 1fr!important}
+      .tool-2col{grid-template-columns:1fr!important}
+
+      /* Business launch */
+      .biz-launch-stats{flex-direction:column!important;gap:.75rem!important}
+      .biz-launch-divider{display:none!important}
+
+      /* White label hero */
+      .wl-hero-text h2{font-size:clamp(1.8rem,6vw,2.5rem)!important}
+
+      /* White label cards */
+      .wl-cards{grid-template-columns:1fr!important}
+
+      /* White label trust row */
+      .wl-trust{grid-template-columns:1fr 1fr!important}
+
+      /* Cross border cards */
+      .cb-cards{grid-template-columns:1fr!important}
+
+      /* Why choose us */
+      .why-list{gap:1.25rem}
+
+      /* Testimonials */
+      .testi-card{padding:1.25rem!important}
+
+      /* Footer */
+      .footer-inner{flex-direction:column;text-align:center;gap:1.5rem}
+      .footer-links{justify-content:center;flex-wrap:wrap}
+
+      /* Audit section cards */
+      .audit-cards{grid-template-columns:1fr!important}
+
+      /* How it works */
+      .how-portal{flex-direction:column!important}
+    }
+
+    /* ── SMALL MOBILE (390px) ── */
+    @media(max-width:390px){
+      .hero h1{font-size:1.75rem!important}
+      .stat-grid{grid-template-columns:1fr}
+      .wl-trust{grid-template-columns:1fr!important}
+      #home-tool-tabs button{font-size:.7rem!important}
+    }
   
     .home-tool-panel { display: none; }
     .home-tool-panel:first-of-type { display: block; }
@@ -597,7 +691,7 @@ function hDownloadPL(){
   const csv=rows.map(r=>r.join(',')).join('
 ');
   const blob=new Blob([csv],{type:'text/csv'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='profit-loss.csv';a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='profit loss.csv';a.click();
 }
 
 </script>
@@ -770,7 +864,7 @@ function hDownloadPL(){
       <div style="background:#fff;border-radius:12px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,0.25)">
         <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#0f1f3d;margin-bottom:.3rem">Payroll Calculator</h3>
         <p style="font-size:.85rem;color:#6b6864;margin-bottom:1.5rem">Net pay, withholdings, and employer costs for any employee.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="tool-3col" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Pay Type</label>
             <select id="p-type" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none">
               <option value="salary">Salary (Annual)</option><option value="hourly">Hourly</option>
@@ -883,13 +977,13 @@ function hDownloadPL(){
               <div>
                 <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;margin-bottom:.3rem;font-family:'Inter',sans-serif">Professional Report</div>
                 <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff;margin-bottom:.35rem">Tax Savings Report</div>
-                <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-bottom:.6rem;font-family:'Inter',sans-serif">We identified potential tax-saving opportunities — see exactly how much you could save</div>
+                <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-bottom:.6rem;font-family:'Inter',sans-serif">We identified potential tax saving opportunities, see exactly how much you could save</div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem">
                   <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Effective & Marginal Rates</div>
                   <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Potential Deductions</div>
                   <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Tax Liability Forecast</div>
                   <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Credit Opportunities</div>
-                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Self-Employment Tax Analysis</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Self Employment Tax Analysis</div>
                   <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Refund / Balance Projection</div>
                   <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Tax Reduction Strategies</div>
                   <div style="font-size:.7rem;color:#c9a84c;font-family:'Inter',sans-serif;font-weight:500">+ PDF Report Included</div>
@@ -913,7 +1007,7 @@ function hDownloadPL(){
     <div id="panel-pl" style="display:none">
       <div style="background:#fff;border-radius:12px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,0.25)">
         <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#0f1f3d;margin-bottom:.3rem">Bank Statement → Profit &amp; Loss</h3>
-        <p style="font-size:.85rem;color:#6b6864;margin-bottom:1.5rem">Upload a CSV bank statement and we auto-categorize transactions into a P&amp;L.</p>
+        <p style="font-size:.85rem;color:#6b6864;margin-bottom:1.5rem">Upload a CSV bank statement and we auto categorize transactions into a P&amp;L.</p>
         <div onclick="document.getElementById('pl-file').click()" ondrop="dropPL(event)" ondragover="event.preventDefault();this.style.borderColor='#0f1f3d'" ondragleave="this.style.borderColor='#e5e3de'" style="border:2px dashed #e5e3de;border-radius:10px;padding:2.5rem;text-align:center;cursor:pointer;margin-bottom:1rem;transition:border-color .2s">
           <div style="font-size:2rem;margin-bottom:.5rem">📂</div>
           <p style="font-size:.9rem;color:#6b6864;font-family:'Inter',sans-serif">Drop your CSV or <span style="color:#0f1f3d;font-weight:500">click to upload</span></p>
@@ -1107,7 +1201,7 @@ function hDownloadPL(){
     let level, color, bg, advice;
     if (score < 30) {
       level = 'Low Risk'; color = '#2dd4a0'; bg = '#f0fdf8';
-      advice = 'Your audit risk appears low. Maintain your current record-keeping practices and you should be well-positioned for any audit.';
+      advice = 'Your audit risk appears low. Maintain your current record keeping practices and you should be well positioned for any audit.';
     } else if (score < 60) {
       level = 'Moderate Risk'; color = '#f0a94a'; bg = '#fffbf0';
       advice = 'You have some audit risk factors. We recommend a records review before your next policy renewal to identify any exposure.';
@@ -1240,7 +1334,7 @@ function hDownloadPL(){
   function downloadPL(){
     const rows=[['Category','Description','Amount']];
     plData.forEach(t=>rows.push([t.cat,t.desc,t.amt.toFixed(2)]));
-    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'}));a.download='profit-loss.csv';a.click();
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'}));a.download='profit loss.csv';a.click();
   }
 
   const chatHist=[];
@@ -1262,7 +1356,7 @@ function hDownloadPL(){
     d.style.cssText=`max-width:85%;padding:.75rem 1rem;border-radius:${type==='user'?'10px 4px 10px 10px':'4px 10px 10px 10px'};font-size:.88rem;line-height:1.6;align-self:${type==='user'?'flex-end':'flex-start'};background:${type==='user'?'#0f1f3d':type==='loading'?'#f8f7f4':'#fff'};color:${type==='user'?'#fff':'#1a1917'};border:${type==='user'?'none':'1px solid #e5e3de'};font-family:'Inter',sans-serif`;
     d.textContent=text;const m=$('chat-msgs');m.appendChild(d);m.scrollTop=m.scrollHeight;return d;
   }
-  </script><section class="svc-section" id="services" style="padding-top:3rem;padding-bottom:0">
+  </script><section class="svc-section" id="services" style="padding-top:3rem;padding-bottom:0;padding-left:4vw;padding-right:4vw">
   <div class="svc-inner">
     <div style="text-align:center;padding:1rem 0 1.5rem">
       <div style="display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;font-family:'Inter',sans-serif" class="reveal">Our Services</div>
@@ -1277,101 +1371,48 @@ function hDownloadPL(){
 
     <!-- 2. TAX FILING -->
     <div class="svc-row" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:4rem 0;border-bottom:1px solid var(--gray-200)">
-      <div class="svc-img" style="border-radius:16px;overflow:hidden;background:#080e1d;position:relative;padding:2rem">
-        <!-- Inline Tax Filing Animation -->
-        <div id="tax-anim" style="color:#f0ece4;font-family:'Inter',sans-serif">
-          <div style="text-align:center;margin-bottom:1.25rem">
-            <div style="font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#c9a84c;margin-bottom:.4rem">The Industry Accountants</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;margin-bottom:.25rem">From Upload to <em style="color:#c9a84c">Refund</em> in Your Account</div>
-            <div style="font-size:.72rem;color:rgba(255,255,255,.45)">See exactly what happens after you submit your documents</div>
+      <div style="border-radius:16px;background:#080e1d;padding:2rem;font-family:'Inter',sans-serif;display:flex;flex-direction:column">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:6px">Tax Filing</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.3;color:#fff">Your W-2 to refund in 48hrs</div>
+        <div style="background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:10px">
+          <div style="width:32px;height:40px;background:#fff;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;position:relative">
+            <div style="font-size:8px;font-weight:800;color:#0d1829">W-2</div>
+            <div style="width:18px;height:1px;background:#0d1829;opacity:.2;margin-top:3px"></div>
+            <div style="width:14px;height:1px;background:#0d1829;opacity:.2;margin-top:2px"></div>
+            <div style="width:16px;height:1px;background:#0d1829;opacity:.2;margin-top:2px"></div>
+            <div style="position:absolute;top:-4px;right:-4px;width:10px;height:10px;background:#2dd4a0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;font-weight:700">✓</div>
           </div>
-          <!-- Step track -->
-          <div style="display:flex;align-items:flex-start;justify-content:center;margin-bottom:1.25rem;position:relative">
-            <div style="position:absolute;top:16px;left:12%;right:12%;height:1px;background:rgba(255,255,255,.08)"></div>
-            <div id="tax-prog" style="position:absolute;top:16px;left:12%;height:1px;background:linear-gradient(90deg,#c9a84c,#e0c06a);width:0%;transition:width .6s ease;box-shadow:0 0 6px rgba(201,168,76,.5)"></div>
-            <div class="tax-step" data-i="0" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1">
-              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .4s">1</div>
-              <div style="font-size:.55rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Upload<br>Docs</div>
-            </div>
-            <div class="tax-step" data-i="1" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1">
-              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .4s">2</div>
-              <div style="font-size:.55rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Portal<br>Receives</div>
-            </div>
-            <div class="tax-step" data-i="2" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1">
-              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .4s">3</div>
-              <div style="font-size:.55rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Under<br>Review</div>
-            </div>
-            <div class="tax-step" data-i="3" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1">
-              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .4s">4</div>
-              <div style="font-size:.55rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Filed<br>IRS</div>
-            </div>
-            <div class="tax-step" data-i="4" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1">
-              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .4s">5</div>
-              <div style="font-size:.55rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Refund<br>Sent</div>
-            </div>
-            <div class="tax-step" data-i="5" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1">
-              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .4s">6</div>
-              <div style="font-size:.55rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">In Your<br>Account</div>
-            </div>
-          </div>
-          <!-- Content panel -->
-          <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:12px;padding:1.25rem;min-height:140px;position:relative">
-            <div class="tax-panel" data-p="0" style="display:none;flex-direction:column;gap:.5rem">
-              <div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:.25rem">Uploading documents...</div>
-              <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.75rem;color:rgba(255,255,255,.7)"><span style="color:#c9a84c">+</span> W-2 Form 2024.pdf <div style="margin-left:auto;height:3px;width:60px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden"><div style="height:100%;background:#c9a84c;width:100%;border-radius:999px"></div></div></div>
-              <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.75rem;color:rgba(255,255,255,.7)"><span style="color:#c9a84c">+</span> 1099-INT Bank.pdf <div style="margin-left:auto;height:3px;width:60px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden"><div style="height:100%;background:#c9a84c;width:80%;border-radius:999px"></div></div></div>
-              <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.75rem;color:rgba(255,255,255,.7)"><span style="color:#c9a84c">+</span> Receipts Q4.pdf <div style="margin-left:auto;height:3px;width:60px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden"><div style="height:100%;background:#c9a84c;width:60%;border-radius:999px"></div></div></div>
-            </div>
-            <div class="tax-panel" data-p="1" style="display:none;flex-direction:column;gap:.4rem">
-              <div style="font-size:.72rem;color:#2dd4a0;margin-bottom:.25rem">Secure portal received your documents</div>
-              <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.2);border-radius:7px;font-size:.75rem;color:rgba(255,255,255,.7)"><div style="width:6px;height:6px;border-radius:50%;background:#2dd4a0"></div> Intake form submitted <span style="margin-left:auto;color:#2dd4a0;font-size:.65rem;font-weight:600">Done</span></div>
-              <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.2);border-radius:7px;font-size:.75rem;color:rgba(255,255,255,.7)"><div style="width:6px;height:6px;border-radius:50%;background:#2dd4a0"></div> Documents received <span style="margin-left:auto;color:#2dd4a0;font-size:.65rem;font-weight:600">Done</span></div>
-              <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;background:rgba(201,168,76,.08);border:.5px solid rgba(201,168,76,.2);border-radius:7px;font-size:.75rem;color:rgba(255,255,255,.7)"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c"></div> Under review <span style="margin-left:auto;color:#c9a84c;font-size:.65rem;font-weight:600">Active</span></div>
-            </div>
-            <div class="tax-panel" data-p="2" style="display:none;flex-direction:column;gap:.5rem">
-              <div style="font-size:.72rem;color:#c9a84c;margin-bottom:.25rem">Senior accountant reviewing your return</div>
-              <div style="display:flex;flex-direction:column;gap:.35rem">
-                <div style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:rgba(255,255,255,.7)"><span style="color:#2dd4a0">+</span> Identity verified</div>
-                <div style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:rgba(255,255,255,.7)"><span style="color:#2dd4a0">+</span> W-2 income confirmed</div>
-                <div style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:rgba(255,255,255,.7)"><span style="color:#2dd4a0">+</span> Deductions reviewed</div>
-                <div style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:rgba(255,255,255,.5)"><span style="color:rgba(255,255,255,.3)">...</span> Final calculations in progress</div>
-              </div>
-            </div>
-            <div class="tax-panel" data-p="3" style="display:none;flex-direction:column;align-items:center;gap:.5rem;text-align:center">
-              <div style="width:50px;height:50px;border-radius:50%;background:rgba(45,212,160,.15);border:2px solid rgba(45,212,160,.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#2dd4a0;font-weight:700">+</div>
-              <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff">Return Filed Successfully</div>
-              <div style="font-size:.68rem;color:rgba(255,255,255,.35);font-family:monospace">Ref #: IRS-2024-TIA-8847</div>
-              <div style="display:flex;gap:1.5rem;font-size:.72rem">
-                <div style="text-align:center"><div style="color:#2dd4a0;font-weight:600">48hrs</div><div style="color:rgba(255,255,255,.35)">Turnaround</div></div>
-                <div style="text-align:center"><div style="color:#2dd4a0;font-weight:600">e-Filed</div><div style="color:rgba(255,255,255,.35)">Method</div></div>
-                <div style="text-align:center"><div style="color:#2dd4a0;font-weight:600">Accepted</div><div style="color:rgba(255,255,255,.35)">IRS Status</div></div>
-              </div>
-            </div>
-            <div class="tax-panel" data-p="4" style="display:none;flex-direction:column;align-items:center;gap:.5rem;text-align:center">
-              <div style="font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em">Federal Refund</div>
-              <div style="font-family:'Playfair Display',serif;font-size:2rem;color:#c9a84c">$5,064</div>
-              <div style="font-size:.72rem;color:rgba(255,255,255,.4)">Direct deposit initiated by IRS</div>
-              <div style="width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden"><div style="height:100%;width:75%;background:linear-gradient(90deg,#c9a84c,#e0c06a);border-radius:999px"></div></div>
-              <div style="display:flex;justify-content:space-between;width:100%;font-size:.62rem;color:rgba(255,255,255,.35)"><span style="color:#2dd4a0">Filed</span><span style="color:#2dd4a0">Received</span><span style="color:#2dd4a0">Approved</span><span>Sent</span></div>
-            </div>
-            <div class="tax-panel" data-p="5" style="display:none;flex-direction:column;align-items:center;gap:.6rem">
-              <div style="background:linear-gradient(135deg,#0d1829,#0a0f1c);border:.5px solid rgba(201,168,76,.3);border-radius:12px;padding:1rem 1.25rem;width:100%">
-                <div style="font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem">Available Balance</div>
-                <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#c9a84c;margin-bottom:.5rem">$7,342.18</div>
-                <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:.6rem;color:rgba(255,255,255,.25);letter-spacing:.1em">.... 4821</div><div style="background:rgba(45,212,160,.15);border:.5px solid rgba(45,212,160,.3);border-radius:999px;padding:2px 8px;font-size:.6rem;color:#2dd4a0;font-weight:500">+$5,064 deposited</div></div>
-              </div>
-            </div>
-          </div>
-          <!-- Controls -->
-          <div style="display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:.75rem">
-            <button id="tax-prev" onclick="taxStep(-1)" style="background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);border-radius:6px;color:rgba(255,255,255,.5);font-size:.72rem;padding:.4rem .9rem;cursor:pointer;font-family:'Inter',sans-serif;opacity:.3">Back</button>
-            <span id="tax-counter" style="font-size:.68rem;color:rgba(255,255,255,.3);font-family:monospace">1 / 6</span>
-            <button id="tax-next" onclick="taxStep(1)" style="background:#c9a84c;border:none;border-radius:6px;color:#0a0800;font-size:.72rem;font-weight:700;padding:.4rem .9rem;cursor:pointer;font-family:'Inter',sans-serif">Next</button>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,.9);font-weight:500">Wage & Tax Statement</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Uploaded securely · Encrypted</div>
           </div>
         </div>
-        <div style="position:absolute;bottom:.75rem;left:.75rem;display:inline-flex;align-items:center;gap:.5rem;background:rgba(8,13,26,0.85);border:1px solid rgba(45,212,160,0.3);border-radius:999px;padding:.3rem .85rem">
-          <div style="width:5px;height:5px;border-radius:50%;background:#2dd4a0;box-shadow:0 0 5px rgba(45,212,160,.6)"></div>
-          <span style="font-size:.7rem;color:rgba(255,255,255,.8);font-family:'Inter',sans-serif">48hr turnaround</span>
+        <div style="text-align:center;color:rgba(255,255,255,.2);font-size:13px;margin:2px 0">↓</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.15);border-radius:7px;font-size:12px;color:rgba(255,255,255,.75)">
+            <div style="width:15px;height:15px;border-radius:50%;background:rgba(45,212,160,.15);border:1px solid #2dd4a0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2dd4a0;flex-shrink:0">✓</div>
+            Accountant reviews & prepares
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.15);border-radius:7px;font-size:12px;color:rgba(255,255,255,.75)">
+            <div style="width:15px;height:15px;border-radius:50%;background:rgba(45,212,160,.15);border:1px solid #2dd4a0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2dd4a0;flex-shrink:0">✓</div>
+            You approve & e-sign
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.15);border-radius:7px;font-size:12px;color:rgba(255,255,255,.75)">
+            <div style="width:15px;height:15px;border-radius:50%;background:rgba(45,212,160,.15);border:1px solid #2dd4a0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2dd4a0;flex-shrink:0">✓</div>
+            E-filed with IRS / CRA
+          </div>
+        </div>
+        <div style="text-align:center;color:rgba(255,255,255,.2);font-size:13px;margin:2px 0">↓</div>
+        <div style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:2px">Federal Refund</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.7)">Direct deposited</div>
+          </div>
+          <div style="font-size:20px;font-weight:700;color:#c9a84c">$5,064</div>
+        </div>
+        <div style="margin-top:auto;padding-top:8px;border-top:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:6px">
+          <div style="width:5px;height:5px;border-radius:50%;background:#2dd4a0"></div>
+          <span style="font-size:11px;color:#2dd4a0">48hr turnaround guaranteed</span>
         </div>
       </div>
       <div class="svc-text">
@@ -1381,7 +1422,7 @@ function hDownloadPL(){
         <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem">
           <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Federal, state & local returns</div>
           <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> All entity types, individual to corporation</div>
-          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> 48-hour turnaround once documents received</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> 48 hour turnaround once documents received</div>
         </div>
         <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
       </div>
@@ -1392,155 +1433,73 @@ function hDownloadPL(){
       <div class="svc-text" style="order:1">
         <span style="display:inline-block;background:var(--gold-pale);color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:999px;margin-bottom:1rem;font-family:'Inter',sans-serif">Monthly & Annual</span>
         <h3 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--navy);margin-bottom:.85rem;line-height:1.2">Real-Time Bookkeeping</h3>
-        <p style="font-size:.95rem;color:var(--gray-600);line-height:1.8;font-weight:300;margin-bottom:1.5rem">Clean books, monthly financials, catch-ups, and audit-ready support delivered year-round. Your numbers always current, always accurate, always ready when you need them.</p>
+        <p style="font-size:.95rem;color:var(--gray-600);line-height:1.8;font-weight:300;margin-bottom:1.5rem">Clean books, monthly financials, catch ups, and audit ready support delivered year round. Your numbers always current, always accurate, always ready when you need them.</p>
         <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem">
           <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Monthly reconciliation & P&L reports</div>
-          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Catch-up and clean-up bookkeeping</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Catch up and clean up bookkeeping</div>
           <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Fully managed, no software to buy or learn</div>
         </div>
         <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
       </div>
-      <div class="svc-img" style="border-radius:16px;overflow:hidden;background:#080e1d;position:relative;order:2;padding:2rem">
-        <div style="color:#f0ece4;font-family:'Inter',sans-serif">
-          <div style="text-align:center;margin-bottom:1rem">
-            <div style="font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:.3rem">Real-Time Bookkeeping</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;margin-bottom:.2rem">Clean Books, <em style="color:#c9a84c">Done For You</em></div>
-            <div style="font-size:.7rem;color:rgba(255,255,255,.4)">Your books stay current every single month</div>
-          </div>
-          <!-- Step track -->
-          <div style="display:flex;align-items:flex-start;justify-content:center;margin-bottom:1rem;position:relative">
-            <div style="position:absolute;top:16px;left:8%;right:8%;height:1px;background:rgba(255,255,255,.08)"></div>
-            <div id="bk-prog" style="position:absolute;top:16px;left:8%;height:1px;background:linear-gradient(90deg,#c9a84c,#e0c06a);width:0%;transition:width .6s ease"></div>
-            <div class="bk-step" data-i="0" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">1</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Connect<br>Bank</div></div>
-            <div class="bk-step" data-i="1" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">2</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Txns<br>Sync</div></div>
-            <div class="bk-step" data-i="2" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">3</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Auto<br>Categorize</div></div>
-            <div class="bk-step" data-i="3" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">4</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">P&L<br>Built</div></div>
-            <div class="bk-step" data-i="4" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">5</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Report<br>Delivered</div></div>
-          </div>
-          <!-- Panel -->
-          <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:12px;padding:1.1rem;min-height:130px">
-            <div class="bk-panel" data-p="0" style="display:none;flex-direction:column;gap:.4rem">
-              <div style="font-size:.7rem;color:rgba(255,255,255,.5)">Connect your accounts securely</div>
-              <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.25rem">
-                <span style="background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.25);border-radius:999px;padding:3px 10px;font-size:.68rem;color:#2dd4a0">Chase Connected</span>
-                <span style="background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.25);border-radius:999px;padding:3px 10px;font-size:.68rem;color:#2dd4a0">TD Bank Connected</span>
-                <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.25);border-radius:999px;padding:3px 10px;font-size:.68rem;color:#c9a84c">Amex Syncing...</span>
-              </div>
-              <div style="font-size:.65rem;color:rgba(255,255,255,.25);margin-top:.25rem">256-bit SSL encryption, read-only access</div>
-            </div>
-            <div class="bk-panel" data-p="1" style="display:none;flex-direction:column;gap:.35rem">
-              <div style="font-size:.7rem;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:.4rem"><div style="width:5px;height:5px;border-radius:50%;background:#2dd4a0"></div>Syncing transactions in real time...</div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem;color:rgba(255,255,255,.7)"><span style="color:#2dd4a0">+</span><span style="flex:1">Client Payment, Acme Corp</span><span style="color:#2dd4a0;font-weight:600">+$3,200</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem;color:rgba(255,255,255,.7)"><span style="color:#f87171">-</span><span style="flex:1">Porter Airlines</span><span style="color:#f87171">-$312</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem;color:rgba(255,255,255,.7)"><span style="color:#f87171">-</span><span style="flex:1">Office Rent, May</span><span style="color:#f87171">-$1,800</span></div>
-            </div>
-            <div class="bk-panel" data-p="2" style="display:none;flex-direction:column;gap:.35rem">
-              <div style="font-size:.7rem;color:#c9a84c;margin-bottom:.1rem">AI-assisted, reviewed by your accountant</div>
-              <div style="display:grid;grid-template-columns:1fr auto auto;gap:.4rem;font-size:.7rem">
-                <span style="color:rgba(255,255,255,.65)">Adobe Creative</span><span style="background:rgba(139,92,246,.1);color:#a78bfa;border-radius:999px;padding:1px 7px;font-size:.6rem">Software</span><span style="color:rgba(255,255,255,.55)">-$55</span>
-                <span style="color:rgba(255,255,255,.65)">Acme Payment</span><span style="background:rgba(45,212,160,.1);color:#2dd4a0;border-radius:999px;padding:1px 7px;font-size:.6rem">Income</span><span style="color:#2dd4a0">+$3,200</span>
-                <span style="color:rgba(255,255,255,.65)">Porter Airlines</span><span style="background:rgba(251,191,36,.1);color:#fbbf24;border-radius:999px;padding:1px 7px;font-size:.6rem">Travel</span><span style="color:rgba(255,255,255,.55)">-$312</span>
-                <span style="color:rgba(255,255,255,.65)">Office Rent</span><span style="background:rgba(59,130,246,.1);color:#60a5fa;border-radius:999px;padding:1px 7px;font-size:.6rem">Office</span><span style="color:rgba(255,255,255,.55)">-$1,800</span>
-              </div>
-            </div>
-            <div class="bk-panel" data-p="3" style="display:none;flex-direction:column;gap:.35rem">
-              <div style="font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.1rem">Profit & Loss, May 2024</div>
-              <div style="display:flex;justify-content:space-between;font-size:.72rem;padding:.25rem 0;border-bottom:.5px solid rgba(255,255,255,.06)"><span style="color:rgba(255,255,255,.5)">Total Revenue</span><span style="color:rgba(255,255,255,.8)">$22,600</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:.72rem;padding:.25rem 0;border-bottom:.5px solid rgba(255,255,255,.06)"><span style="color:rgba(255,255,255,.5)">Total Expenses</span><span style="color:rgba(255,255,255,.8)">$3,854</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:.82rem;font-weight:600;padding:.35rem .6rem;background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:7px"><span style="color:#fff">Net Profit</span><span style="color:#2dd4a0">$18,746</span></div>
-            </div>
-            <div class="bk-panel" data-p="4" style="display:none;flex-direction:column;align-items:center;gap:.5rem;text-align:center">
-              <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff">Monthly Report Delivered</div>
-              <div style="font-size:.72rem;color:rgba(255,255,255,.4)">Your clean, reviewed books are ready in your portal</div>
-              <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
-                <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.25);border-radius:999px;padding:3px 9px;font-size:.65rem;color:#c9a84c">P&L Statement</span>
-                <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.25);border-radius:999px;padding:3px 9px;font-size:.65rem;color:#c9a84c">Balance Sheet</span>
-                <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.25);border-radius:999px;padding:3px 9px;font-size:.65rem;color:#c9a84c">Cash Flow</span>
-                <span style="background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.1);border-radius:999px;padding:3px 9px;font-size:.65rem;color:rgba(255,255,255,.5)">Tax-ready</span>
-              </div>
-              <div style="background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:8px;padding:.4rem .85rem;font-size:.7rem;color:#2dd4a0">Your May 2024 books are ready to review</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:.75rem">
-            <button id="bk-prev" onclick="bkStep(-1)" style="background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);border-radius:6px;color:rgba(255,255,255,.5);font-size:.72rem;padding:.4rem .9rem;cursor:pointer;font-family:'Inter',sans-serif;opacity:.3">Back</button>
-            <span id="bk-counter" style="font-size:.68rem;color:rgba(255,255,255,.3);font-family:monospace">1 / 5</span>
-            <button id="bk-next" onclick="bkStep(1)" style="background:#c9a84c;border:none;border-radius:6px;color:#0a0800;font-size:.72rem;font-weight:700;padding:.4rem .9rem;cursor:pointer;font-family:'Inter',sans-serif">Next</button>
-          </div>
+            <div style="border-radius:16px;background:#080e1d;padding:2rem;font-family:'Inter',sans-serif;order:2;display:flex;flex-direction:column">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:6px">Bookkeeping</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.3;color:#fff">Year end books, delivered</div>
+        <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Annual Summary</div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:.5px solid rgba(255,255,255,.06)"><span style="color:rgba(255,255,255,.5)">Total Revenue</span><span style="color:#fff">$187,400</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:.5px solid rgba(255,255,255,.06)"><span style="color:rgba(255,255,255,.5)">Total Expenses</span><span style="color:#f87171">-$54,280</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;padding:7px 8px;margin-top:6px;background:rgba(45,212,160,.08);border-radius:6px"><span style="color:#fff">Net Profit</span><span style="color:#2dd4a0">$133,120</span></div>
         </div>
-        <div style="position:absolute;bottom:.75rem;left:.75rem;display:inline-flex;align-items:center;gap:.5rem;background:rgba(8,13,26,0.85);border:1px solid rgba(201,168,76,0.25);border-radius:999px;padding:.3rem .85rem">
-          <div style="width:5px;height:5px;border-radius:50%;background:#c9a84c"></div>
-          <span style="font-size:.7rem;color:rgba(255,255,255,.8);font-family:'Inter',sans-serif">Clean books every month</span>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">P&L Statement</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">Balance Sheet</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">Cash Flow</span>
+          <span style="background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#2dd4a0">Tax ready</span>
+        </div>
+        <div style="margin-top:auto;padding-top:8px;border-top:.5px solid rgba(255,255,255,.08)">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+            <div style="width:5px;height:5px;border-radius:50%;background:#c9a84c"></div>
+            <span style="font-size:11px;color:#c9a84c">Clean books every month</span>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.35);padding-left:11px">Profitable business</div>
         </div>
       </div>
     </div>
 
     <!-- Payroll Management -->
     <div class="svc-row" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:4rem 0;border-bottom:1px solid var(--gray-200)">
-      <div class="svc-img" style="border-radius:16px;overflow:hidden;background:#080e1d;position:relative;padding:2rem">
-        <div style="color:#f0ece4;font-family:'Inter',sans-serif">
-          <div style="text-align:center;margin-bottom:1rem">
-            <div style="font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:.3rem">Payroll Management</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;margin-bottom:.2rem">Payroll, <em style="color:#c9a84c">Handled End to End</em></div>
-            <div style="font-size:.7rem;color:rgba(255,255,255,.4)">W-2s, 1099s, direct deposit, taxes — all managed</div>
+            <div style="border-radius:16px;background:#080e1d;padding:2rem;font-family:'Inter',sans-serif;display:flex;flex-direction:column">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:6px">Payroll</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.3;color:#fff">May 15 run, complete</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px">
+            <span style="flex:1;color:rgba(255,255,255,.75)">G. Bertelli</span>
+            <span style="color:#2dd4a0;font-weight:600">$1,684</span>
+            <span style="background:rgba(96,165,250,.1);color:#60a5fa;border-radius:999px;padding:1px 7px;font-size:10px">W-2</span>
           </div>
-          <!-- Step track -->
-          <div style="display:flex;align-items:flex-start;justify-content:center;margin-bottom:1rem;position:relative">
-            <div style="position:absolute;top:16px;left:8%;right:8%;height:1px;background:rgba(255,255,255,.08)"></div>
-            <div id="pr-prog" style="position:absolute;top:16px;left:8%;height:1px;background:linear-gradient(90deg,#c9a84c,#e0c06a);width:0%;transition:width .6s ease"></div>
-            <div class="pr-step" data-i="0" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">1</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Roster<br>Setup</div></div>
-            <div class="pr-step" data-i="1" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">2</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Calculate<br>Pay</div></div>
-            <div class="pr-step" data-i="2" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">3</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Tax<br>Filings</div></div>
-            <div class="pr-step" data-i="3" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">4</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">Direct<br>Deposit</div></div>
-            <div class="pr-step" data-i="4" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.3;transition:opacity .4s;position:relative;z-index:1"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .4s">5</div><div style="font-size:.52rem;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.3">All<br>Done</div></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px">
+            <span style="flex:1;color:rgba(255,255,255,.75)">M. Thompson</span>
+            <span style="color:#2dd4a0;font-weight:600">$2,850</span>
+            <span style="background:rgba(201,168,76,.1);color:#c9a84c;border-radius:999px;padding:1px 7px;font-size:10px">1099</span>
           </div>
-          <!-- Panel -->
-          <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:12px;padding:1.1rem;min-height:130px">
-            <div class="pr-panel" data-p="0" style="display:none;flex-direction:column;gap:.35rem">
-              <div style="font-size:.7rem;color:rgba(255,255,255,.5);margin-bottom:.1rem">Employee Roster</div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem"><span style="flex:1;color:rgba(255,255,255,.75)">Giuseppe Bertelli</span><span style="background:rgba(96,165,250,.1);color:#60a5fa;border-radius:999px;padding:1px 7px;font-size:.6rem">W-2</span><span style="color:rgba(255,255,255,.5)">$72K/yr</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem"><span style="flex:1;color:rgba(255,255,255,.75)">Marcus Thompson</span><span style="background:rgba(201,168,76,.1);color:#c9a84c;border-radius:999px;padding:1px 7px;font-size:.6rem">1099</span><span style="color:rgba(255,255,255,.5)">$95/hr</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem"><span style="flex:1;color:rgba(255,255,255,.75)">Sofia Rodriguez</span><span style="background:rgba(96,165,250,.1);color:#60a5fa;border-radius:999px;padding:1px 7px;font-size:.6rem">W-2</span><span style="color:rgba(255,255,255,.5)">$58K/yr</span></div>
-            </div>
-            <div class="pr-panel" data-p="1" style="display:none;flex-direction:column;gap:.3rem">
-              <div style="font-size:.7rem;color:rgba(255,255,255,.5)">Pay period: May 1-15, 2024 — Giuseppe Bertelli</div>
-              <div style="display:flex;justify-content:space-between;font-size:.72rem;padding:.2rem 0"><span style="color:rgba(255,255,255,.5)">Gross Pay</span><span style="color:rgba(255,255,255,.8)">$2,769.23</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:.72rem;padding:.2rem 0"><span style="color:rgba(255,255,255,.5)">Federal Tax (22%)</span><span style="color:#f87171">-$609.23</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:.72rem;padding:.2rem 0"><span style="color:rgba(255,255,255,.5)">Social Security</span><span style="color:#f87171">-$171.69</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:.82rem;font-weight:600;padding:.3rem .6rem;background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:7px;margin-top:.1rem"><span style="color:#fff">Net Pay</span><span style="color:#2dd4a0">$1,684.70</span></div>
-            </div>
-            <div class="pr-panel" data-p="2" style="display:none;flex-direction:column;gap:.35rem">
-              <div style="font-size:.7rem;color:rgba(255,255,255,.5)">Automatically filed on your behalf</div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem"><span style="flex:1;color:rgba(255,255,255,.7)">Form 941 — Quarterly Federal</span><span style="background:rgba(45,212,160,.1);color:#2dd4a0;border-radius:999px;padding:1px 7px;font-size:.6rem;font-weight:600">Filed</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem"><span style="flex:1;color:rgba(255,255,255,.7)">State Unemployment SUI</span><span style="background:rgba(45,212,160,.1);color:#2dd4a0;border-radius:999px;padding:1px 7px;font-size:.6rem;font-weight:600">Filed</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.72rem"><span style="flex:1;color:rgba(255,255,255,.7)">W-2 / 1099-NEC Year-end</span><span style="background:rgba(201,168,76,.1);color:#c9a84c;border-radius:999px;padding:1px 7px;font-size:.6rem;font-weight:600">Jan 31</span></div>
-            </div>
-            <div class="pr-panel" data-p="3" style="display:none;flex-direction:column;gap:.3rem">
-              <div style="font-size:.7rem;color:rgba(255,255,255,.5)">Direct Deposits Initiated</div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.35rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.7rem"><span style="flex:1;color:rgba(255,255,255,.7)">Giuseppe Bertelli ....4821</span><span style="color:#2dd4a0;font-weight:600">$1,684.70</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.35rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.7rem"><span style="flex:1;color:rgba(255,255,255,.7)">Marcus Thompson ....9234</span><span style="color:#2dd4a0;font-weight:600">$2,850.00</span></div>
-              <div style="display:flex;align-items:center;gap:.5rem;padding:.35rem .65rem;background:rgba(255,255,255,.04);border-radius:7px;font-size:.7rem"><span style="flex:1;color:rgba(255,255,255,.7)">Sofia Rodriguez ....7712</span><span style="color:#2dd4a0;font-weight:600">$1,346.15</span></div>
-              <div style="display:flex;justify-content:space-between;padding:.3rem .6rem;font-size:.75rem;font-weight:600;border-top:.5px solid rgba(255,255,255,.08);margin-top:.1rem"><span style="color:#fff">Total Disbursed</span><span style="color:#c9a84c">$5,880.85</span></div>
-            </div>
-            <div class="pr-panel" data-p="4" style="display:none;flex-direction:column;align-items:center;gap:.5rem;text-align:center">
-              <div style="width:44px;height:44px;border-radius:50%;background:rgba(45,212,160,.1);border:2px solid rgba(45,212,160,.3);display:flex;align-items:center;justify-content:center;color:#2dd4a0;font-weight:700;font-size:1.1rem">+</div>
-              <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff">Payroll Complete</div>
-              <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
-                <span style="background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:.65rem;color:#2dd4a0">All employees paid</span>
-                <span style="background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:.65rem;color:#2dd4a0">Taxes remitted</span>
-                <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.2);border-radius:999px;padding:3px 9px;font-size:.65rem;color:#c9a84c">W-2s on file</span>
-                <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.2);border-radius:999px;padding:3px 9px;font-size:.65rem;color:#c9a84c">Compliance met</span>
-              </div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:.75rem">
-            <button id="pr-prev" onclick="prStep(-1)" style="background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);border-radius:6px;color:rgba(255,255,255,.5);font-size:.72rem;padding:.4rem .9rem;cursor:pointer;font-family:'Inter',sans-serif;opacity:.3">Back</button>
-            <span id="pr-counter" style="font-size:.68rem;color:rgba(255,255,255,.3);font-family:monospace">1 / 5</span>
-            <button id="pr-next" onclick="prStep(1)" style="background:#c9a84c;border:none;border-radius:6px;color:#0a0800;font-size:.72rem;font-weight:700;padding:.4rem .9rem;cursor:pointer;font-family:'Inter',sans-serif">Next</button>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px">
+            <span style="flex:1;color:rgba(255,255,255,.75)">S. Rodriguez</span>
+            <span style="color:#2dd4a0;font-weight:600">$1,346</span>
+            <span style="background:rgba(96,165,250,.1);color:#60a5fa;border-radius:999px;padding:1px 7px;font-size:10px">W-2</span>
           </div>
         </div>
-        <div style="position:absolute;bottom:.75rem;left:.75rem;display:inline-flex;align-items:center;gap:.5rem;background:rgba(8,13,26,0.85);border:1px solid rgba(201,168,76,0.25);border-radius:999px;padding:.3rem .85rem">
-          <div style="width:5px;height:5px;border-radius:50%;background:#c9a84c"></div>
-          <span style="font-size:.7rem;color:rgba(255,255,255,.8);font-family:'Inter',sans-serif">W-2, 1099, direct deposit</span>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">
+          <span style="background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#2dd4a0">Taxes filed</span>
+          <span style="background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#2dd4a0">Direct deposit</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">W-2s on file</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">1099s filed</span>
+        </div>
+        <div style="margin-top:auto;padding-top:8px;border-top:.5px solid rgba(255,255,255,.08)">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:4px">
+            <span style="color:rgba(255,255,255,.5)">Total disbursed</span>
+            <span style="color:#c9a84c">$5,880</span>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.35)">Your business is growing</div>
         </div>
       </div>
       <div class="svc-text">
@@ -1654,7 +1613,7 @@ function hDownloadPL(){
           <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>ITIN Applications</li>
           <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Cross-Border Tax Guidance</li>
           <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Rental &amp; Airbnb Income Reporting</li>
-          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Treaty-Based Filing Support</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Treaty Based Filing Support</li>
         </ul>
       </div>
 
@@ -1693,7 +1652,7 @@ function hDownloadPL(){
 
   <!-- Hero image with overlay -->
   <div style="position:relative;width:100%;height:520px;overflow:hidden">
-    <img loading="lazy" src="white-label-img.png" alt="White Label Partner Program" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"/>
+    <img loading="lazy" src="white label-img.png" alt="White Label Partner Program" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"/>
     <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,14,29,0.92) 0%,rgba(8,14,29,0.75) 45%,rgba(8,14,29,0.3) 75%,rgba(8,14,29,0.1) 100%)"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,14,29,1) 0%,transparent 40%)"></div>
     <!-- Text over image -->
@@ -1713,7 +1672,7 @@ function hDownloadPL(){
   <div style="padding:3rem 5vw 4rem;max-width:1200px;margin:0 auto">
 
     <!-- 3 Feature Cards -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem" class="wl-cards">
 
       <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.2);border-radius:14px;padding:1.75rem;position:relative;overflow:hidden">
         <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)"></div>
@@ -1723,7 +1682,7 @@ function hDownloadPL(){
           </div>
           <span style="font-size:1.1rem;font-weight:700;color:var(--gold);font-family:'Inter',sans-serif">01</span>
         </div>
-        <h4 style="font-size:.95rem;font-weight:600;color:#fff;margin-bottom:.6rem;font-family:'Inter',sans-serif">Complete White-Label Platform</h4>
+        <h4 style="font-size:.95rem;font-weight:600;color:#fff;margin-bottom:.6rem;font-family:'Inter',sans-serif">Complete White Label Platform</h4>
         <p style="font-size:.83rem;color:rgba(255,255,255,.75);line-height:1.7;font-weight:300">Offer tax, bookkeeping, payroll, and advisory services under your brand without building an accounting department.</p>
       </div>
 
@@ -1754,7 +1713,7 @@ function hDownloadPL(){
     </div>
 
     <!-- Trust row -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding-top:2rem;border-top:.5px solid rgba(255,255,255,.1)">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding-top:2rem;border-top:.5px solid rgba(255,255,255,.1)" class="wl-trust">
       <div style="display:flex;align-items:center;gap:.85rem">
         <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
@@ -1777,7 +1736,7 @@ function hDownloadPL(){
         <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         </div>
-        <div><div style="font-size:.85rem;font-weight:600;color:#fff;font-family:'Inter',sans-serif">Fully</div><div style="font-size:.72rem;color:rgba(255,255,255,.5)">White-Labeled</div></div>
+        <div><div style="font-size:.85rem;font-weight:600;color:#fff;font-family:'Inter',sans-serif">Fully</div><div style="font-size:.72rem;color:rgba(255,255,255,.5)">White Labeled</div></div>
       </div>
     </div>
 
@@ -1895,13 +1854,13 @@ function hDownloadPL(){
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
         <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Process</div>
-        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Manual & paper-based</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Manual & paper based</div>
         <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Fully digital infrastructure</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
         <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Response time</div>
         <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Days to weeks</div>
-        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ 48-hour turnaround, guaranteed</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ 48 hour turnaround, guaranteed</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
         <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Visibility</div>
@@ -1915,12 +1874,12 @@ function hDownloadPL(){
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
         <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Approach</div>
-        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Reactive & compliance-only</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Reactive & compliance only</div>
         <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Proactive strategic insight</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
         <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Experience</div>
-        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Generic, one-size-fits-all</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Generic, one size fits all</div>
         <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Tailored to every business</div>
       </div>
     </div>
@@ -1942,14 +1901,14 @@ function hDownloadPL(){
     <div class="why-list">
       <div class="why-item reveal"><span class="why-n">01</span><div class="why-content"><strong>Your own secure client portal</strong><span>Upload documents, track your filing status in real time, and message your accountant all in one private, encrypted space.</span></div></div>
       <div class="why-item reveal"><span class="why-n">02</span><div class="why-content"><strong>48 hour turnaround, guaranteed</strong><span>We don't make you wait weeks. Returns are reviewed and filed fast without cutting corners.</span></div></div>
-      <div class="why-item reveal"><span class="why-n">03</span><div class="why-content"><strong>Paperless from start to finish</strong><span>No fax, no mail, no in-person visits. Everything is handled digitally, from intake to e-signature to filing.</span></div></div>
+      <div class="why-item reveal"><span class="why-n">03</span><div class="why-content"><strong>Paperless from start to finish</strong><span>No fax, no mail, no in person visits. Everything is handled digitally, from intake to e-signature to filing.</span></div></div>
       <div class="why-item reveal"><span class="why-n">04</span><div class="why-content"><strong>Niche expertise, nationwide reach</strong><span>20+ years serving individuals, freelancers, LLCs, and growing businesses in every industry.</span></div></div>
     </div>
   </div>
   <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:2.5rem;display:flex;flex-direction:column;gap:2rem">
     <div style="padding-bottom:2rem;border-bottom:1px solid var(--gray-200)">
       <div style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:.5rem;font-family:'Inter',sans-serif">Our clients say</div>
-      <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);line-height:1.6;font-style:italic">"The most seamless tax experience I've ever had. Everything was digital, fast, and completely stress-free."</p>
+      <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);line-height:1.6;font-style:italic">"The most seamless tax experience I've ever had. Everything was digital, fast, and completely stress free."</p>
       <div style="margin-top:1rem;display:flex;align-items:center;gap:10px">
         <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=80&q=80&auto=format&fit=crop&face" alt="Marcus T." style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-200)"/>
         <span style="font-size:.82rem;color:var(--gray-400);font-family:'Inter',sans-serif">Marcus T., LLC Owner, Atlanta</span>
@@ -1963,7 +1922,7 @@ function hDownloadPL(){
       </div>
     </div>
     <div>
-      <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);line-height:1.6;font-style:italic">"I white-label their entire suite under my brand. My clients think I have a full accounting team. My revenue doubled in 6 months without adding a single employee."</p>
+      <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);line-height:1.6;font-style:italic">"I white label their entire suite under my brand. My clients think I have a full accounting team. My revenue doubled in 6 months without adding a single employee."</p>
       <div style="margin-top:1rem;display:flex;align-items:center;gap:10px">
         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&auto=format&fit=crop&face" alt="Jerome K." style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-200)"/>
         <span style="font-size:.82rem;color:var(--gray-400);font-family:'Inter',sans-serif">Jerome K., White Label Partner</span>
@@ -2218,91 +2177,6 @@ document.addEventListener('contextmenu',function(e){e.preventDefault();});
 document.addEventListener('dragstart',function(e){if(e.target.tagName==='IMG')e.preventDefault();});
 console.log('%c© The Industry Accountants','color:#c9a84c;font-size:20px;font-weight:bold;font-family:serif');
 console.log('%cAll content and design are protected by copyright law.','color:#888;font-size:12px');
-</script>
-<script>
-// ── TAX FILING ANIMATION ──
-var taxCur=0,taxTotal=6,taxTimer;
-var taxStops=[0,20,40,60,80,100];
-function taxInit(){taxGo(0);}
-function taxStep(d){
-  var n=taxCur+d;
-  if(n<0)return;
-  if(n>=taxTotal){taxGo(0);return;}
-  taxGo(n);
-}
-function taxGo(i){
-  clearTimeout(taxTimer);
-  // Steps
-  document.querySelectorAll('.tax-step').forEach(function(s,idx){
-    s.style.opacity=idx===i?'1':idx<i?'0.6':'0.3';
-    var dot=s.querySelector('div');
-    if(idx<i){dot.style.background='rgba(45,212,160,.15)';dot.style.borderColor='#2dd4a0';dot.style.color='#2dd4a0';dot.textContent='+'}
-    else if(idx===i){dot.style.background='rgba(201,168,76,.12)';dot.style.borderColor='#c9a84c';dot.style.color='#c9a84c';dot.textContent=idx+1}
-    else{dot.style.background='rgba(255,255,255,.05)';dot.style.borderColor='rgba(255,255,255,.12)';dot.style.color='rgba(255,255,255,.4)';dot.textContent=idx+1}
-  });
-  document.getElementById('tax-prog').style.width=taxStops[i]+'%';
-  // Panels
-  document.querySelectorAll('.tax-panel').forEach(function(p){p.style.display='none';});
-  var panel=document.querySelector('.tax-panel[data-p="'+i+'"]');
-  if(panel)panel.style.display='flex';
-  // Counter & buttons
-  document.getElementById('tax-counter').textContent=(i+1)+' / '+taxTotal;
-  document.getElementById('tax-prev').style.opacity=i===0?'0.3':'1';
-  document.getElementById('tax-next').textContent=i===taxTotal-1?'Replay':'Next';
-  taxCur=i;
-  if(i<taxTotal-1)taxTimer=setTimeout(function(){taxGo(taxCur+1);},3500);
-  else taxTimer=setTimeout(function(){taxGo(0);},4000);
-}
-// ── BOOKKEEPING ANIMATION ──
-var bkCur=0,bkTotal=5,bkTimer;
-var bkStops=[0,25,50,75,100];
-function bkStep(d){var n=bkCur+d;if(n<0)return;if(n>=bkTotal){bkGo(0);return;}bkGo(n);}
-function bkGo(i){
-  clearTimeout(bkTimer);
-  document.querySelectorAll('.bk-step').forEach(function(s,idx){
-    s.style.opacity=idx===i?'1':idx<i?'0.6':'0.3';
-    var dot=s.querySelector('div');
-    if(idx<i){dot.style.background='rgba(45,212,160,.15)';dot.style.borderColor='#2dd4a0';dot.style.color='#2dd4a0';dot.textContent='+'}
-    else if(idx===i){dot.style.background='rgba(201,168,76,.12)';dot.style.borderColor='#c9a84c';dot.style.color='#c9a84c';dot.textContent=idx+1}
-    else{dot.style.background='rgba(255,255,255,.05)';dot.style.borderColor='rgba(255,255,255,.12)';dot.style.color='rgba(255,255,255,.4)';dot.textContent=idx+1}
-  });
-  document.getElementById('bk-prog').style.width=bkStops[i]+'%';
-  document.querySelectorAll('.bk-panel').forEach(function(p){p.style.display='none';});
-  var panel=document.querySelector('.bk-panel[data-p="'+i+'"]');
-  if(panel)panel.style.display='flex';
-  document.getElementById('bk-counter').textContent=(i+1)+' / '+bkTotal;
-  document.getElementById('bk-prev').style.opacity=i===0?'0.3':'1';
-  document.getElementById('bk-next').textContent=i===bkTotal-1?'Replay':'Next';
-  bkCur=i;
-  if(i<bkTotal-1)bkTimer=setTimeout(function(){bkGo(bkCur+1);},3500);
-  else bkTimer=setTimeout(function(){bkGo(0);},4000);
-}
-// ── PAYROLL ANIMATION ──
-var prCur=0,prTotal=5,prTimer;
-var prStops=[0,25,50,75,100];
-function prStep(d){var n=prCur+d;if(n<0)return;if(n>=prTotal){prGo(0);return;}prGo(n);}
-function prGo(i){
-  clearTimeout(prTimer);
-  document.querySelectorAll('.pr-step').forEach(function(s,idx){
-    s.style.opacity=idx===i?'1':idx<i?'0.6':'0.3';
-    var dot=s.querySelector('div');
-    if(idx<i){dot.style.background='rgba(45,212,160,.15)';dot.style.borderColor='#2dd4a0';dot.style.color='#2dd4a0';dot.textContent='+'}
-    else if(idx===i){dot.style.background='rgba(201,168,76,.12)';dot.style.borderColor='#c9a84c';dot.style.color='#c9a84c';dot.textContent=idx+1}
-    else{dot.style.background='rgba(255,255,255,.05)';dot.style.borderColor='rgba(255,255,255,.12)';dot.style.color='rgba(255,255,255,.4)';dot.textContent=idx+1}
-  });
-  document.getElementById('pr-prog').style.width=prStops[i]+'%';
-  document.querySelectorAll('.pr-panel').forEach(function(p){p.style.display='none';});
-  var panel=document.querySelector('.pr-panel[data-p="'+i+'"]');
-  if(panel)panel.style.display='flex';
-  document.getElementById('pr-counter').textContent=(i+1)+' / '+prTotal;
-  document.getElementById('pr-prev').style.opacity=i===0?'0.3':'1';
-  document.getElementById('pr-next').textContent=i===prTotal-1?'Replay':'Next';
-  prCur=i;
-  if(i<prTotal-1)prTimer=setTimeout(function(){prGo(prCur+1);},3500);
-  else prTimer=setTimeout(function(){prGo(0);},4000);
-}
-// Init all on load
-window.addEventListener('load',function(){taxInit();bkGo(0);prGo(0);});
 </script>
 </body>
 </html>

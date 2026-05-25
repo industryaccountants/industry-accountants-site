@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Industry Accountants — Secure Client Portal</title>
+  <title>The Industry Accountants, Secure Client Portal</title>
 
   <!-- ── SECURITY HEADERS ── -->
   <!-- Prevent clickjacking -->
@@ -51,14 +51,14 @@
 
 <div id="auth-screen" class="auth-screen">
 
-  <!-- LEFT PANEL — Intelligence Panel -->
+  <!-- LEFT PANEL, Intelligence Panel -->
   <div class="auth-panel-left">
     <div class="auth-brand">
       <img src="logo.png" alt="The Industry Accountants" onerror="this.style.display='none'"/>
       <span class="auth-brand-name">The Industry Accountants</span>
     </div>
     <h2 class="auth-tagline">Real-Time Visibility.<br/><em>Human Oversight.</em></h2>
-    <p class="auth-tagline-sub">Institutional-grade financial operations. Secure, precise, and always working for you.</p>
+    <p class="auth-tagline-sub">Institutional grade financial operations. Secure, precise, and always working for you.</p>
     <div class="live-indicators">
       <div class="live-item">
         <div class="live-dot green"></div>
@@ -87,12 +87,12 @@
       </div>
     </div>
     <div class="mini-chart">
-      <div class="mini-chart-label">Financial Activity — Last 7 Days</div>
+      <div class="mini-chart-label">Financial Activity, Last 7 Days</div>
       <div class="mini-chart-bars" id="mini-bars"></div>
     </div>
   </div>
 
-  <!-- RIGHT PANEL — Login Card -->
+  <!-- RIGHT PANEL, Login Card -->
   <div class="auth-panel-right">
   <div class="auth-card">
     <div class="auth-logo">
@@ -298,7 +298,7 @@
         <div class="section-header">
           <div>
             <h2>Your Intake Form</h2>
-            <p class="section-sub">Select your service — each form takes less than 5 minutes</p>
+            <p class="section-sub">Select your service, each form takes less than 5 minutes</p>
           </div>
         </div>
         <div class="form-cards">
@@ -540,7 +540,7 @@
         <div id="partner-clients-list">
           <div style="text-align:center;padding:2.5rem;color:var(--text-muted)">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:.75rem;opacity:.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            <p style="font-size:.88rem">No clients yet — share your portal URL to get started</p>
+            <p style="font-size:.88rem">No clients yet, share your portal URL to get started</p>
           </div>
         </div>
       </div>
@@ -554,7 +554,7 @@
 
 <script>
 // ══════════════════════════════════════════════════════════════
-// SECURITY ENGINE — The Industry Accountants Portal
+// SECURITY ENGINE, The Industry Accountants Portal
 // ══════════════════════════════════════════════════════════════
 
 const TIA_SECURITY = {
@@ -655,7 +655,7 @@ const TIA_SECURITY = {
   },
 
   // ── 4. SSN / EIN HANDLING ─────────────────────────────────
-  // SSNs are NEVER stored in plain text — masked in UI, encrypted before save
+  // SSNs are NEVER stored in plain text, masked in UI, encrypted before save
   maskSSN(ssn) {
     const digits = ssn.replace(/\D/g, '');
     if (digits.length < 4) return '***-**-****';
@@ -682,7 +682,7 @@ const TIA_SECURITY = {
   // Client-side encrypt before sending to Supabase
   // Note: Use Supabase Edge Function for true server-side encryption
   encryptForStorage(value) {
-    // Basic obfuscation — real encryption handled server-side via pgcrypto
+    // Basic obfuscation, real encryption handled server-side via pgcrypto
     return btoa(unescape(encodeURIComponent(value)));
   },
 
@@ -713,7 +713,7 @@ const TIA_SECURITY = {
         error_msg:     error,
         created_at:    new Date().toISOString()
       }]);
-    } catch(e) { /* Silent — never let logging break the app */ }
+    } catch(e) { /* Silent, never let logging break the app */ }
   },
 
   // ── 7. CLEAR SENSITIVE DATA FROM DOM ──────────────────────
@@ -855,7 +855,7 @@ async function loadPartnerBranding() {
     if (brand.color_primary) { root.setProperty('--navy',brand.color_primary); root.setProperty('--navy-2',brand.color_primary+'dd'); }
     if (brand.color_accent) { root.setProperty('--gold',brand.color_accent); root.setProperty('--gold-border',brand.color_accent+'40'); root.setProperty('--gold-soft',brand.color_accent+'15'); }
     if (brand.logo_url) { document.querySelectorAll('.sidebar-logo img,.auth-logo img').forEach(img=>{img.src=brand.logo_url;img.style.display='block';}); }
-    if (brand.business_name) { document.querySelectorAll('.auth-logo-text,.sidebar-logo-text').forEach(el=>{el.textContent=brand.business_name;}); document.title=brand.business_name+' — Client Portal'; }
+    if (brand.business_name) { document.querySelectorAll('.auth-logo-text,.sidebar-logo-text').forEach(el=>{el.textContent=brand.business_name;}); document.title=brand.business_name+', Client Portal'; }
     if (brand.tagline) { const sub=document.querySelector('.auth-sub'); if(sub) sub.textContent=brand.tagline; }
     window._partnerSubdomain = subdomain;
   } catch(e) { console.log('Branding error:',e); }
@@ -865,7 +865,7 @@ loadPartnerBranding();
 </script>
 <script>
 // ══════════════════════════════════════
-// INTAKE FORM ENGINE — 6 built-in forms
+// INTAKE FORM ENGINE, 6 built in forms
 // ══════════════════════════════════════
 
 const INTAKE_FORMS = {
@@ -878,7 +878,7 @@ const INTAKE_FORMS = {
       { row: ['half', [{id:'tf-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'tf-year',label:'Tax Year',type:'select',options:['2024','2023','2022','2021','Multiple Years']}]]},
       { row: ['half', [{id:'tf-filing-status',label:'Filing Status',type:'select',options:['Single','Married Filing Jointly','Married Filing Separately','Head of Household'],req:true},{id:'tf-entity',label:'Filing Type',type:'select',options:['Individual (W-2)','Self-Employed / 1099','LLC (Single Member)','LLC (Partnership)','S-Corporation','C-Corporation'],req:true}]]},
       { row: ['half', [{id:'tf-income',label:'Approx. Gross Income',type:'select',options:['Under $30K','$30K – $75K','$75K – $150K','$150K – $300K','$300K+']},{id:'tf-state',label:'State of Residence',type:'text',placeholder:'e.g. Georgia'}]]},
-      { section: 'Income Sources — check all that apply',
+      { section: 'Income Sources, check all that apply',
         checks: [{id:'tfc-w2',val:'W-2 Employment'},{id:'tfc-1099',val:'1099 / Freelance Income'},{id:'tfc-biz',val:'Business Income'},{id:'tfc-rental',val:'Rental Income'},{id:'tfc-invest',val:'Investment / Capital Gains'},{id:'tfc-crypto',val:'Cryptocurrency'},{id:'tfc-foreign',val:'Foreign Income'}]
       },
       { row: ['full', [{id:'tf-prior',label:'Do you have prior year returns available?',type:'select',options:['Yes, all years','Yes, some years','No, first time filing with you']}]]},
@@ -894,9 +894,9 @@ const INTAKE_FORMS = {
       { row: ['half', [{id:'bk-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'bk-entity',label:'Entity Type',type:'select',options:['Sole Proprietorship','LLC','S-Corp','C-Corp','Partnership']}]]},
       { row: ['half', [{id:'bk-industry',label:'Industry',type:'select',options:['Retail','Construction','Healthcare','Hospitality','Technology','Professional Services','Real Estate','Transportation','Other'],req:true},{id:'bk-employees',label:'Number of Employees',type:'select',options:['Just me','2 – 10','11 – 50','50+']}]]},
       { row: ['half', [{id:'bk-revenue',label:'Monthly Revenue (approx.)',type:'select',options:['Under $10K','$10K – $50K','$50K – $150K','$150K+']},{id:'bk-software',label:'Current Accounting Software',type:'select',options:['None','QuickBooks Online','QuickBooks Desktop','Wave','FreshBooks','Xero','Other']}]]},
-      { row: ['half', [{id:'bk-service',label:'Service Needed',type:'select',options:['Monthly Bookkeeping','Catch-Up Bookkeeping','Clean-Up Bookkeeping','All Three'],req:true},{id:'bk-behind',label:'How Far Behind Are You?',type:'select',options:['Up to date','1 – 3 months','3 – 6 months','6 – 12 months','Over a year']}]]},
+      { row: ['half', [{id:'bk-service',label:'Service Needed',type:'select',options:['Monthly Bookkeeping','Catch Up Bookkeeping','Clean Up Bookkeeping','All Three'],req:true},{id:'bk-behind',label:'How Far Behind Are You?',type:'select',options:['Up to date','1 – 3 months','3 – 6 months','6 – 12 months','Over a year']}]]},
       { section: 'What do you need help with?',
-        checks: [{id:'bkc-cats',val:'Categorizing transactions'},{id:'bkc-rec',val:'Bank reconciliation'},{id:'bkc-reports',val:'Monthly P&L reports'},{id:'bkc-payroll',val:'Payroll integration'},{id:'bkc-tax',val:'Tax-ready books'},{id:'bkc-inv',val:'Invoicing & accounts receivable'}]
+        checks: [{id:'bkc-cats',val:'Categorizing transactions'},{id:'bkc-rec',val:'Bank reconciliation'},{id:'bkc-reports',val:'Monthly P&L reports'},{id:'bkc-payroll',val:'Payroll integration'},{id:'bkc-tax',val:'Tax ready books'},{id:'bkc-inv',val:'Invoicing & accounts receivable'}]
       },
       { row: ['full', [{id:'bk-notes',label:'Anything else we should know?',type:'textarea',placeholder:'Current state of your books, bank accounts used, special situations...'}]]}
     ]
@@ -941,8 +941,8 @@ const INTAKE_FORMS = {
       { row: ['half', [{id:'au-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'au-biz',label:'Business Name',type:'text',placeholder:'Your business name',req:true}]]},
       { row: ['half', [{id:'au-industry',label:'Industry',type:'select',options:['Construction','Healthcare','Retail','Hospitality','Transportation','Manufacturing','Professional Services','Real Estate','Other']},{id:'au-employees',label:'Number of Employees',type:'select',options:['1 – 5','6 – 25','26 – 100','100+']}]]},
       { row: ['half', [{id:'au-carrier',label:'Insurance Carrier',type:'text',placeholder:'e.g. Travelers, Hartford, Liberty Mutual'},{id:'au-period',label:'Policy Period',type:'text',placeholder:'e.g. Jan 2024 – Jan 2025'}]]},
-      { row: ['half', [{id:'au-type',label:'Type of Insurance Being Audited',type:'select',options:['Workers Compensation','General Liability','Both','Other'],req:true},{id:'au-status',label:'Current Audit Status',type:'select',options:['Just received audit notice','Audit in progress','Completed — disputing results','Received unexpected premium increase']}]]},
-      { section: 'Your concerns — check all that apply',
+      { row: ['half', [{id:'au-type',label:'Type of Insurance Being Audited',type:'select',options:['Workers Compensation','General Liability','Both','Other'],req:true},{id:'au-status',label:'Current Audit Status',type:'select',options:['Just received audit notice','Audit in progress','Completed, disputing results','Received unexpected premium increase']}]]},
+      { section: 'Your concerns, check all that apply',
         checks: [{id:'auc-class',val:'Employee or contractor misclassification'},{id:'auc-over',val:'Unexpected or large premium increase'},{id:'auc-rec',val:'Incomplete or disorganized records'},{id:'auc-sub',val:'Questions about subcontractor coverage'},{id:'auc-disp',val:'Need to formally dispute findings'}]
       },
       { row: ['full', [{id:'au-notes',label:'Additional context',type:'textarea',placeholder:'Anything else about your audit situation we should know...'}]]}
@@ -974,18 +974,18 @@ const INTAKE_FORMS = {
       { section: 'What brings you to us? Select all that apply',
         checks: [
           {id:'cbc-airbnb',val:'Airbnb or short-term rental income in the US'},
-          {id:'cbc-rental',val:'Long-term rental property in the US'},
+          {id:'cbc-rental',val:'Long term rental property in the US'},
           {id:'cbc-llc',val:'Want to form a US LLC or Corporation'},
           {id:'cbc-ein',val:'Need an EIN (Employer ID Number)'},
           {id:'cbc-1040nr',val:'Need to file a 1040-NR (non-resident return)'},
           {id:'cbc-itin-app',val:'Need to apply for an ITIN'},
-          {id:'cbc-treaty',val:'Questions about the Canada-US tax treaty'},
+          {id:'cbc-treaty',val:'Questions about the Canada US tax treaty'},
           {id:'cbc-biz',val:'Running or expanding a business into the US'},
           {id:'cbc-payroll',val:'US payroll or employees'},
           {id:'cbc-compliance',val:'Ongoing US state or federal compliance'}
         ]
       },
-      { row: ['half', [{id:'cb-state',label:'Which US State(s) Are You Active In?',type:'text',placeholder:'e.g. Florida, New York, Texas'},{id:'cb-entity',label:'Do You Have a US Entity?',type:'select',options:['No, not yet','Yes — LLC','Yes — Corporation','Yes — other']}]]},
+      { row: ['half', [{id:'cb-state',label:'Which US State(s) Are You Active In?',type:'text',placeholder:'e.g. Florida, New York, Texas'},{id:'cb-entity',label:'Do You Have a US Entity?',type:'select',options:['No, not yet','Yes, LLC','Yes, Corporation','Yes, other']}]]},
       { row: ['half', [{id:'cb-income',label:'Estimated Annual US Income (USD)',type:'select',options:['Under $10,000','$10,000 – $50,000','$50,000 – $150,000','$150,000+','Not sure yet']},{id:'cb-years',label:'How Many Years of US Activity?',type:'select',options:['This is my first year','1 – 2 years','3 – 5 years','5+ years']}]]},
       { row: ['full', [{id:'cb-notes',label:'Tell us more about your situation',type:'textarea',placeholder:'Describe your US activities, any notices you have received, or questions you have about your filing obligations...'}]]}
     ]
@@ -1096,7 +1096,7 @@ function openIntakeForm(type) {
         await window._supabase.from('intakes').insert([data]);
       }
     } catch(err) {
-      console.log('Supabase not configured yet — form data logged:', data);
+      console.log('Supabase not configured yet, form data logged:', data);
     }
 
     // Show success
@@ -1142,7 +1142,7 @@ async function signIn() {
   try {
     const sb = await getSupabase();
     if (!sb) {
-      // Demo mode — no Supabase configured
+      // Demo mode, no Supabase configured
       showAuthMsg('Portal is not yet connected to a database. Please contact your accountant.', 'error');
       return;
     }
