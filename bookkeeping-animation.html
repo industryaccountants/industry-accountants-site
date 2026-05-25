@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Real-Time Bookkeeping, The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1829;--navy-light:#1a2840;--gold:#c9a84c;--gold-light:#e0c06a;--gold-pale:rgba(201,168,76,0.12);--white:#ffffff;--green:#2dd4a0;--red:#f87171}
+body{background:var(--navy);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;overflow-x:hidden}
+.header{text-align:center;margin-bottom:.75rem}
+.brand{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.title{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2vw,1.5rem);font-weight:400;color:var(--white);line-height:1.15;margin-bottom:.6rem}
+.title em{color:var(--gold);font-style:italic}
+.sub{font-size:.75rem;color:rgba(255,255,255,.45);font-weight:300}
+.scene{width:100%;max-width:900px;position:relative}
+.track{display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:.75rem;position:relative}
+.track::before{content:'';position:absolute;top:22px;left:10%;right:10%;height:1px;background:rgba(255,255,255,.08)}
+.progress-line{position:absolute;top:22px;left:10%;height:1px;background:linear-gradient(90deg,var(--gold),var(--gold-light));width:0%;transition:width .6s ease;box-shadow:0 0 8px rgba(201,168,76,.5)}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:.6rem;position:relative;z-index:1;opacity:.3;transition:opacity .5s ease}
+.step.active{opacity:1}.step.done{opacity:.7}
+.step-dot{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:all .5s ease}
+.step.active .step-dot{background:var(--gold-pale);border-color:var(--gold);box-shadow:0 0 0 6px rgba(201,168,76,.12),0 0 20px rgba(201,168,76,.3)}
+.step.done .step-dot{background:rgba(45,212,160,.15);border-color:var(--green)}
+.step-dot .check{display:none;color:var(--green);font-size:1.2rem;font-weight:700;line-height:1}
+.step.done .step-dot .icon{display:none}.step.done .step-dot .check{display:block}
+.step-label{font-size:.58rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;line-height:1.4;max-width:70px;transition:color .5s}
+.step.active .step-label{color:var(--gold)}.step.done .step-label{color:rgba(255,255,255,.5)}
+.card{background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.08);border-radius:24px;padding:1.25rem;min-height:220px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:.5px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+.panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:1.25rem;opacity:0;transition:opacity .7s ease;pointer-events:none}
+.panel.active{opacity:1;pointer-events:all}
+.controls{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:2rem}
+.ctrl-btn{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);border-radius:8px;color:rgba(255,255,255,.6);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;padding:.6rem 1.25rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+.ctrl-btn:hover{background:rgba(255,255,255,.08);color:var(--white);border-color:rgba(255,255,255,.2)}
+.ctrl-btn.primary{background:var(--gold);color:#0a0800;border-color:var(--gold);font-weight:600}
+.ctrl-btn.primary:hover{background:var(--gold-light)}
+.step-counter{font-size:.75rem;color:rgba(255,255,255,.3);font-family:monospace;letter-spacing:.05em}
+.footer{margin-top:2.5rem;text-align:center;font-size:.7rem;color:rgba(255,255,255,.2);letter-spacing:.04em}
+
+/* ── PANEL STYLES ── */
+
+/* P0: Bank Connect */
+.bank-connect{display:flex;flex-direction:column;align-items:center;gap:1.25rem}
+.bank-logos{display:flex;gap:.75rem;align-items:center}
+.bank-pill{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);border-radius:999px;padding:.4rem .9rem;font-size:.75rem;color:rgba(255,255,255,.6)}
+.bank-pill.connected{border-color:rgba(45,212,160,.3);background:rgba(45,212,160,.06);color:var(--green)}
+.connect-arrow{font-size:1.2rem;color:rgba(255,255,255,.2)}
+.plaid-box{background:rgba(13,20,37,.9);border:.5px solid rgba(201,168,76,.2);border-radius:14px;padding:1.25rem 1.5rem;text-align:center;width:260px}
+.plaid-title{font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:.5rem}
+.plaid-banks{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:.75rem}
+.pb{background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.08);border-radius:6px;padding:.3rem .65rem;font-size:.65rem;color:rgba(255,255,255,.4)}
+.connect-btn{background:var(--gold);color:#0a0800;border-radius:7px;padding:.5rem 1.2rem;font-size:.75rem;font-weight:600;display:inline-block;animation:pulse 2s ease-in-out infinite}
+
+/* P1: Transactions roll in */
+.txn-feed{display:flex;flex-direction:column;gap:.5rem;width:340px}
+.txn-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .9rem;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.07);border-radius:9px;font-size:.78rem;opacity:0;transform:translateX(-20px);animation:slideInRight .4s ease forwards}
+.txn-item:nth-child(1){animation-delay:.1s}.txn-item:nth-child(2){animation-delay:.3s}.txn-item:nth-child(3){animation-delay:.5s}.txn-item:nth-child(4){animation-delay:.7s}.txn-item:nth-child(5){animation-delay:.9s}
+.txn-cat{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.txn-info{flex:1}.txn-name{color:rgba(255,255,255,.8);font-weight:500;font-size:.75rem}.txn-date{color:rgba(255,255,255,.3);font-size:.65rem}
+.txn-amt{font-weight:600;font-size:.78rem}
+.txn-amt.neg{color:var(--red)}.txn-amt.pos{color:var(--green)}
+.txn-tag{font-size:.6rem;padding:1px 7px;border-radius:999px;margin-left:.25rem;font-weight:500}
+.tag-auto{background:rgba(201,168,76,.1);color:var(--gold);border:.5px solid rgba(201,168,76,.2)}
+
+/* P2: Auto Categorize */
+.cat-wrap{display:flex;flex-direction:column;gap:.75rem;width:340px}
+.cat-header{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:.25rem}
+.cat-header strong{color:var(--gold)}
+.cat-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.75rem;padding:.6rem .9rem;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.07);border-radius:9px;font-size:.75rem;opacity:0;animation:fadeIn .4s ease forwards}
+.cat-row:nth-child(2){animation-delay:.1s}.cat-row:nth-child(3){animation-delay:.25s}.cat-row:nth-child(4){animation-delay:.4s}.cat-row:nth-child(5){animation-delay:.55s}.cat-row:nth-child(6){animation-delay:.7s}
+.cat-name{color:rgba(255,255,255,.7)}.cat-label{font-size:.65rem;padding:2px 8px;border-radius:999px;font-weight:500}
+.cl-office{background:rgba(59,130,246,.12);color:#60a5fa;border:.5px solid rgba(59,130,246,.2)}
+.cl-travel{background:rgba(251,191,36,.1);color:#fbbf24;border:.5px solid rgba(251,191,36,.2)}
+.cl-meals{background:rgba(249,115,22,.1);color:#fb923c;border:.5px solid rgba(249,115,22,.2)}
+.cl-software{background:rgba(139,92,246,.1);color:#a78bfa;border:.5px solid rgba(139,92,246,.2)}
+.cl-income{background:rgba(45,212,160,.1);color:var(--green);border:.5px solid rgba(45,212,160,.2)}
+.cat-amt{color:rgba(255,255,255,.6);font-size:.72rem}
+
+/* P3: P&L Report */
+.pl-card{background:rgba(13,20,37,.9);border:.5px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;width:320px}
+.pl-header{background:#0d1829;padding:.75rem 1rem;border-bottom:.5px solid rgba(255,255,255,.06)}
+.pl-title{font-family:'Playfair Display',serif;font-size:.88rem;color:var(--white)}
+.pl-period{font-size:.65rem;color:rgba(255,255,255,.35)}
+.pl-body{padding:1rem}
+.pl-section{margin-bottom:.75rem}
+.pl-sec-title{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.4rem}
+.pl-row{display:flex;justify-content:space-between;font-size:.75rem;padding:.25rem 0;border-bottom:.5px solid rgba(255,255,255,.04)}
+.pl-row.total{border-top:.5px solid rgba(255,255,255,.1);border-bottom:none;margin-top:.25rem;font-weight:600}
+.pl-row .pl-label{color:rgba(255,255,255,.55)}.pl-row .pl-val{color:rgba(255,255,255,.8)}
+.pl-row.total .pl-label{color:var(--white)}.pl-row.total .pl-val{color:var(--green)}
+.pl-net{display:flex;justify-content:space-between;align-items:center;background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:8px;padding:.6rem .75rem;margin-top:.5rem}
+.pl-net-label{font-size:.72rem;font-weight:600;color:var(--white)}.pl-net-val{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--green)}
+
+/* P4: Dashboard */
+.dash-wrap{display:flex;flex-direction:column;gap:.75rem;width:360px}
+.dash-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
+.dash-sub{font-size:.7rem;color:rgba(255,255,255,.35)}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.kpi{background:rgba(13,20,37,.9);border:.5px solid rgba(255,255,255,.08);border-radius:10px;padding:.75rem;text-align:center}
+.kpi-val{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--white);margin-bottom:2px}
+.kpi-lbl{font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em}
+.kpi.up .kpi-val{color:var(--green)}.kpi.warn .kpi-val{color:var(--gold)}
+.mini-bars{display:flex;align-items:flex-end;gap:3px;height:36px;background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.06);border-radius:8px;padding:.4rem .6rem}
+.mb{flex:1;border-radius:2px 2px 0 0;background:rgba(201,168,76,.15);border:.5px solid rgba(201,168,76,.25);animation:growBar .6s ease forwards;transform-origin:bottom}
+.mb:nth-child(1){animation-delay:.1s;--h:40%}.mb:nth-child(2){animation-delay:.2s;--h:65%}.mb:nth-child(3){animation-delay:.3s;--h:52%}.mb:nth-child(4){animation-delay:.4s;--h:78%}.mb:nth-child(5){animation-delay:.5s;--h:60%}.mb:nth-child(6){animation-delay:.6s;--h:90%}.mb:nth-child(7){animation-delay:.7s;--h:72%}
+.mb.highlight{background:rgba(201,168,76,.4);border-color:var(--gold)}
+.insight-row{display:flex;gap:.5rem}
+.insight{flex:1;background:rgba(45,212,160,.05);border:.5px solid rgba(45,212,160,.15);border-radius:8px;padding:.6rem .75rem;font-size:.72rem}
+.insight-icon{font-size:.9rem;margin-bottom:2px}.insight-text{color:rgba(255,255,255,.6);line-height:1.4}
+
+/* P5: Monthly Report Delivered */
+.delivery-wrap{display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center}
+.report-icon{font-size:3rem;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1) forwards}
+.delivery-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white)}
+.delivery-sub{font-size:.82rem;color:rgba(255,255,255,.4);max-width:280px;line-height:1.6}
+.report-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.rpill{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.1);border-radius:999px;padding:.35rem .9rem;font-size:.72rem;color:rgba(255,255,255,.6)}
+.rpill.gold{border-color:rgba(201,168,76,.3);color:var(--gold);background:rgba(201,168,76,.06)}
+.notif{display:flex;align-items:center;gap:.6rem;background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:10px;padding:.6rem 1.1rem;font-size:.75rem;color:var(--green);animation:fadeSlideUp .5s ease .5s both}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes slideInRight{to{transform:translateX(0);opacity:1}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes growBar{from{height:0}to{height:var(--h)}}
+@keyframes bounceIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fadeSlideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow:hidden;width:100%;height:100%}
+</style>
+<script>
+!function(){
+  var NW=900,NH=700;
+  function s(){
+    var sw=window.innerWidth,sh=window.innerHeight;
+    var r=sw/NW;
+    var el=document.body;
+    el.style.transform='scale('+r+')';
+    el.style.transformOrigin='top left';
+    el.style.width=NW+'px';
+    el.style.height='auto';
+    el.style.position='absolute';
+    el.style.top='0';
+    el.style.left='0';
+  }
+  document.addEventListener('DOMContentLoaded',s);
+  window.addEventListener('resize',s);
+}();
+</script>
+</head>
+<body>
+<div class="header">
+ <div class="brand">The Industry Accountants</div>
+ <h1 class="title">Real-Time Bookkeeping, <em>Done For You</em></h1>
+ <p class="sub">Your books stay clean, current, and ready, every single month</p>
+</div>
+<div class="scene">
+ <div class="track">
+ <div class="progress-line" id="progressLine"></div>
+ <div class="step active" id="step-0"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Connect Bank</div></div>
+ <div class="step" id="step-1"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Transactions Sync</div></div>
+ <div class="step" id="step-2"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Auto Categorize</div></div>
+ <div class="step" id="step-3"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">P&L Generated</div></div>
+ <div class="step" id="step-4"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Dashboard Live</div></div>
+ <div class="step" id="step-5"><div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div><div class="step-label">Report Delivered</div></div>
+ </div>
+ <div class="card">
+
+ <div class="panel active" id="panel-0">
+ <div class="bank-connect">
+ <div class="bank-logos">
+ <div class="bank-pill connected"> Chase</div>
+ <div class="connect-arrow">-></div>
+ <div class="bank-pill connected"> TD Bank</div>
+ <div class="connect-arrow">-></div>
+ <div class="bank-pill connected"> Amex</div>
+ </div>
+ <div class="plaid-box">
+ <div class="plaid-title">Securely connect your accounts</div>
+ <div class="plaid-banks"><div class="pb">Chase</div><div class="pb">TD</div><div class="pb">RBC</div><div class="pb">CIBC</div><div class="pb">BoA</div><div class="pb">+500 more</div></div>
+ <div class="connect-btn">Connect Securely -></div>
+ </div>
+ <div style="font-size:.68rem;color:rgba(255,255,255,.25);text-align:center">256-bit SSL encryption · Read-only access · Never stored</div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-1">
+ <div class="txn-feed">
+ <div style="font-size:.7rem;color:rgba(255,255,255,.35);margin-bottom:.25rem;display:flex;align-items:center;gap:.5rem"><span style="color:var(--green)">●</span> Syncing transactions in real time...</div>
+ <div class="txn-item"><div class="txn-cat" style="background:rgba(59,130,246,.1)"></div><div class="txn-info"><div class="txn-name">Adobe Creative Cloud</div><div class="txn-date">May 18 · Software</div></div><div><span class="txn-amt neg">-$54.99</span><span class="txn-tag tag-auto">auto</span></div></div>
+ <div class="txn-item"><div class="txn-cat" style="background:rgba(45,212,160,.1)"></div><div class="txn-info"><div class="txn-name">Client Payment, Acme Corp</div><div class="txn-date">May 17 · Income</div></div><div><span class="txn-amt pos">+$3,200.00</span></div></div>
+ <div class="txn-item"><div class="txn-cat" style="background:rgba(251,191,36,.1)"></div><div class="txn-info"><div class="txn-name">Porter Airlines</div><div class="txn-date">May 16 · Travel</div></div><div><span class="txn-amt neg">-$312.00</span><span class="txn-tag tag-auto">auto</span></div></div>
+ <div class="txn-item"><div class="txn-cat" style="background:rgba(249,115,22,.1)"></div><div class="txn-info"><div class="txn-name">Client Dinner, Canoe</div><div class="txn-date">May 15 · Meals</div></div><div><span class="txn-amt neg">-$187.50</span><span class="txn-tag tag-auto">auto</span></div></div>
+ <div class="txn-item"><div class="txn-cat" style="background:rgba(139,92,246,.1)"></div><div class="txn-info"><div class="txn-name">Office Rent, May</div><div class="txn-date">May 1 · Office</div></div><div><span class="txn-amt neg">-$1,800.00</span><span class="txn-tag tag-auto">auto</span></div></div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-2">
+ <div class="cat-wrap">
+ <div class="cat-header"> <strong>AI-assisted categorization</strong>, reviewed by your accountant</div>
+ <div class="cat-row"><span class="cat-name">Adobe Creative Cloud</span><span class="cat-label cl-software">Software</span><span class="cat-amt">-$54.99</span></div>
+ <div class="cat-row"><span class="cat-name">Client Payment, Acme</span><span class="cat-label cl-income">Income</span><span class="cat-amt">+$3,200</span></div>
+ <div class="cat-row"><span class="cat-name">Porter Airlines</span><span class="cat-label cl-travel">Travel</span><span class="cat-amt">-$312.00</span></div>
+ <div class="cat-row"><span class="cat-name">Client Dinner</span><span class="cat-label cl-meals">Meals 50%</span><span class="cat-amt">-$187.50</span></div>
+ <div class="cat-row"><span class="cat-name">Office Rent</span><span class="cat-label cl-office">Office</span><span class="cat-amt">-$1,800</span></div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-3">
+ <div class="pl-card">
+ <div class="pl-header"><div class="pl-title">Profit & Loss Statement</div><div class="pl-period">May 2024 · The Industry Accountants</div></div>
+ <div class="pl-body">
+ <div class="pl-section">
+ <div class="pl-sec-title">Revenue</div>
+ <div class="pl-row"><span class="pl-label">Client Services</span><span class="pl-val">$18,400</span></div>
+ <div class="pl-row"><span class="pl-label">Consulting</span><span class="pl-val">$4,200</span></div>
+ <div class="pl-row total"><span class="pl-label">Total Revenue</span><span class="pl-val">$22,600</span></div>
+ </div>
+ <div class="pl-section">
+ <div class="pl-sec-title">Expenses</div>
+ <div class="pl-row"><span class="pl-label">Office & Rent</span><span class="pl-val">$2,400</span></div>
+ <div class="pl-row"><span class="pl-label">Travel</span><span class="pl-val">$892</span></div>
+ <div class="pl-row"><span class="pl-label">Software</span><span class="pl-val">$318</span></div>
+ <div class="pl-row"><span class="pl-label">Meals (50%)</span><span class="pl-val">$244</span></div>
+ <div class="pl-row total"><span class="pl-label">Total Expenses</span><span class="pl-val">$3,854</span></div>
+ </div>
+ <div class="pl-net"><span class="pl-net-label">Net Profit</span><span class="pl-net-val">$18,746</span></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-4">
+ <div class="dash-wrap">
+ <div><div class="dash-title">Financial Dashboard</div><div class="dash-sub">Live · Updated automatically</div></div>
+ <div class="kpi-row">
+ <div class="kpi up"><div class="kpi-val">$22.6K</div><div class="kpi-lbl">Revenue</div></div>
+ <div class="kpi up"><div class="kpi-val">$18.7K</div><div class="kpi-lbl">Net Profit</div></div>
+ <div class="kpi warn"><div class="kpi-val">83%</div><div class="kpi-lbl">Margin</div></div>
+ </div>
+ <div class="mini-bars">
+ <div class="mb" style="--h:40%"></div><div class="mb" style="--h:58%"></div><div class="mb" style="--h:45%"></div><div class="mb" style="--h:72%"></div><div class="mb" style="--h:61%"></div><div class="mb highlight" style="--h:90%"></div><div class="mb" style="--h:78%"></div>
+ </div>
+ <div class="insight-row">
+ <div class="insight"><div class="insight-icon"></div><div class="insight-text">Revenue up 23% vs last month</div></div>
+ <div class="insight"><div class="insight-icon"></div><div class="insight-text">3 deductions flagged for review</div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="panel" id="panel-5">
+ <div class="delivery-wrap">
+ <div class="report-icon"></div>
+ <div class="delivery-title">Monthly Report Delivered</div>
+ <div class="delivery-sub">Your clean, reviewed books are ready in your portal, every month, without asking.</div>
+ <div class="report-pills">
+ <div class="rpill gold"> P&L Statement</div>
+ <div class="rpill gold"> Balance Sheet</div>
+ <div class="rpill gold"> Cash Flow</div>
+ <div class="rpill">Tax-ready</div>
+ <div class="rpill">Reviewed by CPA</div>
+ </div>
+ <div class="notif"> Your May 2024 books are ready to review</div>
+ </div>
+ </div>
+
+ </div>
+ <div class="controls">
+ <button class="ctrl-btn" id="prevBtn" onclick="changeStep(-1)" style="opacity:.3">← Back</button>
+ <span class="step-counter" id="stepCounter">Step 1 of 6</span>
+ <button class="ctrl-btn primary" id="nextBtn" onclick="changeStep(1)">Next -></button>
+ </div>
+</div>
+<div class="footer">The Industry Accountants · Real-Time Bookkeeping · Clean Books Every Month</div>
+<script>
+let current=0;const TOTAL=6;const STOPS=[0,20,40,60,80,100];let autoTimer=null;
+function changeStep(dir){const next=current+dir;if(next<0||next>=TOTAL)return;goToStep(next)}
+function goToStep(idx){
+ document.getElementById('panel-'+current).classList.remove('active');
+ document.getElementById('step-'+current).classList.remove('active');
+ for(let i=0;i<TOTAL;i++){const s=document.getElementById('step-'+i);s.classList.remove('active','done');if(i<idx)s.classList.add('done')}
+ current=idx;
+ document.getElementById('step-'+current).classList.add('active');
+ const panel=document.getElementById('panel-'+current);const clone=panel.cloneNode(true);clone.id='panel-'+current;clone.classList.add('active');panel.parentNode.replaceChild(clone,panel);
+ document.getElementById('progressLine').style.width=STOPS[current]+'%';
+ document.getElementById('stepCounter').textContent='Step '+(current+1)+' of '+TOTAL;
+ document.getElementById('prevBtn').style.opacity=current===0?'0.3':'1';
+ document.getElementById('nextBtn').textContent=current===TOTAL-1?'↺ Replay':'Next ->';
+ clearTimeout(autoTimer);if(current<TOTAL-1)autoTimer=setTimeout(()=>changeStep(1),3500);
+}
+document.getElementById('nextBtn').addEventListener('click',()=>{if(current===TOTAL-1)goToStep(0)});
+autoTimer=setTimeout(()=>changeStep(1),3500);
+</script>
+</body>
+</html>

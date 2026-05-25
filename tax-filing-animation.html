@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tax Filing Process, The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --navy:#0d1829;
+ --navy-light:#1a2840;
+ --gold:#c9a84c;
+ --gold-light:#e0c06a;
+ --gold-pale:rgba(201,168,76,0.12);
+ --white:#ffffff;
+ --off-white:#f8f6f1;
+ --gray:#7a8099;
+}
+
+body{
+ background:var(--navy);
+ font-family:'DM Sans',sans-serif;
+ min-height:100vh;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ padding:2rem;
+ overflow-x:hidden;
+}
+
+/* ── HEADER ── */
+.header{text-align:center;margin-bottom:1rem}
+.brand{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.title{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2vw,1.5rem);font-weight:400;color:var(--white);line-height:1.15;margin-bottom:.6rem}
+.title em{color:var(--gold);font-style:italic}
+.sub{font-size:.75rem;color:rgba(255,255,255,.45);font-weight:300;letter-spacing:.01em}
+
+/* ── SCENE CONTAINER ── */
+.scene{
+ width:100%;
+ max-width:900px;
+ position:relative;
+}
+
+/* ── STEP TRACK ── */
+.track{
+ display:flex;
+ align-items:flex-start;
+ justify-content:center;
+ gap:0;
+ margin-bottom:.75rem;
+ position:relative;
+}
+.track::before{
+ content:'';
+ position:absolute;
+ top:22px;left:10%;right:10%;
+ height:1px;
+ background:rgba(255,255,255,.08);
+}
+.progress-line{
+ position:absolute;
+ top:22px;left:10%;
+ height:1px;
+ background:linear-gradient(90deg,var(--gold),var(--gold-light));
+ width:0%;
+ transition:width 0.6s ease;
+ box-shadow:0 0 8px rgba(201,168,76,0.5);
+}
+
+.step{
+ flex:1;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ gap:.6rem;
+ position:relative;
+ z-index:1;
+ opacity:.3;
+ transition:opacity .5s ease;
+}
+.step.active{opacity:1}
+.step.done{opacity:.7}
+
+.step-dot{
+ width:36px;height:36px;
+ border-radius:50%;
+ background:rgba(255,255,255,.05);
+ border:1.5px solid rgba(255,255,255,.12);
+ display:flex;align-items:center;justify-content:center;
+ font-size:.8rem;
+ transition:all .5s ease;
+ position:relative;
+}
+.step.active .step-dot{
+ background:var(--gold-pale);
+ border-color:var(--gold);
+ box-shadow:0 0 0 6px rgba(201,168,76,0.12),0 0 20px rgba(201,168,76,0.3);
+}
+.step.done .step-dot{
+ background:rgba(45,212,160,0.15);
+ border-color:#2dd4a0;
+}
+.step-dot .check{
+ display:none;
+ color:#2dd4a0;
+ font-size:1.1rem;
+}
+.step.done .step-dot .icon{display:none}
+.step.done .step-dot .check{display:block}
+
+.step-label{
+ font-size:.68rem;
+ font-weight:500;
+ letter-spacing:.05em;
+ text-transform:uppercase;
+ color:rgba(255,255,255,.4);
+ text-align:center;
+ line-height:1.4;
+ max-width:70px;
+ transition:color .5s;
+}
+.step.active .step-label{color:var(--gold)}
+.step.done .step-label{color:rgba(255,255,255,.5)}
+
+/* ── ANIMATION CARD ── */
+.card{
+ background:rgba(255,255,255,.03);
+ border:0.5px solid rgba(255,255,255,.08);
+ border-radius:24px;
+ padding:1.25rem;
+ min-height:220px;
+ position:relative;
+ overflow:hidden;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+.card::before{
+ content:'';
+ position:absolute;top:0;left:20%;right:20%;height:.5px;
+ background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent);
+}
+
+/* Scene panels */
+.panel{
+ position:absolute;inset:0;
+ display:flex;align-items:center;justify-content:center;padding:1.25rem;
+ opacity:0;
+ transition:opacity .7s ease;
+ pointer-events:none;
+}
+.panel.active{opacity:1;pointer-events:all}
+
+/* ────────────────────────────────── */
+/* PANEL 1, Upload Docs */
+/* ────────────────────────────────── */
+.p1-wrap{display:flex;flex-direction:column;align-items:center;gap:1.5rem;width:100%}
+.upload-box{
+ width:280px;height:160px;
+ border:1.5px dashed rgba(201,168,76,0.4);
+ border-radius:14px;
+ background:rgba(201,168,76,0.05);
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;
+ position:relative;overflow:hidden;
+}
+.upload-icon{font-size:2rem;animation:float 2s ease-in-out infinite}
+.upload-text{font-size:.8rem;color:rgba(255,255,255,.5);font-weight:300}
+.upload-text strong{color:var(--gold);font-weight:500}
+
+.docs-list{display:flex;flex-direction:column;gap:.5rem;width:280px}
+.doc-item{
+ display:flex;align-items:center;gap:.75rem;
+ padding:.6rem 1rem;
+ background:rgba(255,255,255,.04);
+ border:0.5px solid rgba(255,255,255,.08);
+ border-radius:8px;
+ font-size:.8rem;color:rgba(255,255,255,.6);
+ transform:translateY(20px);opacity:0;
+ animation:slideUp .4s ease forwards;
+}
+.doc-item:nth-child(1){animation-delay:.1s}
+.doc-item:nth-child(2){animation-delay:.3s}
+.doc-item:nth-child(3){animation-delay:.5s}
+.doc-icon{font-size:1rem}
+.doc-progress{
+ margin-left:auto;height:3px;width:60px;
+ background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;
+}
+.doc-bar{height:100%;background:var(--gold);border-radius:999px;animation:fillBar 1s ease forwards}
+.doc-item:nth-child(1) .doc-bar{animation-delay:.2s}
+.doc-item:nth-child(2) .doc-bar{animation-delay:.5s}
+.doc-item:nth-child(3) .doc-bar{animation-delay:.8s}
+
+/* ────────────────────────────────── */
+/* PANEL 2, Portal Receives */
+/* ────────────────────────────────── */
+.portal-screen{
+ width:340px;
+ background:rgba(13,20,37,0.9);
+ border:0.5px solid rgba(201,168,76,0.2);
+ border-radius:14px;overflow:hidden;
+}
+.portal-bar{
+ background:#0d1829;padding:.75rem 1rem;
+ display:flex;align-items:center;justify-content:space-between;
+ border-bottom:0.5px solid rgba(255,255,255,.06);
+}
+.portal-logo{font-family:'Playfair Display',serif;font-size:.72rem;color:var(--gold)}
+.portal-badge{
+ background:rgba(45,212,160,0.15);border:0.5px solid rgba(45,212,160,0.3);
+ border-radius:999px;padding:2px 10px;font-size:.62rem;color:#2dd4a0;font-weight:500;
+ display:flex;align-items:center;gap:4px;
+}
+.live-dot{width:5px;height:5px;border-radius:50%;background:#2dd4a0;animation:pulse 1s ease-in-out infinite}
+.portal-body{padding:1rem}
+.portal-welcome{font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:2px}
+.portal-name{font-family:'Playfair Display',serif;font-size:.8rem;color:var(--white);margin-bottom:.75rem}
+.status-rows{display:flex;flex-direction:column;gap:.4rem}
+.srow{
+ display:flex;align-items:center;gap:.6rem;
+ padding:.5rem .75rem;border-radius:7px;
+ font-size:.72rem;
+}
+.srow.done-row{background:rgba(45,212,160,0.06);border:0.5px solid rgba(45,212,160,0.15)}
+.srow.active-row{background:rgba(201,168,76,0.08);border:0.5px solid rgba(201,168,76,0.2)}
+.srow.pending-row{background:rgba(255,255,255,.02);border:0.5px solid rgba(255,255,255,.06)}
+.sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sdot.green{background:#2dd4a0}
+.sdot.gold{background:var(--gold);animation:pulse 1s ease-in-out infinite}
+.sdot.gray{background:#4a5068}
+.stext{flex:1;color:rgba(255,255,255,.7)}
+.stag{font-size:.62rem;font-weight:600}
+.stag.g{color:#2dd4a0}
+.stag.a{color:var(--gold)}
+.stag.p{color:#4a5068}
+
+/* ────────────────────────────────── */
+/* PANEL 3, Under Review */
+/* ────────────────────────────────── */
+.review-wrap{display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+.review-card{
+ width:320px;
+ background:rgba(13,20,37,0.9);
+ border:0.5px solid rgba(201,168,76,0.25);
+ border-radius:14px;padding:1.5rem;
+}
+.review-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.review-avatar{
+ width:36px;height:36px;border-radius:50%;
+ background:rgba(201,168,76,0.1);border:0.5px solid rgba(201,168,76,0.3);
+ display:flex;align-items:center;justify-content:center;
+ font-size:.7rem;font-weight:600;color:var(--gold);flex-shrink:0;
+}
+.review-info{flex:1}
+.review-name{font-size:.8rem;color:var(--white);font-weight:500}
+.review-role{font-size:.68rem;color:rgba(255,255,255,.4)}
+.review-status-badge{
+ background:rgba(201,168,76,0.1);border:0.5px solid rgba(201,168,76,0.3);
+ border-radius:999px;padding:2px 10px;font-size:.62rem;color:var(--gold);font-weight:600;
+}
+.review-checks{display:flex;flex-direction:column;gap:.5rem}
+.rcheck{
+ display:flex;align-items:center;gap:.6rem;
+ font-size:.75rem;color:rgba(255,255,255,.6);
+}
+.rcheck .ri{font-size:.85rem}
+.typing-indicator{
+ display:flex;gap:4px;align-items:center;
+ padding:.75rem 1rem;
+ background:rgba(255,255,255,.04);border-radius:8px;
+ width:fit-content;
+}
+.typing-dot{
+ width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);
+ animation:typingBounce .8s ease-in-out infinite;
+}
+.typing-dot:nth-child(2){animation-delay:.15s}
+.typing-dot:nth-child(3){animation-delay:.3s}
+.typing-label{font-size:.7rem;color:rgba(255,255,255,.35);margin-left:.25rem}
+
+/* ────────────────────────────────── */
+/* PANEL 4, Filed with IRS */
+/* ────────────────────────────────── */
+.filed-wrap{display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center}
+.filed-seal{
+ width:90px;height:90px;border-radius:50%;
+ background:rgba(45,212,160,0.1);
+ border:2px solid rgba(45,212,160,0.3);
+ display:flex;align-items:center;justify-content:center;
+ font-size:2.5rem;
+ position:relative;
+ animation:sealPop .6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.filed-seal::before{
+ content:'';position:absolute;inset:-8px;
+ border-radius:50%;border:1px solid rgba(45,212,160,0.12);
+ animation:ripple 2s ease-out infinite;
+}
+.filed-seal::after{
+ content:'';position:absolute;inset:-16px;
+ border-radius:50%;border:1px solid rgba(45,212,160,0.06);
+ animation:ripple 2s ease-out infinite .5s;
+}
+.filed-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white)}
+.filed-ref{
+ font-size:.72rem;color:rgba(255,255,255,.35);
+ font-family:monospace;letter-spacing:.1em;
+}
+.filed-details{
+ display:flex;gap:1.5rem;
+ padding:.75rem 1.5rem;
+ background:rgba(45,212,160,0.05);
+ border:0.5px solid rgba(45,212,160,0.15);
+ border-radius:10px;
+}
+.fd-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.fd-val{font-size:.82rem;color:#2dd4a0;font-weight:600}
+.fd-lbl{font-size:.62rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em}
+
+/* ────────────────────────────────── */
+/* PANEL 5, Refund Sent */
+/* ────────────────────────────────── */
+.refund-wrap{display:flex;flex-direction:column;align-items:center;gap:1.25rem}
+.refund-card{
+ width:300px;
+ background:rgba(13,20,37,0.9);
+ border:0.5px solid rgba(201,168,76,0.25);
+ border-radius:16px;padding:1.5rem;
+ text-align:center;
+}
+.refund-label{font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.refund-amount{
+ font-family:'Playfair Display',serif;
+ font-size:2.8rem;color:var(--gold);
+ font-weight:400;margin-bottom:.25rem;
+ animation:countUp 1.5s ease forwards;
+}
+.refund-sub{font-size:.75rem;color:rgba(255,255,255,.35)}
+.refund-bar-wrap{
+ width:100%;height:4px;background:rgba(255,255,255,.06);
+ border-radius:999px;overflow:hidden;margin:1rem 0;
+}
+.refund-bar{
+ height:100%;
+ background:linear-gradient(90deg,var(--gold),var(--gold-light));
+ border-radius:999px;
+ width:0%;
+ animation:fillRefund 2s ease forwards .3s;
+ box-shadow:0 0 10px rgba(201,168,76,0.4);
+}
+.refund-steps{display:flex;justify-content:space-between;font-size:.62rem;color:rgba(255,255,255,.25)}
+.refund-steps span.done-step{color:#2dd4a0}
+.notify-pill{
+ display:flex;align-items:center;gap:.6rem;
+ background:rgba(45,212,160,0.08);
+ border:0.5px solid rgba(45,212,160,0.2);
+ border-radius:999px;padding:.5rem 1.1rem;
+ font-size:.75rem;color:#2dd4a0;
+ animation:fadeSlideUp .5s ease .8s both;
+}
+
+/* ────────────────────────────────── */
+/* PANEL 6, Money in Account */
+/* ────────────────────────────────── */
+.money-wrap{display:flex;flex-direction:column;align-items:center;gap:1.25rem}
+.bank-card{
+ width:300px;
+ background:linear-gradient(135deg,var(--navy-light),#0a0f1c);
+ border:0.5px solid rgba(201,168,76,0.3);
+ border-radius:18px;padding:1.5rem;
+ position:relative;overflow:hidden;
+}
+.bank-card::before{
+ content:'';position:absolute;top:-40px;right:-40px;
+ width:120px;height:120px;
+ background:rgba(201,168,76,0.06);border-radius:50%;
+}
+.bank-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem}
+.bank-brand{font-size:.65rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em}
+.bank-chip{width:28px;height:20px;background:linear-gradient(135deg,#c9a84c,#9a7535);border-radius:4px}
+.bank-balance-label{font-size:.65rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem}
+.bank-balance{
+ font-family:'Playfair Display',serif;
+ font-size:2.2rem;color:var(--white);margin-bottom:1rem;
+}
+.bank-balance .new-amount{
+ color:var(--gold);
+ animation:glowIn .8s ease forwards;
+}
+.bank-footer{display:flex;justify-content:space-between;align-items:center}
+.bank-acct{font-size:.65rem;color:rgba(255,255,255,.25);letter-spacing:.12em}
+.bank-tag{
+ background:rgba(45,212,160,0.15);border:0.5px solid rgba(45,212,160,0.3);
+ border-radius:999px;padding:2px 10px;font-size:.62rem;color:#2dd4a0;font-weight:500;
+}
+.deposit-pill{
+ display:flex;align-items:center;gap:.6rem;
+ background:rgba(45,212,160,0.08);
+ border:0.5px solid rgba(45,212,160,0.2);
+ border-radius:10px;padding:.6rem 1.1rem;
+ font-size:.75rem;
+ animation:fadeSlideUp .5s ease .5s both;
+}
+.deposit-icon{font-size:1.1rem}
+.deposit-text{display:flex;flex-direction:column;gap:1px}
+.deposit-title{color:rgba(255,255,255,.8);font-weight:500}
+.deposit-detail{font-size:.65rem;color:rgba(255,255,255,.35)}
+
+/* ── CONTROLS ── */
+.controls{
+ display:flex;align-items:center;justify-content:center;
+ gap:1rem;margin-top:2rem;
+}
+.ctrl-btn{
+ background:rgba(255,255,255,.05);
+ border:0.5px solid rgba(255,255,255,.12);
+ border-radius:8px;
+ color:rgba(255,255,255,.6);
+ font-family:'DM Sans',sans-serif;
+ font-size:.8rem;font-weight:500;
+ padding:.6rem 1.25rem;
+ cursor:pointer;
+ transition:all .2s;
+ display:flex;align-items:center;gap:.4rem;
+}
+.ctrl-btn:hover{background:rgba(255,255,255,.08);color:var(--white);border-color:rgba(255,255,255,.2)}
+.ctrl-btn.primary{
+ background:var(--gold);color:#0a0800;border-color:var(--gold);font-weight:600;
+}
+.ctrl-btn.primary:hover{background:var(--gold-light)}
+
+.step-counter{font-size:.75rem;color:rgba(255,255,255,.3);font-family:monospace;letter-spacing:.05em}
+
+/* ── KEYFRAMES ── */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes slideUp{to{transform:translateY(0);opacity:1}}
+@keyframes fillBar{from{width:0}to{width:100%}}
+@keyframes fillRefund{from{width:0}to{width:78%}}
+@keyframes sealPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes ripple{0%{transform:scale(1);opacity:.4}100%{transform:scale(1.3);opacity:0}}
+@keyframes typingBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes fadeSlideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes glowIn{from{text-shadow:none}to{text-shadow:0 0 20px rgba(201,168,76,0.5),0 0 40px rgba(201,168,76,0.2)}}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── FOOTER ── */
+.footer{
+ margin-top:2.5rem;
+ text-align:center;
+ font-size:.7rem;color:rgba(255,255,255,.2);
+ letter-spacing:.04em;
+}
+</style>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow:hidden;width:100%;height:100%}
+</style>
+<script>
+!function(){
+  var NW=900,NH=700;
+  function s(){
+    var sw=window.innerWidth,sh=window.innerHeight;
+    var r=sw/NW;
+    var el=document.body;
+    el.style.transform='scale('+r+')';
+    el.style.transformOrigin='top left';
+    el.style.width=NW+'px';
+    el.style.height='auto';
+    el.style.position='absolute';
+    el.style.top='0';
+    el.style.left='0';
+  }
+  document.addEventListener('DOMContentLoaded',s);
+  window.addEventListener('resize',s);
+}();
+</script>
+</head>
+<body>
+
+<div class="header">
+ <div class="brand">The Industry Accountants</div>
+ <h1 class="title">From Upload to <em>Refund</em> in Your Account</h1>
+ <p class="sub">See exactly what happens after you submit your documents</p>
+</div>
+
+<div class="scene">
+
+ <!-- STEP TRACK -->
+ <div class="track">
+ <div class="progress-line" id="progressLine"></div>
+ <div class="step active" id="step-0">
+ <div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div>
+ <div class="step-label">Upload Docs</div>
+ </div>
+ <div class="step" id="step-1">
+ <div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div>
+ <div class="step-label">Portal Receives</div>
+ </div>
+ <div class="step" id="step-2">
+ <div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div>
+ <div class="step-label">Under Review</div>
+ </div>
+ <div class="step" id="step-3">
+ <div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div>
+ <div class="step-label">Filed with IRS</div>
+ </div>
+ <div class="step" id="step-4">
+ <div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div>
+ <div class="step-label">Refund Sent</div>
+ </div>
+ <div class="step" id="step-5">
+ <div class="step-dot"><span class="icon"></span><span class="check">&#10003;</span></div>
+ <div class="step-label">In Your Account</div>
+ </div>
+ </div>
+
+ <!-- ANIMATION CARD -->
+ <div class="card">
+
+ <!-- Panel 0: Upload -->
+ <div class="panel active" id="panel-0">
+ <div class="p1-wrap">
+ <div class="upload-box">
+ <div class="upload-icon"></div>
+ <div class="upload-text">Drop files or <strong>browse to upload</strong></div>
+ <div style="font-size:.65rem;color:rgba(255,255,255,.25)">W-2, 1099, T4, receipts accepted</div>
+ </div>
+ <div class="docs-list">
+ <div class="doc-item">
+ <span class="doc-icon"></span>
+ <span style="flex:1">W-2 Form 2024.pdf</span>
+ <div class="doc-progress"><div class="doc-bar"></div></div>
+ </div>
+ <div class="doc-item">
+ <span class="doc-icon"></span>
+ <span style="flex:1">1099-INT Bank.pdf</span>
+ <div class="doc-progress"><div class="doc-bar"></div></div>
+ </div>
+ <div class="doc-item">
+ <span class="doc-icon"></span>
+ <span style="flex:1">Receipts Q4.pdf</span>
+ <div class="doc-progress"><div class="doc-bar"></div></div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Panel 1: Portal Receives -->
+ <div class="panel" id="panel-1">
+ <div class="portal-screen">
+ <div class="portal-bar">
+ <span class="portal-logo">The Industry Accountants</span>
+ <span class="portal-badge"><span class="live-dot"></span>Secure Portal</span>
+ </div>
+ <div class="portal-body">
+ <div class="portal-welcome">Welcome back,</div>
+ <div class="portal-name">Jordan Williams</div>
+ <div class="status-rows">
+ <div class="srow done-row"><div class="sdot green"></div><span class="stext">Documents received</span><span class="stag g">Done</span></div>
+ <div class="srow active-row"><div class="sdot gold"></div><span class="stext">Intake form submitted</span><span class="stag a">Active</span></div>
+ <div class="srow pending-row"><div class="sdot gray"></div><span class="stext">Under review</span><span class="stag p">Soon</span></div>
+ <div class="srow pending-row"><div class="sdot gray"></div><span class="stext">Filing complete</span><span class="stag p">Pending</span></div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Panel 2: Under Review -->
+ <div class="panel" id="panel-2">
+ <div class="review-wrap">
+ <div class="review-card">
+ <div class="review-header">
+ <div class="review-avatar">ITA</div>
+ <div class="review-info">
+ <div class="review-name">Senior Tax Accountant</div>
+ <div class="review-role">The Industry Accountants</div>
+ </div>
+ <div class="review-status-badge">Reviewing</div>
+ </div>
+ <div class="review-checks">
+ <div class="rcheck"><span class="ri"></span> Identity verified</div>
+ <div class="rcheck"><span class="ri"></span> W-2 income confirmed</div>
+ <div class="rcheck"><span class="ri"></span> Deductions reviewed</div>
+ <div class="rcheck"><span class="ri"></span> Final calculations in progress...</div>
+ </div>
+ </div>
+ <div class="typing-indicator">
+ <div class="typing-dot"></div>
+ <div class="typing-dot"></div>
+ <div class="typing-dot"></div>
+ <span class="typing-label">Your accountant is reviewing your return</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Panel 3: Filed with IRS -->
+ <div class="panel" id="panel-3">
+ <div class="filed-wrap">
+ <div class="filed-seal"></div>
+ <div class="filed-title">Return Filed Successfully</div>
+ <div class="filed-ref">Confirmation #: IRS-2024-TIA-8847</div>
+ <div class="filed-details">
+ <div class="fd-item">
+ <div class="fd-val">48hrs</div>
+ <div class="fd-lbl">Turnaround</div>
+ </div>
+ <div class="fd-item">
+ <div class="fd-val">e-Filed</div>
+ <div class="fd-lbl">Method</div>
+ </div>
+ <div class="fd-item">
+ <div class="fd-val">Accepted</div>
+ <div class="fd-lbl">IRS Status</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Panel 4: Refund Sent -->
+ <div class="panel" id="panel-4">
+ <div class="refund-wrap">
+ <div class="refund-card">
+ <div class="refund-label">Federal Refund</div>
+ <div class="refund-amount">$5,064</div>
+ <div class="refund-sub">Direct deposit initiated by IRS</div>
+ <div class="refund-bar-wrap"><div class="refund-bar"></div></div>
+ <div class="refund-steps">
+ <span class="done-step">Return Filed</span>
+ <span class="done-step">Received</span>
+ <span class="done-step">Approved</span>
+ <span>Sent -></span>
+ </div>
+ </div>
+ <div class="notify-pill">
+ <span></span>
+ Your refund of $5,064 is on its way
+ </div>
+ </div>
+ </div>
+
+ <!-- Panel 5: Money in Account -->
+ <div class="panel" id="panel-5">
+ <div class="money-wrap">
+ <div class="bank-card">
+ <div class="bank-top">
+ <div class="bank-brand">Chequing Account</div>
+ <div class="bank-chip"></div>
+ </div>
+ <div class="bank-balance-label">Available Balance</div>
+ <div class="bank-balance"><span class="new-amount">$7,342.18</span></div>
+ <div class="bank-footer">
+ <div class="bank-acct">---- ---- 4821</div>
+ <div class="bank-tag">+$5,064 deposited</div>
+ </div>
+ </div>
+ <div class="deposit-pill">
+ <span class="deposit-icon"></span>
+ <div class="deposit-text">
+ <span class="deposit-title">IRS Tax Refund, Direct Deposit</span>
+ <span class="deposit-detail">+$5,064.00 · Just now · via The Industry Accountants</span>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ </div><!-- /card -->
+
+ <!-- CONTROLS -->
+ <div class="controls">
+ <button class="ctrl-btn" id="prevBtn" onclick="changeStep(-1)">← Back</button>
+ <span class="step-counter" id="stepCounter">Step 1 of 6</span>
+ <button class="ctrl-btn primary" id="nextBtn" onclick="changeStep(1)">Next -></button>
+ </div>
+
+</div><!-- /scene -->
+
+<div class="footer">The Industry Accountants · Secure · Professional · 48hr Turnaround</div>
+
+<script>
+let current = 0;
+const TOTAL = 6;
+const PROGRESS_STOPS = [0, 20, 40, 60, 80, 100];
+let autoTimer = null;
+
+function changeStep(dir) {
+ const next = current + dir;
+ if (next < 0 || next >= TOTAL) return;
+ goToStep(next);
+}
+
+function goToStep(idx) {
+ // Hide current panel
+ document.getElementById('panel-' + current).classList.remove('active');
+ document.getElementById('step-' + current).classList.remove('active');
+
+ // Mark previous steps as done
+ for (let i = 0; i < TOTAL; i++) {
+ const s = document.getElementById('step-' + i);
+ s.classList.remove('active', 'done');
+ if (i < idx) s.classList.add('done');
+ }
+
+ current = idx;
+
+ // Activate new step and panel
+ document.getElementById('step-' + current).classList.add('active');
+
+ // Re-render panel (clone to reset animations)
+ const panel = document.getElementById('panel-' + current);
+ const clone = panel.cloneNode(true);
+ clone.id = 'panel-' + current;
+ clone.classList.add('active');
+ panel.parentNode.replaceChild(clone, panel);
+
+ // Progress line
+ document.getElementById('progressLine').style.width = PROGRESS_STOPS[current] + '%';
+
+ // Update counter
+ document.getElementById('stepCounter').textContent = 'Step ' + (current + 1) + ' of ' + TOTAL;
+
+ // Button states
+ document.getElementById('prevBtn').style.opacity = current === 0 ? '0.3' : '1';
+ document.getElementById('nextBtn').textContent = current === TOTAL - 1 ? '↺ Replay' : 'Next ->';
+
+ // Auto-advance
+ clearTimeout(autoTimer);
+ if (current < TOTAL - 1) {
+ autoTimer = setTimeout(() => changeStep(1), 3500);
+ }
+}
+
+// Handle replay
+document.getElementById('nextBtn').addEventListener('click', () => {
+ if (current === TOTAL - 1) {
+ goToStep(0);
+ }
+});
+
+// Kick off auto-play
+autoTimer = setTimeout(() => changeStep(1), 3500);
+</script>
+</body>
+</html>

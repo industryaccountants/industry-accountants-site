@@ -25,7 +25,7 @@
 
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link rel="stylesheet" href="css/portal.css"/>
+  <link rel="stylesheet" href="portal.css"/>
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json"/>
   <meta name="theme-color" content="#0f1f3d"/>
@@ -146,6 +146,7 @@
           <option value="payroll">Payroll Setup</option>
           <option value="audit">Audit Assessment (Insurance Premium)</option>
           <option value="consulting">Business Consulting</option>
+          <option value="crossborder">Cross-Border Services (Canadian)</option>
           <option value="partner">White Label Partner</option>
         </select>
       </div>
@@ -316,7 +317,7 @@
           <div class="form-card" onclick="openIntakeForm('payroll')">
             <div class="form-icon">03</div>
             <h3>Payroll Management</h3>
-            <p>Reliable payroll processing and compliance support for your team. W2, 1099, and QuickBooks integration included.</p>
+            <p>Reliable payroll processing and compliance support for your team. W2, 1099, and full reporting included.</p>
             <span class="form-link">Open Form →</span>
           </div>
           <div class="form-card" onclick="openIntakeForm('intelligence')">
@@ -336,6 +337,12 @@
             <h3>White Label Partner</h3>
             <p>Offer professional tax and bookkeeping services under your own brand. We do the work. You keep the relationship.</p>
             <span class="form-link">Apply Now →</span>
+          </div>
+          <div class="form-card" onclick="openIntakeForm('crossborder')" style="border-color:rgba(184,146,42,0.2)">
+            <div class="form-icon">07</div>
+            <h3>Cross-Border Services</h3>
+            <p>Canadian with US income, an Airbnb property, or expanding into the US? We handle your 1040-NR, ITIN, LLC formation, and ongoing compliance.</p>
+            <span class="form-link">Open Form →</span>
           </div>
         </div>
       </div>
@@ -903,9 +910,9 @@ const INTAKE_FORMS = {
       { row: ['half', [{id:'pr-phone',label:'Phone Number',type:'tel',placeholder:'(555) 000-0000'},{id:'pr-ein',label:'EIN (Employer ID Number)',type:'text',placeholder:'XX-XXXXXXX'}]]},
       { row: ['half', [{id:'pr-state',label:'State of Operation',type:'text',placeholder:'e.g. Georgia',req:true},{id:'pr-entity',label:'Entity Type',type:'select',options:['LLC','S-Corp','C-Corp','Sole Proprietorship','Partnership']}]]},
       { row: ['half', [{id:'pr-employees',label:'Number of W-2 Employees',type:'select',options:['0','1 – 5','6 – 25','26 – 100','100+']},{id:'pr-contractors',label:'Number of 1099 Contractors',type:'select',options:['0','1 – 5','6 – 25','26+']}]]},
-      { row: ['half', [{id:'pr-frequency',label:'Desired Pay Frequency',type:'select',options:['Weekly','Bi-Weekly','Semi-Monthly','Monthly'],req:true},{id:'pr-software',label:'Current Payroll Software',type:'select',options:['None','ADP','Gusto','QuickBooks Payroll','Paychex','Other']}]]},
+      { row: ['half', [{id:'pr-frequency',label:'Desired Pay Frequency',type:'select',options:['Weekly','Bi-Weekly','Semi-Monthly','Monthly'],req:true},{id:'pr-software',label:'Current Payroll Software',type:'select',options:['None','ADP','Gusto','Paychex','Wave','Other']}]]},
       { section: 'Services needed',
-        checks: [{id:'prc-setup',val:'New payroll setup'},{id:'prc-process',val:'Ongoing payroll processing'},{id:'prc-tax',val:'Payroll tax filings (941, 940)'},{id:'prc-w2',val:'Year-end W-2 preparation'},{id:'prc-1099',val:'1099 preparation'},{id:'prc-qb',val:'QuickBooks integration'}]
+        checks: [{id:'prc-setup',val:'New payroll setup'},{id:'prc-process',val:'Ongoing payroll processing'},{id:'prc-tax',val:'Payroll tax filings (941, 940)'},{id:'prc-w2',val:'Year-end W-2 preparation'},{id:'prc-1099',val:'1099 preparation'},{id:'prc-reports',val:'Payroll reporting & summaries'}]
       },
       { row: ['full', [{id:'pr-notes',label:'Additional details',type:'textarea',placeholder:'Current payroll issues, specific employee situations, or questions...'}]]}
     ]
@@ -955,6 +962,33 @@ const INTAKE_FORMS = {
       },
       { row: ['full', [{id:'wp-why',label:'Why do you want to partner with us?',type:'textarea',placeholder:'Tell us about your goals and what you are looking to build with this partnership...'}]]}
     ]
+  },
+
+  crossborder: {
+    title: 'Cross-Border Services Intake',
+    sub: 'Tell us about your US activities so we can handle your filing, formation, and compliance the right way.',
+    fields: [
+      { row: ['full', [{id:'cb-name',label:'Full Name',type:'text',placeholder:'Your full name',req:true},{id:'cb-email',label:'Email Address',type:'email',placeholder:'you@email.com',req:true}]]},
+      { row: ['half', [{id:'cb-phone',label:'Phone Number',type:'tel',placeholder:'(+1 or Canada)'},{id:'cb-province',label:'Canadian Province',type:'select',options:['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland & Labrador','Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan','Northwest Territories','Nunavut','Yukon'],req:true}]]},
+      { row: ['half', [{id:'cb-residency',label:'Residency Status',type:'select',options:['Canadian Citizen / PR (residing in Canada)','Canadian with US Green Card','Dual Citizen','Other'],req:true},{id:'cb-itin',label:'Do You Have a US ITIN or SSN?',type:'select',options:['Yes, I have an ITIN','Yes, I have an SSN','No, I need to apply','Not sure']}]]},
+      { section: 'What brings you to us? Select all that apply',
+        checks: [
+          {id:'cbc-airbnb',val:'Airbnb or short-term rental income in the US'},
+          {id:'cbc-rental',val:'Long-term rental property in the US'},
+          {id:'cbc-llc',val:'Want to form a US LLC or Corporation'},
+          {id:'cbc-ein',val:'Need an EIN (Employer ID Number)'},
+          {id:'cbc-1040nr',val:'Need to file a 1040-NR (non-resident return)'},
+          {id:'cbc-itin-app',val:'Need to apply for an ITIN'},
+          {id:'cbc-treaty',val:'Questions about the Canada-US tax treaty'},
+          {id:'cbc-biz',val:'Running or expanding a business into the US'},
+          {id:'cbc-payroll',val:'US payroll or employees'},
+          {id:'cbc-compliance',val:'Ongoing US state or federal compliance'}
+        ]
+      },
+      { row: ['half', [{id:'cb-state',label:'Which US State(s) Are You Active In?',type:'text',placeholder:'e.g. Florida, New York, Texas'},{id:'cb-entity',label:'Do You Have a US Entity?',type:'select',options:['No, not yet','Yes — LLC','Yes — Corporation','Yes — other']}]]},
+      { row: ['half', [{id:'cb-income',label:'Estimated Annual US Income (USD)',type:'select',options:['Under $10,000','$10,000 – $50,000','$50,000 – $150,000','$150,000+','Not sure yet']},{id:'cb-years',label:'How Many Years of US Activity?',type:'select',options:['This is my first year','1 – 2 years','3 – 5 years','5+ years']}]]},
+      { row: ['full', [{id:'cb-notes',label:'Tell us more about your situation',type:'textarea',placeholder:'Describe your US activities, any notices you have received, or questions you have about your filing obligations...'}]]}
+    ]
   }
 };
 
@@ -962,7 +996,8 @@ const INTAKE_FORMS = {
 const FORM_LABELS = {
   tax: 'Tax Filing', bookkeeping: 'Real-Time Bookkeeping',
   payroll: 'Payroll Management', intelligence: 'Business Intelligence',
-  audit: 'Audit Assessment', partner: 'White Label Partner'
+  audit: 'Audit Assessment', partner: 'White Label Partner',
+  crossborder: 'Cross-Border Services'
 };
 
 // ── Render a form ──
@@ -1079,6 +1114,145 @@ function closeIntakeForm() {
   document.getElementById('intake-form-container').innerHTML = '';
   document.getElementById('intake-success').style.display = 'none';
 }
+
+// ── AUTH TAB SWITCHING ──
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('tab-' + tab);
+  if (panel) panel.style.display = 'block';
+  const btn = document.querySelector(`[onclick="switchTab('${tab}')"]`);
+  if (btn) btn.classList.add('active');
+  document.getElementById('auth-msg').textContent = '';
+  document.getElementById('auth-msg').className = 'auth-msg';
+}
+
+// ── SIGN IN ──
+async function signIn() {
+  const email = document.getElementById('signin-email')?.value?.trim();
+  const password = document.getElementById('signin-password')?.value;
+  const msg = document.getElementById('auth-msg');
+
+  if (!email || !password) { showAuthMsg('Please enter your email and password.', 'error'); return; }
+
+  const check = TIA_SECURITY.checkLoginAttempts(email);
+  if (check.blocked) { showAuthMsg(check.message, 'error'); return; }
+
+  const btn = document.querySelector('#tab-signin .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+
+  try {
+    const sb = await getSupabase();
+    if (!sb) {
+      // Demo mode — no Supabase configured
+      showAuthMsg('Portal is not yet connected to a database. Please contact your accountant.', 'error');
+      return;
+    }
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      TIA_SECURITY.recordLoginAttempt(email);
+      showAuthMsg(error.message, 'error');
+    } else {
+      showAuthMsg('Welcome back! Loading your portal...', 'success');
+      setTimeout(() => {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('portal-screen').style.display = 'block';
+        TIA_SECURITY.initSession();
+        loadPortalData(data.user);
+      }, 800);
+    }
+  } catch(e) {
+    showAuthMsg('Connection error. Please try again.', 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Sign In'; }
+  }
+}
+
+// ── SIGN UP ──
+async function signUp() {
+  const name = document.getElementById('signup-name')?.value?.trim();
+  const email = document.getElementById('signup-email')?.value?.trim();
+  const password = document.getElementById('signup-password')?.value;
+  const service = document.getElementById('signup-service')?.value;
+
+  if (!name || !email || !password) { showAuthMsg('Please fill in all fields.', 'error'); return; }
+  if (password.length < 8) { showAuthMsg('Password must be at least 8 characters.', 'error'); return; }
+  if (!service) { showAuthMsg('Please select the service you need.', 'error'); return; }
+
+  const btn = document.querySelector('#tab-signup .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Creating account...'; }
+
+  try {
+    const sb = await getSupabase();
+    if (!sb) {
+      // Redirect to secure intake form as fallback
+      window.location.href = `secure-intake.html?service=${service}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+      return;
+    }
+    const { data, error } = await sb.auth.signUp({
+      email, password,
+      options: { data: { full_name: name, service_type: service } }
+    });
+    if (error) {
+      showAuthMsg(error.message, 'error');
+    } else {
+      showAuthMsg('Account created! Check your email to confirm, then sign in.', 'success');
+      // Redirect to intake form
+      setTimeout(() => {
+        window.location.href = `secure-intake.html?service=${service}`;
+      }, 2000);
+    }
+  } catch(e) {
+    // Fallback — redirect to intake form
+    window.location.href = `secure-intake.html?service=${service}`;
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+  }
+}
+
+// ── RESET PASSWORD ──
+async function resetPassword() {
+  const email = document.getElementById('reset-email')?.value?.trim();
+  if (!email) { showAuthMsg('Please enter your email.', 'error'); return; }
+  const sb = await getSupabase();
+  if (sb) {
+    await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal.html' });
+  }
+  showAuthMsg('Reset link sent! Check your email.', 'success');
+}
+
+// ── GET SUPABASE CLIENT ──
+async function getSupabase() {
+  if (window._supabase) return window._supabase;
+  // Try to init with config
+  const url = window.SUPABASE_URL || '';
+  const key = window.SUPABASE_ANON_KEY || '';
+  if (url && url !== 'YOUR_SUPABASE_URL' && key && key !== 'YOUR_SUPABASE_ANON_KEY') {
+    window._supabase = supabase.createClient(url, key);
+    return window._supabase;
+  }
+  return null;
+}
+
+function showAuthMsg(msg, type) {
+  const el = document.getElementById('auth-msg');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'auth-msg ' + (type === 'error' ? 'error' : 'success');
+  el.style.display = 'block';
+}
+
+// Load portal data after login
+async function loadPortalData(user) {
+  const nameEl = document.getElementById('portal-name');
+  if (nameEl) nameEl.textContent = user?.user_metadata?.full_name || user?.email || 'Client';
+}
+
+// Init on load
+window.addEventListener('load', () => {
+  switchTab('signin');
+});
+
 </script>
   <script>
     if ('serviceWorker' in navigator) {
