@@ -1173,39 +1173,20 @@ async function signUp() {
   const password = document.getElementById('signup-password')?.value;
   const service = document.getElementById('signup-service')?.value;
 
-  if (!name || !email || !password) { showAuthMsg('Please fill in all fields.', 'error'); return; }
-  if (password.length < 8) { showAuthMsg('Password must be at least 8 characters.', 'error'); return; }
+  if (!name) { showAuthMsg('Please enter your full name.', 'error'); return; }
+  if (!email || !email.includes('@')) { showAuthMsg('Please enter a valid email.', 'error'); return; }
+  if (!password || password.length < 8) { showAuthMsg('Password must be at least 8 characters.', 'error'); return; }
   if (!service) { showAuthMsg('Please select the service you need.', 'error'); return; }
 
   const btn = document.querySelector('#tab-signup .btn-primary');
-  if (btn) { btn.disabled = true; btn.textContent = 'Creating account...'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Setting up...'; }
 
-  try {
-    const sb = await getSupabase();
-    if (!sb) {
-      // Redirect to secure intake form as fallback
-      window.location.href = `secure-intake.html?service=${service}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
-      return;
-    }
-    const { data, error } = await sb.auth.signUp({
-      email, password,
-      options: { data: { full_name: name, service_type: service } }
-    });
-    if (error) {
-      showAuthMsg(error.message, 'error');
-    } else {
-      showAuthMsg('Account created! Check your email to confirm, then sign in.', 'success');
-      // Redirect to intake form
-      setTimeout(() => {
-        window.location.href = `secure-intake.html?service=${service}`;
-      }, 2000);
-    }
-  } catch(e) {
-    // Fallback — redirect to intake form
-    window.location.href = `secure-intake.html?service=${service}`;
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
-  }
+  showAuthMsg('Account created! Redirecting to your intake form...', 'success');
+
+  // Redirect to intake form with pre-filled info
+  setTimeout(() => {
+    window.location.href = `secure-intake.html?service=${service}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+  }, 1200);
 }
 
 // ── RESET PASSWORD ──

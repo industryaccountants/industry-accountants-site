@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0d1829"/>
   <title>The Industry Accountants: Tax, Payroll &amp; Bookkeeping, Delivered</title>
   <meta name="description" content="Premium tax filing, bookkeeping, payroll and business consulting. 100% digital. 48 hour turnaround. Nationwide."/>
+  <link rel="preload" as="image" href="hero-banner.png"/>
+  <link rel="preload" as="image" href="logo.png"/>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="manifest" href="/manifest.json"/>
   <meta name="theme-color" content="#0f1f3d"/>
@@ -597,7 +603,7 @@ function hDownloadPL(){
 </script>
 <nav>
   <a href="/" class="nav-logo">
-    <img src="logo.png" alt="The Industry Accountants" style="height:52px;object-fit:contain;display:block;mix-blend-mode:multiply"/>
+    <img loading="lazy" src="logo.png" alt="The Industry Accountants" style="height:52px;object-fit:contain;display:block;mix-blend-mode:multiply"/>
   </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
@@ -614,7 +620,7 @@ function hDownloadPL(){
 
 <!-- HERO BANNER -->
 <section style="position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;background:linear-gradient(135deg,#080c19 0%,#0f1f3d 50%,#1a3260 100%)">
-  <img src="hero-banner.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
+  <img src="hero-banner.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0" loading="eager" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
   <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,25,0.92) 0%,rgba(8,12,25,0.75) 40%,rgba(8,12,25,0.35) 65%,rgba(8,12,25,0.05) 100%)"></div>
   <!-- Animated background -->
 
@@ -1687,7 +1693,7 @@ function hDownloadPL(){
 
   <!-- Hero image with overlay -->
   <div style="position:relative;width:100%;height:520px;overflow:hidden">
-    <img src="white-label-img.png" alt="White Label Partner Program" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"/>
+    <img loading="lazy" src="white-label-img.png" alt="White Label Partner Program" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"/>
     <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,14,29,0.92) 0%,rgba(8,14,29,0.75) 45%,rgba(8,14,29,0.3) 75%,rgba(8,14,29,0.1) 100%)"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,14,29,1) 0%,transparent 40%)"></div>
     <!-- Text over image -->

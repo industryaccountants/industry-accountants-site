@@ -370,8 +370,15 @@ const SERVICE_CONFIG = {
 
 // ── APPLY SERVICE CONFIG ON LOAD ──
 window.addEventListener('load', () => {
-  const service = new URLSearchParams(window.location.search).get('service') || 'tax';
+  const params = new URLSearchParams(window.location.search);
+  const service = params.get('service') || 'tax';
+  const prefillName = params.get('name') || '';
+  const prefillEmail = params.get('email') || '';
   const cfg = SERVICE_CONFIG[service] || SERVICE_CONFIG.tax;
+
+  // Pre-fill name and email if passed from portal
+  if (prefillName) document.getElementById('full_name').value = prefillName;
+  if (prefillEmail) document.getElementById('email').value = prefillEmail;
 
   // Update step 1 header
   document.querySelector('#step-1 .step-title').textContent = cfg.title;
