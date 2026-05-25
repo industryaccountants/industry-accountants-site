@@ -157,6 +157,10 @@
       .svc-row{grid-template-columns:1fr!important;gap:2rem!important}
       .svc-row .svc-img,.svc-row [style*="order:2"]{order:0!important}
       .detail-grid{grid-template-columns:1fr}
+      .how-grid{grid-template-columns:1fr!important;gap:2rem!important}
+      .how-grid > div:last-child{display:none}
+      .whats-included-grid{grid-template-columns:1fr!important;gap:2rem!important;padding:1.75rem!important}
+      .cb-cards{grid-template-columns:1fr 1fr!important}
     }
 
     /* ── MOBILE (600px) ── */
@@ -204,6 +208,12 @@
       .biz-launch-stats{flex-direction:column!important;gap:.75rem!important}
       .biz-launch-divider{display:none!important}
 
+      /* What's Included dark navy box */
+      .whats-included-grid{grid-template-columns:1fr!important;gap:2rem!important;padding:1.75rem!important}
+
+      /* Cross border cards */
+      .cb-cards{grid-template-columns:1fr!important}
+
       /* White label hero */
       .wl-hero-text h2{font-size:clamp(1.8rem,6vw,2.5rem)!important}
 
@@ -212,9 +222,6 @@
 
       /* White label trust row */
       .wl-trust{grid-template-columns:1fr 1fr!important}
-
-      /* Cross border cards */
-      .cb-cards{grid-template-columns:1fr!important}
 
       /* Why choose us */
       .why-list{gap:1.25rem}
@@ -229,8 +236,13 @@
       /* Audit section cards */
       .audit-cards{grid-template-columns:1fr!important}
 
-      /* How it works */
+      /* How It Works */
+      .how-grid{grid-template-columns:1fr!important;gap:2rem!important}
+      .how-grid > div:last-child{display:none}
       .how-portal{flex-direction:column!important}
+
+      /* Sections general padding */
+      section{padding-left:4vw!important;padding-right:4vw!important}
     }
 
     /* ── SMALL MOBILE (390px) ── */
@@ -1549,7 +1561,7 @@ function hDownloadPL(){
         <p style="font-size:.85rem;color:var(--gray-600);line-height:1.65;font-weight:300">We represent your business directly with the insurance carrier, challenge inaccurate findings, and negotiate the final premium adjustment on your behalf.</p>
       </div>
     </div>
-    <div style="background:var(--navy);border-radius:16px;padding:3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+    <div class="whats-included-grid" style="background:var(--navy);border-radius:16px;padding:3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
       <div>
         <div style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.75rem;font-family:'Inter',sans-serif">What's Included</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;color:#fff;margin-bottom:1.5rem;line-height:1.3">A complete picture of your audit exposure</h3>
@@ -1581,7 +1593,7 @@ function hDownloadPL(){
       <p style="font-size:1rem;color:var(--gray-600);font-weight:300;line-height:1.75;max-width:580px;margin:0 auto">From formation to compliance, we simplify US operations for Canadians.</p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem">
+    <div class="cb-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem">
 
       <!-- US Business Setup -->
       <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:16px;padding:2.25rem;position:relative;overflow:hidden">
@@ -1751,7 +1763,7 @@ function hDownloadPL(){
 
 <section id="how" style="background:var(--off-white);padding:7rem 5vw;border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)">
 <div style="max-width:1200px;margin:0 auto">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
+  <div class="how-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
     <div>
       <div class="eyebrow reveal">How It Works</div>
       <h2 class="sec-title reveal">Your financial system,<br/>activated in four steps.</h2>
