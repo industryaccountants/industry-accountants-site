@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin Dashboard — The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1829;--navy2:#162038;--gold:#c9a84c;--green:#2dd4a0;
+  --red:#f87171;--blue:#60a5fa;--white:#f5f0e8;
+  --gray:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;
+  --sidebar:240px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .3s}
+.sb-logo{padding:1.5rem 1.25rem;border-bottom:.5px solid rgba(255,255,255,.08)}
+.sb-logo-text{font-family:'Playfair Display',serif;color:var(--gold);font-size:.95rem;display:block;margin-bottom:.15rem}
+.sb-logo-sub{font-size:.62rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em}
+.sb-nav{flex:1;padding:.75rem 0;overflow-y:auto}
+.sb-section{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.25);padding:.75rem 1.25rem .35rem}
+.sb-item{display:flex;align-items:center;gap:.75rem;padding:.65rem 1.25rem;font-size:.82rem;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s;border-left:2px solid transparent;text-decoration:none}
+.sb-item:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.05)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.1);border-left-color:var(--gold)}
+.sb-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:999px;font-size:.6rem;font-weight:700;padding:1px 6px;min-width:18px;text-align:center}
+.sb-foot{padding:1rem 1.25rem;border-top:.5px solid rgba(255,255,255,.08)}
+.sb-user{display:flex;align-items:center;gap:.6rem}
+.sb-avatar{width:30px;height:30px;border-radius:50%;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--gold);flex-shrink:0}
+.sb-user-info{flex:1;min-width:0}
+.sb-user-name{font-size:.78rem;color:#fff;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user-role{font-size:.62rem;color:rgba(255,255,255,.4);text-transform:capitalize}
+.sb-logout{font-size:.7rem;color:rgba(255,255,255,.35);cursor:pointer;background:none;border:none;font-family:inherit;padding:0}
+.sb-logout:hover{color:var(--red)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:.85rem 1.75rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{font-size:1.05rem;font-weight:600;color:#111827}
+.topbar-actions{display:flex;align-items:center;gap:.75rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:7px;font-size:.82rem;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:#374151;font-family:'DM Sans',sans-serif;transition:all .2s;text-decoration:none}
+.btn:hover{background:var(--bg);border-color:#d1d5db}
+.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.primary:hover{background:var(--navy2)}
+.btn.gold{background:var(--gold);color:#0a0800;border-color:var(--gold);font-weight:600}
+.btn.gold:hover{background:#d4ac50}
+.btn.danger{color:var(--red);border-color:rgba(248,113,113,.3)}
+.btn.danger:hover{background:rgba(248,113,113,.08)}
+.btn.sm{padding:.35rem .75rem;font-size:.75rem}
+
+/* CONTENT */
+.content{padding:1.75rem;flex:1}
+.panel{display:none}.panel.active{display:block}
+
+/* STATS ROW */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.25rem;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.gold::before{background:var(--gold)}
+.stat-card.green::before{background:var(--green)}
+.stat-card.blue::before{background:var(--blue)}
+.stat-card.red::before{background:var(--red)}
+.stat-label{font-size:.72rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
+.stat-value{font-family:'Playfair Display',serif;font-size:1.8rem;color:#111827;margin-bottom:.15rem}
+.stat-sub{font-size:.72rem;color:var(--gray)}
+
+/* TABLES */
+.table-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.25rem}
+.table-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.table-title{font-size:.9rem;font-weight:600;color:#111827}
+.search-input{background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:.45rem .85rem;font-size:.82rem;font-family:'DM Sans',sans-serif;outline:none;width:220px;transition:border-color .2s}
+.search-input:focus{border-color:var(--gold);background:#fff}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--bg)}
+th{padding:.65rem 1.1rem;text-align:left;font-size:.72rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+td{padding:.75rem 1.1rem;font-size:.83rem;color:#374151;border-top:1px solid var(--border);vertical-align:middle}
+tr:hover td{background:#fafafa}
+.empty-row td{text-align:center;color:var(--gray);padding:2rem;font-size:.85rem}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:999px;font-size:.68rem;font-weight:600}
+.badge.green{background:rgba(45,212,160,.1);color:#065f46;border:.5px solid rgba(45,212,160,.25)}
+.badge.gold{background:rgba(201,168,76,.1);color:#92400e;border:.5px solid rgba(201,168,76,.25)}
+.badge.blue{background:rgba(96,165,250,.1);color:#1e40af;border:.5px solid rgba(96,165,250,.25)}
+.badge.red{background:rgba(248,113,113,.1);color:#991b1b;border:.5px solid rgba(248,113,113,.25)}
+.badge.gray{background:rgba(107,114,128,.1);color:#374151;border:.5px solid rgba(107,114,128,.2)}
+.badge.navy{background:rgba(13,24,41,.1);color:var(--navy);border:.5px solid rgba(13,24,41,.2)}
+
+/* CLIENT DETAIL PANEL */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+.detail-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.detail-card-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+.detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.4rem 0;border-bottom:.5px solid var(--border);font-size:.83rem}
+.detail-row:last-child{border-bottom:none}
+.detail-label{color:var(--gray);flex-shrink:0;margin-right:1rem}
+.detail-value{color:#111827;font-weight:500;text-align:right}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:.85rem;padding:.6rem 0;position:relative}
+.tl-item::before{content:'';position:absolute;left:8px;top:28px;bottom:-10px;width:1px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;margin-top:2px;border:2px solid var(--border);background:#fff;position:relative;z-index:1}
+.tl-dot.done{border-color:var(--green);background:rgba(45,212,160,.15)}
+.tl-dot.active{border-color:var(--gold);background:rgba(201,168,76,.15)}
+.tl-content{flex:1}
+.tl-title{font-size:.83rem;font-weight:500;color:#111827;margin-bottom:.1rem}
+.tl-date{font-size:.7rem;color:var(--gray)}
+
+/* INVOICE MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:#111827;margin-bottom:1.5rem}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gray)}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.78rem;font-weight:600;color:#374151;margin-bottom:.35rem}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;color:#111827;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);background:#fff}
+.line-items{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.75rem}
+.line-item{display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:center}
+.line-item input{padding:.5rem .7rem;font-size:.82rem}
+.add-line{font-size:.78rem;color:var(--gold);cursor:pointer;background:none;border:none;font-family:inherit;font-weight:500;padding:.25rem 0}
+.invoice-total{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:var(--navy);border-radius:8px;color:#fff;font-weight:600;margin-top:.5rem}
+.invoice-total-amt{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold)}
+
+/* STATUS UPDATE FORM */
+.status-form{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem;margin-bottom:1rem}
+
+/* MESSAGES */
+.msg-thread{display:flex;flex-direction:column;gap:.75rem;max-height:320px;overflow-y:auto;margin-bottom:1rem;padding:.25rem}
+.msg{max-width:80%;padding:.7rem .9rem;border-radius:10px;font-size:.83rem;line-height:1.5}
+.msg.accountant{background:var(--navy);color:#fff;border-radius:10px 10px 10px 2px;align-self:flex-start}
+.msg.client{background:var(--bg);border:1px solid var(--border);color:#111827;border-radius:10px 10px 2px 10px;align-self:flex-end}
+.msg-time{font-size:.62rem;color:rgba(255,255,255,.4);margin-top:.25rem}
+.msg.client .msg-time{color:var(--gray)}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.team-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center}
+.team-avatar-lg{width:52px;height:52px;border-radius:50%;background:rgba(201,168,76,.1);border:2px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:var(--gold);margin:0 auto .75rem}
+.team-name{font-weight:600;font-size:.9rem;color:#111827;margin-bottom:.2rem}
+.team-role{font-size:.72rem;color:var(--gray);margin-bottom:.75rem;text-transform:capitalize}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--navy);width:100%}
+.login-card{background:#fff;border-radius:16px;padding:2.5rem;width:100%;max-width:380px}
+.login-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.1rem;text-align:center;margin-bottom:.25rem}
+.login-sub{font-size:.78rem;color:var(--gray);text-align:center;margin-bottom:2rem}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--gray);font-size:.85rem;gap:.75rem}
+.spinner{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--gold);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ALERT */
+.alert{padding:.75rem 1rem;border-radius:8px;font-size:.82rem;margin-bottom:1rem;display:none}
+.alert.show{display:block}
+.alert.success{background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.3);color:#065f46}
+.alert.error{background:rgba(248,113,113,.1);border:.5px solid rgba(248,113,113,.3);color:#991b1b}
+
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .main{margin-left:0}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" style="width:100%;display:flex">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">The Industry Accountants</div>
+      <div class="login-sub">Admin Portal — Authorized Access Only</div>
+      <div class="alert" id="login-alert"></div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button class="btn primary" style="width:100%;justify-content:center;padding:.75rem" onclick="doLogin()" id="login-btn">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app" style="display:none;width:100%;display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <span class="sb-logo-text">Industry Accountants</span>
+      <span class="sb-logo-sub">Admin Dashboard</span>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Main</div>
+      <a class="sb-item active" onclick="showPanel('overview')" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Overview
+      </a>
+      <a class="sb-item" onclick="showPanel('clients')" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Clients <span class="sb-badge" id="badge-clients">0</span>
+      </a>
+      <a class="sb-item" onclick="showPanel('invoices')" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Invoices <span class="sb-badge" id="badge-invoices" style="background:var(--gold);color:#0a0800">0</span>
+      </a>
+      <a class="sb-item" onclick="showPanel('documents')" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Documents <span class="sb-badge" id="badge-docs">0</span>
+      </a>
+      <a class="sb-item" onclick="showPanel('messages')" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages <span class="sb-badge" id="badge-msgs">0</span>
+      </a>
+      <div class="sb-section">Services</div>
+      <a class="sb-item" onclick="showPanel('partners')" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        Partners
+      </a>
+      <div class="sb-section">Admin</div>
+      <a class="sb-item" onclick="showPanel('team')" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Team
+      </a>
+    </nav>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-avatar" id="sb-avatar">--</div>
+        <div class="sb-user-info">
+          <div class="sb-user-name" id="sb-name">Loading...</div>
+          <div class="sb-user-role" id="sb-role">--</div>
+        </div>
+      </div>
+      <button class="sb-logout" onclick="doLogout()" style="margin-top:.5rem">Sign out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Overview</div>
+      <div class="topbar-actions">
+        <button class="btn gold" onclick="openInvoiceModal(null)" id="new-invoice-btn">+ New Invoice</button>
+        <a href="index.html" class="btn" target="_blank">View Site</a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- OVERVIEW PANEL -->
+      <div class="panel active" id="panel-overview">
+        <div class="stats-grid">
+          <div class="stat-card gold">
+            <div class="stat-label">Total Clients</div>
+            <div class="stat-value" id="stat-clients">--</div>
+            <div class="stat-sub">Active accounts</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Revenue This Month</div>
+            <div class="stat-value" id="stat-revenue">--</div>
+            <div class="stat-sub">Paid invoices</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-label">Pending Invoices</div>
+            <div class="stat-value" id="stat-pending">--</div>
+            <div class="stat-sub">Awaiting payment</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Docs to Review</div>
+            <div class="stat-value" id="stat-docs">--</div>
+            <div class="stat-sub">Uploaded, unreviewed</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+          <div class="table-card">
+            <div class="table-header"><div class="table-title">Recent Clients</div><button class="btn sm" onclick="showPanel('clients')">View All</button></div>
+            <table><thead><tr><th>Name</th><th>Service</th><th>Status</th></tr></thead>
+            <tbody id="recent-clients-tbody"><tr class="empty-row"><td colspan="3"><div class="loading"><div class="spinner"></div>Loading...</div></td></tr></tbody></table>
+          </div>
+          <div class="table-card">
+            <div class="table-header"><div class="table-title">Outstanding Invoices</div><button class="btn sm" onclick="showPanel('invoices')">View All</button></div>
+            <table><thead><tr><th>Client</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody id="recent-invoices-tbody"><tr class="empty-row"><td colspan="3"><div class="loading"><div class="spinner"></div>Loading...</div></td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLIENTS PANEL -->
+      <div class="panel" id="panel-clients">
+        <div class="table-card">
+          <div class="table-header">
+            <div class="table-title">All Clients</div>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <select id="filter-service" onchange="loadClients()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:.4rem .7rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none">
+                <option value="">All Services</option>
+                <option value="tax">Tax Filing</option>
+                <option value="bookkeeping">Bookkeeping</option>
+                <option value="payroll">Payroll</option>
+                <option value="crossborder">Cross-Border</option>
+                <option value="audit">Audit</option>
+                <option value="partner">Partner</option>
+              </select>
+              <select id="filter-country" onchange="loadClients()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:.4rem .7rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none">
+                <option value="">All Countries</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+              </select>
+              <input class="search-input" id="search-clients" placeholder="Search clients..." oninput="filterClients()"/>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Service</th><th>Country</th><th>Payment</th><th>Status</th><th>Joined</th><th></th></tr></thead>
+            <tbody id="clients-tbody"><tr class="empty-row"><td colspan="8"><div class="loading"><div class="spinner"></div>Loading clients...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CLIENT DETAIL PANEL -->
+      <div class="panel" id="panel-client-detail">
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
+          <button class="btn sm" onclick="showPanel('clients')">← Back to Clients</button>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#111827" id="detail-name">Client Name</h2>
+          <span id="detail-service-badge"></span>
+          <div style="margin-left:auto;display:flex;gap:.5rem">
+            <button class="btn gold sm" onclick="openInvoiceModal(currentClientId)" id="invoice-btn">+ Invoice</button>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <div>
+            <div class="detail-card" style="margin-bottom:1.25rem">
+              <div class="detail-card-title">Client Information</div>
+              <div id="detail-info"></div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-card-title">Update Status</div>
+              <div class="status-form">
+                <select id="status-step" style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:7px;padding:.55rem .8rem;font-size:.83rem;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:.6rem">
+                  <option value="documents_received">Documents Received</option>
+                  <option value="under_review">Under Review</option>
+                  <option value="additional_info_needed">Additional Info Needed</option>
+                  <option value="filed">Filed / Submitted</option>
+                  <option value="payment_received">Payment Received</option>
+                  <option value="complete">Complete</option>
+                </select>
+                <textarea id="status-msg" placeholder="Message to client (optional)..." style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:7px;padding:.55rem .8rem;font-size:.83rem;font-family:'DM Sans',sans-serif;outline:none;resize:none;height:70px;margin-bottom:.5rem"></textarea>
+                <button class="btn primary sm" style="width:100%;justify-content:center" onclick="updateClientStatus()">Send Status Update</button>
+              </div>
+              <div class="detail-card-title" style="margin-top:.5rem">Status History</div>
+              <div id="status-timeline" class="timeline"></div>
+            </div>
+          </div>
+          <div>
+            <div class="detail-card" style="margin-bottom:1.25rem">
+              <div class="detail-card-title">Documents</div>
+              <div id="client-docs"></div>
+            </div>
+            <div class="detail-card" style="margin-bottom:1.25rem">
+              <div class="detail-card-title">Invoices</div>
+              <div id="client-invoices"></div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-card-title">Messages</div>
+              <div class="msg-thread" id="msg-thread"></div>
+              <div style="display:flex;gap:.5rem">
+                <input type="text" id="msg-input" placeholder="Send message to client..." style="flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:.55rem .8rem;font-size:.82rem;font-family:'DM Sans',sans-serif;outline:none" onkeydown="if(event.key==='Enter')sendMessage()"/>
+                <button class="btn primary sm" onclick="sendMessage()">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVOICES PANEL -->
+      <div class="panel" id="panel-invoices">
+        <div class="table-card">
+          <div class="table-header">
+            <div class="table-title">All Invoices</div>
+            <div style="display:flex;gap:.5rem">
+              <select id="filter-invoice-status" onchange="loadInvoices()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:.4rem .7rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none">
+                <option value="">All Statuses</option>
+                <option value="sent">Sent</option>
+                <option value="paid">Paid</option>
+                <option value="overdue">Overdue</option>
+                <option value="draft">Draft</option>
+              </select>
+              <button class="btn gold sm" onclick="openInvoiceModal(null)">+ New Invoice</button>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>Client</th><th>Service</th><th>Amount</th><th>Status</th><th>Due Date</th><th>Sent</th><th></th></tr></thead>
+            <tbody id="invoices-tbody"><tr class="empty-row"><td colspan="7"><div class="loading"><div class="spinner"></div>Loading invoices...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- DOCUMENTS PANEL -->
+      <div class="panel" id="panel-documents">
+        <div class="table-card">
+          <div class="table-header">
+            <div class="table-title">All Documents</div>
+            <select id="filter-doc-status" onchange="loadDocuments()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:.4rem .7rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none">
+              <option value="">All Documents</option>
+              <option value="received">Received (pending review)</option>
+              <option value="reviewed">Reviewed</option>
+              <option value="processed">Processed</option>
+            </select>
+          </div>
+          <table>
+            <thead><tr><th>File Name</th><th>Client</th><th>Type</th><th>Tax Year</th><th>Status</th><th>Uploaded</th><th></th></tr></thead>
+            <tbody id="documents-tbody"><tr class="empty-row"><td colspan="7"><div class="loading"><div class="spinner"></div>Loading documents...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MESSAGES PANEL -->
+      <div class="panel" id="panel-messages">
+        <div class="table-card">
+          <div class="table-header"><div class="table-title">Client Messages</div></div>
+          <table>
+            <thead><tr><th>Client</th><th>Last Message</th><th>From</th><th>Date</th><th></th></tr></thead>
+            <tbody id="messages-tbody"><tr class="empty-row"><td colspan="5"><div class="loading"><div class="spinner"></div>Loading messages...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PARTNERS PANEL -->
+      <div class="panel" id="panel-partners">
+        <div class="table-card">
+          <div class="table-header"><div class="table-title">White Label Partners</div></div>
+          <table>
+            <thead><tr><th>Name</th><th>Business</th><th>Country</th><th>Services</th><th>Status</th><th>Applied</th><th></th></tr></thead>
+            <tbody id="partners-tbody"><tr class="empty-row"><td colspan="7"><div class="loading"><div class="spinner"></div>Loading partners...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TEAM PANEL -->
+      <div class="panel" id="panel-team">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+          <h2 style="font-size:1rem;font-weight:600">Team Members (5 max)</h2>
+          <button class="btn gold" onclick="openAddTeamModal()">+ Add Team Member</button>
+        </div>
+        <div class="team-grid" id="team-grid">
+          <div class="loading" style="grid-column:1/-1"><div class="spinner"></div>Loading team...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- INVOICE MODAL -->
+<div class="modal-overlay" id="invoice-modal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeInvoiceModal()">×</button>
+    <div class="modal-title">Create Invoice</div>
+    <div class="alert" id="invoice-alert"></div>
+    <div class="field">
+      <label>Client *</label>
+      <select id="inv-client" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;outline:none">
+        <option value="">Select client...</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+      <div class="field">
+        <label>Service Type</label>
+        <select id="inv-service" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;outline:none">
+          <option value="tax">Tax Filing</option>
+          <option value="bookkeeping">Bookkeeping</option>
+          <option value="payroll">Payroll Management</option>
+          <option value="crossborder">Cross-Border Services</option>
+          <option value="audit">Audit Assessment</option>
+          <option value="consulting">Business Consulting</option>
+          <option value="report">Professional Report</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Payment Due (days)</label>
+        <select id="inv-due" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;outline:none">
+          <option value="3">3 days</option>
+          <option value="7" selected>7 days</option>
+          <option value="14">14 days</option>
+          <option value="30">30 days</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Line Items *</label>
+      <div class="line-items" id="line-items">
+        <div class="line-item">
+          <input type="text" placeholder="Description (e.g. Tax Return 2024)" id="li-desc-0"/>
+          <input type="number" placeholder="Amount" id="li-amt-0" style="width:90px" min="0" step="0.01"/>
+          <select id="li-cur-0" style="width:60px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.5rem .4rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none">
+            <option value="usd">USD</option>
+            <option value="cad">CAD</option>
+          </select>
+        </div>
+      </div>
+      <button class="add-line" onclick="addLineItem()">+ Add another item</button>
+    </div>
+    <div class="invoice-total">
+      <span>Total</span>
+      <span class="invoice-total-amt" id="inv-total">$0.00</span>
+    </div>
+    <div class="field" style="margin-top:.75rem">
+      <label>Notes (optional)</label>
+      <textarea id="inv-notes" placeholder="Internal notes or message to client..." style="height:60px;resize:none"></textarea>
+    </div>
+    <button class="btn gold" style="width:100%;justify-content:center;padding:.85rem;margin-top:.5rem;font-size:.92rem" onclick="submitInvoice()" id="inv-submit-btn">Send Invoice via Stripe →</button>
+  </div>
+</div>
+
+<!-- ADD TEAM MODAL -->
+<div class="modal-overlay" id="team-modal">
+  <div class="modal" style="position:relative;max-width:420px">
+    <button class="modal-close" onclick="document.getElementById('team-modal').classList.remove('open')">×</button>
+    <div class="modal-title">Add Team Member</div>
+    <div class="alert" id="team-alert"></div>
+    <div class="field"><label>Full Name *</label><input type="text" id="tm-name" placeholder="Full name"/></div>
+    <div class="field"><label>Email *</label><input type="email" id="tm-email" placeholder="team@email.com"/></div>
+    <div class="field">
+      <label>Role *</label>
+      <select id="tm-role" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;outline:none">
+        <option value="senior_accountant">Senior Accountant</option>
+        <option value="accountant">Accountant</option>
+        <option value="bookkeeper">Bookkeeper</option>
+        <option value="partner_manager">Partner Manager</option>
+      </select>
+    </div>
+    <button class="btn gold" style="width:100%;justify-content:center;padding:.75rem;margin-top:.5rem" onclick="addTeamMember()">Add Team Member</button>
+  </div>
+</div>
+
+<script>
+// ── CONFIG — Replace with your values ──
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let currentAdminRole = null;
+let currentClientId = null;
+let lineItemCount = 1;
+let allClients = [];
+
+// ── AUTH ──
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) {
+    showLoginAlert(error.message);
+    btn.disabled = false; btn.textContent = 'Sign In';
+    return;
+  }
+
+  // Verify admin
+  const { data: adminData, error: adminErr } = await sb.from('admin_users')
+    .select('*').eq('user_id', data.user.id).single();
+
+  if (adminErr || !adminData || !adminData.is_active) {
+    await sb.auth.signOut();
+    showLoginAlert('Access denied. This account does not have admin privileges.');
+    btn.disabled = false; btn.textContent = 'Sign In';
+    return;
+  }
+
+  currentUser = data.user;
+  currentAdminRole = adminData;
+  showApp(adminData);
+}
+
+function showLoginAlert(msg) {
+  const el = document.getElementById('login-alert');
+  el.textContent = msg; el.className = 'alert error show';
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  document.getElementById('admin-app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+function showApp(adminData) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-app').style.display = 'flex';
+
+  const initials = adminData.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('sb-avatar').textContent = initials;
+  document.getElementById('sb-name').textContent = adminData.full_name;
+  document.getElementById('sb-role').textContent = adminData.role.replace(/_/g,' ');
+
+  loadOverview();
+  loadClients();
+  loadInvoices();
+}
+
+// Check existing session on load
+window.addEventListener('load', async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    const { data: adminData } = await sb.from('admin_users')
+      .select('*').eq('user_id', session.user.id).single();
+    if (adminData?.is_active) {
+      currentUser = session.user;
+      currentAdminRole = adminData;
+      showApp(adminData);
+    }
+  }
+});
+
+// ── NAVIGATION ──
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('panel-' + name)?.classList.add('active');
+  document.querySelector(`[onclick="showPanel('${name}')"]`)?.classList.add('active');
+
+  const titles = { overview:'Overview', clients:'Clients', invoices:'Invoices',
+    documents:'Documents', messages:'Messages', partners:'Partners', team:'Team',
+    'client-detail': 'Client Detail' };
+  document.getElementById('topbar-title').textContent = titles[name] || name;
+
+  if (name === 'documents') loadDocuments();
+  if (name === 'messages') loadMessages();
+  if (name === 'team') loadTeam();
+  if (name === 'partners') loadPartners();
+}
+
+// ── HELPERS ──
+function fmt(n) { return '$' + (n||0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+function fmtDate(d) { return d ? new Date(d).toLocaleDateString('en-CA', {month:'short', day:'numeric', year:'numeric'}) : '--'; }
+function serviceBadge(s) {
+  const map = { tax:'Tax Filing', bookkeeping:'Bookkeeping', payroll:'Payroll',
+    crossborder:'Cross-Border', audit:'Audit', partner:'Partner', consulting:'Consulting' };
+  const col = { tax:'blue', bookkeeping:'green', payroll:'gold', crossborder:'navy',
+    audit:'red', partner:'gold', consulting:'blue' };
+  return `<span class="badge ${col[s]||'gray'}">${map[s]||s}</span>`;
+}
+function statusBadge(s) {
+  const map = { paid:'green', sent:'gold', overdue:'red', draft:'gray',
+    active:'green', pending:'gold', cancelled:'red', received:'blue', reviewed:'green' };
+  return `<span class="badge ${map[s]||'gray'}">${s}</span>`;
+}
+
+// ── OVERVIEW ──
+async function loadOverview() {
+  const [clients, invoices, docs] = await Promise.all([
+    sb.from('clients').select('id, service_type, payment_status, created_at, full_name, email').order('created_at', {ascending:false}),
+    sb.from('invoices').select('*').order('created_at', {ascending:false}),
+    sb.from('documents').select('id, status').eq('status', 'received')
+  ]);
+
+  const paid = invoices.data?.filter(i => i.status === 'paid') || [];
+  const thisMonth = paid.filter(i => new Date(i.paid_at).getMonth() === new Date().getMonth());
+  const revenue = thisMonth.reduce((s,i) => s + (i.amount_total||0), 0);
+  const pending = invoices.data?.filter(i => ['sent','overdue'].includes(i.status)) || [];
+
+  document.getElementById('stat-clients').textContent = clients.data?.length || 0;
+  document.getElementById('stat-revenue').textContent = fmt(revenue);
+  document.getElementById('stat-pending').textContent = pending.length;
+  document.getElementById('stat-docs').textContent = docs.data?.length || 0;
+
+  document.getElementById('badge-clients').textContent = clients.data?.length || 0;
+  document.getElementById('badge-docs').textContent = docs.data?.length || 0;
+  document.getElementById('badge-invoices').textContent = pending.length;
+
+  // Recent clients
+  const recentClients = (clients.data || []).slice(0, 6);
+  document.getElementById('recent-clients-tbody').innerHTML = recentClients.length
+    ? recentClients.map(c => `<tr onclick="openClientDetail('${c.id}')" style="cursor:pointer">
+        <td><strong>${c.full_name}</strong></td>
+        <td>${serviceBadge(c.service_type)}</td>
+        <td>${statusBadge(c.payment_status||'pending')}</td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="3">No clients yet</td></tr>';
+
+  // Recent invoices
+  const recentInv = (invoices.data || []).filter(i => i.status !== 'paid').slice(0, 6);
+  document.getElementById('recent-invoices-tbody').innerHTML = recentInv.length
+    ? recentInv.map(i => `<tr>
+        <td><strong>${i.client_id?.slice(0,8)}...</strong></td>
+        <td>${fmt(i.amount_total)}</td>
+        <td>${statusBadge(i.status)}</td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="3">No pending invoices</td></tr>';
+}
+
+// ── CLIENTS ──
+async function loadClients() {
+  const service = document.getElementById('filter-service')?.value;
+  const country = document.getElementById('filter-country')?.value;
+
+  let query = sb.from('clients').select('*').order('created_at', {ascending:false});
+  if (service) query = query.eq('service_type', service);
+  if (country) query = query.eq('country', country);
+
+  const { data } = await query;
+  allClients = data || [];
+  renderClients(allClients);
+
+  // Populate invoice client dropdown
+  const sel = document.getElementById('inv-client');
+  if (sel) {
+    sel.innerHTML = '<option value="">Select client...</option>' +
+      allClients.map(c => `<option value="${c.id}" data-email="${c.email}">${c.full_name} (${c.email})</option>`).join('');
+  }
+}
+
+function filterClients() {
+  const q = document.getElementById('search-clients').value.toLowerCase();
+  const filtered = allClients.filter(c =>
+    c.full_name?.toLowerCase().includes(q) || c.email?.toLowerCase().includes(q)
+  );
+  renderClients(filtered);
+}
+
+function renderClients(data) {
+  document.getElementById('clients-tbody').innerHTML = data.length
+    ? data.map(c => `<tr>
+        <td><strong>${c.full_name}</strong></td>
+        <td>${c.email}</td>
+        <td>${serviceBadge(c.service_type)}</td>
+        <td><span class="badge ${c.country==='CA'?'navy':'blue'}">${c.country||'US'}</span></td>
+        <td>${statusBadge(c.payment_status||'pending')}</td>
+        <td>${statusBadge(c.service_active?'active':'pending')}</td>
+        <td>${fmtDate(c.created_at)}</td>
+        <td>
+          <button class="btn sm" onclick="openClientDetail('${c.id}')">View</button>
+          <button class="btn gold sm" onclick="openInvoiceModal('${c.id}')">Invoice</button>
+        </td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="8">No clients found</td></tr>';
+}
+
+// ── CLIENT DETAIL ──
+async function openClientDetail(clientId) {
+  currentClientId = clientId;
+  showPanel('client-detail');
+
+  const [client, docs, invoices, statuses, msgs] = await Promise.all([
+    sb.from('clients').select('*').eq('id', clientId).single(),
+    sb.from('documents').select('*').eq('client_id', clientId).order('created_at', {ascending:false}),
+    sb.from('invoices').select('*').eq('client_id', clientId).order('created_at', {ascending:false}),
+    sb.from('status_updates').select('*').eq('client_id', clientId).order('created_at', {ascending:false}),
+    sb.from('messages').select('*').eq('client_id', clientId).order('created_at', {ascending:true})
+  ]);
+
+  const c = client.data;
+  document.getElementById('detail-name').textContent = c.full_name;
+  document.getElementById('detail-service-badge').innerHTML = serviceBadge(c.service_type);
+
+  document.getElementById('detail-info').innerHTML = [
+    ['Email', c.email], ['Phone', c.phone||'--'], ['Country', c.country==='CA'?'Canada':'United States'],
+    ['Entity', c.entity_type||'--'], ['Service', c.service_type],
+    ['Payment', c.payment_status||'pending'], ['Joined', fmtDate(c.created_at)]
+  ].map(([l,v]) => `<div class="detail-row"><span class="detail-label">${l}</span><span class="detail-value">${v}</span></div>`).join('');
+
+  // Docs
+  document.getElementById('client-docs').innerHTML = docs.data?.length
+    ? docs.data.map(d => `<div style="display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.82rem">
+        <span style="flex:1;color:#111827">${d.file_name}</span>
+        ${statusBadge(d.status)}
+        <button class="btn sm" onclick="markDocReviewed('${d.id}')">Mark Reviewed</button>
+      </div>`).join('')
+    : '<div style="color:var(--gray);font-size:.82rem;padding:.5rem 0">No documents uploaded</div>';
+
+  // Invoices
+  document.getElementById('client-invoices').innerHTML = invoices.data?.length
+    ? invoices.data.map(i => `<div style="display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.82rem">
+        <span style="flex:1;color:#111827">${fmt(i.amount_total)} · ${i.service_type}</span>
+        ${statusBadge(i.status)}
+        ${i.invoice_url ? `<a href="${i.invoice_url}" target="_blank" class="btn sm">View</a>` : ''}
+      </div>`).join('')
+    : '<div style="color:var(--gray);font-size:.82rem;padding:.5rem 0">No invoices yet</div>';
+
+  // Status timeline
+  document.getElementById('status-timeline').innerHTML = statuses.data?.length
+    ? statuses.data.map(s => `<div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-content">
+          <div class="tl-title">${s.step.replace(/_/g,' ')}</div>
+          ${s.message ? `<div style="font-size:.75rem;color:var(--gray);margin:.1rem 0">${s.message}</div>` : ''}
+          <div class="tl-date">${fmtDate(s.created_at)}</div>
+        </div>
+      </div>`).join('')
+    : '<div style="color:var(--gray);font-size:.82rem">No status updates yet</div>';
+
+  // Messages
+  document.getElementById('msg-thread').innerHTML = msgs.data?.length
+    ? msgs.data.map(m => `<div class="msg ${m.sender}">
+        ${m.body}
+        <div class="msg-time">${fmtDate(m.created_at)}</div>
+      </div>`).join('')
+    : '<div style="color:var(--gray);font-size:.82rem;text-align:center;padding:1rem">No messages yet</div>';
+}
+
+async function updateClientStatus() {
+  const step = document.getElementById('status-step').value;
+  const msg = document.getElementById('status-msg').value;
+  await sb.from('status_updates').insert({ client_id: currentClientId, step, message: msg, is_visible_to_client: true });
+  document.getElementById('status-msg').value = '';
+  openClientDetail(currentClientId);
+}
+
+async function sendMessage() {
+  const body = document.getElementById('msg-input').value.trim();
+  if (!body) return;
+  await sb.from('messages').insert({ client_id: currentClientId, sender: 'accountant', body });
+  document.getElementById('msg-input').value = '';
+  openClientDetail(currentClientId);
+}
+
+async function markDocReviewed(docId) {
+  await sb.from('documents').update({ status: 'reviewed' }).eq('id', docId);
+  openClientDetail(currentClientId);
+}
+
+// ── INVOICES ──
+async function loadInvoices() {
+  const status = document.getElementById('filter-invoice-status')?.value;
+  let query = sb.from('invoices').select('*, clients(full_name, email)').order('created_at', {ascending:false});
+  if (status) query = query.eq('status', status);
+  const { data } = await query;
+
+  document.getElementById('invoices-tbody').innerHTML = data?.length
+    ? data.map(i => `<tr>
+        <td><strong>${i.clients?.full_name||'--'}</strong><br><span style="font-size:.72rem;color:var(--gray)">${i.clients?.email||''}</span></td>
+        <td>${serviceBadge(i.service_type)}</td>
+        <td><strong>${fmt(i.amount_total)}</strong> <span style="font-size:.7rem;color:var(--gray)">${(i.currency||'usd').toUpperCase()}</span></td>
+        <td>${statusBadge(i.status)}</td>
+        <td>${fmtDate(i.due_date)}</td>
+        <td>${fmtDate(i.created_at)}</td>
+        <td style="display:flex;gap:.4rem">
+          ${i.invoice_url ? `<a href="${i.invoice_url}" target="_blank" class="btn sm">View</a>` : ''}
+          <button class="btn sm" onclick="openClientDetail('${i.client_id}')">Client</button>
+        </td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="7">No invoices found</td></tr>';
+}
+
+// ── INVOICE MODAL ──
+function openInvoiceModal(clientId) {
+  document.getElementById('invoice-modal').classList.add('open');
+  if (clientId) document.getElementById('inv-client').value = clientId;
+  updateTotal();
+}
+function closeInvoiceModal() { document.getElementById('invoice-modal').classList.remove('open'); }
+
+function addLineItem() {
+  const i = lineItemCount++;
+  document.getElementById('line-items').innerHTML += `<div class="line-item" id="li-${i}">
+    <input type="text" placeholder="Description" id="li-desc-${i}" oninput="updateTotal()"/>
+    <input type="number" placeholder="Amount" id="li-amt-${i}" style="width:90px" min="0" step="0.01" oninput="updateTotal()"/>
+    <select id="li-cur-${i}" style="width:60px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.5rem .4rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none">
+      <option value="usd">USD</option><option value="cad">CAD</option>
+    </select>
+  </div>`;
+}
+
+function updateTotal() {
+  let total = 0;
+  document.querySelectorAll('[id^="li-amt-"]').forEach(el => { total += parseFloat(el.value)||0; });
+  document.getElementById('inv-total').textContent = fmt(total);
+}
+
+async function submitInvoice() {
+  const clientId = document.getElementById('inv-client').value;
+  const serviceType = document.getElementById('inv-service').value;
+  const dueDays = parseInt(document.getElementById('inv-due').value);
+  const notes = document.getElementById('inv-notes').value;
+
+  const lineItems = [];
+  let i = 0;
+  while (document.getElementById('li-desc-' + i)) {
+    const desc = document.getElementById('li-desc-' + i).value;
+    const amt = parseFloat(document.getElementById('li-amt-' + i).value);
+    const cur = document.getElementById('li-cur-' + i).value;
+    if (desc && amt > 0) lineItems.push({ description: desc, amount: amt, currency: cur });
+    i++;
+  }
+
+  if (!clientId) { showAlert('invoice-alert', 'error', 'Please select a client'); return; }
+  if (!lineItems.length) { showAlert('invoice-alert', 'error', 'Add at least one line item'); return; }
+
+  const btn = document.getElementById('inv-submit-btn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+
+  const { data: { session } } = await sb.auth.getSession();
+  const clientOpt = document.querySelector(`#inv-client option[value="${clientId}"]`);
+  const clientEmail = clientOpt?.dataset?.email || '';
+
+  const resp = await fetch('/.netlify/functions/create-invoice', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      client_id: clientId, client_email: clientEmail,
+      service_type: serviceType, line_items: lineItems,
+      due_days: dueDays, notes, admin_jwt: session.access_token
+    })
+  });
+
+  const result = await resp.json();
+  if (result.success) {
+    closeInvoiceModal();
+    showAlert('invoice-alert', 'success', 'Invoice sent!');
+    loadInvoices();
+    loadOverview();
+  } else {
+    showAlert('invoice-alert', 'error', result.error || 'Failed to send invoice');
+  }
+  btn.disabled = false; btn.textContent = 'Send Invoice via Stripe →';
+}
+
+// ── DOCUMENTS ──
+async function loadDocuments() {
+  const status = document.getElementById('filter-doc-status')?.value;
+  let query = sb.from('documents').select('*, clients(full_name)').order('created_at', {ascending:false});
+  if (status) query = query.eq('status', status);
+  const { data } = await query;
+
+  document.getElementById('documents-tbody').innerHTML = data?.length
+    ? data.map(d => `<tr>
+        <td>${d.file_name}</td>
+        <td>${d.clients?.full_name||'--'}</td>
+        <td>${d.document_type||'other'}</td>
+        <td>${d.tax_year||'--'}</td>
+        <td>${statusBadge(d.status)}</td>
+        <td>${fmtDate(d.created_at)}</td>
+        <td><button class="btn sm" onclick="markDocReviewedGlobal('${d.id}')">Mark Reviewed</button></td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="7">No documents found</td></tr>';
+}
+
+async function markDocReviewedGlobal(id) {
+  await sb.from('documents').update({ status: 'reviewed' }).eq('id', id);
+  loadDocuments();
+  loadOverview();
+}
+
+// ── MESSAGES ──
+async function loadMessages() {
+  const { data } = await sb.from('messages').select('*, clients(full_name)')
+    .order('created_at', {ascending:false}).limit(50);
+
+  const unread = data?.filter(m => !m.is_read && m.sender === 'client') || [];
+  document.getElementById('badge-msgs').textContent = unread.length;
+
+  document.getElementById('messages-tbody').innerHTML = data?.length
+    ? data.map(m => `<tr style="cursor:pointer" onclick="openClientDetail('${m.client_id}')">
+        <td><strong>${m.clients?.full_name||'--'}</strong></td>
+        <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.body}</td>
+        <td><span class="badge ${m.sender==='client'?'blue':'gray'}">${m.sender}</span></td>
+        <td>${fmtDate(m.created_at)}</td>
+        <td><button class="btn sm">Reply</button></td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="5">No messages</td></tr>';
+}
+
+// ── PARTNERS ──
+async function loadPartners() {
+  const { data } = await sb.from('clients').select('*').eq('service_type', 'partner')
+    .order('created_at', {ascending:false});
+
+  document.getElementById('partners-tbody').innerHTML = data?.length
+    ? data.map(p => `<tr>
+        <td><strong>${p.full_name}</strong></td>
+        <td>${p.entity_type||'--'}</td>
+        <td><span class="badge ${p.country==='CA'?'navy':'blue'}">${p.country||'US'}</span></td>
+        <td>${serviceBadge(p.service_type)}</td>
+        <td>${statusBadge(p.payment_status||'pending')}</td>
+        <td>${fmtDate(p.created_at)}</td>
+        <td><button class="btn sm" onclick="openClientDetail('${p.id}')">View</button></td>
+      </tr>`).join('')
+    : '<tr class="empty-row"><td colspan="7">No partner applications yet</td></tr>';
+}
+
+// ── TEAM ──
+async function loadTeam() {
+  const { data } = await sb.from('admin_users').select('*').order('created_at');
+  const roleColors = { owner:'gold', senior_accountant:'blue', accountant:'green', bookkeeper:'green', partner_manager:'navy' };
+
+  document.getElementById('team-grid').innerHTML = data?.length
+    ? data.map(m => `<div class="team-card">
+        <div class="team-avatar-lg">${m.full_name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+        <div class="team-name">${m.full_name}</div>
+        <div class="team-role"><span class="badge ${roleColors[m.role]||'gray'}">${m.role.replace(/_/g,' ')}</span></div>
+        <div style="font-size:.75rem;color:var(--gray)">${m.email}</div>
+        ${m.role !== 'owner' ? `<button class="btn danger sm" style="margin-top:.75rem" onclick="deactivateTeamMember('${m.id}')">Remove</button>` : ''}
+      </div>`).join('')
+    : '<div style="color:var(--gray);font-size:.85rem">No team members found</div>';
+}
+
+function openAddTeamModal() { document.getElementById('team-modal').classList.add('open'); }
+
+async function addTeamMember() {
+  const name = document.getElementById('tm-name').value.trim();
+  const email = document.getElementById('tm-email').value.trim();
+  const role = document.getElementById('tm-role').value;
+
+  if (!name || !email) { showAlert('team-alert', 'error', 'Name and email required'); return; }
+
+  const { data: existing } = await sb.from('admin_users').select('id');
+  if (existing?.length >= 5) { showAlert('team-alert', 'error', 'Max 5 team members reached'); return; }
+
+  // Send invite via Supabase Auth
+  const { error } = await sb.auth.admin?.inviteUserByEmail?.(email) || {};
+
+  // Pre-create admin record (will link when they sign up)
+  const { error: dbErr } = await sb.from('admin_users').insert({ full_name: name, email, role, user_id: null });
+
+  if (dbErr) { showAlert('team-alert', 'error', dbErr.message); return; }
+
+  document.getElementById('team-modal').classList.remove('open');
+  loadTeam();
+}
+
+async function deactivateTeamMember(id) {
+  if (!confirm('Remove this team member?')) return;
+  await sb.from('admin_users').update({ is_active: false }).eq('id', id);
+  loadTeam();
+}
+
+// ── UTILS ──
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg; el.className = 'alert ' + type + ' show';
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+</script>
+</body>
+</html>
