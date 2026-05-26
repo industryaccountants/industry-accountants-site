@@ -550,7 +550,8 @@ tr:hover td{background:#fafafa}
 // ── CONFIG — Replace with your values ──
 const SUPABASE_URL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const _sbLib = window.supabase || window.Supabase;
+const sb = _sbLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let currentAdminRole = null;
