@@ -1259,44 +1259,75 @@ async function loadPortalData(user) {
 }
 
 // Init on load
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   switchTab('signin');
 
-  // Handle email confirmation redirect
   const SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
   const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+
   try {
     const sbLib = window.supabase || window.Supabase;
     if (!sbLib) return;
     const sb = sbLib.createClient(SURL, SKEY);
 
-    // Listen for auth state changes — fires when email is confirmed
-    sb.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
+    // Check for confirmation token in URL params
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('confirmation_token') || params.get('token');
+    const type = params.get('type');
+
+    if (token && type === 'signup') {
+      // Show loading message
+      document.getElementById('auth-msg').textContent = 'Confirming your email...';
+      document.getElementById('auth-msg').className = 'auth-msg success';
+      document.getElementById('auth-msg').style.display = 'block';
+
+      // Verify the OTP token
+      const { data, error } = await sb.auth.verifyOtp({
+        token_hash: token,
+        type: 'signup'
+      });
+
+      if (error) {
+        document.getElementById('auth-msg').textContent = 'Confirmation failed: ' + error.message + '. Please try signing up again.';
+        document.getElementById('auth-msg').className = 'auth-msg error';
+        return;
+      }
+
+      if (data?.user) {
+        const user = data.user;
+        const service = user.user_metadata?.service_type || 'tax';
+        const name = encodeURIComponent(user.user_metadata?.full_name || '');
+        const email = encodeURIComponent(user.email || '');
+        // Redirect to correct intake form
+        window.location.href = 'secure-intake.html?service=' + service + '&name=' + name + '&email=' + email;
+        return;
+      }
+    }
+
+    // Check for hash-based tokens (old Supabase format)
+    const hash = window.location.hash;
+    if (hash && hash.includes('access_token')) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) {
         const user = session.user;
         const service = user.user_metadata?.service_type || 'tax';
-        const name = user.user_metadata?.full_name || '';
-        const email = user.email || '';
-
-        // If they just confirmed email, send to intake form
-        if (window.location.hash.includes('confirmation_token') ||
-            window.location.hash.includes('access_token')) {
-          setTimeout(() => {
-            window.location.href = 'secure-intake.html?service=' + service +
-              '&name=' + encodeURIComponent(name) +
-              '&email=' + encodeURIComponent(email);
-          }, 500);
-          return;
-        }
-
-        // Otherwise show portal
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('portal-screen').style.display = 'block';
-        loadPortalData(user);
+        const name = encodeURIComponent(user.user_metadata?.full_name || '');
+        const email = encodeURIComponent(user.email || '');
+        window.location.href = 'secure-intake.html?service=' + service + '&name=' + name + '&email=' + email;
+        return;
       }
-    });
+    }
+
+    // Check if already logged in
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user) {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('portal-screen').style.display = 'block';
+      loadPortalData(session.user);
+    }
+
   } catch(e) {
-    console.warn('Auth listener error:', e.message);
+    console.warn('Auth init error:', e.message);
   }
 });
 
