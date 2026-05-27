@@ -24,7 +24,7 @@
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet"/>
 
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.8"></script>
   <link rel="stylesheet" href="portal.css"/>
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json"/>
@@ -1115,7 +1115,7 @@ function closeIntakeForm() {
 
 // ── INIT SUPABASE IMMEDIATELY ──
 const _SB_URL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-const _SB_KEY = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+const _SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
 try {
   const _sbLib = window.supabase || window.Supabase;
   if (_sbLib) window._supabase = _sbLib.createClient(_SB_URL, _SB_KEY);
@@ -1149,7 +1149,7 @@ async function signIn() {
 
   try {
     const SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-    const SKEY = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+    const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
     const sbLib = window.supabase || window.Supabase;
     if (!sbLib) throw new Error('Page not loaded correctly. Please refresh.');
     const sb = sbLib.createClient(SURL, SKEY);
@@ -1191,7 +1191,7 @@ async function signUp() {
   try {
     // Direct Supabase call — no wrapper function
     const SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-    const SKEY = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+    const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
     const sbLib = window.supabase || window.Supabase;
     if (!sbLib) throw new Error('Supabase library not loaded. Please refresh the page.');
     const client = sbLib.createClient(SURL, SKEY);
@@ -1232,7 +1232,7 @@ async function resetPassword() {
 async function getSupabase() {
   if (window._supabase) return window._supabase;
   const url = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-  const key = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+  const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
   // Handle different ways the Supabase CDN exposes createClient
   const sb = window.supabase || window.Supabase;
   if (sb && sb.createClient) {
@@ -1261,6 +1261,43 @@ async function loadPortalData(user) {
 // Init on load
 window.addEventListener('load', () => {
   switchTab('signin');
+
+  // Handle email confirmation redirect
+  const SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+  const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+  try {
+    const sbLib = window.supabase || window.Supabase;
+    if (!sbLib) return;
+    const sb = sbLib.createClient(SURL, SKEY);
+
+    // Listen for auth state changes — fires when email is confirmed
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        const user = session.user;
+        const service = user.user_metadata?.service_type || 'tax';
+        const name = user.user_metadata?.full_name || '';
+        const email = user.email || '';
+
+        // If they just confirmed email, send to intake form
+        if (window.location.hash.includes('confirmation_token') ||
+            window.location.hash.includes('access_token')) {
+          setTimeout(() => {
+            window.location.href = 'secure-intake.html?service=' + service +
+              '&name=' + encodeURIComponent(name) +
+              '&email=' + encodeURIComponent(email);
+          }, 500);
+          return;
+        }
+
+        // Otherwise show portal
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('portal-screen').style.display = 'block';
+        loadPortalData(user);
+      }
+    });
+  } catch(e) {
+    console.warn('Auth listener error:', e.message);
+  }
 });
 
 </script>
