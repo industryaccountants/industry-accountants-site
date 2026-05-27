@@ -1113,6 +1113,14 @@ function closeIntakeForm() {
   document.getElementById('intake-success').style.display = 'none';
 }
 
+// ── INIT SUPABASE IMMEDIATELY ──
+const _SB_URL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+const _SB_KEY = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+try {
+  const _sbLib = window.supabase || window.Supabase;
+  if (_sbLib) window._supabase = _sbLib.createClient(_SB_URL, _SB_KEY);
+} catch(e) { console.warn('Supabase init deferred:', e.message); }
+
 // ── AUTH TAB SWITCHING ──
 function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
@@ -1140,12 +1148,11 @@ async function signIn() {
   if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
 
   try {
-    const sb = await getSupabase();
-    if (!sb) {
-      // Demo mode, no Supabase configured
-      showAuthMsg('Portal is not yet connected to a database. Please contact your accountant.', 'error');
-      return;
-    }
+    const SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+    const SKEY = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+    const sbLib = window.supabase || window.Supabase;
+    if (!sbLib) throw new Error('Page not loaded correctly. Please refresh.');
+    const sb = sbLib.createClient(SURL, SKEY);
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) {
       TIA_SECURITY.recordLoginAttempt(email);
@@ -1160,7 +1167,7 @@ async function signIn() {
       }, 800);
     }
   } catch(e) {
-    showAuthMsg('Connection error. Please try again.', 'error');
+    showAuthMsg('Connection error: ' + e.message, 'error');
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = 'Sign In'; }
   }
@@ -1179,14 +1186,35 @@ async function signUp() {
   if (!service) { showAuthMsg('Please select the service you need.', 'error'); return; }
 
   const btn = document.querySelector('#tab-signup .btn-primary');
-  if (btn) { btn.disabled = true; btn.textContent = 'Setting up...'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Creating account...'; }
 
-  showAuthMsg('Account created! Redirecting to your intake form...', 'success');
+  try {
+    // Direct Supabase call — no wrapper function
+    const SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+    const SKEY = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+    const sbLib = window.supabase || window.Supabase;
+    if (!sbLib) throw new Error('Supabase library not loaded. Please refresh the page.');
+    const client = sbLib.createClient(SURL, SKEY);
 
-  // Redirect to intake form with pre-filled info
-  setTimeout(() => {
-    window.location.href = `secure-intake.html?service=${service}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
-  }, 1200);
+    const { data, error } = await client.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name: name, service_type: service } }
+    });
+
+    if (error) throw new Error(error.message);
+
+    showAuthMsg('Account created! Check your email to confirm, then sign in.', 'success');
+    if (btn) { btn.textContent = 'Account Created!'; }
+
+    setTimeout(() => {
+      window.location.href = 'secure-intake.html?service=' + service + '&name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email);
+    }, 2500);
+
+  } catch(e) {
+    showAuthMsg(e.message || 'Something went wrong. Please try again.', 'error');
+    if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+  }
 }
 
 // ── RESET PASSWORD ──
@@ -1203,14 +1231,17 @@ async function resetPassword() {
 // ── GET SUPABASE CLIENT ──
 async function getSupabase() {
   if (window._supabase) return window._supabase;
-  // Try to init with config
-  const url = window.SUPABASE_URL || '';
-  const key = window.SUPABASE_ANON_KEY || '';
-  if (url && url !== 'YOUR_SUPABASE_URL' && key && key !== 'YOUR_SUPABASE_ANON_KEY') {
-    window._supabase = supabase.createClient(url, key);
-    return window._supabase;
+  const url = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+  const key = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+  // Handle different ways the Supabase CDN exposes createClient
+  const sb = window.supabase || window.Supabase;
+  if (sb && sb.createClient) {
+    window._supabase = sb.createClient(url, key);
+  } else {
+    // Fallback for module version
+    window._supabase = createClient(url, key);
   }
-  return null;
+  return window._supabase;
 }
 
 function showAuthMsg(msg, type) {

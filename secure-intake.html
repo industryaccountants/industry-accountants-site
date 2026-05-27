@@ -408,9 +408,10 @@ window.addEventListener('load', () => {
   document.title = cfg.title + ' — The Industry Accountants';
 });
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_URL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_tZUj-1ZWdWHCqyW537ZkNw_HG6C2_wE';
+const _sbLib = window.supabase || window.Supabase;
+const sb = _sbLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentStep = 1;
 let clientCountry = 'US';
