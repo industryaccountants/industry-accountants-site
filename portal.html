@@ -732,10 +732,14 @@ document.addEventListener('click', (e) => {
 });
 
 function addService() {
-  const service = currentUser?.user_metadata?.service_type || 'tax';
-  const params = '?name=' + encodeURIComponent(currentUser?.user_metadata?.full_name || '') +
-    '&email=' + encodeURIComponent(currentUser?.email || '') + '&returning=true';
-  window.location.href = 'secure-intake.html' + params;
+  document.getElementById('service-picker-modal').style.display = 'flex';
+}
+
+function pickService(service) {
+  document.getElementById('service-picker-modal').style.display = 'none';
+  const name = encodeURIComponent(currentUser?.user_metadata?.full_name || '');
+  const email = encodeURIComponent(currentUser?.email || '');
+  window.location.href = `secure-intake.html?service=${service}&name=${name}&email=${email}&returning=true`;
 }
 
 function focusMessage() {
@@ -853,5 +857,41 @@ function clearMsg() {
   el.className = 'auth-msg'; el.textContent = '';
 }
 </script>
+
+<!-- SERVICE PICKER MODAL -->
+<div id="service-picker-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center;padding:1.5rem">
+  <div style="background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:480px;max-height:90vh;overflow-y:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#111827">Add a Service</div>
+      <button onclick="document.getElementById('service-picker-modal').style.display='none'" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gray)">×</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.6rem">
+      <button onclick="pickService('tax')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(96,165,250,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📄</div>
+        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Tax Filing</div><div style="font-size:.75rem;color:var(--gray)">Personal, business, US & Canada</div></div>
+      </button>
+      <button onclick="pickService('bookkeeping')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(45,212,160,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📊</div>
+        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Bookkeeping</div><div style="font-size:.75rem;color:var(--gray)">Monthly books, P&L, balance sheet</div></div>
+      </button>
+      <button onclick="pickService('payroll')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(251,191,36,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">👥</div>
+        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Payroll Management</div><div style="font-size:.75rem;color:var(--gray)">W-2, 1099, direct deposit</div></div>
+      </button>
+      <button onclick="pickService('crossborder')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(13,24,41,.08);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🌎</div>
+        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Cross-Border Services</div><div style="font-size:.75rem;color:var(--gray)">US and Canada filing</div></div>
+      </button>
+      <button onclick="pickService('audit')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(248,113,113,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🔍</div>
+        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Audit Assessment</div><div style="font-size:.75rem;color:var(--gray)">IRS and CRA audit support</div></div>
+      </button>
+      <button onclick="pickService('partner')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid rgba(201,168,76,.3);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='rgba(201,168,76,.3)';this.style.background='#f9fafb'">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(201,168,76,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🤝</div>
+        <div><div style="font-size:.88rem;font-weight:600;color:#111827">White Label Partner</div><div style="font-size:.75rem;color:var(--gray)">Offer our services under your brand</div></div>
+      </button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
