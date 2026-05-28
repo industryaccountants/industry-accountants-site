@@ -7,6 +7,10 @@
   node_bundler = "esbuild"
   included_files = ["netlify/functions/node_modules/**"]
 
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_ANON_KEY,SUPABASE_URL"
+  SECRETS_SCAN_OMIT_PATHS = "portal.html,admin.html,secure-intake.html"
+
 [[headers]]
   for = "/*"
   [headers.values]

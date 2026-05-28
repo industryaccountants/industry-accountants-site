@@ -172,6 +172,11 @@ tr:hover td{background:#fafafa}
   .team-grid{grid-template-columns:1fr 1fr}
 }
 </style>
+<script>
+// These are publishable client-side keys — safe for browser use with RLS enabled
+window.SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+</script>
 </head>
 <body>
 
@@ -548,8 +553,8 @@ tr:hover td{background:#fafafa}
 
 <script>
 // ── CONFIG — Replace with your values ──
-const SUPABASE_URL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+const SUPABASE_URL = window.SURL;
+const SUPABASE_ANON_KEY = window.SKEY;
 const _sbLib = window.supabase || window.Supabase;
 const sb = _sbLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 

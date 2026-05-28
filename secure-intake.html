@@ -106,6 +106,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
 .si{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:#374151}
 .si-check{color:var(--green);font-weight:700}
 </style>
+<script>
+// These are publishable client-side keys — safe for browser use with RLS enabled
+window.SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+</script>
 </head>
 <body>
 
@@ -408,8 +413,8 @@ window.addEventListener('load', () => {
   document.title = cfg.title + ' — The Industry Accountants';
 });
 
-const SUPABASE_URL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+const SUPABASE_URL = window.SURL;
+const SUPABASE_ANON_KEY = window.SKEY;
 const _sbLib = window.supabase || window.Supabase;
 const sb = _sbLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 

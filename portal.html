@@ -218,6 +218,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
   .notif-panel{width:calc(100vw - 2rem);right:.5rem}
 }
 </style>
+<script>
+// These are publishable client-side keys — safe for browser use with RLS enabled
+window.SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+</script>
 </head>
 <body>
 
@@ -556,8 +561,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
 </div>
 
 <script>
-const SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+const SURL = window.SURL;
+const SKEY = window.SKEY;
 let sb, currentUser;
 
 window.addEventListener('load', async () => {
