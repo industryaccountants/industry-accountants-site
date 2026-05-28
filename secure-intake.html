@@ -521,7 +521,12 @@ async function submitPersonalStep() {
     client_type: 'personal'
   };
 
+  // Save to sessionStorage so it persists across steps
+  try { sessionStorage.setItem('tia_formData', JSON.stringify(formData)); } catch(e) {}
+
   await ensureClientRecord();
+  // Save clientId too
+  try { if (clientId) sessionStorage.setItem('tia_clientId', clientId); } catch(e) {}
 
   if (SERVICE === 'tax') {
     showStep('step-taxid');
@@ -555,7 +560,11 @@ async function submitBusinessStep() {
     years_in_business: document.getElementById('biz_years').value
   };
 
+  // Save to sessionStorage so it persists across steps
+  try { sessionStorage.setItem('tia_formData', JSON.stringify(formData)); } catch(e) {}
+
   await ensureClientRecord();
+  try { if (clientId) sessionStorage.setItem('tia_clientId', clientId); } catch(e) {}
 
   if (SERVICE === 'tax' && filingType === 'business') {
     showStep('step-taxid');
@@ -611,6 +620,17 @@ async function submitTaxId() {
         userId = refreshData?.session?.user?.id;
       }
     } catch(e) { console.warn('Session fetch:', e.message); }
+
+    // Restore from sessionStorage if lost
+    if (!clientId) {
+      try { clientId = sessionStorage.getItem('tia_clientId'); } catch(e) {}
+    }
+    if (!formData || Object.keys(formData).length === 0) {
+      try {
+        const saved = sessionStorage.getItem('tia_formData');
+        if (saved) formData = JSON.parse(saved);
+      } catch(e) {}
+    }
 
     // Make sure client record exists — create if not
     if (!clientId && userId) {
