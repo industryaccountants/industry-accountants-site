@@ -47,12 +47,19 @@ exports.handler = async (event) => {
       userId = user?.id;
     }
 
-    // Verify client belongs to user
+    // Verify client belongs to user (skip if no JWT — client just signed up)
     if (userId) {
       const { data: clientRec } = await adminClient
         .from('clients').select('id').eq('id', client_id).eq('user_id', userId).single();
       if (!clientRec) {
         return { statusCode: 403, headers, body: JSON.stringify({ error: 'Forbidden' }) };
+      }
+    } else {
+      // No JWT — verify client_id exists at minimum
+      const { data: clientRec } = await adminClient
+        .from('clients').select('id').eq('id', client_id).single();
+      if (!clientRec) {
+        return { statusCode: 404, headers, body: JSON.stringify({ error: 'Client not found' }) };
       }
     }
 
