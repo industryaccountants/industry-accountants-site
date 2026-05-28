@@ -510,7 +510,10 @@ async function goStep2() {
 // ── STEP 2 → 3 (Encrypt & Submit Tax ID) ──
 async function goStep3() {
   const taxIdRaw = document.getElementById('tax_id').value.replace(/\D/g, '');
-  if (taxIdRaw.length !== 9) {
+  const service = new URLSearchParams(window.location.search).get('service') || 'tax';
+  const needsTaxId = ['tax', 'crossborder', 'audit'].includes(service);
+
+  if (needsTaxId && taxIdRaw.length !== 9) {
     setFieldError('f-taxid', true);
     document.getElementById('taxid-error').textContent = clientCountry === 'CA' ? 'SIN must be 9 digits' : 'SSN must be 9 digits';
     return;
@@ -519,33 +522,55 @@ async function goStep3() {
 
   const btn = document.querySelector('#step-2 .submit-btn.gold');
   btn.disabled = true;
-  btn.textContent = 'Encrypting...';
+  btn.textContent = 'Saving...';
 
   try {
-    // Sign up / sign in the user
-    let { data: signUpData, error: signUpError } = await sb.auth.signUp({
-      email: formData.email,
-      password: generateSecurePassword(),
-      options: { data: { full_name: formData.full_name } }
-    });
+    // Get current session — user already signed up from portal
+    let { data: { session } } = await sb.auth.getSession();
+    let userId = session?.user?.id;
 
-    // If already exists, try to sign in
-    if (signUpError && signUpError.message.includes('already')) {
-      const { data: signInData, error: signInError } = await sb.auth.signInWithOtp({ email: formData.email });
-      if (signInError) throw signInError;
+    // If no session, try to get user directly
+    if (!userId) {
+      const { data: { user } } = await sb.auth.getUser();
+      userId = user?.id;
     }
 
-    const { data: { session } } = await sb.auth.getSession();
+    // If still no session, sign up silently
+    if (!userId) {
+      const { data: signUpData, error: signUpError } = await sb.auth.signUp({
+        email: formData.email,
+        password: generateSecurePassword(),
+        options: { data: { full_name: formData.full_name, service_type: service } }
+      });
+      if (!signUpError) {
+        userId = signUpData?.user?.id;
+        session = signUpData?.session;
+      }
+    }
+
+    if (!userId) throw new Error('Unable to verify your account. Please go back to the portal and sign in first.');
+
     const jwt = session?.access_token;
 
-    // Create client record
-    const { data: clientRec, error: clientErr } = await sb.from('clients').insert({
-      user_id: (await sb.auth.getUser()).data.user?.id,
-      ...formData
-    }).select().single();
+    // Check if client record already exists
+    const { data: existingClient } = await sb.from('clients')
+      .select('id').eq('user_id', userId).single();
 
-    if (clientErr) throw clientErr;
-    clientId = clientRec.id;
+    let clientRec;
+    if (existingClient) {
+      clientId = existingClient.id;
+      clientRec = existingClient;
+    } else {
+      // Create client record
+      const { data: newClient, error: clientErr } = await sb.from('clients').insert({
+        user_id: userId,
+        ...formData
+      }).select().single();
+
+      if (clientErr) throw new Error('Could not save your information: ' + clientErr.message);
+      clientId = newClient.id;
+      clientRec = newClient;
+    }
 
     // Submit tax ID via secure Netlify function
     const taxIdType = clientCountry === 'CA' ? 'SIN' : 'SSN';
