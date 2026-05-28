@@ -593,10 +593,17 @@ async function ensureClientRecord() {
     const { data: { session } } = await sb.auth.getSession();
     if (!session?.user) return;
     const userId = session.user.id;
-    const { data: existing } = await sb.from('clients').select('id').eq('user_id', userId).single();
-    if (existing) { clientId = existing.id; return; }
-    const { data: newClient, error } = await sb.from('clients').insert({ user_id: userId, ...formData }).select().single();
-    if (!error) clientId = newClient.id;
+    try {
+      const { data: existing } = await sb.from('clients').select('id').eq('user_id', userId).single();
+      if (existing) { clientId = existing.id; return; }
+    } catch(e) { /* no existing record, will create */ }
+    if (formData?.email) {
+      const { data: newClient, error } = await sb.from('clients').insert({ user_id: userId, ...formData }).select().single();
+      if (!error && newClient) {
+        clientId = newClient.id;
+        try { sessionStorage.setItem('tia_clientId', clientId); } catch(e) {}
+      }
+    }
   } catch(e) { console.warn('Client record:', e.message); }
 }
 
@@ -627,18 +634,22 @@ async function submitTaxId() {
       try { clientId = sessionStorage.getItem('tia_clientId'); } catch(e) {}
     }
     if (!clientId) {
-      const { data: existing } = await sb.from('clients').select('id').eq('user_id', userId).single().catch(() => ({ data: null }));
-      if (existing?.id) {
-        clientId = existing.id;
-      } else {
+      try {
+        const { data: existing } = await sb.from('clients').select('id').eq('user_id', userId).single();
+        if (existing?.id) clientId = existing.id;
+      } catch(e) { /* no existing record */ }
+
+      if (!clientId) {
         // Restore formData from sessionStorage
         try {
           const saved = sessionStorage.getItem('tia_formData');
           if (saved && (!formData || !formData.email)) formData = JSON.parse(saved);
         } catch(e) {}
         if (formData?.email) {
-          const { data: nc } = await sb.from('clients').insert({ user_id: userId, ...formData }).select('id').single().catch(() => ({ data: null }));
-          if (nc?.id) clientId = nc.id;
+          try {
+            const { data: nc } = await sb.from('clients').insert({ user_id: userId, ...formData }).select('id').single();
+            if (nc?.id) clientId = nc.id;
+          } catch(e) { console.warn('Client insert:', e.message); }
         }
       }
     }
