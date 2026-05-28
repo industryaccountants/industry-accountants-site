@@ -598,17 +598,36 @@ async function submitTaxId() {
   try {
     const taxType = clientCountry === 'CA' ? 'SIN' : 'SSN';
 
-    // Try to get session — works with both localStorage and sessionStorage
+    // Get session token
     let jwt = null;
+    let userId = null;
     try {
       const { data: { session } } = await sb.auth.getSession();
       jwt = session?.access_token;
-      // If no session try refreshing
+      userId = session?.user?.id;
       if (!jwt) {
         const { data: refreshData } = await sb.auth.refreshSession();
         jwt = refreshData?.session?.access_token;
+        userId = refreshData?.session?.user?.id;
       }
     } catch(e) { console.warn('Session fetch:', e.message); }
+
+    // Make sure client record exists — create if not
+    if (!clientId && userId) {
+      try {
+        const { data: existing } = await sb.from('clients').select('id').eq('user_id', userId).single();
+        if (existing) {
+          clientId = existing.id;
+        } else if (formData && Object.keys(formData).length > 0) {
+          const { data: newClient } = await sb.from('clients').insert({ user_id: userId, ...formData }).select().single();
+          if (newClient) clientId = newClient.id;
+        }
+      } catch(e) { console.warn('Client lookup:', e.message); }
+    }
+
+    if (!clientId) {
+      throw new Error('Could not find your account. Please go back and fill in your personal information first.');
+    }
 
     const payload = { tax_id: raw, tax_id_type: taxType, client_id: clientId };
     if (jwt) payload.jwt = jwt;
