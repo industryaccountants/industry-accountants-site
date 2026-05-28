@@ -581,7 +581,15 @@ let sb, currentUser;
 window.addEventListener('load', async () => {
   try {
     const sbLib = window.supabase || window.Supabase;
-    sb = sbLib.createClient(SURL, SKEY);
+    // Use sessionStorage so sessions don't persist across browser windows/incognito
+    sb = sbLib.createClient(SURL, SKEY, {
+      auth: {
+        storage: window.sessionStorage,
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+      }
+    });
 
     // Handle confirmation token in URL
     const params = new URLSearchParams(window.location.search);
