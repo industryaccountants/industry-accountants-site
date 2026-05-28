@@ -64,7 +64,7 @@ exports.handler = async (event) => {
     }
 
     const last4 = cleanId.slice(-4);
-    const encKey = process.env.ENCRYPTION_KEY || 'TIA2024SecureKey!xK9mP3qR7nL5vB2wZ8';
+    const encKey = process.env.ENCRYPTION_KEY;
 
     // Encrypt using pgcrypto via RPC
     let encryptedId = null;
