@@ -572,16 +572,18 @@ async function goStep3() {
       clientRec = newClient;
     }
 
-    // Submit tax ID via secure Netlify function
+    // Submit tax ID via secure Netlify function (AES-256 encryption)
     const taxIdType = clientCountry === 'CA' ? 'SIN' : 'SSN';
-    const resp = await fetch('/.netlify/functions/submit-tax-id', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tax_id: taxIdRaw, tax_id_type: taxIdType, client_id: clientId, jwt })
-    });
 
-    const result = await resp.json();
-    if (!resp.ok) throw new Error(result.error || 'Submission failed');
+    if (taxIdRaw.length === 9) {
+      const resp = await fetch('/.netlify/functions/submit-tax-id', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tax_id: taxIdRaw, tax_id_type: taxIdType, client_id: clientId, jwt })
+      });
+      const result = await resp.json();
+      if (!resp.ok) throw new Error(result.error || 'Could not secure your tax ID');
+    }
 
     // Submit EIN if provided
     const einRaw = document.getElementById('ein').value.replace(/\D/g, '');
