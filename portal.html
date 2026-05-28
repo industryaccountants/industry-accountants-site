@@ -313,6 +313,19 @@ window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJl
       <div class="welcome-status" id="welcome-status">Your account is being set up. Your advisor will be in touch shortly.</div>
     </div>
 
+    <!-- CONSULTATION BANNER (shown for non-tax services) -->
+    <div id="consult-banner" style="display:none;background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.25rem;margin-bottom:1.25rem;display:none;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+      <div>
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.2rem">Next Step</div>
+        <div style="font-size:.9rem;font-weight:500;color:#111827">Ready to get started? Book a consultation or message us.</div>
+        <div style="font-size:.75rem;color:var(--gray);margin-top:.15rem">You can also upload documents directly to your Secure Financial Vault anytime.</div>
+      </div>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+        <button onclick="bookConsultation()" style="background:var(--navy);color:#fff;border:none;border-radius:8px;padding:.55rem 1.1rem;font-size:.8rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">📅 Book Consultation</button>
+        <button onclick="focusMessage()" style="background:#fff;color:var(--navy);border:1.5px solid var(--border);border-radius:8px;padding:.55rem 1.1rem;font-size:.8rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">💬 Message Us</button>
+      </div>
+    </div>
+
     <!-- ACTION REQUIRED -->
     <div class="action-card" id="action-card">
       <div class="section-label">
@@ -632,7 +645,10 @@ function showPortal(user) {
   document.getElementById('service-badge').textContent = serviceNames[service] || service;
 
   // Show/hide service-specific sections
-  document.getElementById('refund-card').style.display = (service === 'tax' || service === 'crossborder') ? 'block' : 'none';
+  document.getElementById('refund-card').style.display = (service === 'tax') ? 'block' : 'none';
+  // Show consultation banner for non-tax services
+  const consultBanner = document.getElementById('consult-banner');
+  if (consultBanner) consultBanner.style.display = service !== 'tax' ? 'flex' : 'none';
   document.getElementById('crossborder-card').style.display = service === 'crossborder' ? 'block' : 'none';
   document.getElementById('partner-card').style.display = service === 'partner' ? 'block' : 'none';
 
@@ -730,6 +746,11 @@ document.addEventListener('click', (e) => {
     document.getElementById('notif-panel').classList.remove('open');
   }
 });
+
+function bookConsultation() {
+  // Opens consultation booking — you can replace this URL with your Calendly or booking link
+  window.open('https://calendly.com/theindustryaccountants', '_blank');
+}
 
 function addService() {
   document.getElementById('service-picker-modal').style.display = 'flex';
