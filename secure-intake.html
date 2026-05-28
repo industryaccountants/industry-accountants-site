@@ -327,7 +327,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
 const SURL = window.SURL;
 const SKEY = window.SKEY;
 const sbLib = window.supabase || window.Supabase;
-const sb = sbLib.createClient(SURL, SKEY);
+const sb = sbLib.createClient(SURL, SKEY, {
+  auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+});
 
 let currentStep = null;
 let clientCountry = 'US';
@@ -347,6 +349,13 @@ const RETURNING = urlParams.get('returning') === 'true';
 
 // ── INIT ──
 window.addEventListener('load', async () => {
+  // Verify user is logged in — redirect to portal if not
+  const { data: { session: authSession } } = await sb.auth.getSession();
+  if (!authSession?.user) {
+    window.location.href = 'portal.html';
+    return;
+  }
+
   if (PREFILL_NAME) document.getElementById('full_name').value = PREFILL_NAME;
   if (PREFILL_EMAIL) document.getElementById('email').value = PREFILL_EMAIL;
   if (PREFILL_NAME) document.getElementById('contact_name').value = PREFILL_NAME;
@@ -602,52 +611,43 @@ async function submitTaxId() {
   document.getElementById('f-taxid').classList.remove('has-error');
 
   const btn = document.querySelector('#step-taxid .submit-btn.gold');
-  btn.disabled = true; btn.textContent = 'Encrypting...';
+  btn.disabled = true; btn.textContent = 'Securing...';
 
   try {
     const taxType = clientCountry === 'CA' ? 'SIN' : 'SSN';
+    const last4 = raw.slice(-4);
 
-    // Get session token
-    let jwt = null;
-    let userId = null;
-    try {
-      const { data: { session } } = await sb.auth.getSession();
-      jwt = session?.access_token;
-      userId = session?.user?.id;
-      if (!jwt) {
-        const { data: refreshData } = await sb.auth.refreshSession();
-        jwt = refreshData?.session?.access_token;
-        userId = refreshData?.session?.user?.id;
-      }
-    } catch(e) { console.warn('Session fetch:', e.message); }
+    // Get session — user must be logged in (enforced at page load)
+    const { data: { session: currentSession } } = await sb.auth.getSession();
+    const userId = currentSession?.user?.id;
+    if (!userId) throw new Error('Session expired. Please sign in again.');
 
-    // Restore from sessionStorage if lost
+    // Get or create client record
     if (!clientId) {
       try { clientId = sessionStorage.getItem('tia_clientId'); } catch(e) {}
     }
-    if (!formData || Object.keys(formData).length === 0) {
-      try {
-        const saved = sessionStorage.getItem('tia_formData');
-        if (saved) formData = JSON.parse(saved);
-      } catch(e) {}
-    }
-
-    // Make sure client record exists — create if not
-    if (!clientId && userId) {
-      try {
-        const { data: existing } = await sb.from('clients').select('id').eq('user_id', userId).single();
-        if (existing) {
-          clientId = existing.id;
-        } else if (formData && Object.keys(formData).length > 0) {
-          const { data: newClient } = await sb.from('clients').insert({ user_id: userId, ...formData }).select().single();
-          if (newClient) clientId = newClient.id;
-        }
-      } catch(e) { console.warn('Client lookup:', e.message); }
-    }
-
     if (!clientId) {
-      throw new Error('Could not find your account. Please go back and fill in your personal information first.');
+      const { data: existing } = await sb.from('clients').select('id').eq('user_id', userId).single().catch(() => ({ data: null }));
+      if (existing?.id) {
+        clientId = existing.id;
+      } else {
+        // Restore formData from sessionStorage
+        try {
+          const saved = sessionStorage.getItem('tia_formData');
+          if (saved && (!formData || !formData.email)) formData = JSON.parse(saved);
+        } catch(e) {}
+        if (formData?.email) {
+          const { data: nc } = await sb.from('clients').insert({ user_id: userId, ...formData }).select('id').single().catch(() => ({ data: null }));
+          if (nc?.id) clientId = nc.id;
+        }
+      }
     }
+    if (!clientId) throw new Error('Could not find your account. Please go back to Step 1 and try again.');
+    try { sessionStorage.setItem('tia_clientId', clientId); } catch(e) {}
+
+    // Submit via secure Netlify function (AES-256 encryption)
+    const { data: { session: txSession } } = await sb.auth.getSession();
+    const jwt = txSession?.access_token;
 
     const payload = { tax_id: raw, tax_id_type: taxType, client_id: clientId };
     if (jwt) payload.jwt = jwt;
@@ -659,24 +659,23 @@ async function submitTaxId() {
     });
 
     const result = await resp.json();
-
-    if (resp.ok && result.success) {
-      // Submit EIN if provided
-      const einRaw = document.getElementById('ein').value.replace(/\D/g, '');
-      if (einRaw.length === 9) {
-        const einPayload = { tax_id: einRaw, tax_id_type: 'EIN', client_id: clientId };
-        if (jwt) einPayload.jwt = jwt;
-        await fetch('/.netlify/functions/submit-tax-id', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(einPayload)
-        });
-      }
-      buildReviewCard();
-      showStep('step-docs');
-    } else {
+    if (!resp.ok || !result.success) {
       throw new Error(result.error || 'Could not secure your tax ID. Please try again.');
     }
+
+    // Handle EIN if provided
+    const einRaw = document.getElementById('ein').value.replace(/\D/g, '');
+    if (einRaw.length === 9 && jwt) {
+      await fetch('/.netlify/functions/submit-tax-id', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tax_id: einRaw, tax_id_type: 'EIN', client_id: clientId, jwt })
+      }).catch(() => {});
+    }
+
+    buildReviewCard();
+    showStep('step-docs');
+
   } catch(e) {
     showAlert('st-alert', 'error', e.message);
   } finally {

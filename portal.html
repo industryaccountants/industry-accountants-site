@@ -581,10 +581,8 @@ let sb, currentUser;
 window.addEventListener('load', async () => {
   try {
     const sbLib = window.supabase || window.Supabase;
-    // Use sessionStorage so sessions don't persist across browser windows/incognito
     sb = sbLib.createClient(SURL, SKEY, {
       auth: {
-        storage: window.sessionStorage,
         autoRefreshToken: true,
         persistSession: true,
         detectSessionInUrl: true
