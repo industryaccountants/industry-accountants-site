@@ -596,30 +596,47 @@ async function submitTaxId() {
   btn.disabled = true; btn.textContent = 'Encrypting...';
 
   try {
-    const { data: { session } } = await sb.auth.getSession();
-    const jwt = session?.access_token;
     const taxType = clientCountry === 'CA' ? 'SIN' : 'SSN';
+
+    // Try to get session — works with both localStorage and sessionStorage
+    let jwt = null;
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      jwt = session?.access_token;
+      // If no session try refreshing
+      if (!jwt) {
+        const { data: refreshData } = await sb.auth.refreshSession();
+        jwt = refreshData?.session?.access_token;
+      }
+    } catch(e) { console.warn('Session fetch:', e.message); }
+
+    const payload = { tax_id: raw, tax_id_type: taxType, client_id: clientId };
+    if (jwt) payload.jwt = jwt;
 
     const resp = await fetch('/.netlify/functions/submit-tax-id', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tax_id: raw, tax_id_type: taxType, client_id: clientId, jwt })
+      body: JSON.stringify(payload)
     });
 
-    if (resp.ok) {
+    const result = await resp.json();
+
+    if (resp.ok && result.success) {
       // Submit EIN if provided
       const einRaw = document.getElementById('ein').value.replace(/\D/g, '');
       if (einRaw.length === 9) {
+        const einPayload = { tax_id: einRaw, tax_id_type: 'EIN', client_id: clientId };
+        if (jwt) einPayload.jwt = jwt;
         await fetch('/.netlify/functions/submit-tax-id', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tax_id: einRaw, tax_id_type: 'EIN', client_id: clientId, jwt })
+          body: JSON.stringify(einPayload)
         });
       }
       buildReviewCard();
       showStep('step-docs');
     } else {
-      throw new Error('Encryption service unavailable. Please try again.');
+      throw new Error(result.error || 'Could not secure your tax ID. Please try again.');
     }
   } catch(e) {
     showAlert('st-alert', 'error', e.message);
