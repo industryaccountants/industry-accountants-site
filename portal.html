@@ -601,11 +601,17 @@ window.addEventListener('load', async () => {
       }
     }
 
-    // Check existing session
+    // Check existing session — verify it's still valid
     const { data: { session } } = await sb.auth.getSession();
     if (session?.user) {
-      currentUser = session.user;
-      showPortal(currentUser);
+      const { data: { user }, error: userErr } = await sb.auth.getUser();
+      if (user && !userErr) {
+        currentUser = user;
+        showPortal(user);
+      } else {
+        await sb.auth.signOut();
+        hideLoading();
+      }
     } else {
       hideLoading();
     }
