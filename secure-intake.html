@@ -374,26 +374,23 @@ const SERVICE_CONFIG = {
 };
 
 // ── APPLY SERVICE CONFIG ON LOAD ──
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   const params = new URLSearchParams(window.location.search);
   const service = params.get('service') || 'tax';
   const prefillName = params.get('name') || '';
   const prefillEmail = params.get('email') || '';
+  const returning = params.get('returning') === 'true';
   const cfg = SERVICE_CONFIG[service] || SERVICE_CONFIG.tax;
 
   // Pre-fill name and email if passed from portal
   if (prefillName) document.getElementById('full_name').value = prefillName;
   if (prefillEmail) document.getElementById('email').value = prefillEmail;
 
-  // Update step 1 header
+  // Update step headers
   document.querySelector('#step-1 .step-title').textContent = cfg.title;
   document.querySelector('#step-1 .step-sub').textContent = cfg.sub;
-
-  // Update step 2
   document.querySelector('#step-2 .step-title').textContent = cfg.step2title;
   document.querySelector('#step-2 .step-sub').textContent = cfg.step2sub;
-
-  // Update step 3
   document.querySelector('#step-3 .step-title').textContent = 'Upload Documents';
   document.querySelector('#step-3 .step-sub').textContent = 'Files are stored in encrypted private storage — only you and your accountant can access them.';
   document.querySelector('.card-title').textContent = cfg.docsTitle || 'Documents';
@@ -401,7 +398,6 @@ window.addEventListener('load', () => {
   if (docsHintEl) docsHintEl.innerHTML = `<strong>What to upload:</strong> ${cfg.docsHint}`;
 
   // Show/hide tax ID field based on service
-  const taxIdCard = document.querySelector('#step-2 .card');
   if (!cfg.needsTaxId && service !== 'tax' && service !== 'crossborder' && service !== 'audit') {
     document.getElementById('taxid-label').textContent = 'Business Number / EIN (if applicable)';
     document.getElementById('taxid-hint').textContent = 'Optional for bookkeeping and payroll services';
@@ -411,6 +407,49 @@ window.addEventListener('load', () => {
 
   // Update page title
   document.title = cfg.title + ' — The Industry Accountants';
+
+  // ── RETURNING CLIENT — skip Step 1, go straight to Step 2 ──
+  if (returning) {
+    // Try to get existing client data from Supabase
+    try {
+      const sbLib = window.supabase || window.Supabase;
+      if (sbLib) {
+        const sbClient = sbLib.createClient(window.SURL, window.SKEY);
+        const { data: { session } } = await sbClient.auth.getSession();
+        if (session?.user) {
+          const { data: clientRec } = await sbClient
+            .from('clients').select('*').eq('user_id', session.user.id).single();
+          if (clientRec) {
+            // Pre-fill all fields from existing record
+            document.getElementById('full_name').value = clientRec.full_name || prefillName;
+            document.getElementById('email').value = clientRec.email || prefillEmail;
+            if (clientRec.phone) document.getElementById('phone').value = clientRec.phone;
+            if (clientRec.date_of_birth) document.getElementById('dob').value = clientRec.date_of_birth;
+            if (clientRec.street) document.getElementById('street').value = clientRec.street;
+            if (clientRec.city) document.getElementById('city').value = clientRec.city;
+            if (clientRec.state_province) document.getElementById('state_province').value = clientRec.state_province;
+            if (clientRec.postal_code) document.getElementById('postal_code').value = clientRec.postal_code;
+            if (clientRec.country) setCountry(clientRec.country);
+            if (clientRec.entity_type) document.getElementById('entity_type').value = clientRec.entity_type;
+          }
+        }
+      }
+    } catch(e) { console.warn('Could not load existing data:', e.message); }
+
+    // Update step labels to show 3 steps instead of 4
+    document.querySelector('#step-1 .step-label').textContent = 'Step 1 of 3';
+    document.querySelector('#step-2 .step-label').textContent = 'Step 2 of 3';
+    document.querySelector('#step-3 .step-label').textContent = 'Step 3 of 3';
+    document.querySelector('#step-4 .step-label').textContent = 'Step 3 of 3';
+    document.getElementById('progressFill').style.width = '33%';
+
+    // Update Step 2 title to reflect adding a service
+    document.querySelector('#step-2 .step-title').textContent = 'Adding: ' + cfg.title;
+    document.querySelector('#step-2 .step-sub').textContent = 'Your personal information is already on file. Just provide your ' + cfg.step2title.toLowerCase() + ' below.';
+
+    // Skip straight to step 2
+    goStep(2);
+  }
 });
 
 const SUPABASE_URL = window.SURL;
