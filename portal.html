@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Client Portal — The Industry Accountants</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.8"></script>
 <script>
 window.SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
 window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.8" crossorigin="anonymous"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -677,10 +677,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
 
 <script>
 // ── SUPABASE ──
-const sbLib = window.supabase || window.Supabase;
-const sb = sbLib.createClient(window.SURL, window.SKEY, {
-  auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
-});
+let sb;
+function initSb() {
+  const sbLib = window.supabase || window.Supabase;
+  if (!sbLib) return false;
+  sb = sbLib.createClient(window.SURL, window.SKEY, {
+    auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+  });
+  return true;
+}
+initSb();
 
 let currentUser = null;
 let clientId = null;
@@ -695,8 +701,19 @@ let uploadedFiles = [];
 
 // ── INIT ──
 window.addEventListener('load', async () => {
+  // Safety timeout — never get stuck on loading screen
+  const loadingTimeout = setTimeout(() => {
+    showScreen('screen-auth');
+  }, 3000);
+
   try {
+    if (!sb && !initSb()) {
+      clearTimeout(loadingTimeout);
+      showScreen('screen-auth');
+      return;
+    }
     const { data: { session } } = await sb.auth.getSession();
+    clearTimeout(loadingTimeout);
     if (session?.user) {
       const { data: { user }, error } = await sb.auth.getUser();
       if (user && !error) {
@@ -718,6 +735,7 @@ window.addEventListener('load', async () => {
       showScreen('screen-auth');
     }
   } catch(e) {
+    clearTimeout(loadingTimeout);
     console.warn('Init:', e.message);
     showScreen('screen-auth');
   }
