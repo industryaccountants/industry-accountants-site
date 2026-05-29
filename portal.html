@@ -6,262 +6,256 @@
 <title>Client Portal — The Industry Accountants</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.8"></script>
+<script>
+window.SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
+window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#0d1829;--navy2:#162038;--navy3:#1e2f4a;
-  --gold:#c9a84c;--gold2:#d4ac50;--green:#2dd4a0;
+  --navy:#0d1829;--navy2:#162038;--gold:#c9a84c;--green:#2dd4a0;
   --red:#f87171;--blue:#60a5fa;--amber:#fbbf24;
-  --white:#f5f0e8;--gray:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;
+  --gray:#6b7280;--border:#e5e7eb;--bg:#f3f4f6;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-height:100vh;overflow-x:hidden}
 
-/* ── AUTH SCREEN ── */
-#auth-screen{min-height:100vh;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:1.5rem}
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+
+/* ── LOADING ── */
+#screen-loading{background:var(--navy);display:flex;align-items:center;justify-content:center}
+.loading-wrap{text-align:center}
+.loading-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.2rem;margin-bottom:.4rem}
+.loading-sub{font-size:.72rem;color:rgba(255,255,255,.35);margin-bottom:1rem}
+.spinner{width:24px;height:24px;border-radius:50%;border:2px solid rgba(201,168,76,.2);border-top-color:var(--gold);animation:spin 1s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── AUTH ── */
+#screen-auth{background:var(--navy);display:flex;align-items:center;justify-content:center;padding:1.5rem}
 .auth-card{background:#fff;border-radius:20px;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
 .auth-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1rem;text-align:center;margin-bottom:.2rem}
-.auth-sub{font-size:.75rem;color:var(--gray);text-align:center;margin-bottom:2rem;letter-spacing:.05em}
-.tab-row{display:flex;background:#f3f4f6;border-radius:8px;padding:3px;margin-bottom:1.5rem;gap:3px}
+.auth-sub{font-size:.72rem;color:var(--gray);text-align:center;margin-bottom:1.75rem;text-transform:uppercase;letter-spacing:.06em}
+.tab-row{display:flex;background:#f3f4f6;border-radius:8px;padding:3px;margin-bottom:1.25rem;gap:3px}
 .tab-btn{flex:1;padding:.5rem;border:none;background:transparent;border-radius:6px;font-size:.82rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--gray);transition:all .2s}
 .tab-btn.active{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 .tab-panel{display:none}.tab-panel.active{display:block}
-.field{margin-bottom:.9rem}
-.field label{display:block;font-size:.75rem;font-weight:600;color:#374151;margin-bottom:.3rem}
-.field input,.field select{width:100%;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;color:#111827;outline:none;transition:border-color .2s}
-.field input:focus,.field select:focus{border-color:var(--gold);background:#fff}
-.btn-primary{width:100%;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:.75rem;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;margin-top:.25rem}
+.f{margin-bottom:.85rem}
+.f label{display:block;font-size:.74rem;font-weight:600;color:#374151;margin-bottom:.28rem}
+.f input,.f select{width:100%;background:#f9fafb;border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;color:#111827;outline:none;transition:border-color .2s}
+.f input:focus,.f select:focus{border-color:var(--gold);background:#fff}
+.btn-primary{width:100%;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:.75rem;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:background .2s}
 .btn-primary:hover{background:var(--navy2)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.auth-msg{font-size:.78rem;padding:.6rem .85rem;border-radius:7px;margin-bottom:.75rem;display:none;text-align:center}
+.auth-msg{font-size:.78rem;padding:.55rem .85rem;border-radius:7px;margin-bottom:.75rem;display:none;text-align:center}
 .auth-msg.show{display:block}
 .auth-msg.success{background:rgba(45,212,160,.1);color:#065f46;border:.5px solid rgba(45,212,160,.3)}
 .auth-msg.error{background:rgba(248,113,113,.1);color:#991b1b;border:.5px solid rgba(248,113,113,.3)}
 
-/* ── PORTAL LAYOUT ── */
-#portal-screen{display:none;min-height:100vh}
+/* ── INTAKE ── */
+#screen-intake{background:var(--bg)}
+.intake-nav{background:var(--navy);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.intake-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:.9rem}
+.intake-secure{font-size:.65rem;color:rgba(255,255,255,.4)}
+.progress-bar{background:#e5e7eb;height:4px}
+.progress-fill{background:var(--gold);height:4px;transition:width .4s ease}
+.intake-body{max-width:620px;margin:0 auto;padding:2rem 1.25rem}
+.step-hdr{text-align:center;margin-bottom:1.75rem}
+.step-lbl{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.step-ttl{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy);margin-bottom:.35rem}
+.step-sub{font-size:.86rem;color:var(--gray);line-height:1.6}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.1rem}
+.card-ttl{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.ctr{display:flex;background:#f3f4f6;border:1px solid var(--border);border-radius:8px;padding:3px;gap:3px;margin-bottom:.85rem}
+.ct{flex:1;text-align:center;padding:.4rem;border-radius:6px;font-size:.78rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--gray);font-family:'DM Sans',sans-serif;transition:all .2s}
+.ct.on{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.5rem}
+.type-card{padding:.9rem;border:1.5px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;text-align:center;transition:all .2s;font-family:'DM Sans',sans-serif}
+.type-card:hover{border-color:var(--gold);background:rgba(201,168,76,.03)}
+.type-card.on{border-color:var(--gold);background:rgba(201,168,76,.05)}
+.type-icon{font-size:1.35rem;margin-bottom:.25rem}
+.type-lbl{font-size:.85rem;font-weight:600;color:var(--navy)}
+.type-sub{font-size:.68rem;color:var(--gray);margin-top:.1rem;line-height:1.4}
+.sw{position:relative}
+.sw input{font-family:monospace;letter-spacing:.1em;padding-right:2.5rem}
+.sw-btn{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:.75rem;font-family:'DM Sans',sans-serif}
+.enc-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.25);border-radius:999px;padding:.22rem .7rem;font-size:.63rem;color:var(--green);font-weight:600;margin-bottom:.7rem}
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s}
+.upload-zone:hover{border-color:var(--gold);background:rgba(201,168,76,.03)}
+.upload-ico{font-size:1.4rem;margin-bottom:.35rem}
+.upload-txt{font-size:.83rem;color:var(--gray)}.upload-txt strong{color:var(--navy)}
+.upload-types{font-size:.66rem;color:#9ca3af;margin-top:.2rem}
+.file-list{margin-top:.65rem;display:flex;flex-direction:column;gap:.35rem}
+.file-row{display:flex;align-items:center;gap:.55rem;padding:.45rem .7rem;background:#f9fafb;border:.5px solid var(--border);border-radius:7px;font-size:.75rem}
+.file-name{flex:1;color:#111827;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-size{color:var(--gray);font-size:.66rem}
+.file-ok{font-size:.63rem;font-weight:600;color:var(--green)}
+.btn-gold{width:100%;background:var(--gold);color:#0a0800;border:none;border-radius:10px;padding:.88rem;font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:background .2s}
+.btn-gold:hover{background:#d4ac50}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:#f3f4f6;color:#374151;border:none;border-radius:10px;padding:.75rem 1.4rem;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer}
+.istep{display:none}.istep.active{display:block}
+.alert{padding:.7rem 1rem;border-radius:8px;font-size:.8rem;margin-bottom:.85rem;display:none}
+.alert.show{display:block}
+.alert.err{background:rgba(248,113,113,.1);border:.5px solid rgba(248,113,113,.3);color:#991b1b}
+.alert.ok{background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.3);color:#065f46}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem 1.25rem}
+.rv{padding:.35rem 0;border-bottom:.5px solid var(--border)}
+.rv-lbl{font-size:.66rem;color:var(--gray)}
+.rv-val{font-size:.8rem;font-weight:500;color:#111827;margin-top:.1rem}
+.consent-row{display:flex;align-items:flex-start;gap:.6rem;cursor:pointer;font-size:.8rem;color:#374151;margin-bottom:.6rem}
+.consent-row input{margin-top:2px;accent-color:var(--gold);flex-shrink:0}
+
+/* ── PORTAL NAV ── */
 .portal-nav{background:var(--navy);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.portal-nav-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:.9rem}
-.portal-nav-right{display:flex;align-items:center;gap:.75rem}
-.notif-btn{position:relative;background:rgba(255,255,255,.08);border:none;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.7);transition:all .2s}
-.notif-btn:hover{background:rgba(255,255,255,.15);color:#fff}
-.notif-badge{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--navy)}
-.nav-avatar{width:34px;height:34px;border-radius:50%;background:rgba(201,168,76,.2);border:1.5px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--gold);cursor:pointer}
-.logout-btn{font-size:.75rem;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:.25rem .5rem}
-.logout-btn:hover{color:var(--red)}
+.pnav-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:.9rem}
+.pnav-r{display:flex;align-items:center;gap:.65rem}
+.notif-btn{position:relative;background:rgba(255,255,255,.08);border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.7)}
+.notif-badge{position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--red);border-radius:50%;border:2px solid var(--navy);display:none}
+.nav-av{width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.2);border:1.5px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--gold);cursor:pointer}
+.sign-out{font-size:.72rem;color:rgba(255,255,255,.35);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.sign-out:hover{color:var(--red)}
 
-/* ── PORTAL CONTENT ── */
-.portal-body{max-width:1100px;margin:0 auto;padding:1.75rem 1.25rem}
-
-/* WELCOME BANNER */
-.welcome-banner{background:var(--navy);border-radius:16px;padding:1.75rem 2rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
-.welcome-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(201,168,76,.06);border-radius:50%}
-.welcome-banner::after{content:'';position:absolute;bottom:-60px;right:60px;width:150px;height:150px;background:rgba(201,168,76,.04);border-radius:50%}
-.welcome-greeting{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.3rem}
-.welcome-name{font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff;margin-bottom:.35rem}
-.welcome-status{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.5}
+/* ── PORTAL BODY ── */
+.portal-body{max-width:1080px;margin:0 auto;padding:1.5rem 1.25rem}
+.welcome{background:var(--navy);border-radius:16px;padding:1.6rem 1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.welcome::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(201,168,76,.05);border-radius:50%}
+.welcome-hi{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.25rem}
+.welcome-name{font-family:'Playfair Display',serif;font-size:1.55rem;color:#fff;margin-bottom:.3rem}
+.welcome-status{font-size:.83rem;color:rgba(255,255,255,.55);line-height:1.5}
 .welcome-status span{color:var(--gold);font-weight:500}
-
-/* ACTION REQUIRED */
-.action-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1.25rem}
-.card-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:1rem}
-.action-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .85rem;background:#fff9f0;border:.5px solid rgba(251,191,36,.3);border-radius:8px;margin-bottom:.5rem;cursor:pointer;transition:all .2s}
-.action-item:hover{background:#fff3e0;border-color:var(--amber)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
+.pc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+.pc-ttl{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.85rem}
+.action-item{display:flex;align-items:center;gap:.65rem;padding:.6rem .8rem;background:#fff9f0;border:.5px solid rgba(251,191,36,.3);border-radius:8px;margin-bottom:.45rem;cursor:pointer;font-size:.8rem;color:#374151;font-weight:500}
 .action-item:last-child{margin-bottom:0}
-.action-icon{width:28px;height:28px;border-radius:50%;background:rgba(251,191,36,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.8rem}
-.action-text{flex:1;font-size:.83rem;color:#374151;font-weight:500}
-.action-arrow{font-size:.7rem;color:var(--gray)}
-.no-actions{display:flex;align-items:center;gap:.75rem;padding:.75rem;font-size:.83rem;color:var(--green)}
-
-/* 2-COL GRID */
-.portal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
-
-/* STATUS TRACKER */
-.status-steps{display:flex;flex-direction:column;gap:0}
-.status-step{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem 0;position:relative}
-.status-step::before{content:'';position:absolute;left:11px;top:28px;bottom:-6px;width:1.5px;background:var(--border)}
+.no-action{font-size:.8rem;color:var(--green);display:flex;align-items:center;gap:.5rem}
+.status-step{display:flex;align-items:flex-start;gap:.65rem;padding:.5rem 0;position:relative}
+.status-step::before{content:'';position:absolute;left:9px;top:24px;bottom:-4px;width:1.5px;background:var(--border)}
 .status-step:last-child::before{display:none}
-.step-dot{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;border:2px solid var(--border);background:#fff;position:relative;z-index:1}
-.step-dot.done{border-color:var(--green);background:rgba(45,212,160,.1);color:var(--green)}
-.step-dot.active{border-color:var(--gold);background:rgba(201,168,76,.1);color:var(--gold)}
-.step-dot.pending{border-color:var(--border);color:var(--gray)}
-.step-info{flex:1}
-.step-label{font-size:.83rem;font-weight:500;color:#111827}
-.step-dot.pending ~ .step-info .step-label{color:var(--gray)}
-.step-date{font-size:.7rem;color:var(--gray);margin-top:.1rem}
-
-
-
-/* REFUND TRACKER */
-.refund-steps{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.85rem}
-.refund-step{display:flex;align-items:center;gap:.6rem;font-size:.82rem}
-.refund-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:.55rem}
-.refund-dot.done{border-color:var(--green);background:var(--green);color:#fff}
-.refund-dot.active{border-color:var(--gold);background:rgba(201,168,76,.15)}
-.refund-label{color:#374151}
-.refund-label.pending{color:var(--gray)}
-.refund-amount{display:flex;justify-content:space-between;align-items:center;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.2);border-radius:8px;padding:.65rem .85rem}
-.refund-amt-label{font-size:.72rem;color:var(--gray)}
-.refund-amt-value{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--green);font-weight:500}
-
-
-
-/* HEALTH METRICS */
-.health-metrics{display:flex;flex-direction:column;gap:.65rem}
-.health-metric{display:flex;flex-direction:column;gap:.3rem}
-.health-metric-top{display:flex;justify-content:space-between;align-items:center}
-.health-metric-label{font-size:.75rem;color:#374151;font-weight:500}
-.health-metric-status{font-size:.68rem;font-weight:600;padding:1px 7px;border-radius:999px}
-.hm-good{background:rgba(45,212,160,.1);color:#065f46;border:.5px solid rgba(45,212,160,.25)}
-.hm-ok{background:rgba(201,168,76,.1);color:#92400e;border:.5px solid rgba(201,168,76,.25)}
-.hm-warn{background:rgba(248,113,113,.1);color:#991b1b;border:.5px solid rgba(248,113,113,.25)}
-.health-bar-wrap{height:6px;background:var(--border);border-radius:999px;overflow:hidden}
-.health-bar{height:6px;border-radius:999px;transition:width .6s ease}
-
-/* DEADLINE TIMELINE */
-.deadline-items{display:flex;flex-direction:column;gap:.5rem}
-.deadline-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .85rem;border-radius:8px;background:var(--bg);border:.5px solid var(--border)}
-.deadline-date{font-size:.72rem;font-weight:600;color:var(--navy);min-width:56px}
-.deadline-label{font-size:.82rem;color:#374151;flex:1}
-.deadline-badge{font-size:.62rem;font-weight:600;padding:2px 7px;border-radius:999px}
-.badge-urgent{background:rgba(248,113,113,.1);color:#991b1b;border:.5px solid rgba(248,113,113,.3)}
-.badge-upcoming{background:rgba(201,168,76,.1);color:#92400e;border:.5px solid rgba(201,168,76,.3)}
-.badge-ok{background:rgba(45,212,160,.1);color:#065f46;border:.5px solid rgba(45,212,160,.3)}
-
-/* SECURE VAULT */
-.vault-upload{border:2px dashed var(--border);border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s}
-.vault-upload:hover{border-color:var(--gold);background:rgba(201,168,76,.03)}
-.vault-icon{font-size:1.5rem;margin-bottom:.4rem}
-.vault-text{font-size:.83rem;color:var(--gray)}.vault-text strong{color:var(--navy)}
-.vault-types{font-size:.68rem;color:#9ca3af;margin-top:.2rem}
-.vault-files{margin-top:.85rem;display:flex;flex-direction:column;gap:.4rem}
-.vault-file{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;background:var(--bg);border:.5px solid var(--border);border-radius:7px;font-size:.78rem}
-.vault-file-name{flex:1;color:#111827;font-weight:500}
-.vault-file-size{color:var(--gray);font-size:.68rem}
-.vault-file-badge{font-size:.62rem;font-weight:600;padding:1px 6px;border-radius:999px;background:rgba(45,212,160,.1);color:#065f46;border:.5px solid rgba(45,212,160,.2)}
-
-/* CROSS BORDER */
-.cb-steps{display:flex;flex-direction:column;gap:.45rem}
-.cb-step{display:flex;align-items:center;gap:.65rem;padding:.55rem .75rem;border-radius:7px;background:var(--bg);border:.5px solid var(--border);font-size:.8rem}
-.cb-check{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.62rem}
-.cb-check.done{background:var(--green);color:#fff}
-.cb-check.pending{background:var(--border);color:var(--gray)}
-.cb-label{flex:1;color:#374151}
-.cb-label.pending{color:var(--gray)}
-
-/* MESSAGES */
-.msg-thread{display:flex;flex-direction:column;gap:.6rem;max-height:200px;overflow-y:auto;margin-bottom:.75rem}
-.msg{padding:.6rem .85rem;border-radius:10px;font-size:.8rem;line-height:1.55;max-width:85%}
-.msg.from-advisor{background:var(--navy);color:#fff;border-radius:10px 10px 10px 2px;align-self:flex-start}
-.msg.from-client{background:var(--bg);border:.5px solid var(--border);color:#111827;border-radius:10px 10px 2px 10px;align-self:flex-end}
-.msg-time{font-size:.62rem;color:rgba(255,255,255,.4);margin-top:.2rem}
-.msg.from-client .msg-time{color:var(--gray)}
-.msg-input-row{display:flex;gap:.5rem}
-.msg-input{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.55rem .8rem;font-size:.82rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
-.msg-input:focus{border-color:var(--gold);background:#fff}
-.send-btn{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:.55rem 1rem;font-size:.78rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
-
-/* INSIGHTS */
-.insight-items{display:flex;flex-direction:column;gap:.5rem}
-.insight-item{display:flex;align-items:flex-start;gap:.65rem;padding:.6rem .85rem;border-radius:8px;background:var(--bg);border:.5px solid var(--border);font-size:.8rem;color:#374151;line-height:1.5}
-.insight-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.insight-dot.blue{background:var(--blue)}
-.insight-dot.gold{background:var(--gold)}
-.insight-dot.green{background:var(--green)}
-.insight-dot.red{background:var(--red)}
-
-/* ADD SERVICE */
-.add-service-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;background:transparent;border:1.5px dashed rgba(201,168,76,.4);border-radius:10px;padding:.85rem;font-size:.82rem;font-weight:500;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;width:100%;margin-bottom:1.25rem}
-.add-service-btn:hover{background:rgba(201,168,76,.05);border-color:var(--gold)}
-
-/* RECOMMENDED */
-.recommend-card{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-radius:12px;padding:1.1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.25rem}
-.recommend-text{font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:.2rem}
-.recommend-service{font-size:.9rem;font-weight:600;color:#fff}
-.recommend-btn{background:var(--gold);color:#0a0800;border:none;border-radius:7px;padding:.45rem 1rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
-
-/* NOTIFICATION PANEL */
-.notif-panel{position:fixed;top:68px;right:1rem;width:300px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:200;display:none;overflow:hidden}
+.sdot{width:20px;height:20px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;border:2px solid var(--border);background:#fff;position:relative;z-index:1}
+.sdot.done{border-color:var(--green);background:rgba(45,212,160,.1);color:var(--green)}
+.sdot.now{border-color:var(--gold);background:rgba(201,168,76,.1);color:var(--gold)}
+.slbl{font-size:.8rem;font-weight:500;color:#111827}
+.sdot.pending ~ div .slbl{color:var(--gray)}
+.sdate{font-size:.67rem;color:var(--gray)}
+.deadline-row{display:flex;align-items:center;gap:.65rem;padding:.55rem .8rem;border-radius:8px;background:var(--bg);border:.5px solid var(--border);margin-bottom:.4rem;font-size:.78rem}
+.deadline-d{font-size:.7rem;font-weight:600;color:var(--navy);min-width:52px}
+.deadline-l{flex:1;color:#374151}
+.badge{font-size:.62rem;font-weight:600;padding:2px 7px;border-radius:999px}
+.b-urgent{background:rgba(248,113,113,.1);color:#991b1b;border:.5px solid rgba(248,113,113,.3)}
+.b-up{background:rgba(201,168,76,.1);color:#92400e;border:.5px solid rgba(201,168,76,.3)}
+.b-ok{background:rgba(45,212,160,.1);color:#065f46;border:.5px solid rgba(45,212,160,.3)}
+.insight-row{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;background:var(--bg);border:.5px solid var(--border);border-radius:8px;margin-bottom:.4rem;font-size:.78rem;color:#374151;line-height:1.5}
+.idot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.vault-zone{border:2px dashed var(--border);border-radius:10px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s}
+.vault-zone:hover{border-color:var(--gold);background:rgba(201,168,76,.03)}
+.msg-thread{display:flex;flex-direction:column;gap:.55rem;max-height:180px;overflow-y:auto;margin-bottom:.65rem}
+.msg{padding:.55rem .8rem;border-radius:9px;font-size:.78rem;line-height:1.5;max-width:85%}
+.msg.from-us{background:var(--navy);color:#fff;border-radius:9px 9px 9px 2px;align-self:flex-start}
+.msg.from-me{background:var(--bg);border:.5px solid var(--border);color:#111827;border-radius:9px 9px 2px 9px;align-self:flex-end}
+.msg-time{font-size:.6rem;color:rgba(255,255,255,.35);margin-top:.15rem}
+.msg.from-me .msg-time{color:var(--gray)}
+.msg-row{display:flex;gap:.45rem}
+.msg-inp{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.5rem .75rem;font-size:.8rem;font-family:'DM Sans',sans-serif;outline:none}
+.msg-inp:focus{border-color:var(--gold);background:#fff}
+.msg-send{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:.5rem .9rem;font-size:.75rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.refund-step{display:flex;align-items:center;gap:.55rem;font-size:.78rem;margin-bottom:.4rem}
+.rdot{width:15px;height:15px;border-radius:50%;flex-shrink:0;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:.5rem}
+.rdot.done{border-color:var(--green);background:var(--green);color:#fff}
+.rdot.now{border-color:var(--gold)}
+.refund-amt{display:flex;justify-content:space-between;align-items:center;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.2);border-radius:8px;padding:.6rem .85rem;margin-top:.6rem}
+.health-m{display:flex;flex-direction:column;gap:.55rem}
+.hm-row{display:flex;flex-direction:column;gap:.25rem}
+.hm-top{display:flex;justify-content:space-between;align-items:center;font-size:.73rem}
+.hm-lbl{color:#374151;font-weight:500}
+.hm-s{font-size:.65rem;font-weight:600;padding:1px 7px;border-radius:999px}
+.hm-bar-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden}
+.hm-bar{height:5px;border-radius:999px}
+.add-svc-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;background:transparent;border:1.5px dashed rgba(201,168,76,.4);border-radius:10px;padding:.8rem;font-size:.82rem;font-weight:500;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:1.1rem;transition:all .2s}
+.add-svc-btn:hover{background:rgba(201,168,76,.05);border-color:var(--gold)}
+.consult-bar{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.1rem;display:none;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.consult-bar.show{display:flex}
+.cb-btns{display:flex;gap:.5rem;flex-wrap:wrap}
+.cb-btn{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:.5rem 1rem;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.cb-btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+.cb-steps{display:flex;flex-direction:column;gap:.4rem}
+.cb-step-row{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;background:var(--bg);border:.5px solid var(--border);border-radius:7px;font-size:.77rem}
+.cb-chk{width:16px;height:16px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.58rem}
+.cb-chk.done{background:var(--green);color:#fff}
+.cb-chk.pend{background:var(--border);color:var(--gray)}
+.partner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem}
+.partner-stat{background:var(--bg);border:.5px solid var(--border);border-radius:10px;padding:.8rem;text-align:center}
+.partner-val{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--navy)}
+.partner-lbl{font-size:.62rem;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;margin-top:.2rem}
+.full{grid-column:1/-1}
+.notif-panel{position:fixed;top:68px;right:1rem;width:290px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:200;display:none}
 .notif-panel.open{display:block}
-.notif-header{padding:.85rem 1rem;border-bottom:1px solid var(--border);font-size:.78rem;font-weight:600;color:#111827}
-.notif-item{display:flex;align-items:flex-start;gap:.65rem;padding:.75rem 1rem;border-bottom:.5px solid var(--border);font-size:.78rem;cursor:pointer;transition:background .15s}
-.notif-item:hover{background:var(--bg)}
-.notif-item:last-child{border-bottom:none}
-.notif-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
-.notif-dot.unread{background:var(--gold)}
-.notif-dot.read{background:var(--border)}
-.notif-msg{color:#374151;line-height:1.4}
-.notif-time{font-size:.65rem;color:var(--gray);margin-top:.15rem}
+.np-hdr{padding:.8rem 1rem;border-bottom:1px solid var(--border);font-size:.76rem;font-weight:600;color:#111827}
+.np-item{display:flex;align-items:flex-start;gap:.6rem;padding:.7rem 1rem;border-bottom:.5px solid var(--border);font-size:.75rem;cursor:pointer}
+.np-item:last-child{border-bottom:none}
+.np-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.np-msg{color:#374151;line-height:1.4}
+.np-time{font-size:.62rem;color:var(--gray);margin-top:.12rem}
+/* Service picker modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.modal-bg.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;padding:1.75rem;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
+.modal-ttl{font-family:'Playfair Display',serif;font-size:1.15rem;color:#111827;margin-bottom:1.25rem}
+.svc-opt{display:flex;align-items:center;gap:.8rem;padding:.85rem .95rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:.5rem;transition:all .2s}
+.svc-opt:hover{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.svc-opt-ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.svc-opt-lbl{font-size:.86rem;font-weight:600;color:#111827}
+.svc-opt-sub{font-size:.72rem;color:var(--gray)}
 
-/* FULL WIDTH SECTIONS */
-.full-width{grid-column:1/-1}
-
-/* SECTION HEADER */
-.section-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem}
-.section-label-text{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
-.section-link{font-size:.72rem;color:var(--gold);cursor:pointer;font-weight:500}
-
-/* LOADING */
-.loading-screen{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
-.loading-screen.hidden{opacity:0;pointer-events:none}
-.loading-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.2rem;text-align:center}
-.loading-sub{font-size:.72rem;color:rgba(255,255,255,.35);text-align:center;margin-top:.4rem}
-.loading-spinner{width:24px;height:24px;border-radius:50%;border:2px solid rgba(201,168,76,.2);border-top-color:var(--gold);animation:spin 1s linear infinite;margin:.85rem auto 0}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* MOBILE */
 @media(max-width:640px){
-  .portal-grid{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr}
+  .fg{grid-template-columns:1fr}
+  .type-grid{grid-template-columns:1fr 1fr}
+  .partner-grid{grid-template-columns:1fr 1fr}
+  .intake-body{padding:1.5rem 1rem}
   .portal-body{padding:1.25rem 1rem}
-  .welcome-banner{padding:1.35rem 1.25rem}
-  .welcome-name{font-size:1.35rem}
   .auth-card{padding:2rem 1.5rem}
-  .notif-panel{width:calc(100vw - 2rem);right:.5rem}
 }
 </style>
-<script>
-// These are publishable client-side keys — safe for browser use with RLS enabled
-window.SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
-window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
-</script>
 </head>
 <body>
 
 <!-- LOADING -->
-<div class="loading-screen" id="loading-screen">
-  <div>
+<div class="screen active" id="screen-loading">
+  <div class="loading-wrap">
     <div class="loading-logo">The Industry Accountants</div>
     <div class="loading-sub">Secure Client Portal</div>
-    <div class="loading-spinner"></div>
+    <div class="spinner"></div>
   </div>
 </div>
 
-<!-- AUTH SCREEN -->
-<div id="auth-screen">
+<!-- AUTH -->
+<div class="screen" id="screen-auth">
   <div class="auth-card">
     <div class="auth-logo">The Industry Accountants</div>
-    <div class="auth-sub">SECURE CLIENT PORTAL</div>
+    <div class="auth-sub">Secure Client Portal</div>
     <div class="tab-row">
       <button class="tab-btn active" onclick="switchTab('signin')">Sign In</button>
       <button class="tab-btn" onclick="switchTab('signup')">New Client</button>
     </div>
     <div class="auth-msg" id="auth-msg"></div>
-
     <!-- SIGN IN -->
     <div class="tab-panel active" id="tab-signin">
-      <div class="field"><label>Email</label><input type="email" id="signin-email" placeholder="you@email.com" onkeydown="if(event.key==='Enter')signIn()"/></div>
-      <div class="field"><label>Password</label><input type="password" id="signin-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')signIn()"/></div>
-      <button class="btn-primary" id="signin-btn" onclick="signIn()">Sign In</button>
-      <div style="text-align:center;margin-top:.85rem"><span style="font-size:.75rem;color:var(--gold);cursor:pointer" onclick="switchTab('reset')">Forgot password?</span></div>
+      <div class="f"><label>Email</label><input type="email" id="si-email" placeholder="you@email.com" onkeydown="if(event.key==='Enter')doSignIn()"/></div>
+      <div class="f"><label>Password</label><input type="password" id="si-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSignIn()"/></div>
+      <button class="btn-primary" id="si-btn" onclick="doSignIn()">Sign In</button>
+      <div style="text-align:center;margin-top:.75rem"><span style="font-size:.73rem;color:var(--gold);cursor:pointer" onclick="switchTab('reset')">Forgot password?</span></div>
     </div>
-
     <!-- SIGN UP -->
     <div class="tab-panel" id="tab-signup">
-      <div class="field"><label>Full Name *</label><input type="text" id="signup-name" placeholder="Your full name"/></div>
-      <div class="field"><label>Email *</label><input type="email" id="signup-email" placeholder="you@email.com"/></div>
-      <div class="field"><label>Password * <span style="font-weight:400;color:var(--gray)">(min 8 characters)</span></label><input type="password" id="signup-password" placeholder="Create a password"/></div>
-      <div class="field">
+      <div class="f"><label>Full Name *</label><input type="text" id="su-name" placeholder="Your full name"/></div>
+      <div class="f"><label>Email *</label><input type="email" id="su-email" placeholder="you@email.com"/></div>
+      <div class="f"><label>Password * <span style="font-weight:400;color:var(--gray)">(min 8 chars)</span></label><input type="password" id="su-pw" placeholder="Create a password"/></div>
+      <div class="f">
         <label>Service Needed *</label>
-        <select id="signup-service">
+        <select id="su-svc">
           <option value="">Select a service...</option>
           <option value="tax">Tax Filing</option>
           <option value="bookkeeping">Bookkeeping</option>
@@ -271,301 +265,393 @@ window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJl
           <option value="partner">White Label Partner</option>
         </select>
       </div>
-      <button class="btn-primary" id="signup-btn" onclick="signUp()">Create Account</button>
+      <button class="btn-primary" id="su-btn" onclick="doSignUp()">Create Account</button>
     </div>
-
     <!-- RESET -->
     <div class="tab-panel" id="tab-reset">
-      <div class="field"><label>Email Address</label><input type="email" id="reset-email" placeholder="you@email.com"/></div>
-      <button class="btn-primary" onclick="resetPassword()">Send Reset Link</button>
-      <div style="text-align:center;margin-top:.85rem"><span style="font-size:.75rem;color:var(--gold);cursor:pointer" onclick="switchTab('signin')">← Back to sign in</span></div>
+      <div class="f"><label>Email Address</label><input type="email" id="re-email" placeholder="you@email.com"/></div>
+      <button class="btn-primary" onclick="doReset()">Send Reset Link</button>
+      <div style="text-align:center;margin-top:.75rem"><span style="font-size:.73rem;color:var(--gold);cursor:pointer" onclick="switchTab('signin')">← Back</span></div>
     </div>
   </div>
 </div>
 
-<!-- PORTAL SCREEN -->
-<div id="portal-screen">
-  <!-- NAV -->
+<!-- INTAKE -->
+<div class="screen" id="screen-intake">
+  <nav class="intake-nav">
+    <div class="intake-logo">The Industry Accountants</div>
+    <div class="intake-secure">🔒 256-bit SSL · Encrypted</div>
+  </nav>
+  <div class="progress-bar"><div class="progress-fill" id="intake-progress" style="width:0%"></div></div>
+  <div class="intake-body">
+
+    <!-- TYPE SELECTOR (tax only) -->
+    <div class="istep" id="istep-type">
+      <div class="step-hdr">
+        <div class="step-lbl">Tax Filing</div>
+        <h1 class="step-ttl">Who are we filing for?</h1>
+        <p class="step-sub">Select the type that best describes your situation.</p>
+      </div>
+      <div class="type-grid">
+        <button class="type-card" onclick="setFilingType('personal')">
+          <div class="type-icon">👤</div>
+          <div class="type-lbl">Personal</div>
+          <div class="type-sub">Individual, employee, contractor, self-employed</div>
+        </button>
+        <button class="type-card" onclick="setFilingType('business')">
+          <div class="type-icon">🏢</div>
+          <div class="type-lbl">Business</div>
+          <div class="type-sub">LLC, S-Corp, Corporation, Partnership</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- PERSONAL INFO -->
+    <div class="istep" id="istep-personal">
+      <div class="step-hdr">
+        <div class="step-lbl" id="personal-lbl">Step 1</div>
+        <h1 class="step-ttl">Personal Information</h1>
+        <p class="step-sub">Tell us about yourself to create your secure client profile.</p>
+      </div>
+      <div class="alert err" id="p-alert"></div>
+      <div class="card">
+        <div class="card-ttl">Your Details</div>
+        <div class="fg">
+          <div class="f"><label>Full Legal Name *</label><input type="text" id="p-name" placeholder="As on your tax documents"/></div>
+          <div class="f"><label>Email *</label><input type="email" id="p-email" placeholder="you@email.com"/></div>
+          <div class="f"><label>Phone</label><input type="tel" id="p-phone" placeholder="(555) 000-0000"/></div>
+          <div class="f"><label>Date of Birth</label><input type="date" id="p-dob"/></div>
+        </div>
+        <div class="card-ttl" style="margin-top:.9rem">Address</div>
+        <div class="ctr">
+          <button class="ct on" id="p-us" onclick="setCountry('US')">United States</button>
+          <button class="ct" id="p-ca" onclick="setCountry('CA')">Canada</button>
+        </div>
+        <div class="fg">
+          <div class="f"><label>City</label><input type="text" id="p-city" placeholder="City"/></div>
+          <div class="f"><label id="p-prov-lbl">State</label><input type="text" id="p-state" placeholder="e.g. NY"/></div>
+          <div class="f"><label id="p-zip-lbl">ZIP Code</label><input type="text" id="p-zip" placeholder="10001"/></div>
+          <div class="f"><label>Entity Type</label>
+            <select id="p-entity">
+              <option value="individual">Individual</option>
+              <option value="sole_prop">Sole Proprietor</option>
+              <option value="llc">LLC</option>
+              <option value="scorp">S-Corp</option>
+              <option value="corp">Corporation</option>
+              <option value="partnership">Partnership</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="btn-gold" onclick="submitPersonal()">Continue →</button>
+    </div>
+
+    <!-- BUSINESS INFO -->
+    <div class="istep" id="istep-business">
+      <div class="step-hdr">
+        <div class="step-lbl" id="business-lbl">Step 1</div>
+        <h1 class="step-ttl">Business Information</h1>
+        <p class="step-sub">Tell us about your business to set up your account correctly.</p>
+      </div>
+      <div class="alert err" id="b-alert"></div>
+      <div class="card">
+        <div class="card-ttl">Business Details</div>
+        <div class="fg">
+          <div class="f"><label>Business Name *</label><input type="text" id="b-name" placeholder="Your business name"/></div>
+          <div class="f"><label>Business Email *</label><input type="email" id="b-email" placeholder="business@email.com"/></div>
+          <div class="f"><label>Contact Name</label><input type="text" id="b-contact" placeholder="Your full name"/></div>
+          <div class="f"><label>Phone</label><input type="tel" id="b-phone" placeholder="(555) 000-0000"/></div>
+          <div class="f"><label>Business Type *</label>
+            <select id="b-type">
+              <option value="">Select...</option>
+              <option value="sole_prop">Sole Proprietor</option>
+              <option value="llc">LLC</option>
+              <option value="scorp">S-Corporation</option>
+              <option value="corp">Corporation</option>
+              <option value="partnership">Partnership</option>
+            </select>
+          </div>
+          <div class="f"><label>Industry</label>
+            <select id="b-industry">
+              <option value="">Select...</option>
+              <option value="retail">Retail</option>
+              <option value="restaurant">Restaurant / Food</option>
+              <option value="construction">Construction</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="tech">Technology</option>
+              <option value="beauty">Beauty / Wellness</option>
+              <option value="transport">Transportation / Trucking</option>
+              <option value="realestate">Real Estate</option>
+              <option value="consulting">Consulting</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="f"><label>Employees</label><input type="number" id="b-emp" placeholder="e.g. 5" min="0"/></div>
+          <div class="f"><label>Years in Business</label><input type="number" id="b-years" placeholder="e.g. 3" min="0"/></div>
+        </div>
+        <div class="card-ttl" style="margin-top:.9rem">Business Address</div>
+        <div class="ctr">
+          <button class="ct on" id="b-us" onclick="setBizCountry('US')">United States</button>
+          <button class="ct" id="b-ca" onclick="setBizCountry('CA')">Canada</button>
+        </div>
+        <div class="fg">
+          <div class="f"><label>City</label><input type="text" id="b-city" placeholder="City"/></div>
+          <div class="f"><label id="b-prov-lbl">State</label><input type="text" id="b-state" placeholder="e.g. NY"/></div>
+          <div class="f"><label id="b-zip-lbl">ZIP Code</label><input type="text" id="b-zip" placeholder="10001"/></div>
+        </div>
+      </div>
+      <button class="btn-gold" onclick="submitBusiness()">Continue →</button>
+    </div>
+
+    <!-- TAX ID -->
+    <div class="istep" id="istep-taxid">
+      <div class="step-hdr">
+        <div class="step-lbl" id="taxid-lbl">Step 2 of 4</div>
+        <h1 class="step-ttl">Tax Identification</h1>
+        <p class="step-sub">Encrypted before reaching our servers. Submitted once, never displayed again.</p>
+      </div>
+      <div class="alert err" id="t-alert"></div>
+      <div class="card">
+        <div class="card-ttl">Secure Tax ID</div>
+        <div class="enc-badge">🔒 AES-256 Encrypted · Submit once · Never stored in plain text</div>
+        <div class="f">
+          <label id="taxid-field-lbl">Social Security Number (SSN) *</label>
+          <div class="sw">
+            <input type="password" id="t-ssn" placeholder="XXX-XX-XXXX" maxlength="11" autocomplete="off" inputmode="numeric" oninput="fmtSSN(this)"/>
+            <button class="sw-btn" onclick="togglePw('t-ssn',this)">Show</button>
+          </div>
+          <div style="font-size:.68rem;color:var(--gray);margin-top:.25rem" id="taxid-hint">US clients: 9-digit SSN · Format: XXX-XX-XXXX</div>
+        </div>
+        <div class="f" id="ein-wrap" style="display:none">
+          <label>EIN (if business filing)</label>
+          <div class="sw">
+            <input type="password" id="t-ein" placeholder="XX-XXXXXXX" maxlength="10" autocomplete="off" inputmode="numeric" oninput="fmtEIN(this)"/>
+            <button class="sw-btn" onclick="togglePw('t-ein',this)">Show</button>
+          </div>
+        </div>
+        <div style="background:#fef9ec;border:1px solid #fde68a;border-radius:8px;padding:.7rem .9rem;font-size:.73rem;color:#92400e;margin-top:.4rem">
+          <strong>Why we need this:</strong> Required to file with the IRS or CRA. Encrypted with AES-256 via pgcrypto. Your team only sees the last 4 digits.
+        </div>
+      </div>
+      <div style="display:flex;gap:.65rem">
+        <button class="btn-ghost" onclick="intakeBack()">Back</button>
+        <button class="btn-gold" onclick="submitTaxId()">Submit Securely →</button>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="istep" id="istep-docs">
+      <div class="step-hdr">
+        <div class="step-lbl" id="docs-lbl">Step 3 of 4</div>
+        <h1 class="step-ttl">Upload Documents</h1>
+        <p class="step-sub">Stored in encrypted private storage. Only you and your accountant can access them.</p>
+      </div>
+      <div class="card">
+        <div class="card-ttl" id="docs-card-ttl">Tax Documents</div>
+        <div class="upload-zone" onclick="document.getElementById('doc-input').click()" ondrop="handleDrop(event)" ondragover="e.preventDefault()" ondragleave="this.style.borderColor=''">
+          <input type="file" id="doc-input" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx" style="display:none" onchange="handleFiles(this.files)"/>
+          <div class="upload-ico">📁</div>
+          <div class="upload-txt"><strong>Click to upload</strong> or drag and drop</div>
+          <div class="upload-types">PDF, JPG, PNG, Word · Max 25MB per file</div>
+        </div>
+        <div style="margin-top:.75rem;font-size:.72rem;color:var(--gray)" id="docs-hint">
+          <strong>What to upload:</strong> W-2s, 1099s (US) · T4s, T4As (Canada) · Prior year returns · IRS/CRA notices
+        </div>
+        <div class="file-list" id="file-list"></div>
+      </div>
+      <div style="display:flex;gap:.65rem">
+        <button class="btn-ghost" onclick="intakeBack()">Back</button>
+        <button class="btn-gold" onclick="goToReview()">Continue →</button>
+      </div>
+      <p style="text-align:center;font-size:.7rem;color:var(--gray);margin-top:.55rem">You can upload more documents later from your dashboard</p>
+    </div>
+
+    <!-- REVIEW -->
+    <div class="istep" id="istep-review">
+      <div class="step-hdr">
+        <div class="step-lbl" id="review-lbl">Final Step</div>
+        <h1 class="step-ttl">Review & Submit</h1>
+        <p class="step-sub">Review your information before we activate your account.</p>
+      </div>
+      <div class="alert err" id="r-alert"></div>
+      <div class="card" id="review-card"></div>
+      <div class="card">
+        <div class="card-ttl">Consent & Authorization</div>
+        <label class="consent-row"><input type="checkbox" id="c1"/>I certify the information provided is accurate and complete.</label>
+        <label class="consent-row"><input type="checkbox" id="c2"/>I authorize The Industry Accountants to use my information to provide the selected service.</label>
+        <label class="consent-row"><input type="checkbox" id="c3"/>I agree to the <a href="#" style="color:var(--gold)">Privacy Policy</a> and <a href="#" style="color:var(--gold)">Terms of Service</a>.</label>
+      </div>
+      <div style="display:flex;gap:.65rem">
+        <button class="btn-ghost" onclick="intakeBack()">Back</button>
+        <button class="btn-gold" id="submit-btn" onclick="finalSubmit()">Submit & Go to Dashboard →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PORTAL DASHBOARD -->
+<div class="screen" id="screen-portal">
   <nav class="portal-nav">
-    <div class="portal-nav-logo">The Industry Accountants</div>
-    <div class="portal-nav-right">
-      <button class="notif-btn" onclick="toggleNotif()" id="notif-btn" title="Notifications">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    <div class="pnav-logo">The Industry Accountants</div>
+    <div class="pnav-r">
+      <button class="notif-btn" onclick="toggleNotif()" title="Notifications">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         <span class="notif-badge" id="notif-badge"></span>
       </button>
-      <div class="nav-avatar" id="nav-avatar">--</div>
-      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+      <div class="nav-av" id="nav-av">--</div>
+      <button class="sign-out" onclick="doSignOut()">Sign out</button>
     </div>
   </nav>
 
-  <!-- NOTIFICATION PANEL -->
+  <!-- NOTIFICATIONS -->
   <div class="notif-panel" id="notif-panel">
-    <div class="notif-header">Notifications</div>
+    <div class="np-hdr">Notifications</div>
     <div id="notif-list"></div>
   </div>
 
   <div class="portal-body">
-
-    <!-- WELCOME BANNER -->
-    <div class="welcome-banner">
-      <div class="welcome-greeting">Welcome back</div>
-      <div class="welcome-name" id="welcome-name">Loading...</div>
-      <div class="welcome-status" id="welcome-status">Your account is being set up. Your advisor will be in touch shortly.</div>
+    <div class="welcome">
+      <div class="welcome-hi">Welcome back</div>
+      <div class="welcome-name" id="w-name">Loading...</div>
+      <div class="welcome-status" id="w-status">Your account is being set up.</div>
     </div>
 
-    <!-- CONSULTATION BANNER (shown for non-tax services) -->
-    <div id="consult-banner" style="display:none;background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.25rem;margin-bottom:1.25rem;display:none;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+    <!-- CONSULTATION BANNER -->
+    <div class="consult-bar" id="consult-bar">
       <div>
-        <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.2rem">Next Step</div>
-        <div style="font-size:.9rem;font-weight:500;color:#111827">Ready to get started? Book a consultation or message us.</div>
-        <div style="font-size:.75rem;color:var(--gray);margin-top:.15rem">You can also upload documents directly to your Secure Financial Vault anytime.</div>
+        <div style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--gray);margin-bottom:.2rem">Next Step</div>
+        <div style="font-size:.88rem;font-weight:500;color:#111827">Ready to get started? Book a consultation or message us directly.</div>
+        <div style="font-size:.73rem;color:var(--gray);margin-top:.15rem">You can also upload documents to your Secure Financial Vault anytime.</div>
       </div>
-      <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-        <button onclick="bookConsultation()" style="background:var(--navy);color:#fff;border:none;border-radius:8px;padding:.55rem 1.1rem;font-size:.8rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">📅 Book Consultation</button>
-        <button onclick="focusMessage()" style="background:#fff;color:var(--navy);border:1.5px solid var(--border);border-radius:8px;padding:.55rem 1.1rem;font-size:.8rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">💬 Message Us</button>
-      </div>
-    </div>
-
-    <!-- ACTION REQUIRED -->
-    <div class="action-card" id="action-card">
-      <div class="section-label">
-        <div class="section-label-text">⚠ Action Required</div>
-      </div>
-      <div id="action-items">
-        <div class="no-actions">✓ You're all caught up — no actions needed right now.</div>
+      <div class="cb-btns">
+        <button class="cb-btn" onclick="bookConsult()">📅 Book Consultation</button>
+        <button class="cb-btn ghost" onclick="focusMsg()">💬 Message Us</button>
       </div>
     </div>
 
-    <!-- ADD SERVICE -->
-    <button class="add-service-btn" onclick="addService()">+ Add Another Service</button>
+    <button class="add-svc-btn" onclick="openSvcPicker()">+ Add Another Service</button>
 
-    <!-- RECOMMENDED -->
-    <div class="recommend-card" id="recommend-card" style="display:none">
-      <div>
-        <div class="recommend-text">Recommended for you</div>
-        <div class="recommend-service" id="recommend-service">Business Bookkeeping</div>
-      </div>
-      <button class="recommend-btn" onclick="addService()">Learn More</button>
-    </div>
-
-    <!-- MAIN GRID -->
-    <div class="portal-grid">
+    <div class="pgrid">
 
       <!-- FILE STATUS -->
-      <div class="action-card">
-        <div class="section-label">
-          <div class="section-label-text">File Status</div>
-          <div class="section-link" id="service-badge">Tax Filing</div>
+      <div class="pc">
+        <div class="pc-ttl">File Status · <span id="svc-badge" style="color:var(--gold)">Tax Filing</span></div>
+        <div id="status-steps">
+          <div class="status-step"><div class="sdot done">✓</div><div><div class="slbl">Documents Received</div><div class="sdate">Intake submitted</div></div></div>
+          <div class="status-step"><div class="sdot now">→</div><div><div class="slbl">Under Review</div><div class="sdate">Accountant working on your file</div></div></div>
+          <div class="status-step"><div class="sdot pending"></div><div><div class="slbl">Filed / Submitted</div><div class="sdate">Pending</div></div></div>
+          <div class="status-step"><div class="sdot pending"></div><div><div class="slbl">Complete</div><div class="sdate">Pending</div></div></div>
         </div>
-        <div class="status-steps" id="status-steps">
-          <div class="status-step">
-            <div class="step-dot done">✓</div>
-            <div class="step-info"><div class="step-label">Documents Received</div><div class="step-date">Intake form submitted</div></div>
-          </div>
-          <div class="status-step">
-            <div class="step-dot active">→</div>
-            <div class="step-info"><div class="step-label">Under Review</div><div class="step-date">Your accountant is working on your file</div></div>
-          </div>
-          <div class="status-step">
-            <div class="step-dot pending">○</div>
-            <div class="step-info"><div class="step-label">Filed / Submitted</div><div class="step-date">Pending</div></div>
-          </div>
-          <div class="status-step">
-            <div class="step-dot pending">○</div>
-            <div class="step-info"><div class="step-label">Complete</div><div class="step-date">Pending</div></div>
-          </div>
+      </div>
+
+      <!-- ACTION REQUIRED -->
+      <div class="pc">
+        <div class="pc-ttl">⚠ Action Required</div>
+        <div id="action-items"><div class="no-action">✓ You're all caught up.</div></div>
+      </div>
+
+      <!-- REFUND TRACKER (tax only) -->
+      <div class="pc" id="refund-card" style="display:none">
+        <div class="pc-ttl">Refund Tracker</div>
+        <div class="refund-step"><div class="rdot done">✓</div><span>Return Prepared</span></div>
+        <div class="refund-step"><div class="rdot now"></div><span>Filed with IRS / CRA</span></div>
+        <div class="refund-step"><div class="rdot"></div><span style="color:var(--gray)">Accepted by Agency</span></div>
+        <div class="refund-step"><div class="rdot"></div><span style="color:var(--gray)">Refund Sent</span></div>
+        <div class="refund-amt">
+          <div style="font-size:.7rem;color:var(--gray)">Estimated Refund</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--green)">$4,320</div>
         </div>
+      </div>
+
+      <!-- FINANCIAL HEALTH -->
+      <div class="pc">
+        <div class="pc-ttl" style="display:flex;justify-content:space-between">Financial Health <span style="font-family:'Playfair Display',serif;font-size:.9rem;color:var(--navy)">82<span style="font-size:.62rem;color:var(--gray)">/100</span></span></div>
+        <div class="health-m">
+          <div class="hm-row"><div class="hm-top"><span class="hm-lbl">Bookkeeping</span><span class="hm-s b-ok">Good</span></div><div class="hm-bar-wrap"><div class="hm-bar" style="width:85%;background:var(--green)"></div></div></div>
+          <div class="hm-row"><div class="hm-top"><span class="hm-lbl">Filing status</span><span class="hm-s b-up">In progress</span></div><div class="hm-bar-wrap"><div class="hm-bar" style="width:60%;background:var(--gold)"></div></div></div>
+          <div class="hm-row"><div class="hm-top"><span class="hm-lbl">Payroll compliance</span><span class="hm-s b-ok">Good</span></div><div class="hm-bar-wrap"><div class="hm-bar" style="width:90%;background:var(--green)"></div></div></div>
+          <div class="hm-row"><div class="hm-top"><span class="hm-lbl">Outstanding items</span><span class="hm-s b-urgent">Needs attention</span></div><div class="hm-bar-wrap"><div class="hm-bar" style="width:40%;background:var(--red)"></div></div></div>
+        </div>
+      </div>
+
+      <!-- DEADLINES -->
+      <div class="pc">
+        <div class="pc-ttl">Smart Deadline Timeline</div>
+        <div class="deadline-row"><span class="deadline-d">May 30</span><span class="deadline-l">Payroll Filing</span><span class="badge b-urgent">Urgent</span></div>
+        <div class="deadline-row"><span class="deadline-d">Jun 15</span><span class="deadline-l">Quarterly Taxes</span><span class="badge b-up">Upcoming</span></div>
+        <div class="deadline-row"><span class="deadline-d">Sep 15</span><span class="deadline-l">Q3 Estimated Tax</span><span class="badge b-ok">On track</span></div>
+        <div class="deadline-row"><span class="deadline-d">Dec 31</span><span class="deadline-l">Year-End Review</span><span class="badge b-ok">On track</span></div>
+      </div>
+
+      <!-- INSIGHTS -->
+      <div class="pc">
+        <div class="pc-ttl">Financial Insights</div>
+        <div class="insight-row"><div class="idot" style="background:var(--gold)"></div>Quarterly taxes approaching — estimated $2,400 due June 15.</div>
+        <div class="insight-row"><div class="idot" style="background:var(--green)"></div>Your revenue trend has improved over the last 90 days.</div>
+        <div class="insight-row"><div class="idot" style="background:var(--blue)"></div>You may qualify for additional home office deductions.</div>
+        <div class="insight-row"><div class="idot" style="background:var(--red)"></div>Two documents are still missing from your file.</div>
       </div>
 
       <!-- MESSAGES -->
-      <div class="action-card">
-        <div class="section-label">
-          <div class="section-label-text">Messages</div>
-          <div class="section-link">Your Accountant</div>
-        </div>
+      <div class="pc">
+        <div class="pc-ttl">Messages · <span style="color:var(--gold);font-size:.68rem">Your Accountant</span></div>
         <div class="msg-thread" id="msg-thread">
-          <div class="msg from-advisor">
-            Welcome to The Industry Accountants. Your file has been received and your accountant will be in touch shortly. Feel free to message us anytime.
-            <div class="msg-time">Today</div>
-          </div>
+          <div class="msg from-us">Welcome to The Industry Accountants. Your file has been received and your accountant will be in touch shortly.<div class="msg-time">Today</div></div>
         </div>
-        <div class="msg-input-row">
-          <input type="text" class="msg-input" id="msg-input" placeholder="Message your accountant..." onkeydown="if(event.key==='Enter')sendMsg()"/>
-          <button class="send-btn" onclick="sendMsg()">Send</button>
-        </div>
-      </div>
-
-      <!-- REFUND TRACKER (shown for tax clients) -->
-      <div class="action-card" id="refund-card">
-        <div class="section-label"><div class="section-label-text">Refund Tracker</div></div>
-        <div class="refund-steps">
-          <div class="refund-step">
-            <div class="refund-dot done">✓</div>
-            <span class="refund-label">Return Prepared</span>
-          </div>
-          <div class="refund-step">
-            <div class="refund-dot active"></div>
-            <span class="refund-label">Filed with IRS / CRA</span>
-          </div>
-          <div class="refund-step">
-            <div class="refund-dot pending"></div>
-            <span class="refund-label pending">Accepted by Agency</span>
-          </div>
-          <div class="refund-step">
-            <div class="refund-dot pending"></div>
-            <span class="refund-label pending">Refund Sent</span>
-          </div>
-        </div>
-        <div class="refund-amount">
-          <div class="refund-amt-label">Estimated Refund</div>
-          <div class="refund-amt-value">$4,320</div>
-        </div>
-      </div>
-
-
-
-      <!-- FINANCIAL HEALTH METRICS -->
-      <div class="action-card">
-        <div class="section-label">
-          <div class="section-label-text">Financial Health</div>
-          <div class="section-link" style="font-family:'Playfair Display',serif;font-size:.9rem;color:var(--navy)">82<span style="font-size:.65rem;color:var(--gray)">/100</span></div>
-        </div>
-        <div class="health-metrics">
-          <div class="health-metric">
-            <div class="health-metric-top">
-              <span class="health-metric-label">Bookkeeping completeness</span>
-              <span class="health-metric-status hm-good">Good</span>
-            </div>
-            <div class="health-bar-wrap"><div class="health-bar" style="width:85%;background:var(--green)"></div></div>
-          </div>
-          <div class="health-metric">
-            <div class="health-metric-top">
-              <span class="health-metric-label">Filing status</span>
-              <span class="health-metric-status hm-ok">In progress</span>
-            </div>
-            <div class="health-bar-wrap"><div class="health-bar" style="width:60%;background:var(--gold)"></div></div>
-          </div>
-          <div class="health-metric">
-            <div class="health-metric-top">
-              <span class="health-metric-label">Payroll compliance</span>
-              <span class="health-metric-status hm-good">Good</span>
-            </div>
-            <div class="health-bar-wrap"><div class="health-bar" style="width:90%;background:var(--green)"></div></div>
-          </div>
-          <div class="health-metric">
-            <div class="health-metric-top">
-              <span class="health-metric-label">Outstanding items</span>
-              <span class="health-metric-status hm-warn">Needs attention</span>
-            </div>
-            <div class="health-bar-wrap"><div class="health-bar" style="width:40%;background:var(--red)"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DEADLINE TIMELINE -->
-      <div class="action-card">
-        <div class="section-label"><div class="section-label-text">Smart Deadline Timeline</div></div>
-        <div class="deadline-items">
-          <div class="deadline-item">
-            <div class="deadline-date">May 30</div>
-            <div class="deadline-label">Payroll Filing</div>
-            <span class="deadline-badge badge-urgent">Urgent</span>
-          </div>
-          <div class="deadline-item">
-            <div class="deadline-date">Jun 15</div>
-            <div class="deadline-label">Quarterly Taxes</div>
-            <span class="deadline-badge badge-upcoming">Upcoming</span>
-          </div>
-          <div class="deadline-item">
-            <div class="deadline-date">Sep 15</div>
-            <div class="deadline-label">Q3 Estimated Tax</div>
-            <span class="deadline-badge badge-ok">On track</span>
-          </div>
-          <div class="deadline-item">
-            <div class="deadline-date">Dec 31</div>
-            <div class="deadline-label">Year-End Review</div>
-            <span class="deadline-badge badge-ok">On track</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- FINANCIAL INSIGHTS -->
-      <div class="action-card">
-        <div class="section-label"><div class="section-label-text">Financial Insights</div></div>
-        <div class="insight-items">
-          <div class="insight-item"><div class="insight-dot gold"></div>Quarterly taxes are approaching — estimated $2,400 due June 15.</div>
-          <div class="insight-item"><div class="insight-dot green"></div>Your revenue trend has improved over the last 90 days.</div>
-          <div class="insight-item"><div class="insight-dot blue"></div>You may qualify for additional home office deductions this year.</div>
-          <div class="insight-item"><div class="insight-dot red"></div>Two documents are still missing from your 2024 tax file.</div>
+        <div class="msg-row">
+          <input type="text" class="msg-inp" id="msg-inp" placeholder="Message your accountant..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+          <button class="msg-send" onclick="sendMsg()">Send</button>
         </div>
       </div>
 
       <!-- SECURE VAULT -->
-      <div class="action-card">
-        <div class="section-label">
-          <div class="section-label-text">🔒 Secure Financial Vault</div>
-          <div class="section-link">View all</div>
+      <div class="pc">
+        <div class="pc-ttl">🔒 Secure Financial Vault</div>
+        <div class="vault-zone" onclick="document.getElementById('vault-inp').click()">
+          <input type="file" id="vault-inp" multiple style="display:none" onchange="handleVault(this.files)"/>
+          <div style="font-size:1.25rem;margin-bottom:.3rem">+</div>
+          <div style="font-size:.8rem;color:var(--gray)"><strong style="color:var(--navy)">Upload documents</strong> or drag and drop</div>
+          <div style="font-size:.65rem;color:#9ca3af;margin-top:.15rem">PDF, JPG, PNG, Word · AES-256 encrypted</div>
         </div>
-        <div class="vault-upload" onclick="document.getElementById('vault-input').click()">
-          <input type="file" id="vault-input" multiple style="display:none" onchange="handleVaultUpload(this.files)"/>
-          <div class="vault-icon">+</div>
-          <div class="vault-text"><strong>Upload documents</strong> or drag and drop</div>
-          <div class="vault-types">PDF, JPG, PNG, Word · Max 25MB · AES-256 encrypted</div>
-        </div>
-        <div class="vault-files" id="vault-files">
-          <div class="vault-file">
-            <span class="vault-file-name">T4_2024.pdf</span>
-            <span class="vault-file-size">1.2 MB</span>
-            <span class="vault-file-badge">Received</span>
-          </div>
+        <div class="file-list" id="vault-files">
+          <div class="file-row"><span class="file-name">T4_2024.pdf</span><span class="file-size">1.2 MB</span><span class="file-ok">Received</span></div>
         </div>
       </div>
 
-      <!-- CROSS BORDER (shown for crossborder clients) -->
-      <div class="action-card" id="crossborder-card" style="display:none">
-        <div class="section-label"><div class="section-label-text">Cross-Border Command Center</div></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+      <!-- CROSS-BORDER (crossborder only) -->
+      <div class="pc" id="cb-card" style="display:none">
+        <div class="pc-ttl">Cross-Border Command Center</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
           <div>
-            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.5rem">🇺🇸 US Status</div>
+            <div style="font-size:.62rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem">🇺🇸 US Status</div>
             <div class="cb-steps">
-              <div class="cb-step"><div class="cb-check done">✓</div><span class="cb-label">LLC Registered</span></div>
-              <div class="cb-step"><div class="cb-check done">✓</div><span class="cb-label">EIN Approved</span></div>
-              <div class="cb-step"><div class="cb-check pending">○</div><span class="cb-label pending">ITIN Submitted</span></div>
-              <div class="cb-step"><div class="cb-check pending">○</div><span class="cb-label pending">Annual Filing</span></div>
+              <div class="cb-step-row"><div class="cb-chk done">✓</div><span>LLC Registered</span></div>
+              <div class="cb-step-row"><div class="cb-chk done">✓</div><span>EIN Approved</span></div>
+              <div class="cb-step-row"><div class="cb-chk pend">○</div><span style="color:var(--gray)">ITIN Submitted</span></div>
+              <div class="cb-step-row"><div class="cb-chk pend">○</div><span style="color:var(--gray)">Annual Filing</span></div>
             </div>
           </div>
           <div>
-            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.5rem">🇨🇦 Canada Status</div>
+            <div style="font-size:.62rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem">🇨🇦 Canada Status</div>
             <div class="cb-steps">
-              <div class="cb-step"><div class="cb-check done">✓</div><span class="cb-label">SIN Submitted</span></div>
-              <div class="cb-step"><div class="cb-check done">✓</div><span class="cb-label">T4 Filed</span></div>
-              <div class="cb-step"><div class="cb-check pending">○</div><span class="cb-label pending">Provincial Return</span></div>
-              <div class="cb-step"><div class="cb-check pending">○</div><span class="cb-label pending">Treaty Filing</span></div>
+              <div class="cb-step-row"><div class="cb-chk done">✓</div><span>SIN Submitted</span></div>
+              <div class="cb-step-row"><div class="cb-chk done">✓</div><span>T4 Filed</span></div>
+              <div class="cb-step-row"><div class="cb-chk pend">○</div><span style="color:var(--gray)">Provincial Return</span></div>
+              <div class="cb-step-row"><div class="cb-chk pend">○</div><span style="color:var(--gray)">Treaty Filing</span></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- WHITE LABEL PARTNER (shown for partner clients) -->
-      <div class="action-card full-width" id="partner-card" style="display:none">
-        <div class="section-label"><div class="section-label-text">Partner Dashboard</div></div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem">
-          <div style="background:var(--bg);border:.5px solid var(--border);border-radius:10px;padding:.85rem;text-align:center">
-            <div style="font-size:.65rem;color:var(--gray);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">Clients Referred</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy)" id="partner-clients">0</div>
-          </div>
-          <div style="background:var(--bg);border:.5px solid var(--border);border-radius:10px;padding:.85rem;text-align:center">
-            <div style="font-size:.65rem;color:var(--gray);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">Revenue Generated</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--green)" id="partner-revenue">$0</div>
-          </div>
-          <div style="background:var(--bg);border:.5px solid var(--border);border-radius:10px;padding:.85rem;text-align:center">
-            <div style="font-size:.65rem;color:var(--gray);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">Active Services</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy)" id="partner-services">0</div>
-          </div>
-          <div style="background:var(--bg);border:.5px solid var(--border);border-radius:10px;padding:.85rem;text-align:center">
-            <div style="font-size:.65rem;color:var(--gray);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">Pending Tasks</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--amber)" id="partner-tasks">0</div>
-          </div>
+      <!-- PARTNER (partner only) -->
+      <div class="pc full" id="partner-card" style="display:none">
+        <div class="pc-ttl">Partner Dashboard</div>
+        <div class="partner-grid">
+          <div class="partner-stat"><div class="partner-val" id="p-clients">0</div><div class="partner-lbl">Clients Referred</div></div>
+          <div class="partner-stat"><div class="partner-val" id="p-revenue" style="color:var(--green)">$0</div><div class="partner-lbl">Revenue Generated</div></div>
+          <div class="partner-stat"><div class="partner-val" id="p-svcs">0</div><div class="partner-lbl">Active Services</div></div>
+          <div class="partner-stat"><div class="partner-val" id="p-tasks" style="color:var(--amber)">0</div><div class="partner-lbl">Pending Tasks</div></div>
         </div>
       </div>
 
@@ -573,358 +659,600 @@ window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJl
   </div>
 </div>
 
-<script>
-const SURL = window.SURL;
-const SKEY = window.SKEY;
-let sb, currentUser;
+<!-- SERVICE PICKER MODAL -->
+<div class="modal-bg" id="svc-modal">
+  <div class="modal-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem">
+      <div class="modal-ttl">Add a Service</div>
+      <button onclick="document.getElementById('svc-modal').classList.remove('open')" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gray)">×</button>
+    </div>
+    <div class="svc-opt" onclick="addService('tax')"><div class="svc-opt-ico" style="background:rgba(96,165,250,.1)">📄</div><div><div class="svc-opt-lbl">Tax Filing</div><div class="svc-opt-sub">Personal or business, US & Canada</div></div></div>
+    <div class="svc-opt" onclick="addService('bookkeeping')"><div class="svc-opt-ico" style="background:rgba(45,212,160,.1)">📊</div><div><div class="svc-opt-lbl">Bookkeeping</div><div class="svc-opt-sub">Monthly books, P&L, balance sheet</div></div></div>
+    <div class="svc-opt" onclick="addService('payroll')"><div class="svc-opt-ico" style="background:rgba(251,191,36,.1)">👥</div><div><div class="svc-opt-lbl">Payroll Management</div><div class="svc-opt-sub">W-2, 1099, direct deposit</div></div></div>
+    <div class="svc-opt" onclick="addService('crossborder')"><div class="svc-opt-ico" style="background:rgba(13,24,41,.08)">🌎</div><div><div class="svc-opt-lbl">Cross-Border Services</div><div class="svc-opt-sub">US and Canada filing</div></div></div>
+    <div class="svc-opt" onclick="addService('audit')"><div class="svc-opt-ico" style="background:rgba(248,113,113,.1)">🔍</div><div><div class="svc-opt-lbl">Audit Assessment</div><div class="svc-opt-sub">IRS and CRA audit support</div></div></div>
+    <div class="svc-opt" onclick="addService('partner')" style="border-color:rgba(201,168,76,.3)"><div class="svc-opt-ico" style="background:rgba(201,168,76,.1)">🤝</div><div><div class="svc-opt-lbl">White Label Partner</div><div class="svc-opt-sub">Offer our services under your brand</div></div></div>
+  </div>
+</div>
 
+<script>
+// ── SUPABASE ──
+const sbLib = window.supabase || window.Supabase;
+const sb = sbLib.createClient(window.SURL, window.SKEY, {
+  auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+});
+
+let currentUser = null;
+let clientId = null;
+let currentService = 'tax';
+let filingType = null;
+let clientCountry = 'US';
+let bizCountry = 'US';
+let intakeData = {};
+let intakeSteps = [];
+let currentIStep = 0;
+let uploadedFiles = [];
+
+// ── INIT ──
 window.addEventListener('load', async () => {
   try {
-    const sbLib = window.supabase || window.Supabase;
-    sb = sbLib.createClient(SURL, SKEY, {
-      auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true
-      }
-    });
-
-    // Handle confirmation token in URL
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('confirmation_token') || params.get('token');
-    const type = params.get('type');
-
-    if (token && type === 'signup') {
-      showMsg('Confirming your email...', 'success');
-      const { data, error } = await sb.auth.verifyOtp({ token_hash: token, type: 'signup' });
-      if (data?.user) {
-        const u = data.user;
-        const service = u.user_metadata?.service_type || 'tax';
-        window.location.href = 'secure-intake.html?service=' + service +
-          '&name=' + encodeURIComponent(u.user_metadata?.full_name || '') +
-          '&email=' + encodeURIComponent(u.email || '');
-        return;
-      }
-    }
-
-    // Check existing session — verify it's still valid
     const { data: { session } } = await sb.auth.getSession();
     if (session?.user) {
-      const { data: { user }, error: userErr } = await sb.auth.getUser();
-      if (user && !userErr) {
+      const { data: { user }, error } = await sb.auth.getUser();
+      if (user && !error) {
         currentUser = user;
-        showPortal(user);
+        const hasIntake = user.user_metadata?.intake_complete;
+        if (hasIntake) {
+          showScreen('screen-portal');
+          loadDashboard(user);
+        } else {
+          currentService = user.user_metadata?.service_type || 'tax';
+          showScreen('screen-intake');
+          startIntake();
+        }
       } else {
         await sb.auth.signOut();
-        hideLoading();
+        showScreen('screen-auth');
       }
     } else {
-      hideLoading();
+      showScreen('screen-auth');
     }
   } catch(e) {
-    console.warn('Init error:', e.message);
-    hideLoading();
+    console.warn('Init:', e.message);
+    showScreen('screen-auth');
   }
 });
 
-function hideLoading() {
-  document.getElementById('loading-screen').classList.add('hidden');
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
-function showPortal(user) {
-  hideLoading();
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('portal-screen').style.display = 'block';
+// ── AUTH ──
+function switchTab(t) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + t).style.display = 'block';
+  document.querySelector(`[onclick="switchTab('${t}')"]`)?.classList.add('active');
+  clearAuthMsg();
+}
 
+async function doSignIn() {
+  const email = document.getElementById('si-email').value.trim();
+  const pw = document.getElementById('si-pw').value;
+  if (!email || !pw) { showAuthMsg('Please enter your email and password.', 'error'); return; }
+  const btn = document.getElementById('si-btn');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+  try {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+    if (error) throw error;
+    currentUser = data.user;
+    const hasIntake = data.user.user_metadata?.intake_complete;
+    if (hasIntake) {
+      showScreen('screen-portal');
+      loadDashboard(data.user);
+    } else {
+      currentService = data.user.user_metadata?.service_type || 'tax';
+      showScreen('screen-intake');
+      startIntake();
+    }
+  } catch(e) {
+    showAuthMsg(e.message, 'error');
+    btn.disabled = false; btn.textContent = 'Sign In';
+  }
+}
+
+async function doSignUp() {
+  const name = document.getElementById('su-name').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pw = document.getElementById('su-pw').value;
+  const svc = document.getElementById('su-svc').value;
+  if (!name) { showAuthMsg('Please enter your full name.', 'error'); return; }
+  if (!email || !email.includes('@')) { showAuthMsg('Please enter a valid email.', 'error'); return; }
+  if (!pw || pw.length < 8) { showAuthMsg('Password must be at least 8 characters.', 'error'); return; }
+  if (!svc) { showAuthMsg('Please select a service.', 'error'); return; }
+  const btn = document.getElementById('su-btn');
+  btn.disabled = true; btn.textContent = 'Creating account...';
+  try {
+    const { data, error } = await sb.auth.signUp({
+      email, password: pw,
+      options: { data: { full_name: name, service_type: svc, intake_complete: false } }
+    });
+    if (error) throw error;
+    currentUser = data.user;
+    currentService = svc;
+    // Pre-fill name and email in intake form
+    document.getElementById('p-name').value = name;
+    document.getElementById('p-email').value = email;
+    document.getElementById('b-contact').value = name;
+    document.getElementById('b-email').value = email;
+    showScreen('screen-intake');
+    startIntake();
+  } catch(e) {
+    showAuthMsg(e.message, 'error');
+    btn.disabled = false; btn.textContent = 'Create Account';
+  }
+}
+
+async function doReset() {
+  const email = document.getElementById('re-email').value.trim();
+  if (!email) { showAuthMsg('Please enter your email.', 'error'); return; }
+  await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal.html' });
+  showAuthMsg('Reset link sent! Check your email.', 'success');
+}
+
+async function doSignOut() {
+  await sb.auth.signOut();
+  currentUser = null; clientId = null;
+  showScreen('screen-auth');
+  switchTab('signin');
+}
+
+function showAuthMsg(msg, type) {
+  const el = document.getElementById('auth-msg');
+  el.textContent = msg; el.className = 'auth-msg ' + type + ' show';
+}
+function clearAuthMsg() {
+  const el = document.getElementById('auth-msg');
+  el.className = 'auth-msg'; el.textContent = '';
+}
+
+// ── INTAKE ──
+const SVC_NAMES = { tax:'Tax Filing', bookkeeping:'Bookkeeping', payroll:'Payroll Management', crossborder:'Cross-Border Services', audit:'Audit Assessment', partner:'White Label Partner' };
+const NEEDS_TAXID = ['tax'];
+const NEEDS_DOCS = ['tax'];
+const BIZ_SERVICES = ['bookkeeping', 'payroll', 'audit', 'crossborder', 'partner'];
+
+function startIntake() {
+  uploadedFiles = [];
+  document.getElementById('file-list').innerHTML = '';
+  if (currentService === 'tax') {
+    showIStep('istep-type');
+    setProgress(10);
+  } else if (BIZ_SERVICES.includes(currentService)) {
+    document.getElementById('business-lbl').textContent = 'Step 1 · ' + SVC_NAMES[currentService];
+    showIStep('istep-business');
+    setProgress(30);
+  } else {
+    showIStep('istep-personal');
+    setProgress(30);
+  }
+}
+
+function showIStep(id) {
+  document.querySelectorAll('.istep').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  intakeSteps.push(id);
+  currentIStep = intakeSteps.length - 1;
+}
+
+function intakeBack() {
+  if (intakeSteps.length <= 1) return;
+  intakeSteps.pop();
+  currentIStep = intakeSteps.length - 1;
+  document.querySelectorAll('.istep').forEach(s => s.classList.remove('active'));
+  document.getElementById(intakeSteps[currentIStep]).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function setProgress(pct) {
+  document.getElementById('intake-progress').style.width = pct + '%';
+}
+
+function setFilingType(type) {
+  filingType = type;
+  if (type === 'personal') {
+    document.getElementById('personal-lbl').textContent = 'Step 1 of 4 · Tax Filing';
+    document.getElementById('ein-wrap').style.display = 'none';
+    showIStep('istep-personal');
+  } else {
+    document.getElementById('business-lbl').textContent = 'Step 1 of 4 · Tax Filing';
+    document.getElementById('ein-wrap').style.display = 'block';
+    showIStep('istep-business');
+  }
+  setProgress(25);
+}
+
+// Country toggles
+function setCountry(c) {
+  clientCountry = c;
+  document.getElementById('p-us').classList.toggle('on', c==='US');
+  document.getElementById('p-ca').classList.toggle('on', c==='CA');
+  document.getElementById('p-prov-lbl').textContent = c==='CA' ? 'Province' : 'State';
+  document.getElementById('p-zip-lbl').textContent = c==='CA' ? 'Postal Code' : 'ZIP Code';
+  document.getElementById('p-state').placeholder = c==='CA' ? 'e.g. Ontario' : 'e.g. NY';
+  document.getElementById('p-zip').placeholder = c==='CA' ? 'M5V 1A1' : '10001';
+  document.getElementById('taxid-field-lbl').textContent = c==='CA' ? 'Social Insurance Number (SIN) *' : 'Social Security Number (SSN) *';
+  document.getElementById('taxid-hint').textContent = c==='CA' ? 'Canadian SIN: 9 digits · Format: XXX-XXX-XXX' : 'US SSN: 9 digits · Format: XXX-XX-XXXX';
+  document.getElementById('t-ssn').placeholder = c==='CA' ? 'XXX-XXX-XXX' : 'XXX-XX-XXXX';
+}
+
+function setBizCountry(c) {
+  bizCountry = c;
+  document.getElementById('b-us').classList.toggle('on', c==='US');
+  document.getElementById('b-ca').classList.toggle('on', c==='CA');
+  document.getElementById('b-prov-lbl').textContent = c==='CA' ? 'Province' : 'State';
+  document.getElementById('b-zip-lbl').textContent = c==='CA' ? 'Postal Code' : 'ZIP Code';
+  document.getElementById('b-state').placeholder = c==='CA' ? 'e.g. Ontario' : 'e.g. NY';
+  document.getElementById('b-zip').placeholder = c==='CA' ? 'M5V 1A1' : '10001';
+}
+
+// Format fields
+function fmtSSN(inp) {
+  let v = inp.value.replace(/\D/g,'');
+  if (clientCountry==='US') {
+    if (v.length>3) v = v.slice(0,3)+'-'+v.slice(3);
+    if (v.length>6) v = v.slice(0,6)+'-'+v.slice(6,10);
+  } else {
+    if (v.length>3) v = v.slice(0,3)+'-'+v.slice(3);
+    if (v.length>7) v = v.slice(0,7)+'-'+v.slice(7,10);
+  }
+  inp.value = v;
+}
+function fmtEIN(inp) {
+  let v = inp.value.replace(/\D/g,'');
+  if (v.length>2) v = v.slice(0,2)+'-'+v.slice(2,9);
+  inp.value = v;
+}
+function togglePw(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type==='password' ? 'text' : 'password';
+  btn.textContent = inp.type==='password' ? 'Show' : 'Hide';
+}
+
+// ── SUBMIT PERSONAL ──
+async function submitPersonal() {
+  const name = document.getElementById('p-name').value.trim();
+  const email = document.getElementById('p-email').value.trim();
+  if (!name || !email || !email.includes('@')) {
+    document.getElementById('p-alert').textContent = 'Please enter your full name and a valid email.';
+    document.getElementById('p-alert').classList.add('show');
+    return;
+  }
+  document.getElementById('p-alert').classList.remove('show');
+
+  intakeData = {
+    full_name: name, email,
+    phone: document.getElementById('p-phone').value,
+    date_of_birth: document.getElementById('p-dob').value || null,
+    city: document.getElementById('p-city').value,
+    state_province: document.getElementById('p-state').value,
+    postal_code: document.getElementById('p-zip').value,
+    country: clientCountry,
+    entity_type: document.getElementById('p-entity').value,
+    service_type: currentService,
+    client_type: 'personal'
+  };
+
+  await saveClientRecord();
+
+  if (NEEDS_TAXID.includes(currentService)) {
+    setProgress(50);
+    showIStep('istep-taxid');
+  } else {
+    buildReview();
+    setProgress(80);
+    showIStep('istep-review');
+  }
+}
+
+// ── SUBMIT BUSINESS ──
+async function submitBusiness() {
+  const name = document.getElementById('b-name').value.trim();
+  const email = document.getElementById('b-email').value.trim();
+  if (!name || !email || !email.includes('@')) {
+    document.getElementById('b-alert').textContent = 'Please enter your business name and a valid email.';
+    document.getElementById('b-alert').classList.add('show');
+    return;
+  }
+  document.getElementById('b-alert').classList.remove('show');
+
+  intakeData = {
+    full_name: document.getElementById('b-contact').value.trim() || name,
+    email,
+    phone: document.getElementById('b-phone').value,
+    city: document.getElementById('b-city').value,
+    state_province: document.getElementById('b-state').value,
+    postal_code: document.getElementById('b-zip').value,
+    country: bizCountry,
+    entity_type: document.getElementById('b-type').value,
+    service_type: currentService,
+    client_type: 'business',
+    business_name: name,
+    industry: document.getElementById('b-industry').value,
+  };
+
+  await saveClientRecord();
+
+  if (currentService === 'tax' && filingType === 'business') {
+    setProgress(50);
+    showIStep('istep-taxid');
+  } else if (NEEDS_DOCS.includes(currentService)) {
+    setProgress(65);
+    showIStep('istep-docs');
+  } else {
+    buildReview();
+    setProgress(80);
+    showIStep('istep-review');
+  }
+}
+
+// ── SAVE CLIENT RECORD ──
+async function saveClientRecord() {
+  if (clientId) return;
+  if (!currentUser) return;
+  try {
+    // Check if already exists
+    const { data: existing, error: fetchErr } = await sb.from('clients')
+      .select('id').eq('user_id', currentUser.id).maybeSingle();
+    if (existing?.id) { clientId = existing.id; return; }
+    // Create new
+    const { data: newC, error: insErr } = await sb.from('clients').insert({
+      user_id: currentUser.id, ...intakeData
+    }).select('id').single();
+    if (insErr) { console.error('Client insert:', insErr.message); return; }
+    clientId = newC.id;
+  } catch(e) { console.warn('saveClientRecord:', e.message); }
+}
+
+// ── SUBMIT TAX ID ──
+async function submitTaxId() {
+  const raw = document.getElementById('t-ssn').value.replace(/\D/g,'');
+  if (raw.length !== 9) {
+    document.getElementById('t-alert').textContent = clientCountry==='CA' ? 'SIN must be 9 digits' : 'SSN must be 9 digits';
+    document.getElementById('t-alert').classList.add('show');
+    return;
+  }
+  document.getElementById('t-alert').classList.remove('show');
+  const btn = document.querySelector('#istep-taxid .btn-gold');
+  btn.disabled = true; btn.textContent = 'Encrypting...';
+
+  try {
+    // Get fresh JWT — user is definitely logged in at this point
+    const { data: { session } } = await sb.auth.getSession();
+    const jwt = session?.access_token;
+    if (!jwt) throw new Error('Session expired. Please refresh the page and try again.');
+    if (!clientId) throw new Error('Account not found. Please go back to Step 1.');
+
+    const taxType = clientCountry==='CA' ? 'SIN' : 'SSN';
+    const resp = await fetch('/.netlify/functions/submit-tax-id', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tax_id: raw, tax_id_type: taxType, client_id: clientId, jwt })
+    });
+    const result = await resp.json();
+    if (!resp.ok || !result.success) throw new Error(result.error || 'Encryption failed. Please try again.');
+
+    // EIN if provided
+    const einRaw = document.getElementById('t-ein').value.replace(/\D/g,'');
+    if (einRaw.length === 9) {
+      await fetch('/.netlify/functions/submit-tax-id', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tax_id: einRaw, tax_id_type: 'EIN', client_id: clientId, jwt })
+      });
+    }
+
+    setProgress(65);
+    showIStep('istep-docs');
+  } catch(e) {
+    document.getElementById('t-alert').textContent = e.message;
+    document.getElementById('t-alert').classList.add('show');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Submit Securely →';
+  }
+}
+
+// ── DOCUMENTS ──
+function handleDrop(e) { e.preventDefault(); handleFiles(e.dataTransfer.files); }
+function handleFiles(files) {
+  Array.from(files).forEach(f => {
+    if (f.size > 25*1024*1024) { alert(f.name + ' too large'); return; }
+    uploadedFiles.push(f);
+    document.getElementById('file-list').innerHTML += `<div class="file-row"><span class="file-name">${f.name}</span><span class="file-size">${(f.size/1024/1024).toFixed(1)}MB</span><span class="file-ok">Ready</span></div>`;
+  });
+}
+
+function goToReview() { buildReview(); setProgress(85); showIStep('istep-review'); }
+
+function buildReview() {
+  const isBiz = intakeData.client_type === 'business';
+  const rows = isBiz ? [
+    ['Business', intakeData.business_name||'--'],
+    ['Contact', intakeData.full_name||'--'],
+    ['Email', intakeData.email||'--'],
+    ['Type', intakeData.entity_type||'--'],
+    ['Country', intakeData.country==='CA'?'Canada':'United States'],
+    ['Service', SVC_NAMES[currentService]||currentService],
+  ] : [
+    ['Name', intakeData.full_name||'--'],
+    ['Email', intakeData.email||'--'],
+    ['Country', intakeData.country==='CA'?'Canada':'United States'],
+    ['Service', SVC_NAMES[currentService]||currentService],
+    ['Documents', uploadedFiles.length + ' uploaded'],
+  ];
+  document.getElementById('review-card').innerHTML = `
+    <div class="card-ttl">Your Information</div>
+    <div class="review-grid">
+      ${rows.map(([l,v])=>`<div class="rv"><div class="rv-lbl">${l}</div><div class="rv-val">${v}</div></div>`).join('')}
+    </div>`;
+}
+
+// ── FINAL SUBMIT ──
+async function finalSubmit() {
+  if (!document.getElementById('c1').checked || !document.getElementById('c2').checked || !document.getElementById('c3').checked) {
+    document.getElementById('r-alert').textContent = 'Please check all boxes to continue.';
+    document.getElementById('r-alert').classList.add('show');
+    return;
+  }
+  document.getElementById('r-alert').classList.remove('show');
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = 'Activating your account...';
+
+  try {
+    if (clientId) {
+      await sb.from('intake_forms').insert({
+        client_id: clientId, service_type: currentService,
+        form_data: { ...intakeData, filing_type: filingType }, status: 'submitted'
+      });
+      await sb.from('status_updates').insert({
+        client_id: clientId, step: 'documents_received',
+        message: getWelcomeMsg(), is_visible_to_client: true
+      });
+    }
+
+    // Mark intake complete in user metadata
+    await sb.auth.updateUser({ data: { intake_complete: true } });
+
+    setProgress(100);
+    showScreen('screen-portal');
+    loadDashboard(currentUser);
+  } catch(e) {
+    document.getElementById('r-alert').textContent = 'Error: ' + e.message;
+    document.getElementById('r-alert').classList.add('show');
+    btn.disabled = false; btn.textContent = 'Submit & Go to Dashboard →';
+  }
+}
+
+function getWelcomeMsg() {
+  const msgs = {
+    tax: 'Your tax filing has been received. Your accountant will review within 48 hours.',
+    bookkeeping: 'Your bookkeeping account is set up. Book a consultation or message us to get started.',
+    payroll: 'Your payroll account is set up. Book a consultation or message us to get started.',
+    audit: 'Your audit assessment has been received. Book a consultation to discuss your situation.',
+    crossborder: 'Your cross-border account is set up. Book a consultation to discuss your requirements.',
+    partner: 'Your partner application has been received. We will be in touch within 2 business days.'
+  };
+  return msgs[currentService] || 'Your information has been received.';
+}
+
+// ── DASHBOARD ──
+function loadDashboard(user) {
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Client';
   const service = user.user_metadata?.service_type || 'tax';
   const firstName = name.split(' ')[0];
 
-  // Avatar
-  document.getElementById('nav-avatar').textContent = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('nav-av').textContent = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('w-name').textContent = firstName + '.';
+  document.getElementById('w-status').innerHTML = 'Your <span>' + (SVC_NAMES[service]||service).toLowerCase() + '</span> is under review. Your accountant will update you shortly.';
+  document.getElementById('svc-badge').textContent = SVC_NAMES[service] || service;
 
-  // Welcome
-  document.getElementById('welcome-name').textContent = firstName + '.';
+  // Show/hide service cards
+  document.getElementById('refund-card').style.display = service==='tax' ? 'block' : 'none';
+  document.getElementById('cb-card').style.display = service==='crossborder' ? 'block' : 'none';
+  document.getElementById('partner-card').style.display = service==='partner' ? 'block' : 'none';
+  const consultBar = document.getElementById('consult-bar');
+  consultBar.classList.toggle('show', service!=='tax');
 
-  const serviceNames = {
-    tax: 'tax return', bookkeeping: 'bookkeeping', payroll: 'payroll',
-    crossborder: 'cross-border filing', audit: 'audit assessment', partner: 'partner account'
-  };
-  document.getElementById('welcome-status').innerHTML =
-    'Your <span>' + (serviceNames[service] || service) + '</span> is currently under review. Your advisor will update you shortly.';
-
-  // Service badge
-  document.getElementById('service-badge').textContent = serviceNames[service] || service;
-
-  // Show/hide service-specific sections
-  document.getElementById('refund-card').style.display = (service === 'tax') ? 'block' : 'none';
-  // Show consultation banner for non-tax services
-  const consultBanner = document.getElementById('consult-banner');
-  if (consultBanner) consultBanner.style.display = service !== 'tax' ? 'flex' : 'none';
-  document.getElementById('crossborder-card').style.display = service === 'crossborder' ? 'block' : 'none';
-  document.getElementById('partner-card').style.display = service === 'partner' ? 'block' : 'none';
-
-  // Action items based on service
+  // Action items
   const actions = {
-    tax: ['Upload your T4 or W-2 documents', 'Review and approve your tax return'],
-    bookkeeping: ['Upload bank statements for last 3 months', 'Connect your business account'],
-    payroll: ['Upload employee W-4 / TD1 forms', 'Confirm payroll schedule'],
-    crossborder: ['Upload passport and ID documents', 'Submit US SSN and Canadian SIN'],
-    audit: ['Upload IRS or CRA audit notice', 'Provide prior 3 years of tax returns'],
-    partner: ['Complete partner agreement', 'Set up your white label branding']
+    tax: ['Upload your W-2 or T4 documents', 'Review and approve your tax return'],
+    bookkeeping: ['Upload bank statements for last 3 months'],
+    payroll: ['Upload employee W-4 or TD1 forms'],
+    crossborder: ['Book a consultation to discuss your situation'],
+    audit: ['Upload IRS or CRA audit notice'],
+    partner: ['Complete your partner agreement']
   };
-
   const items = actions[service] || [];
-  if (items.length > 0) {
-    document.getElementById('action-items').innerHTML = items.map(a =>
-      `<div class="action-item">
-        <div class="action-icon">⚠</div>
-        <div class="action-text">${a}</div>
-        <div class="action-arrow">→</div>
-      </div>`
-    ).join('');
-  }
-
-  // Recommended service
-  const recommended = { tax: 'Bookkeeping', bookkeeping: 'Payroll Management', payroll: 'Tax Filing', audit: 'Bookkeeping' };
-  if (recommended[service]) {
-    document.getElementById('recommend-card').style.display = 'flex';
-    document.getElementById('recommend-service').textContent = recommended[service];
-  }
+  document.getElementById('action-items').innerHTML = items.length
+    ? items.map(a=>`<div class="action-item">⚠ ${a}</div>`).join('')
+    : '<div class="no-action">✓ You\'re all caught up.</div>';
 
   // Notifications
-  loadNotifications();
+  document.getElementById('notif-badge').style.display = 'block';
+  document.getElementById('notif-list').innerHTML = [
+    { msg: 'Your intake form has been received', time: 'Just now' },
+    { msg: 'Action required: Upload documents', time: '2 min ago' },
+  ].map(n=>`<div class="np-item"><div class="np-dot" style="background:var(--gold)"></div><div><div class="np-msg">${n.msg}</div><div class="np-time">${n.time}</div></div></div>`).join('');
 
-  // Load Supabase data
-  loadClientData(user);
+  // Load real data from Supabase
+  loadRealData();
 }
 
-async function loadClientData(user) {
+async function loadRealData() {
   try {
-    // Load status updates
-    const { data: statuses } = await sb.from('status_updates')
-      .select('*').eq('client_id', user.id).order('created_at', {ascending:false}).limit(5);
-
-    if (statuses?.length > 0) {
-      const latest = statuses[0];
-      document.getElementById('welcome-status').innerHTML =
-        latest.message || document.getElementById('welcome-status').innerHTML;
+    const { data: msgs } = await sb.from('messages').select('*').order('created_at',{ascending:true}).limit(10);
+    if (msgs?.length) {
+      document.getElementById('msg-thread').innerHTML = msgs.map(m=>`
+        <div class="msg ${m.sender==='accountant'?'from-us':'from-me'}">
+          ${m.body}<div class="msg-time">${new Date(m.created_at).toLocaleDateString()}</div>
+        </div>`).join('');
     }
-
-    // Load messages
-    const { data: msgs } = await sb.from('messages')
-      .select('*').order('created_at', {ascending:true}).limit(10);
-
-    if (msgs?.length > 0) {
-      const thread = document.getElementById('msg-thread');
-      thread.innerHTML = msgs.map(m =>
-        `<div class="msg ${m.sender === 'accountant' ? 'from-advisor' : 'from-client'}">
-          ${m.body}
-          <div class="msg-time">${new Date(m.created_at).toLocaleDateString()}</div>
-        </div>`
-      ).join('');
-      thread.scrollTop = thread.scrollHeight;
-    }
-  } catch(e) {
-    console.warn('Data load error:', e.message);
-  }
+  } catch(e) { console.warn('loadRealData:', e.message); }
 }
 
-function loadNotifications() {
-  const service = currentUser?.user_metadata?.service_type || 'tax';
-  const notifs = [
-    { msg: 'Your intake form has been received', time: 'Just now', read: false },
-    { msg: 'Giuseppe has been assigned to your file', time: '2 min ago', read: false },
-    { msg: 'Action required: Upload missing documents', time: '5 min ago', read: false },
-  ];
+// ── DASHBOARD FUNCTIONS ──
+function bookConsult() { window.open('https://calendly.com/theindustryaccountants', '_blank'); }
+function focusMsg() { document.getElementById('msg-inp').focus(); document.getElementById('msg-inp').scrollIntoView({behavior:'smooth'}); }
 
-  document.getElementById('notif-list').innerHTML = notifs.map(n =>
-    `<div class="notif-item">
-      <div class="notif-dot ${n.read ? 'read' : 'unread'}"></div>
-      <div><div class="notif-msg">${n.msg}</div><div class="notif-time">${n.time}</div></div>
-    </div>`
-  ).join('');
-
-  const unread = notifs.filter(n => !n.read).length;
-  document.getElementById('notif-badge').style.display = unread > 0 ? 'block' : 'none';
+async function sendMsg() {
+  const body = document.getElementById('msg-inp').value.trim();
+  if (!body) return;
+  const thread = document.getElementById('msg-thread');
+  thread.innerHTML += `<div class="msg from-me">${body}<div class="msg-time">Just now</div></div>`;
+  thread.scrollTop = thread.scrollHeight;
+  document.getElementById('msg-inp').value = '';
+  try {
+    if (clientId) await sb.from('messages').insert({ client_id: clientId, sender: 'client', body });
+  } catch(e) {}
 }
 
-function toggleNotif() {
-  document.getElementById('notif-panel').classList.toggle('open');
+function handleVault(files) {
+  const list = document.getElementById('vault-files');
+  Array.from(files).forEach(f => {
+    list.innerHTML += `<div class="file-row"><span class="file-name">${f.name}</span><span class="file-size">${(f.size/1024/1024).toFixed(1)}MB</span><span class="file-ok">Uploaded</span></div>`;
+  });
 }
 
-document.addEventListener('click', (e) => {
+function toggleNotif() { document.getElementById('notif-panel').classList.toggle('open'); }
+document.addEventListener('click', e => {
   if (!e.target.closest('#notif-btn') && !e.target.closest('#notif-panel')) {
     document.getElementById('notif-panel').classList.remove('open');
   }
 });
 
-function bookConsultation() {
-  // Opens consultation booking — you can replace this URL with your Calendly or booking link
-  window.open('https://calendly.com/theindustryaccountants', '_blank');
-}
+function openSvcPicker() { document.getElementById('svc-modal').classList.add('open'); }
 
-function addService() {
-  document.getElementById('service-picker-modal').style.display = 'flex';
-}
-
-function pickService(service) {
-  document.getElementById('service-picker-modal').style.display = 'none';
-  const name = encodeURIComponent(currentUser?.user_metadata?.full_name || '');
-  const email = encodeURIComponent(currentUser?.email || '');
-  window.location.href = `secure-intake.html?service=${service}&name=${name}&email=${email}&returning=true`;
-}
-
-function focusMessage() {
-  document.getElementById('msg-input').focus();
-  document.getElementById('msg-input').scrollIntoView({behavior:'smooth'});
-}
-
-async function sendMsg() {
-  const input = document.getElementById('msg-input');
-  const body = input.value.trim();
-  if (!body) return;
-
-  const thread = document.getElementById('msg-thread');
-  thread.innerHTML += `<div class="msg from-client">${body}<div class="msg-time">Just now</div></div>`;
-  thread.scrollTop = thread.scrollHeight;
-  input.value = '';
-
-  try {
-    const { data: clientData } = await sb.from('clients')
-      .select('id').eq('user_id', currentUser.id).single();
-    if (clientData) {
-      await sb.from('messages').insert({ client_id: clientData.id, sender: 'client', body });
-    }
-  } catch(e) { console.warn('Message error:', e.message); }
-}
-
-function handleVaultUpload(files) {
-  const list = document.getElementById('vault-files');
-  Array.from(files).forEach(f => {
-    list.innerHTML += `<div class="vault-file">
-      <span class="vault-file-name">${f.name}</span>
-      <span class="vault-file-size">${(f.size/1024/1024).toFixed(1)} MB</span>
-      <span class="vault-file-badge">Uploading...</span>
-    </div>`;
-  });
-}
-
-// ── AUTH ──
-function switchTab(tab) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const panel = document.getElementById('tab-' + tab);
-  if (panel) panel.style.display = 'block';
-  const btn = document.querySelector(`[onclick="switchTab('${tab}')"]`);
-  if (btn) btn.classList.add('active');
-  clearMsg();
-}
-
-async function signIn() {
-  const email = document.getElementById('signin-email').value.trim();
-  const password = document.getElementById('signin-password').value;
-  if (!email || !password) { showMsg('Please enter your email and password.', 'error'); return; }
-  const btn = document.getElementById('signin-btn');
-  btn.disabled = true; btn.textContent = 'Signing in...';
-  try {
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) throw new Error(error.message);
-    currentUser = data.user;
-    showPortal(data.user);
-  } catch(e) {
-    showMsg(e.message, 'error');
-    btn.disabled = false; btn.textContent = 'Sign In';
+function addService(svc) {
+  document.getElementById('svc-modal').classList.remove('open');
+  clientId = null;
+  uploadedFiles = [];
+  intakeSteps = [];
+  currentIStep = 0;
+  currentService = svc;
+  // Pre-fill from existing user data
+  if (currentUser) {
+    const name = currentUser.user_metadata?.full_name || '';
+    const email = currentUser.email || '';
+    document.getElementById('p-name').value = name;
+    document.getElementById('p-email').value = email;
+    document.getElementById('b-contact').value = name;
+    document.getElementById('b-email').value = email;
   }
-}
-
-async function signUp() {
-  const name = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const password = document.getElementById('signup-password').value;
-  const service = document.getElementById('signup-service').value;
-  if (!name) { showMsg('Please enter your full name.', 'error'); return; }
-  if (!email || !email.includes('@')) { showMsg('Please enter a valid email.', 'error'); return; }
-  if (!password || password.length < 8) { showMsg('Password must be at least 8 characters.', 'error'); return; }
-  if (!service) { showMsg('Please select a service.', 'error'); return; }
-  const btn = document.getElementById('signup-btn');
-  btn.disabled = true; btn.textContent = 'Creating account...';
-  try {
-    const { data, error } = await sb.auth.signUp({
-      email, password,
-      options: { data: { full_name: name, service_type: service } }
-    });
-    if (error) throw new Error(error.message);
-    if (data.user) {
-      currentUser = data.user;
-      // Go straight to intake form
-      window.location.href = 'secure-intake.html?service=' + service +
-        '&name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email);
-    }
-  } catch(e) {
-    showMsg(e.message, 'error');
-    btn.disabled = false; btn.textContent = 'Create Account';
-  }
-}
-
-async function resetPassword() {
-  const email = document.getElementById('reset-email').value.trim();
-  if (!email) { showMsg('Please enter your email.', 'error'); return; }
-  await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal.html' });
-  showMsg('Reset link sent! Check your email.', 'success');
-}
-
-async function doLogout() {
-  await sb.auth.signOut();
-  document.getElementById('portal-screen').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-  switchTab('signin');
-}
-
-function showMsg(msg, type) {
-  const el = document.getElementById('auth-msg');
-  el.textContent = msg; el.className = 'auth-msg ' + type + ' show';
-}
-function clearMsg() {
-  const el = document.getElementById('auth-msg');
-  el.className = 'auth-msg'; el.textContent = '';
+  showScreen('screen-intake');
+  startIntake();
 }
 </script>
-
-<!-- SERVICE PICKER MODAL -->
-<div id="service-picker-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center;padding:1.5rem">
-  <div style="background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:480px;max-height:90vh;overflow-y:auto">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
-      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#111827">Add a Service</div>
-      <button onclick="document.getElementById('service-picker-modal').style.display='none'" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gray)">×</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:.6rem">
-      <button onclick="pickService('tax')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(96,165,250,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📄</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Tax Filing</div><div style="font-size:.75rem;color:var(--gray)">Personal, business, US & Canada</div></div>
-      </button>
-      <button onclick="pickService('bookkeeping')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(45,212,160,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📊</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Bookkeeping</div><div style="font-size:.75rem;color:var(--gray)">Monthly books, P&L, balance sheet</div></div>
-      </button>
-      <button onclick="pickService('payroll')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(251,191,36,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">👥</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Payroll Management</div><div style="font-size:.75rem;color:var(--gray)">W-2, 1099, direct deposit</div></div>
-      </button>
-      <button onclick="pickService('crossborder')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(13,24,41,.08);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🌎</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Cross-Border Services</div><div style="font-size:.75rem;color:var(--gray)">US and Canada filing</div></div>
-      </button>
-      <button onclick="pickService('audit')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='#f9fafb'">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(248,113,113,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🔍</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:#111827">Audit Assessment</div><div style="font-size:.75rem;color:var(--gray)">IRS and CRA audit support</div></div>
-      </button>
-      <button onclick="pickService('partner')" style="display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;background:#f9fafb;border:1.5px solid rgba(201,168,76,.3);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.04)'" onmouseout="this.style.borderColor='rgba(201,168,76,.3)';this.style.background='#f9fafb'">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(201,168,76,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🤝</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:#111827">White Label Partner</div><div style="font-size:.75rem;color:var(--gray)">Offer our services under your brand</div></div>
-      </button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
