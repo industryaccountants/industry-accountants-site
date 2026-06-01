@@ -1349,16 +1349,12 @@ window.SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJl
 
 <script>
 // ── SUPABASE ──
-let sb;
-function initSb() {
-  const sbLib = window.supabase || window.Supabase;
-  if (!sbLib) return false;
-  sb = sbLib.createClient(window.SURL, window.SKEY, {
-    auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
-  });
-  return true;
-}
-// Don't init immediately — wait for defer script to load
+// Initialize Supabase immediately — bundle is already loaded above
+const _sbLib = window.supabase || window.Supabase;
+const sb = _sbLib.createClient(window.SURL, window.SKEY, {
+  auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+});
+function initSb() { return !!sb; }
 
 let currentUser = null;
 let clientId = null;
@@ -1373,7 +1369,7 @@ let uploadedFiles = [];
 
 // ── INIT ──
 window.addEventListener('load', () => {
-  // Auth screen is already visible from HTML
+  // sb already initialized above
   // Quietly check for existing session
 
   // Quietly check for existing session in background
