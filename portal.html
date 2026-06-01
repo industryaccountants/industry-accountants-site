@@ -1346,7 +1346,8 @@ var SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
 var SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
 
 /* === 3. INIT SUPABASE === */
-var sb = window.supabase.createClient(SURL, SKEY, {
+var _sbLib = self.supabase || window.supabase || window.Supabase;
+var sb = _sbLib.createClient(SURL, SKEY, {
   auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
 });
 
