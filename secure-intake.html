@@ -746,9 +746,21 @@ async function finalSubmit() {
   }
 
   const btn = document.getElementById('final-submit-btn');
-  btn.disabled = true; btn.textContent = 'Creating your account...';
+  btn.disabled = true; btn.textContent = 'Uploading documents…';
 
   try {
+    // Upload any queued files first
+    if (uploadedFiles.length > 0) {
+      const uploadOk = await uploadAllFiles();
+      if (!uploadOk) {
+        showAlert('sr-alert', 'error', 'One or more files failed to upload. Please try again.');
+        btn.disabled = false; btn.textContent = 'Submit & Go to Dashboard →';
+        return;
+      }
+    }
+
+    btn.textContent = 'Saving your information…';
+
     if (clientId) {
       await sb.from('intake_forms').insert({
         client_id: clientId,
@@ -820,14 +832,69 @@ function handleDrop(e) { e.preventDefault(); handleFiles(e.dataTransfer.files); 
 function handleFiles(files) {
   Array.from(files).forEach(f => {
     if (f.size > 25 * 1024 * 1024) { alert(f.name + ' is too large (max 25MB)'); return; }
+    if (uploadedFiles.find(u => u.name === f.name && u.size === f.size)) return; // dedupe
     uploadedFiles.push(f);
-    document.getElementById('file-list').innerHTML += `
-      <div class="file-item">
-        <span class="file-item-name">${f.name}</span>
-        <span class="file-item-size">${(f.size/1024/1024).toFixed(1)}MB</span>
-        <span class="file-item-status">Ready</span>
-      </div>`;
+    const itemId = 'fi-' + uploadedFiles.length;
+    const list = document.getElementById('file-list');
+    const div = document.createElement('div');
+    div.className = 'file-item';
+    div.id = itemId;
+    div.innerHTML = `
+      <span class="file-item-name">${f.name}</span>
+      <span class="file-item-size">${(f.size/1024/1024).toFixed(1)}MB</span>
+      <span class="file-item-status" id="${itemId}-status">Queued</span>`;
+    list.appendChild(div);
   });
+}
+
+async function uploadAllFiles() {
+  if (!uploadedFiles.length) return true; // nothing to upload — OK
+  await ensureClientRecord();
+  if (!clientId) { showAlert('upload-alert', 'error', 'Could not create client record. Please try again.'); return false; }
+
+  const { data: { session } } = await sb.auth.getSession();
+  const jwt = session?.access_token || null;
+  let allOk = true;
+
+  for (let i = 0; i < uploadedFiles.length; i++) {
+    const f = uploadedFiles[i];
+    const statusEl = document.getElementById('fi-' + (i + 1) + '-status');
+    if (statusEl) statusEl.textContent = 'Uploading…';
+
+    try {
+      // Step 1: get signed upload URL
+      const metaResp = await fetch('/.netlify/functions/upload-document', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          file_name: f.name,
+          file_type: f.type || 'application/octet-stream',
+          file_size: f.size,
+          document_type: 'intake',
+          tax_year: new Date().getFullYear(),
+          client_id: clientId,
+          jwt
+        })
+      });
+      const meta = await metaResp.json();
+      if (!meta.signed_url) throw new Error(meta.error || 'No upload URL returned');
+
+      // Step 2: PUT file directly to Supabase Storage
+      const uploadResp = await fetch(meta.signed_url, {
+        method: 'PUT',
+        headers: { 'Content-Type': f.type || 'application/octet-stream' },
+        body: f
+      });
+      if (!uploadResp.ok) throw new Error('Storage upload failed: ' + uploadResp.status);
+
+      if (statusEl) statusEl.textContent = '✓ Done';
+    } catch (e) {
+      console.error('Upload error for ' + f.name + ':', e.message);
+      if (statusEl) statusEl.textContent = '✗ Failed';
+      allOk = false;
+    }
+  }
+  return allOk;
 }
 
 // ── UTILS ──
