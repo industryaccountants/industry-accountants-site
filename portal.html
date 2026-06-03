@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- v2026-06-02 22:46 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -7,11 +6,10 @@
 <title>Client Portal — The Industry Accountants</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/></noscript>
-
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="/supabase.min.js"></script>
 <style>
+
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --navy:#0d1829;--navy2:#162038;--gold:#c9a84c;--green:#2dd4a0;
@@ -220,14 +218,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
   .portal-body{padding:1.25rem 1rem}
   .auth-card{padding:2rem 1.5rem}
 }
+
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 
-<!-- loading screen removed -->
-
-<!-- AUTH -->
 <div class="screen active" id="screen-auth">
   <div class="auth-card">
     <div class="auth-logo">The Industry Accountants</div>
@@ -892,18 +887,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#111827;min-hei
   .auth-card{padding:2rem 1.5rem}
 }
 </style>
-<!-- scripts below -->
-<body>
+
 <script>
 var SURL = 'https://zshxoqbewsxmstlnzwvr.supabase.co';
 var SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
-var sb = window.supabase.createClient(SURL, SKEY, {
+var sb = supabase.createClient(SURL, SKEY, {
   auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
 });
-
-
-
-// ── APP CODE ──
 
 let currentUser = null;
 let clientId = null;
@@ -1470,6 +1460,7 @@ function addService(svc) {
   showScreen('screen-intake');
   startIntake();
 }
+
 </script>
 </body>
 </html>
