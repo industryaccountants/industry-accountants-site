@@ -348,7 +348,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 <!-- ═══════ SCREEN 2: ONBOARDING ═══════ -->
 <div id="screen-onboarding" class="screen">
   <div class="ob-wrap">
-    <div class="ob-progress" id="ob-progress"></div>
+
     <div class="ob-card">
       <div id="ob-msg" class="ob-msg"></div>
 
@@ -929,16 +929,7 @@ async function routeUser(){
 }
 
 // ── ONBOARDING ──
-function buildProgressDots(){
-  var labels=['Account','Email','Welcome','Service','Agreement','Dashboard'];
-  var html='';
-  for(var i=1;i<=STATE.obTotalSteps;i++){
-    if(i>1)html+='<div class="ob-step-line"></div>';
-    var cls=i<STATE.obStep?'done':i===STATE.obStep?'active':'';
-    html+='<div class="ob-step-dot '+cls+'" title="'+labels[i-1]+'">'+(i<STATE.obStep?'✓':i)+'</div>';
-  }
-  document.getElementById('ob-progress').innerHTML=html;
-}
+function buildProgressDots(){}
 
 function startOnboarding(step){STATE.obStep=step||1;showScreen('screen-onboarding');showObStep(STATE.obStep);}
 function showObStep(n){STATE.obStep=n;document.querySelectorAll('.ob-step').forEach(function(s){s.classList.remove('active');});var el=document.getElementById('ob-step-'+n);if(el)el.classList.add('active');buildProgressDots();showObMsg('','');}
