@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0d1829"/>
+  <title>The Industry Accountants: Tax, Payroll &amp; Bookkeeping, Delivered</title>
+  <meta name="description" content="Premium tax filing, bookkeeping, payroll and business consulting. 100% digital. 48 hour turnaround. Nationwide."/>
+  <link rel="preload" as="image" href="hero-banner.png"/>
+  <link rel="preload" as="image" href="logo.png"/>
+  <!-- Supabase auth redirect interceptor -->
+  <script>
+    (function(){
+      const hash = window.location.hash;
+      if (hash && (hash.includes('access_token') || hash.includes('confirmation_token') || hash.includes('type=signup') || hash.includes('type=recovery'))) {
+        window.location.href = 'portal.html' + hash;
+      }
+    })();
+  </script>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#0f1f3d"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="TIA Portal"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+<style>
+    :root {
+      --navy:#0f1f3d;--navy-mid:#1a3260;--gold:#b8922a;--gold-light:#d4a843;--gold-pale:#faf5eb;
+      --white:#ffffff;--off-white:#f8f7f4;--gray-200:#e5e3de;--gray-400:#9b9890;--gray-600:#6b6864;
+      --gray-800:#2d2c2a;--text:#1a1917;--radius:12px;
+      --shadow:0 1px 3px rgba(15,31,61,0.06),0 4px 16px rgba(15,31,61,0.05);
+      --shadow-lg:0 4px 24px rgba(15,31,61,0.10);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}body{overflow-x:hidden}
+    body{background:var(--white);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-200);padding:0 5vw;height:68px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo img{height:48px;object-fit:contain}
+    .nav-wordmark{font-family:'Playfair Display',serif;font-size:1rem;color:var(--navy);display:none}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+    .nav-links a{color:var(--gray-600);text-decoration:none;font-size:.88rem;transition:color .2s}
+    .nav-links a:hover{color:var(--navy)}
+    .nav-actions{display:flex;align-items:center;gap:.75rem}
+    .btn-ghost{color:var(--navy);text-decoration:none;font-size:.88rem;font-weight:500;padding:.5rem 1.1rem;border:1.5px solid var(--gray-200);border-radius:8px;transition:all .2s}
+    .btn-ghost:hover{border-color:var(--navy)}
+    .btn-navy{background:var(--navy);color:var(--white);text-decoration:none;font-size:.88rem;font-weight:500;padding:.5rem 1.25rem;border-radius:8px;transition:all .2s}
+    .btn-navy:hover{background:var(--navy-mid)}
+    .hero{padding:140px 5vw 100px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;display:flex;align-items:center;gap:8px}
+    .eyebrow::before{display:none}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,4.5vw,3.8rem);font-weight:400;line-height:1.1;color:var(--navy);letter-spacing:-.02em;margin-bottom:1.5rem}
+    h1 em{font-style:italic;color:var(--gold)}
+    .hero-sub{font-size:1.05rem;color:var(--gray-600);line-height:1.75;margin-bottom:2.5rem;font-weight:300;max-width:440px}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+    .btn-primary{background:var(--navy);color:var(--white);text-decoration:none;font-size:.95rem;font-weight:500;padding:.85rem 2rem;border-radius:8px;transition:all .2s;border:none;cursor:pointer;font-family:'Inter',sans-serif}
+    .btn-primary:hover{background:var(--navy-mid);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+    .btn-secondary{background:var(--white);color:var(--navy);text-decoration:none;font-size:.95rem;font-weight:500;padding:.85rem 2rem;border-radius:8px;border:1.5px solid var(--gray-200);transition:all .2s}
+    .btn-secondary:hover{border-color:var(--navy)}
+    .hero-trust{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid var(--gray-200)}
+    .trust-num{font-family:'Playfair Display',serif;font-size:1.75rem;color:var(--navy);line-height:1;margin-bottom:.2rem;display:block}
+    .trust-label{font-size:.75rem;color:var(--gray-400);display:block}
+    .hero-card{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
+    .card-header{background:var(--navy);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+    .card-logo{font-family:'Playfair Display',serif;color:var(--white);font-size:.85rem;opacity:.9}
+    .card-badge{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:.7rem;padding:3px 8px;border-radius:999px;font-weight:500}
+    .card-body{padding:1.5rem}
+    .card-sub{font-size:.78rem;color:var(--gray-400);margin-bottom:.2rem}
+    .card-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--navy);margin-bottom:1.25rem}
+    .card-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+    .cs{background:var(--off-white);border-radius:8px;padding:.85rem .75rem;text-align:center}
+    .cs-val{font-weight:600;font-size:1rem;color:var(--navy);display:block}
+    .cs-lbl{font-size:.68rem;color:var(--gray-400);display:block;margin-top:2px}
+    .card-steps{display:flex;flex-direction:column;gap:.5rem}
+    .cstep{display:flex;align-items:center;gap:.75rem;padding:.7rem .85rem;border-radius:8px;background:var(--off-white);font-size:.8rem}
+    .csdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .cstep-text{flex:1;color:var(--gray-800)}
+    .cstag{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:999px}
+    .float-card{position:absolute;bottom:-20px;left:-30px;background:var(--white);border:1px solid var(--gray-200);border-radius:12px;box-shadow:var(--shadow-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;min-width:200px}
+    .float-icon{width:36px;height:36px;background:var(--gold-pale);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .float-val{font-size:.88rem;font-weight:600;color:var(--navy);display:block}
+    .float-sub{font-size:.7rem;color:var(--gray-400);display:block}
+    .proof-bar{background:var(--off-white);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);padding:1.5rem 5vw;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
+    .proof-label{font-size:.72rem;color:var(--gray-400);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+    .proof-item{font-size:.82rem;color:var(--gray-400);font-weight:500}
+    .sec{padding:7rem 5vw;max-width:1200px;margin:0 auto}
+    .sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.75rem);font-weight:400;color:var(--navy);line-height:1.2;margin-bottom:.75rem;letter-spacing:-.01em}
+    .sec-sub{font-size:1rem;color:var(--gray-600);font-weight:300;line-height:1.7;max-width:500px;margin-bottom:4rem}
+    .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;position:relative}
+    .steps-grid::before{content:'';position:absolute;top:28px;left:12.5%;right:12.5%;height:1px;background:var(--gray-200)}
+    .step-i{padding:0 1.5rem;text-align:center}
+    .step-num{width:44px;height:44px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+    .step-num span{color:var(--white);font-size:.95rem;font-family:'Playfair Display',serif;font-weight:500}
+    .step-i h3{font-size:.95rem;font-weight:600;color:var(--navy);margin-bottom:.5rem}
+    .step-i p{font-size:.85rem;color:var(--gray-600);line-height:1.6;font-weight:300}
+    .svc-section{background:var(--off-white);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);padding:7rem 5vw;overflow:clip}
+    .svc-inner{max-width:1200px;margin:0 auto}
+    .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    .svc-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:2rem;text-decoration:none;color:var(--text);transition:all .25s;display:block;position:relative;overflow:hidden}
+    .svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--navy);transform:scaleX(0);transition:transform .3s}
+    .svc-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);border-color:transparent}
+    .svc-card:hover::after{transform:scaleX(1)}
+    .svc-card.featured{background:var(--navy);border-color:var(--navy)}
+    .svc-card.featured h3,.svc-card.featured p{color:rgba(255,255,255,.9)}
+    .svc-card.featured::after{display:none}
+    .svc-tag{display:inline-block;background:var(--off-white);color:var(--gray-600);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:1.25rem}
+    .svc-card.featured .svc-tag{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6)}
+    .svc-card h3{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400;color:var(--navy);margin-bottom:.6rem;line-height:1.3}
+    .svc-card p{font-size:.85rem;color:var(--gray-600);line-height:1.65;margin-bottom:1.5rem;font-weight:300}
+    .svc-arrow{font-size:.82rem;color:var(--navy);font-weight:500}
+    .why-wrap{padding:7rem 5vw;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+    .why-list{display:flex;flex-direction:column;gap:1.75rem;margin-top:2.5rem}
+    .why-item{display:flex;gap:1.25rem;align-items:flex-start;padding-bottom:1.75rem;border-bottom:1px solid var(--gray-200)}
+    .why-item:last-child{border-bottom:none;padding-bottom:0}
+    .why-n{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gray-200);line-height:1;flex-shrink:0;width:32px}
+    .why-content strong{display:block;font-size:.95rem;font-weight:600;color:var(--navy);margin-bottom:.3rem}
+    .why-content span{font-size:.85rem;color:var(--gray-600);font-weight:300;line-height:1.6}
+    .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+    .stat-card{background:var(--off-white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:2rem}
+    .stat-big{font-family:'Playfair Display',serif;font-size:2.75rem;font-weight:400;color:var(--navy);line-height:1;margin-bottom:.5rem;display:block}
+    .stat-desc{font-size:.82rem;color:var(--gray-600);font-weight:300;line-height:1.5}
+    .partner-sec{background:var(--navy);padding:7rem 5vw}
+    .partner-inner{max-width:1200px;margin:0 auto}
+    .partner-inner .eyebrow{color:var(--gold-light)}
+    .partner-inner .eyebrow::before{background:var(--gold-light)}
+    .partner-inner .sec-title{color:var(--white)}
+    .partner-inner .sec-sub{color:rgba(255,255,255,.5)}
+    .p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3.5rem}
+    .p-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:2rem;transition:background .2s}
+    .p-card:hover{background:rgba(255,255,255,.08)}
+    .p-num{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--gold-light);opacity:.4;line-height:1;margin-bottom:1rem}
+    .p-card h4{font-size:1rem;font-weight:600;color:var(--white);margin-bottom:.6rem}
+    .p-card p{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.65;font-weight:300}
+    .cta-sec{padding:7rem 5vw;text-align:center;max-width:700px;margin:0 auto}
+    .cta-sec .eyebrow{justify-content:center}
+    .cta-sub{font-size:1rem;color:var(--gray-600);font-weight:300;line-height:1.7;margin-bottom:2.5rem}
+    .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    footer{background:var(--off-white);padding:3rem 5vw}
+    .footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+    .footer-brand{font-family:'Playfair Display',serif;color:var(--navy);font-size:.95rem}
+    .footer-links{display:flex;gap:2rem;list-style:none}
+    .footer-links a{color:var(--gray-600);text-decoration:none;font-size:.82rem;transition:color .2s}
+    .footer-links a:hover{color:var(--navy)}
+    .footer-copy{font-size:.78rem;color:var(--gray-400)}
+    img { -webkit-user-drag: none; user-drag: none; }
+    .hero-content, .partner-inner { user-select: none; -webkit-user-select: none; }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulseGlow{0%,100%{text-shadow:0 0 20px rgba(212,168,67,0.9),0 0 40px rgba(212,168,67,0.6),0 0 80px rgba(212,168,67,0.3),0 0 120px rgba(184,146,42,0.2)}50%{text-shadow:0 0 30px rgba(212,168,67,1),0 0 60px rgba(212,168,67,0.8),0 0 100px rgba(212,168,67,0.5),0 0 160px rgba(184,146,42,0.35),0 0 200px rgba(184,146,42,0.15)}}
+    .fu{opacity:0;animation:fadeUp .7s ease forwards}
+    .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.28s}.d4{animation-delay:.42s}.d5{animation-delay:.56s}
+    /* ── TABLET (960px) ── */
+    @media(max-width:960px){
+      .hero{grid-template-columns:1fr;gap:2rem;padding-top:100px;padding-bottom:3rem}
+      .hero-img-mobile-hide{display:none!important}
+      .why-wrap{grid-template-columns:1fr;gap:2.5rem}
+      .svc-grid{grid-template-columns:1fr 1fr}
+      .p-grid{grid-template-columns:1fr}
+      .steps-grid{grid-template-columns:1fr 1fr;gap:2rem}
+      .steps-grid::before{display:none}
+      .nav-links{display:none}
+      .svc-row{grid-template-columns:1fr!important;gap:2rem!important}
+      .svc-row .svc-img,.svc-row [style*="order:2"]{order:0!important}
+      .detail-grid{grid-template-columns:1fr}
+      .how-grid{grid-template-columns:1fr!important;gap:2rem!important}
+      .how-grid > div:last-child{display:none}
+      .whats-included-grid{grid-template-columns:1fr!important;gap:2rem!important;padding:1.75rem!important}
+      .cb-cards{grid-template-columns:1fr 1fr!important}
+    }
+
+    /* ── MOBILE (600px) ── */
+    @media(max-width:600px){
+      /* Global */
+      .sec{padding:3rem 4vw!important}
+      .svc-section{padding:3rem 4vw!important}
+      .why-wrap{padding:3rem 4vw!important}
+      .partner-sec{padding:3rem 4vw!important}
+      footer{padding:2rem 4vw!important}
+      .proof-bar{gap:1.5rem;padding:1.25rem 4vw}
+
+      /* Nav */
+      nav{padding:0 4vw!important;height:60px}
+
+      /* Hero */
+      .hero{padding-top:80px!important;padding-left:4vw!important;padding-right:4vw!important}
+      .hero h1{font-size:clamp(1.9rem,7vw,2.8rem)!important}
+      .hero-sub{font-size:.88rem!important}
+      .hero-trust{gap:.75rem!important;flex-wrap:wrap}
+
+      /* Hero pills */
+      .hero-animate-d4{display:flex;flex-wrap:wrap;gap:.4rem}
+      .hero-animate-d4 a{font-size:.72rem!important;padding:.35rem .75rem!important}
+
+      /* Services header */
+      .svc-grid{grid-template-columns:1fr}
+      .svc-row{grid-template-columns:1fr!important;gap:1.5rem!important}
+
+      /* Stats */
+      .stat-grid{grid-template-columns:1fr 1fr}
+
+      /* Steps */
+      .steps-grid{grid-template-columns:1fr;gap:1.5rem}
+
+      /* Tools tabs */
+      #home-tool-tabs{flex-wrap:wrap!important;gap:.4rem!important}
+      #home-tool-tabs button{font-size:.78rem!important;padding:.5rem .75rem!important}
+
+      /* Calculator grids */
+      .tool-3col{grid-template-columns:1fr 1fr!important}
+      .tool-2col{grid-template-columns:1fr!important}
+
+      /* Business launch */
+      .biz-launch-stats{flex-direction:column!important;gap:.75rem!important}
+      .biz-launch-divider{display:none!important}
+
+      /* What's Included dark navy box */
+      .whats-included-grid{grid-template-columns:1fr!important;gap:2rem!important;padding:1.75rem!important}
+
+      /* Cross border cards */
+      .cb-cards{grid-template-columns:1fr!important}
+
+      /* White label hero */
+      .wl-hero-text h2{font-size:clamp(1.8rem,6vw,2.5rem)!important}
+
+      /* White label cards */
+      .wl-cards{grid-template-columns:1fr!important}
+
+      /* White label trust row */
+      .wl-trust{grid-template-columns:1fr 1fr!important}
+
+      /* Why choose us */
+      .why-list{gap:1.25rem}
+
+      /* Testimonials */
+      .testi-card{padding:1.25rem!important}
+
+      /* Footer */
+      .footer-inner{flex-direction:column;text-align:center;gap:1.5rem}
+      .footer-links{justify-content:center;flex-wrap:wrap}
+
+      /* Audit section cards */
+      .audit-cards{grid-template-columns:1fr!important}
+
+      /* How It Works */
+      .how-grid{grid-template-columns:1fr!important;gap:2rem!important}
+      .how-grid > div:last-child{display:none}
+      .how-portal{flex-direction:column!important}
+
+      /* Sections general padding */
+      section{padding-left:4vw!important;padding-right:4vw!important}
+    }
+
+    /* ── SMALL MOBILE (390px) ── */
+    @media(max-width:390px){
+      .hero h1{font-size:1.75rem!important}
+      .stat-grid{grid-template-columns:1fr}
+      .wl-trust{grid-template-columns:1fr!important}
+      #home-tool-tabs button{font-size:.7rem!important}
+    }
+  
+    .home-tool-panel { display: none; }
+    .home-tool-panel:first-of-type { display: block; }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .delay-100 { transition-delay: 0.1s !important; }
+    .delay-200 { transition-delay: 0.2s !important; }
+    .delay-300 { transition-delay: 0.3s !important; }
+    .delay-400 { transition-delay: 0.4s !important; }
+    .delay-500 { transition-delay: 0.5s !important; }
+    .delay-600 { transition-delay: 0.6s !important; }
+
+    /* Step connector line animation */
+    .step-line {
+      width: 2px;
+      background: var(--gray-200);
+      transform-origin: top;
+      transform: scaleY(0);
+      transition: transform 0.8s ease;
+    }
+    .step-line.visible {
+      transform: scaleY(1);
+    }
+
+    /* Counter animation */
+    .count-up {
+      display: inline-block;
+    }
+
+  
+    /* ══ MOTION & AMBIENT ANIMATIONS ══ */
+
+    /* Floating gradient background on hero */
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Glowing pulse */
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50%       { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    /* Subtle float */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    /* Slide up reveal */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Moving gradient line */
+    @keyframes lineMove {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(100vw); }
+    }
+
+    /* Shimmer */
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Number counter */
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero content entrance */
+    .hero-animate { animation: slideUp 0.9s ease both; }
+    .hero-animate-d1 { animation: slideUp 0.9s 0.15s ease both; }
+    .hero-animate-d2 { animation: slideUp 0.9s 0.3s ease both; }
+    .hero-animate-d3 { animation: slideUp 0.9s 0.45s ease both; }
+    .hero-animate-d4 { animation: slideUp 0.9s 0.6s ease both; }
+
+    /* Float animation for portal card */
+    .float-anim { animation: float 5s ease-in-out infinite; }
+
+    /* Ambient glow orbs */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+
+    /* Stat cards hover lift */
+    .stat-card {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(15,31,61,0.15);
+    }
+
+    /* Service cards hover */
+    .svc-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+    }
+    .svc-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(15,31,61,0.12);
+      border-color: var(--navy) !important;
+    }
+
+    /* Moving top line */
+    .hero-top-line {
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: lineMove 3s linear infinite;
+      overflow: hidden;
+    }
+
+    /* Shimmer button */
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shimmer::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    /* Comparison table row hover */
+    .compare-row {
+      transition: background 0.2s ease;
+    }
+    .compare-row:hover {
+      background: rgba(15,31,61,0.03);
+    }
+
+    /* Testimonial card hover */
+    .testi-card {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .testi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(15,31,61,0.12);
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-left { opacity:0; transform:translateX(-32px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal-left.visible { opacity:1; transform:translateX(0); }
+    .reveal-right { opacity:0; transform:translateX(32px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal-right.visible { opacity:1; transform:translateX(0); }
+    .d1{transition-delay:.1s!important} .d2{transition-delay:.2s!important}
+    .d3{transition-delay:.3s!important} .d4{transition-delay:.4s!important}
+    .d5{transition-delay:.5s!important} .d6{transition-delay:.6s!important}
+
+</style>
+</head>
+<body>
+<script>
+// ══ HOMEPAGE TOOLS JAVASCRIPT ══
+
+const hFmt = n => '$' + Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+// Tab switching
+function homeToolSwitch(name, btn) {
+  // Hide all panels
+  ['payroll','tax','pl','guide'].forEach(t => {
+    const panel = document.getElementById('home-tool-' + t);
+    if(panel) panel.style.display = 'none';
+  });
+  // Show selected panel
+  const selected = document.getElementById('home-tool-' + name);
+  if(selected) selected.style.display = 'block';
+  // Reset all tab buttons
+  const tabs = document.querySelectorAll('#home-tool-tabs button');
+  tabs.forEach(b => {
+    b.style.background = 'rgba(255,255,255,.1)';
+    b.style.color = 'rgba(255,255,255,.85)';
+    b.style.border = '1px solid rgba(255,255,255,.2)';
+    b.style.fontWeight = '500';
+  });
+  // Highlight active tab
+  if(btn) {
+    btn.style.background = '#fff';
+    btn.style.color = '#0f1f3d';
+    btn.style.border = 'none';
+    btn.style.fontWeight = '600';
+  }
+}
+
+// Payroll Calculator
+function hTogglePayType() {
+  const t = document.getElementById('hp-type').value;
+  const sg = document.getElementById('hp-sal-grp');
+  if(sg) sg.style.display = t === 'salary' ? 'flex' : 'none';
+}
+
+function hCalcPayroll() {
+  const salary = document.getElementById('hp-salary').value;
+  const status = document.getElementById('hp-status').value;
+  if (!salary || parseFloat(salary) <= 0) { 
+    alert('Please enter a valid salary amount to calculate.'); 
+    document.getElementById('hp-salary').focus(); return; 
+  }
+  const freq = parseInt(document.getElementById('hp-freq').value);
+  const stateRate = parseFloat(document.getElementById('hp-state').value);
+  const status = document.getElementById('hp-status').value;
+  const annual = parseFloat(document.getElementById('hp-salary').value) || 0;
+  const gross = annual / freq;
+  let fedAnnual = 0, taxable = annual;
+  if (status === 'single') {
+    if(taxable>609350) fedAnnual=183647+(taxable-609350)*.37;
+    else if(taxable>243725) fedAnnual=55374+(taxable-243725)*.35;
+    else if(taxable>100525) fedAnnual=17168+(taxable-100525)*.32;
+    else if(taxable>47150) fedAnnual=5426+(taxable-47150)*.22;
+    else if(taxable>23200) fedAnnual=1160+(taxable-23200)*.12;
+    else if(taxable>11600) fedAnnual=(taxable-11600)*.10;
+  } else {
+    if(taxable>731200) fedAnnual=166268+(taxable-731200)*.37;
+    else if(taxable>487450) fedAnnual=74208+(taxable-487450)*.35;
+    else if(taxable>201050) fedAnnual=45926+(taxable-201050)*.32;
+    else if(taxable>94300) fedAnnual=10294+(taxable-94300)*.22;
+    else if(taxable>46400) fedAnnual=2320+(taxable-46400)*.12;
+    else if(taxable>23200) fedAnnual=(taxable-23200)*.10;
+  }
+  const fed=fedAnnual/freq, stateTax=gross*stateRate;
+  const ss=Math.min(gross,168600/freq)*.062, med=gross*.0145;
+  const net=gross-fed-stateTax-ss-med;
+  const eSS=ss, eMed=med, futa=Math.min(annual/freq,7000/freq)*.006;
+  
+  const el = id => document.getElementById(id);
+  if(el('hp-net')) el('hp-net').textContent=hFmt(net);
+  if(el('hp-net-yr')) el('hp-net-yr').textContent=hFmt(net*freq);
+  
+  const rows = el('hp-rows');
+  if(rows) rows.innerHTML = [
+    ['Gross Pay (Per Period)', hFmt(gross), ''],
+    ['Federal Income Tax', '-'+hFmt(fed), '#b91c1c'],
+    ['State Income Tax', '-'+hFmt(stateTax), '#b91c1c'],
+    ['Social Security (6.2%)', '-'+hFmt(ss), '#b91c1c'],
+    ['Medicare (1.45%)', '-'+hFmt(med), '#b91c1c'],
+    ['Employer SS Match', hFmt(eSS), '#1a6b3a'],
+    ['Employer Medicare', hFmt(eMed), '#1a6b3a'],
+    ['FUTA', hFmt(futa), '#1a6b3a'],
+    ['Total Employer Cost', hFmt(gross+eSS+eMed+futa), '#0f1f3d'],
+  ].map(([l,v,c])=>`<div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--gray-200);font-size:.88rem;font-family:'Inter',sans-serif"><span style="color:var(--gray-600)">${l}</span><span style="color:${c||'inherit'};font-weight:${c?'600':'400'}">${v}</span></div>`).join('');
+  
+  const r = el('hp-result');
+  if(r) { r.style.display='block'; r.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+}
+
+// Income Tax Estimator
+function hCalcTax() {
+  const income = document.getElementById('ht-income').value;
+  const status = document.getElementById('ht-status').value;
+  if (!income || parseFloat(income) <= 0) { 
+    alert('Please enter your gross income to estimate your tax.'); 
+    document.getElementById('ht-income').focus(); return; 
+  }
+  if (!status) { alert('Please select a filing status.'); return; }
+  const dedType = document.getElementById('ht-ded').value;
+  const incomeVal = parseFloat(income)||0;
+  const withheld = parseFloat(document.getElementById('ht-withheld').value)||0;
+  const stdDed = {single:14600,mfj:29200,mfs:14600,hoh:21900};
+  const itemEl = document.getElementById('ht-itemized');
+  const deduction = dedType==='itemized'?(parseFloat(itemEl?itemEl.value:0)||0):stdDed[status];
+  const taxable = Math.max(0, incomeVal-deduction);
+  let tax = 0;
+  if(status==='single'||status==='mfs'){
+    if(taxable>609350)tax=183647+(taxable-609350)*.37;
+    else if(taxable>243725)tax=55374+(taxable-243725)*.35;
+    else if(taxable>100525)tax=17168+(taxable-100525)*.32;
+    else if(taxable>47150)tax=5426+(taxable-47150)*.22;
+    else if(taxable>23200)tax=1160+(taxable-23200)*.12;
+    else if(taxable>11600)tax=(taxable-11600)*.10;
+  } else {
+    if(taxable>731200)tax=166268+(taxable-731200)*.37;
+    else if(taxable>487450)tax=74208+(taxable-487450)*.35;
+    else if(taxable>201050)tax=45926+(taxable-201050)*.32;
+    else if(taxable>94300)tax=10294+(taxable-94300)*.22;
+    else if(taxable>46400)tax=2320+(taxable-46400)*.12;
+    else if(taxable>23200)tax=(taxable-23200)*.10;
+  }
+  const rate = income>0?((tax/income)*100).toFixed(1):'0';
+  const refund = withheld-tax;
+  
+  const el = id => document.getElementById(id);
+  if(el('ht-owed')) el('ht-owed').textContent=hFmt(tax);
+  if(el('ht-rate')) el('ht-rate').textContent=rate+'%';
+  
+  const rows = el('ht-rows');
+  if(rows) rows.innerHTML=[
+    ['Gross Income',hFmt(income),''],
+    ['Deduction','-'+hFmt(deduction),'#b91c1c'],
+    ['Taxable Income',hFmt(taxable),'#0f1f3d'],
+    ['Federal Tax','-'+hFmt(tax),'#b91c1c'],
+    ['Tax Withheld','+'+hFmt(withheld),'#1a6b3a'],
+  ].map(([l,v,c])=>`<div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--gray-200);font-size:.88rem;font-family:'Inter',sans-serif"><span style="color:var(--gray-600)">${l}</span><span style="color:${c||'inherit'};font-weight:${c?'600':'400'}">${v}</span></div>`).join('');
+  
+  const refEl=el('ht-refund'), refLbl=el('ht-refund-lbl');
+  if(refEl){refEl.textContent=hFmt(Math.abs(refund));refEl.style.color=refund>=0?'#1a6b3a':'#b91c1c';}
+  if(refLbl) refLbl.textContent=refund>=0?'Estimated Refund':'Additional Tax Owed';
+  
+  const box=el('ht-refund-box');
+  if(box) box.style.background=refund>=0?'var(--gold-pale)':'#fee2e2';
+  
+  const r=el('ht-result');
+  if(r){r.style.display='block';r.scrollIntoView({behavior:'smooth',block:'nearest'});}
+}
+
+// P&L Generator
+function hHandlePLDrop(e){e.preventDefault();if(e.dataTransfer.files[0])hProcessPL({target:{files:e.dataTransfer.files}});}
+function hProcessPL(event){
+  const f=event.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>hParsePLCSV(e.target.result);
+  r.readAsText(f);
+}
+
+function hLoadSamplePL(){
+  hParsePLCSV(`Date,Description,Amount
+2024-01-05,Client Payment ABC Corp,5200.00
+2024-01-08,Office Rent January,-2200.00
+2024-01-10,AT&T Internet,-120.00
+2024-01-12,Client Payment XYZ LLC,3800.00
+2024-01-15,ADP Payroll,-4500.00
+2024-01-18,Amazon Office Supplies,-230.00
+2024-01-20,Zoom Subscription,-149.00
+2024-01-22,Client Payment Metro Inc,7500.00
+2024-01-25,Delta Airlines Client Meeting,-620.00
+2024-01-28,Facebook Ads,-350.00
+2024-02-05,Client Payment ABC Corp,5200.00
+2024-02-08,Office Rent February,-2200.00
+2024-02-14,Client Payment New Client,2500.00
+2024-02-15,ADP Payroll,-4500.00
+2024-02-28,Google Ads,-400.00
+2024-03-05,Client Payment ABC Corp,5200.00
+2024-03-07,Client Payment Smith Co,4100.00
+2024-03-08,Office Rent March,-2200.00
+2024-03-15,ADP Payroll,-4500.00
+2024-03-28,Insurance Premium,-320.00`);
+}
+
+let hPlData=[];
+function hParsePLCSV(csv){
+  const lines=csv.trim().split('
+');
+  hPlData=[];
+  for(let i=1;i<lines.length;i++){
+    const p=lines[i].split(',');
+    if(p.length<3)continue;
+    const desc=p.slice(1,p.length-1).join(',').trim().replace(/"/g,'');
+    const amount=parseFloat(p[p.length-1].trim().replace(/"/g,''));
+    if(isNaN(amount))continue;
+    const d=desc.toLowerCase();
+    let cat,type;
+    if(amount>0){cat='Revenue';type='income';}
+    else if(d.includes('payroll')||d.includes('adp')||d.includes('gusto')){cat='Payroll & Wages';type='expense';}
+    else if(d.includes('rent')||d.includes('lease')){cat='Rent & Facilities';type='expense';}
+    else if(d.includes('internet')||d.includes('att')||d.includes('verizon')||d.includes('utility')){cat='Utilities';type='expense';}
+    else if(d.includes('amazon')||d.includes('supplies')||d.includes('staples')){cat='Office Supplies';type='expense';}
+    else if(d.includes('zoom')||d.includes('subscription')||d.includes('adobe')||d.includes('quickbooks')){cat='Software';type='expense';}
+    else if(d.includes('airline')||d.includes('hotel')||d.includes('delta')||d.includes('uber')){cat='Travel';type='expense';}
+    else if(d.includes('starbucks')||d.includes('restaurant')||d.includes('food')||d.includes('coffee')){cat='Meals';type='expense';}
+    else if(d.includes('ads')||d.includes('marketing')||d.includes('facebook')||d.includes('google ads')){cat='Marketing';type='expense';}
+    else if(d.includes('insurance')){cat='Insurance';type='expense';}
+    else{cat='Other Expenses';type='expense';}
+    hPlData.push({desc,amount,cat,type});
+  }
+  const byCat={};let totRev=0,totExp=0;
+  hPlData.forEach(t=>{
+    if(!byCat[t.cat])byCat[t.cat]={type:t.type,total:0,count:0};
+    byCat[t.cat].total+=t.amount;byCat[t.cat].count++;
+  });
+  Object.values(byCat).forEach(v=>{if(v.type==='income')totRev+=v.total;else totExp+=Math.abs(v.total);});
+  const net=totRev-totExp;
+  
+  const el=id=>document.getElementById(id);
+  if(el('hpl-rev'))el('hpl-rev').textContent=hFmt(totRev);
+  if(el('hpl-exp'))el('hpl-exp').textContent=hFmt(totExp);
+  const netEl=el('hpl-net');
+  if(netEl){netEl.textContent=hFmt(net);netEl.style.color=net>=0?'#22c55e':'#ef4444';}
+  
+  const tbody=el('hpl-tbody');
+  if(tbody){
+    tbody.innerHTML='';
+    const inc=Object.entries(byCat).filter(([,v])=>v.type==='income');
+    const exp=Object.entries(byCat).filter(([,v])=>v.type==='expense');
+    tbody.innerHTML+=`<tr style="background:var(--off-white)"><td colspan="3" style="padding:.5rem .85rem;font-weight:700;color:var(--navy);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-family:'Inter',sans-serif">INCOME</td></tr>`;
+    inc.forEach(([c,d])=>{tbody.innerHTML+=`<tr><td style="padding:.5rem .85rem;border-bottom:1px solid var(--gray-200);font-family:'Inter',sans-serif;font-size:.85rem">${c}</td><td style="padding:.5rem .85rem;border-bottom:1px solid var(--gray-200);color:var(--gray-400);font-size:.82rem;font-family:'Inter',sans-serif">${d.count} transactions</td><td style="padding:.5rem .85rem;border-bottom:1px solid var(--gray-200);text-align:right;color:#1a6b3a;font-weight:500;font-family:'Inter',sans-serif">${hFmt(d.total)}</td></tr>`;});
+    tbody.innerHTML+=`<tr><td colspan="2" style="padding:.6rem .85rem;font-weight:700;font-family:'Inter',sans-serif">Total Revenue</td><td style="padding:.6rem .85rem;text-align:right;font-weight:700;color:#1a6b3a;font-family:'Inter',sans-serif">${hFmt(totRev)}</td></tr>`;
+    tbody.innerHTML+=`<tr style="background:var(--off-white)"><td colspan="3" style="padding:.5rem .85rem;font-weight:700;color:var(--navy);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-family:'Inter',sans-serif">EXPENSES</td></tr>`;
+    exp.forEach(([c,d])=>{tbody.innerHTML+=`<tr><td style="padding:.5rem .85rem;border-bottom:1px solid var(--gray-200);font-family:'Inter',sans-serif;font-size:.85rem">${c}</td><td style="padding:.5rem .85rem;border-bottom:1px solid var(--gray-200);color:var(--gray-400);font-size:.82rem;font-family:'Inter',sans-serif">${d.count} transactions</td><td style="padding:.5rem .85rem;border-bottom:1px solid var(--gray-200);text-align:right;color:#b91c1c;font-weight:500;font-family:'Inter',sans-serif">-${hFmt(Math.abs(d.total))}</td></tr>`;});
+    tbody.innerHTML+=`<tr style="background:var(--off-white)"><td colspan="2" style="padding:.75rem .85rem;font-weight:700;font-size:.95rem;color:var(--navy);font-family:'Inter',sans-serif">NET PROFIT / LOSS</td><td style="padding:.75rem .85rem;text-align:right;font-weight:700;font-size:.95rem;color:${net>=0?'#1a6b3a':'#b91c1c'};font-family:'Inter',sans-serif">${hFmt(net)}</td></tr>`;
+  }
+  
+  const r=el('hpl-result');
+  if(r)r.style.display='block';
+}
+
+function hDownloadPL(){
+  const rows=[['Category','Description','Amount']];
+  hPlData.forEach(t=>rows.push([t.cat,t.desc,t.amount.toFixed(2)]));
+  const csv=rows.map(r=>r.join(',')).join('
+');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='profit loss.csv';a.click();
+}
+
+</script>
+<nav>
+  <a href="/" class="nav-logo">
+    <img loading="lazy" src="logo.png" alt="The Industry Accountants" style="height:52px;object-fit:contain;display:block;mix-blend-mode:multiply"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#tools">Financial Tools</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#audit-assessment">Audit Assessment</a></li>
+    <li><a href="#partners">Partners</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="portal.html" class="btn-ghost">Client Login</a>
+    <a href="portal.html" class="btn-navy">Schedule a Consultation →</a>
+  </div>
+</nav>
+
+<!-- HERO BANNER -->
+<section style="position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;background:linear-gradient(135deg,#080c19 0%,#0f1f3d 50%,#1a3260 100%)">
+  <img src="hero-banner.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0" loading="eager" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
+  <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,25,0.92) 0%,rgba(8,12,25,0.75) 40%,rgba(8,12,25,0.35) 65%,rgba(8,12,25,0.05) 100%)"></div>
+  <!-- Animated background -->
+
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 50%,rgba(184,146,42,0.08) 0%,transparent 70%)"></div>
+  <!-- Glow orbs -->
+  <div class="glow-orb" style="width:500px;height:500px;background:rgba(184,146,42,0.12);top:-100px;left:-100px;animation-delay:0s"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:rgba(15,31,61,0.4);bottom:-50px;right:10%;animation-delay:3s"></div>
+  <!-- Content -->
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 5vw;width:100%">
+    <div style="max-width:660px">
+      <div class="hero-animate" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1.25rem;font-family:'Inter',sans-serif">The Industry Accountants</div>
+      <h1 class="hero-animate-d1" style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:400;line-height:1.1;color:#fff;letter-spacing:-.02em;margin-bottom:1.5rem">Everything Your Finances Need.<br/><em style="color:var(--gold-light);font-style:italic">One Secure Workspace.</em></h1>
+      <p class="hero-animate-d2" style="font-size:1.1rem;color:rgba(255,255,255,.75);line-height:1.75;margin-bottom:2.5rem;font-weight:300;max-width:480px">Tax filing, payroll, bookkeeping, compliance, and cross-border services managed digitally by experienced professionals.</p>
+      <div class="hero-animate-d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem">
+        <a href="portal.html" class="btn-shimmer" style="background:var(--gold);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:600;padding:.9rem 2rem;border-radius:8px;transition:all .2s;font-family:'Inter',sans-serif;box-shadow:0 0 40px rgba(201,168,76,0.3)">File My Taxes →</a>
+        <a href="portal.html" style="background:rgba(255,255,255,.1);color:#fff;text-decoration:none;font-size:.95rem;font-weight:500;padding:.9rem 2rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);transition:all .2s;font-family:'Inter',sans-serif;backdrop-filter:blur(4px)">Book Consultation →</a>
+      </div>
+      <!-- Trust indicators -->
+      <div class="hero-animate-d4" style="display:flex;flex-wrap:wrap;gap:2rem;padding-top:1.75rem;border-top:1px solid rgba(255,255,255,.15)">
+        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          20+ Years Experience
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Secure Client Portal
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Paperless &amp; Fully Digital
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Serving Clients Across North America
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+
+
+
+
+
+<!-- METRICS SECTION -->
+<section style="background:#fff;padding:5rem 5vw;border-bottom:1px solid var(--gray-200)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:3.5rem">
+      <div class="reveal" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'Inter',sans-serif">By The Numbers</div>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3vw,2.5rem);font-weight:400;color:var(--navy);margin-bottom:.75rem">20+ years of expertise.</h2>
+      <p class="reveal" style="font-size:.95rem;color:var(--gray-600);max-width:520px;margin:0 auto;font-weight:300;line-height:1.7">We combine experienced professionals with intelligent systems to deliver a simpler, more secure financial experience.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem">
+      <div class="stat-card reveal d1" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:2rem;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--navy);line-height:1;margin-bottom:.5rem" data-count="20" data-suffix="+">20+</div>
+        <div style="font-size:.82rem;color:var(--gray-600);font-weight:300;font-family:'Inter',sans-serif">Years of expertise</div>
+      </div>
+      <div class="stat-card reveal d2" style="background:var(--navy);border-radius:14px;padding:2rem;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:3rem;color:#fff;line-height:1;margin-bottom:.5rem" data-count="5000" data-suffix="+">5,000+</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.6);font-weight:300;font-family:'Inter',sans-serif">Returns filed</div>
+      </div>
+      <div class="stat-card reveal d3" style="background:var(--gold-pale);border:1px solid rgba(184,146,42,.2);border-radius:14px;padding:2rem;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--navy);line-height:1;margin-bottom:.5rem" data-count="48" data-suffix="hr">48hr</div>
+        <div style="font-size:.82rem;color:var(--gray-600);font-weight:300;font-family:'Inter',sans-serif">Average turnaround</div>
+      </div>
+      <div class="stat-card reveal d4" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:2rem;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:3rem;color:var(--navy);line-height:1;margin-bottom:.5rem" data-count="40" data-suffix="+">40+</div>
+        <div style="font-size:.82rem;color:var(--gray-600);font-weight:300;font-family:'Inter',sans-serif">Industries served</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE TOOLS EMBEDDED ON HOMEPAGE -->
+<!-- 1. FROM IDEA TO PROFITABLE BUSINESS -->
+<section style="background:#080e1d;width:100%;margin:0;padding:0;display:block;border:none">
+  <div style="position:relative;width:100%;overflow:hidden;background:#080e1d">
+    <div style="position:absolute;inset:0;background:#080e1d;pointer-events:none"></div>
+    <div style="max-width:780px;margin:0 auto;padding:4rem 2rem 3rem;position:relative;z-index:1">
+      <!-- Brand tag -->
+      <div style="display:flex;justify-content:center;margin-bottom:2rem">
+        <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(13,20,37,0.8);border:.5px solid rgba(255,255,255,.15);border-radius:999px;padding:.4rem 1.1rem;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);font-family:'Inter',sans-serif">
+          <div style="width:6px;height:6px;border-radius:50%;background:#c9a84c"></div>
+          The Industry Accountants
+        </div>
+      </div>
+      <!-- Headline -->
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:400;color:#fff;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-.02em;text-align:center">From Idea to <em style="color:#c9a84c;font-style:italic">Profitable Business</em></h2>
+      <!-- Subtext -->
+      <p style="font-size:1.15rem;color:rgba(255,255,255,.85);max-width:600px;margin:0 auto .75rem;font-weight:500;line-height:1.6;text-align:center">Your Next Million Dollar Business Starts Here</p>
+      <p style="font-size:.95rem;color:rgba(255,255,255,.5);max-width:580px;margin:0 auto 2.5rem;font-weight:300;line-height:1.75;text-align:center">Unlock the full potential of your business idea in under 60 seconds and discover opportunities that could change your future.</p>
+      <!-- Step track -->
+      <div style="display:flex;align-items:flex-start;justify-content:center;margin-bottom:2.5rem;position:relative">
+        <div style="position:absolute;top:20px;left:10%;right:10%;height:1px;background:rgba(255,255,255,.1)"></div>
+        <div style="flex:1;max-width:100px;display:flex;flex-direction:column;align-items:center;gap:.5rem;position:relative;z-index:1">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(201,168,76,.12);border:1.5px solid #c9a84c;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;color:#c9a84c;font-family:'Inter',sans-serif">1</div>
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;text-align:center">Your Idea</div>
+        </div>
+        <div style="flex:1;max-width:100px;display:flex;flex-direction:column;align-items:center;gap:.5rem;position:relative;z-index:1">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.4);font-family:'Inter',sans-serif">2</div>
+          <div style="font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center">Analyzing</div>
+        </div>
+        <div style="flex:1;max-width:100px;display:flex;flex-direction:column;align-items:center;gap:.5rem;position:relative;z-index:1">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.4);font-family:'Inter',sans-serif">3</div>
+          <div style="font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center">Your Score</div>
+        </div>
+        <div style="flex:1;max-width:100px;display:flex;flex-direction:column;align-items:center;gap:.5rem;position:relative;z-index:1">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.4);font-family:'Inter',sans-serif">4</div>
+          <div style="font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center">Full Report</div>
+        </div>
+      </div>
+      <!-- Input card -->
+      <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.1);border-radius:16px;padding:2rem;margin-bottom:1.5rem">
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;margin-bottom:.75rem;font-family:'Inter',sans-serif">Describe Your Business Idea</div>
+        <textarea id="hero-idea-input" placeholder="e.g. A mobile dog grooming service for busy professionals in downtown Toronto. I want to offer premium grooming packages with online booking..." style="width:100%;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.12);border-radius:10px;padding:1rem 1.25rem;font-size:.95rem;color:rgba(255,255,255,.85);line-height:1.6;min-height:90px;resize:none;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(201,168,76,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'"></textarea>
+      </div>
+      <!-- CTA -->
+      <div style="text-align:center">
+        <button onclick="openWithIdea()" style="display:inline-flex;align-items:center;gap:.5rem;background:#c9a84c;color:#0a0800;border:none;font-size:.95rem;font-weight:700;padding:.9rem 2.25rem;border-radius:8px;font-family:'Inter',sans-serif;box-shadow:0 4px 20px rgba(201,168,76,.25);cursor:pointer">Analyze My Business Idea &rarr;</button>
+      </div>
+      <script>
+      function openWithIdea(){
+        var idea=document.getElementById('hero-idea-input').value.trim();
+        var url='business-launch-tool.html'+(idea?'?idea='+encodeURIComponent(idea):'');
+        window.open(url,'_blank');
+      }
+      </script>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(to top,rgba(8,14,29,1),transparent);pointer-events:none"></div>
+  </div>
+</section>
+
+
+<section id="tools" style="background:var(--navy);padding:0">
+  <div style="padding:3rem 5vw 2rem;text-align:center;border-bottom:1px solid var(--gray-200);background:#fff">
+    <div style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'Inter',sans-serif">Free Financial Tools</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:400;color:var(--navy);margin-bottom:.75rem">Financial clarity starts here</h2>
+    <p style="color:var(--gray-600);font-size:.95rem;font-weight:300;max-width:500px;margin:0 auto">Access professional calculators and resources designed to help you plan with confidence. Unlimited free usage, professional reports available after each calculation.</p>
+  </div>
+
+  <!-- TABS -->
+  <div style="display:flex;justify-content:center;gap:.6rem;padding:1.25rem 5vw;flex-wrap:wrap;background:rgba(0,0,0,0.2);border-bottom:1px solid rgba(255,255,255,0.08)">
+    <button id="tab-payroll" onclick="tSwitch('payroll')" style="background:#fff;color:#0f1f3d;border:none;padding:.55rem 1.25rem;border-radius:7px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">Payroll Calculator</button>
+    <button id="tab-tax" onclick="tSwitch('tax')" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);padding:.55rem 1.25rem;border-radius:7px;font-size:.85rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">Income Tax Estimator</button>
+    <button id="tab-pl" onclick="tSwitch('pl')" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);padding:.55rem 1.25rem;border-radius:7px;font-size:.85rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">Bank Statement → P&L</button>
+    <button id="tab-audit" onclick="tSwitch('audit')" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:.5rem 1.1rem;font-size:.85rem;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;transition:all .2s">Audit Risk Calculator</button>
+  </div>
+
+  <div style="max-width:900px;margin:0 auto;padding:2rem 5vw 3.5rem">
+
+    <!-- PAYROLL -->
+    <div id="panel-payroll">
+      <div style="background:#fff;border-radius:12px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,0.25)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#0f1f3d;margin-bottom:.3rem">Payroll Calculator</h3>
+        <p style="font-size:.85rem;color:#6b6864;margin-bottom:1.5rem">Net pay, withholdings, and employer costs for any employee.</p>
+        <div class="tool-3col" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Pay Type</label>
+            <select id="p-type" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none">
+              <option value="salary">Salary (Annual)</option><option value="hourly">Hourly</option>
+            </select></div>
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Annual Salary ($)</label>
+            <input type="number" id="p-salary" value="60000" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none"/></div>
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Pay Frequency</label>
+            <select id="p-freq" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none">
+              <option value="52">Weekly</option><option value="26">Bi-Weekly</option><option value="24">Semi-Monthly</option><option value="12" selected>Monthly</option>
+            </select></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Filing Status</label>
+            <select id="p-status" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none">
+              <option value="single">Single</option><option value="married">Married Filing Jointly</option><option value="hoh">Head of Household</option>
+            </select></div>
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">State</label>
+            <select id="p-state" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none">
+              <option value="0">No State Tax (FL, TX, etc.)</option>
+              <option value="0.0575">Georgia (5.75%)</option>
+              <option value="0.0725">California (7.25%)</option>
+              <option value="0.0499">New York (4.99%)</option>
+              <option value="0.0495">Illinois (4.95%)</option>
+              <option value="0.0525">North Carolina (5.25%)</option>
+              <option value="0.04">Arizona (4%)</option>
+              <option value="0.0307">Pennsylvania (3.07%)</option>
+            </select></div>
+          <div style="display:flex;align-items:flex-end">
+            <button onclick="gatedCalc(calcPayroll)" style="width:100%;background:#0f1f3d;color:#fff;border:none;border-radius:7px;padding:.7rem 1rem;font-size:.9rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">Calculate →</button>
+          </div>
+        </div>
+        <div id="p-result" style="display:none;background:#f8f7f4;border:1px solid #e5e3de;border-radius:10px;padding:1.25rem">
+          <div style="background:#0f1f3d;border-radius:8px;padding:1rem 1.25rem;display:flex;justify-content:space-between;margin-bottom:1rem">
+            <div><div style="font-size:.75rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;margin-bottom:.2rem">Net Pay / Period</div><div id="p-net" style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff">$0</div></div>
+            <div style="text-align:right"><div style="font-size:.75rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;margin-bottom:.2rem">Annual Net</div><div id="p-net-yr" style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff">$0</div></div>
+          </div>
+          <div id="p-rows"></div>
+          <!-- $29 Report Offer -->
+          <div style="margin-top:1.25rem;background:linear-gradient(135deg,#0f1f3d,#1a3260);border-radius:10px;padding:1.25rem;border:1px solid rgba(201,168,76,.25)">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+              <div>
+                <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;margin-bottom:.3rem;font-family:'Inter',sans-serif">Professional Report</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff;margin-bottom:.35rem">Payroll Analysis Report</div>
+                <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-bottom:.6rem;font-family:'Inter',sans-serif">Potential annual payroll savings identified by a professional accountant</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem">
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Net Pay Breakdown</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Annual Payroll Burden</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Federal & State Withholding</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Overtime Impact Analysis</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Employer Payroll Costs</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Payroll Savings Opportunities</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Recommended Pay Frequency</div>
+                  <div style="font-size:.7rem;color:#c9a84c;font-family:'Inter',sans-serif;font-weight:500">+ PDF Report Included</div>
+                </div>
+              </div>
+              <div style="text-align:center;flex-shrink:0">
+                <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#c9a84c">$29</div>
+                <a href="portal.html" style="display:block;margin-top:.5rem;background:#c9a84c;color:#0a0800;text-decoration:none;font-size:.8rem;font-weight:700;padding:.55rem 1.1rem;border-radius:7px;font-family:'Inter',sans-serif;white-space:nowrap">Get Report →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;margin-top:1.25rem;flex-wrap:wrap;gap:1rem">
+        <p style="color:rgba(255,255,255,.75);font-size:.88rem"><strong style="color:#fff;display:block;margin-bottom:.15rem">Need payroll set up for your business?</strong>We handle W2 and 1099 payroll, compliance, and full reporting, no software needed.</p>
+        <a href="portal.html" style="background:#b8922a;color:#0a0800;text-decoration:none;font-size:.85rem;font-weight:600;padding:.65rem 1.4rem;border-radius:7px;white-space:nowrap">Set Up Payroll →</a>
+      </div>
+    </div>
+
+    <!-- TAX -->
+    <div id="panel-tax" style="display:none">
+      <div style="background:#fff;border-radius:12px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,0.25)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#0f1f3d;margin-bottom:.3rem">Income Tax Estimator</h3>
+        <p style="font-size:.85rem;color:#6b6864;margin-bottom:1.5rem">Estimate your 2024 federal tax, effective rate, and refund or amount owed.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Filing Status</label>
+            <select id="t-status" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none">
+              <option value="single">Single</option><option value="mfj">Married Filing Jointly</option><option value="mfs">Married Filing Separately</option><option value="hoh">Head of Household</option>
+            </select></div>
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Gross Income ($)</label>
+            <input type="number" id="t-income" value="75000" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none"/></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Deduction Type</label>
+            <select id="t-ded" onchange="document.getElementById('t-item-grp').style.display=this.value==='itemized'?'block':'none'" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none">
+              <option value="standard">Standard Deduction</option><option value="itemized">Itemized</option>
+            </select></div>
+          <div id="t-item-grp" style="display:none"><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Itemized ($)</label>
+            <input type="number" id="t-itemized" placeholder="20000" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none"/></div>
+          <div><label style="font-size:.75rem;font-weight:600;color:#6b6864;display:block;margin-bottom:.35rem;font-family:'Inter',sans-serif">Tax Withheld ($)</label>
+            <input type="number" id="t-withheld" value="0" style="width:100%;background:#f8f7f4;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .85rem;font-size:.88rem;font-family:'Inter',sans-serif;color:#1a1917;outline:none"/></div>
+          <div style="display:flex;align-items:flex-end">
+            <button onclick="gatedCalc(calcTax)" style="width:100%;background:#0f1f3d;color:#fff;border:none;border-radius:7px;padding:.7rem 1rem;font-size:.9rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">Estimate Tax →</button>
+          </div>
+        </div>
+        <div id="t-result" style="display:none;background:#f8f7f4;border:1px solid #e5e3de;border-radius:10px;padding:1.25rem">
+          <div style="background:#0f1f3d;border-radius:8px;padding:1rem 1.25rem;display:flex;justify-content:space-between;margin-bottom:1rem">
+            <div><div style="font-size:.75rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;margin-bottom:.2rem">Estimated Tax Owed</div><div id="t-owed" style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff">$0</div></div>
+            <div style="text-align:right"><div style="font-size:.75rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;margin-bottom:.2rem">Effective Rate</div><div id="t-rate" style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff">0%</div></div>
+          </div>
+          <div id="t-rows"></div>
+          <div id="t-refund-box" style="margin-top:.75rem;padding:.75rem;background:#faf5eb;border-radius:8px;display:flex;justify-content:space-between;align-items:center">
+            <span id="t-refund-lbl" style="font-size:.88rem;font-weight:600;color:#0f1f3d;font-family:'Inter',sans-serif">Estimated Refund</span>
+            <span id="t-refund" style="font-family:'Playfair Display',serif;font-size:1.25rem;color:#1a6b3a">$0</span>
+          </div>
+          <div style="margin-top:.75rem;padding:.65rem;background:#fff8e6;border-radius:8px;font-size:.78rem;color:#6b6864;font-family:'Inter',sans-serif">Estimate for planning only. Not tax advice. Consult a tax professional.</div>
+          <!-- $29 Report Offer -->
+          <div style="margin-top:1.25rem;background:linear-gradient(135deg,#0f1f3d,#1a3260);border-radius:10px;padding:1.25rem;border:1px solid rgba(201,168,76,.25)">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+              <div>
+                <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;margin-bottom:.3rem;font-family:'Inter',sans-serif">Professional Report</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff;margin-bottom:.35rem">Tax Savings Report</div>
+                <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-bottom:.6rem;font-family:'Inter',sans-serif">We identified potential tax saving opportunities, see exactly how much you could save</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem">
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Effective & Marginal Rates</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Potential Deductions</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Tax Liability Forecast</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Credit Opportunities</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Self Employment Tax Analysis</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Refund / Balance Projection</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Tax Reduction Strategies</div>
+                  <div style="font-size:.7rem;color:#c9a84c;font-family:'Inter',sans-serif;font-weight:500">+ PDF Report Included</div>
+                </div>
+              </div>
+              <div style="text-align:center;flex-shrink:0">
+                <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#c9a84c">$29</div>
+                <a href="portal.html" style="display:block;margin-top:.5rem;background:#c9a84c;color:#0a0800;text-decoration:none;font-size:.8rem;font-weight:700;padding:.55rem 1.1rem;border-radius:7px;font-family:'Inter',sans-serif;white-space:nowrap">Get Report →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;margin-top:1.25rem;flex-wrap:wrap;gap:1rem">
+        <p style="color:rgba(255,255,255,.75);font-size:.88rem"><strong style="color:#fff;display:block;margin-bottom:.15rem">Want an accurate return filed for you?</strong>Our CPAs handle all entity types, personal, 1099, LLC, S-Corp.</p>
+        <a href="portal.html" style="background:#b8922a;color:#0a0800;text-decoration:none;font-size:.85rem;font-weight:600;padding:.65rem 1.4rem;border-radius:7px;white-space:nowrap">Schedule a Consultation →</a>
+      </div>
+    </div>
+
+    <!-- P&L -->
+    <div id="panel-pl" style="display:none">
+      <div style="background:#fff;border-radius:12px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,0.25)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#0f1f3d;margin-bottom:.3rem">Bank Statement → Profit &amp; Loss</h3>
+        <p style="font-size:.85rem;color:#6b6864;margin-bottom:1.5rem">Upload a CSV bank statement and we auto categorize transactions into a P&amp;L.</p>
+        <div onclick="document.getElementById('pl-file').click()" ondrop="dropPL(event)" ondragover="event.preventDefault();this.style.borderColor='#0f1f3d'" ondragleave="this.style.borderColor='#e5e3de'" style="border:2px dashed #e5e3de;border-radius:10px;padding:2.5rem;text-align:center;cursor:pointer;margin-bottom:1rem;transition:border-color .2s">
+          <div style="font-size:2rem;margin-bottom:.5rem">📂</div>
+          <p style="font-size:.9rem;color:#6b6864;font-family:'Inter',sans-serif">Drop your CSV or <span style="color:#0f1f3d;font-weight:500">click to upload</span></p>
+          <span style="font-size:.78rem;color:#9b9890;font-family:'Inter',sans-serif">Supports Chase, Bank of America, Wells Fargo CSV exports</span>
+        </div>
+        <input type="file" id="pl-file" accept=".csv" style="display:none" onchange="processPL(event)"/>
+        <button onclick="loadSamplePL()" style="background:#f8f7f4;color:#0f1f3d;border:1.5px solid #e5e3de;border-radius:8px;padding:.6rem 1.25rem;font-size:.82rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:1rem">Use Sample Data →</button>
+        <div id="pl-result" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem">
+            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#0f1f3d">Profit &amp; Loss Statement</div>
+            <button onclick="downloadPL()" style="background:#b8922a;color:#0a0800;border:none;border-radius:7px;padding:.55rem 1.25rem;font-size:.82rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">⬇ Download CSV</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem">
+            <div style="background:#f8f7f4;border:1px solid #e5e3de;border-radius:8px;padding:1rem;text-align:center"><div style="font-size:.7rem;color:#9b9890;text-transform:uppercase;letter-spacing:.06em;font-weight:600;font-family:'Inter',sans-serif;margin-bottom:.3rem">Revenue</div><div id="pl-rev" style="font-family:'Playfair Display',serif;font-size:1.35rem;color:#1a6b3a">$0</div></div>
+            <div style="background:#f8f7f4;border:1px solid #e5e3de;border-radius:8px;padding:1rem;text-align:center"><div style="font-size:.7rem;color:#9b9890;text-transform:uppercase;letter-spacing:.06em;font-weight:600;font-family:'Inter',sans-serif;margin-bottom:.3rem">Expenses</div><div id="pl-exp" style="font-family:'Playfair Display',serif;font-size:1.35rem;color:#b91c1c">$0</div></div>
+            <div style="background:#0f1f3d;border-radius:8px;padding:1rem;text-align:center"><div style="font-size:.7rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:600;font-family:'Inter',sans-serif;margin-bottom:.3rem">Net Profit</div><div id="pl-net" style="font-family:'Playfair Display',serif;font-size:1.35rem;color:#fff">$0</div></div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:.85rem;font-family:'Inter',sans-serif">
+            <thead><tr><th style="background:#0f1f3d;color:#fff;padding:.55rem .85rem;text-align:left;font-weight:500">Category</th><th style="background:#0f1f3d;color:#fff;padding:.55rem .85rem;text-align:left;font-weight:500">Transactions</th><th style="background:#0f1f3d;color:#fff;padding:.55rem .85rem;text-align:right;font-weight:500">Amount</th></tr></thead>
+            <tbody id="pl-tbody"></tbody>
+          </table>
+          <!-- $29 Report Offer -->
+          <div style="margin-top:1.25rem;background:linear-gradient(135deg,#0f1f3d,#1a3260);border-radius:10px;padding:1.25rem;border:1px solid rgba(201,168,76,.25)">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+              <div>
+                <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;margin-bottom:.3rem;font-family:'Inter',sans-serif">Professional Report</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff;margin-bottom:.35rem">Business Performance Report</div>
+                <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-bottom:.6rem;font-family:'Inter',sans-serif">Deeper insights a professional accountant would prepare from your financials</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem">
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Revenue Trends Analysis</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Cost Reduction Opportunities</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Cash Flow Summary</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Monthly Performance Score</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Profit Margin Analysis</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Growth Recommendations</div>
+                  <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Financial Health Assessment</div>
+                  <div style="font-size:.7rem;color:#c9a84c;font-family:'Inter',sans-serif;font-weight:500">+ PDF Report Included</div>
+                </div>
+              </div>
+              <div style="text-align:center;flex-shrink:0">
+                <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#c9a84c">$29</div>
+                <a href="portal.html" style="display:block;margin-top:.5rem;background:#c9a84c;color:#0a0800;text-decoration:none;font-size:.8rem;font-weight:700;padding:.55rem 1.1rem;border-radius:7px;font-family:'Inter',sans-serif;white-space:nowrap">Get Report →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;margin-top:1.25rem;flex-wrap:wrap;gap:1rem">
+        <p style="color:rgba(255,255,255,.75);font-size:.88rem"><strong style="color:#fff;display:block;margin-bottom:.15rem">Need professional monthly bookkeeping?</strong>Clean books delivered every month, fully digital.</p>
+        <a href="portal.html" style="background:#b8922a;color:#0a0800;text-decoration:none;font-size:.85rem;font-weight:600;padding:.65rem 1.4rem;border-radius:7px;white-space:nowrap">Start Bookkeeping →</a>
+      </div>
+    </div>
+
+    <!-- AUDIT RISK CALCULATOR PANEL -->
+    <div id="panel-audit" style="display:none">
+      <div style="background:#fff;border-radius:12px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,0.25)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#0f1f3d;margin-bottom:.3rem">Audit Risk Calculator</h3>
+        <p style="font-size:.85rem;color:#6b6864;margin-bottom:1.5rem">Answer a few questions to estimate your insurance audit risk level and potential premium exposure.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div>
+            <label style="font-size:.75rem;font-weight:600;color:#6b6864;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem">Industry Type</label>
+            <select id="a-industry" style="width:100%;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .9rem;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;color:#1a1917">
+              <option value="1">Professional Services</option>
+              <option value="2">Retail / Hospitality</option>
+              <option value="3">Construction</option>
+              <option value="4">Healthcare</option>
+              <option value="5">Transportation / Logistics</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;font-weight:600;color:#6b6864;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem">Number of Employees</label>
+            <select id="a-employees" style="width:100%;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .9rem;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;color:#1a1917">
+              <option value="1">1 – 5</option>
+              <option value="2">6 – 25</option>
+              <option value="3">26 – 100</option>
+              <option value="4">100+</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;font-weight:600;color:#6b6864;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem">Annual Payroll ($)</label>
+            <input type="number" id="a-payroll" placeholder="e.g. 500000" style="width:100%;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .9rem;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;color:#1a1917"/>
+          </div>
+          <div>
+            <label style="font-size:.75rem;font-weight:600;color:#6b6864;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem">Use of 1099 Contractors?</label>
+            <select id="a-contractors" style="width:100%;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .9rem;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;color:#1a1917">
+              <option value="0">No contractors</option>
+              <option value="1">A few (1–5)</option>
+              <option value="2">Several (6–20)</option>
+              <option value="3">Many (20+)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;font-weight:600;color:#6b6864;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem">Prior Audit History?</label>
+            <select id="a-history" style="width:100%;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .9rem;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;color:#1a1917">
+              <option value="0">No prior audits</option>
+              <option value="1">One audit, no issues</option>
+              <option value="2">One audit, had adjustments</option>
+              <option value="3">Multiple audits</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;font-weight:600;color:#6b6864;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.4rem">Records Organization</label>
+            <select id="a-records" style="width:100%;border:1.5px solid #e5e3de;border-radius:7px;padding:.6rem .9rem;font-size:.9rem;font-family:'Inter',sans-serif;outline:none;color:#1a1917">
+              <option value="0">Fully organized</option>
+              <option value="1">Mostly organized</option>
+              <option value="2">Somewhat disorganized</option>
+              <option value="3">Very disorganized</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="gatedCalc(calcAudit)" style="width:100%;background:#0f1f3d;color:#fff;border:none;border-radius:7px;padding:.75rem 1rem;font-size:.95rem;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">Calculate My Audit Risk →</button>
+        <div id="audit-result" style="display:none;margin-top:1.25rem;padding:1.25rem;border-radius:10px;border:1px solid #e5e3de;background:#f8f7f4"></div>
+        <!-- $29 Audit Report Offer -->
+        <div id="audit-report-offer" style="display:none;margin-top:1.25rem;background:linear-gradient(135deg,#0f1f3d,#1a3260);border-radius:10px;padding:1.25rem;border:1px solid rgba(201,168,76,.25)">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <div>
+              <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c9a84c;margin-bottom:.3rem;font-family:'Inter',sans-serif">Professional Report</div>
+              <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#fff;margin-bottom:.35rem">Audit Assessment Report</div>
+              <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-bottom:.6rem;font-family:'Inter',sans-serif">Know exactly where your audit risks are and how to fix them before the IRS does</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem">
+                <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Audit Risk Score</div>
+                <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Documentation Checklist</div>
+                <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ IRS Risk Factors Detected</div>
+                <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Missing Record Assessment</div>
+                <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Industry Risk Analysis</div>
+                <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Compliance Recommendations</div>
+                <div style="font-size:.7rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif">+ Audit Defense Guide</div>
+                <div style="font-size:.7rem;color:#c9a84c;font-family:'Inter',sans-serif;font-weight:500">+ PDF Compliance Report</div>
+              </div>
+            </div>
+            <div style="text-align:center;flex-shrink:0">
+              <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#c9a84c">$29</div>
+              <a href="portal.html" style="display:block;margin-top:.5rem;background:#c9a84c;color:#0a0800;text-decoration:none;font-size:.8rem;font-weight:700;padding:.55rem 1.1rem;border-radius:7px;font-family:'Inter',sans-serif;white-space:nowrap">Get Report →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;margin-top:1.25rem;flex-wrap:wrap;gap:1rem">
+        <p style="color:rgba(255,255,255,.75);font-size:.88rem"><strong style="color:#fff;display:block;margin-bottom:.15rem">Concerned about your audit?</strong>Get a full professional assessment from our team.</p>
+        <a href="portal.html" style="background:#b8922a;color:#0a0800;text-decoration:none;font-size:.85rem;font-weight:600;padding:.65rem 1.4rem;border-radius:7px;white-space:nowrap">Request Assessment →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+  // ══ TOOLS, ALL INLINE, NO LOADING ORDER ISSUES ══
+  const $=id=>document.getElementById(id);
+  const fmt=n=>'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  function tSwitch(name){
+    ['payroll','tax','pl','guide','audit'].forEach(t=>{
+      const p=$('panel-'+t), b=$('tab-'+t);
+      if(!p||!b)return;
+      if(t===name){
+        p.style.display='block';
+        b.style.background='#fff';b.style.color='#0f1f3d';b.style.border='none';b.style.fontWeight='600';
+      } else {
+        p.style.display='none';
+        b.style.background='rgba(255,255,255,.1)';b.style.color='rgba(255,255,255,.85)';b.style.border='1px solid rgba(255,255,255,.2)';b.style.fontWeight='500';
+      }
+    });
+  }
+
+  function calcAudit(){
+    const industry = $('a-industry').value;
+    const employees = $('a-employees').value;
+    const payroll = $('a-payroll').value;
+    if (!industry || !employees || !payroll || parseFloat(payroll) <= 0) {
+      alert('Please fill in all required fields: Industry, Number of Employees, and Annual Payroll.'); return;
+    }
+    const industryVal = parseInt(industry)||1;
+    const employeesVal = parseInt(employees)||1;
+    const payrollVal = parseFloat(payroll)||0;
+    const contractors = parseInt($('a-contractors').value)||0;
+    const history = parseInt($('a-history').value)||0;
+    const records = parseInt($('a-records').value)||0;
+
+    // Risk score calculation
+    let score = 0;
+    score += industryVal * 10;        // industry risk
+    score += employeesVal * 8;        // more employees = more exposure
+    score += contractors * 15;     // contractors are high audit risk
+    score += history * 20;         // prior audits increase risk
+    score += records * 12;         // disorganized records = higher risk
+
+    // Potential premium exposure
+    const baseRate = [0.015, 0.025, 0.04, 0.055, 0.07][industry-1] || 0.025;
+    const exposure = payroll * baseRate;
+
+    let level, color, bg, advice;
+    if (score < 30) {
+      level = 'Low Risk'; color = '#2dd4a0'; bg = '#f0fdf8';
+      advice = 'Your audit risk appears low. Maintain your current record keeping practices and you should be well positioned for any audit.';
+    } else if (score < 60) {
+      level = 'Moderate Risk'; color = '#f0a94a'; bg = '#fffbf0';
+      advice = 'You have some audit risk factors. We recommend a records review before your next policy renewal to identify any exposure.';
+    } else {
+      level = 'Elevated Risk'; color = '#f06a6a'; bg = '#fff8f8';
+      advice = 'Your profile shows elevated audit risk. A professional assessment now could save significant premium costs and prevent audit surprises.';
+    }
+
+    const result = $('audit-result');
+    result.style.display = 'block';
+    result.style.background = bg;
+    result.style.borderColor = color + '40';
+    result.innerHTML = `
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+        <div style="width:12px;height:12px;border-radius:50%;background:${color};box-shadow:0 0 8px ${color}60;flex-shrink:0"></div>
+        <span style="font-weight:700;color:${color};font-size:1rem">${level}</span>
+      </div>
+      ${payroll > 0 ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
+        <div style="background:#fff;border-radius:8px;padding:.85rem;border:1px solid #e5e3de;text-align:center">
+          <div style="font-size:.7rem;color:#9b9890;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem">Est. Audit Exposure</div>
+          <div style="font-size:1.2rem;font-weight:700;color:#0f1f3d">${fmt(exposure)}</div>
+        </div>
+        <div style="background:#fff;border-radius:8px;padding:.85rem;border:1px solid #e5e3de;text-align:center">
+          <div style="font-size:.7rem;color:#9b9890;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem">Risk Score</div>
+          <div style="font-size:1.2rem;font-weight:700;color:#0f1f3d">${Math.min(score,100)}/100</div>
+        </div>
+      </div>` : ''}
+      <p style="font-size:.88rem;color:#6b6864;line-height:1.6;margin-bottom:1rem">${advice}</p>
+      <a href="portal.html" style="display:inline-block;background:#0f1f3d;color:#fff;text-decoration:none;font-size:.85rem;font-weight:500;padding:.65rem 1.4rem;border-radius:7px;font-family:'Inter',sans-serif">Get Professional Assessment →</a>
+    `;
+    document.getElementById('audit-report-offer').style.display='block';
+  }
+
+  function calcPayroll(){
+    const freq=parseInt($('p-freq').value);
+    const sr=parseFloat($('p-state').value);
+    const st=$('p-status').value;
+    const annual=parseFloat($('p-salary').value)||0;
+    const gross=annual/freq;
+    let fed=0,tx=annual;
+    if(st==='single'){if(tx>609350)fed=183647+(tx-609350)*.37;else if(tx>243725)fed=55374+(tx-243725)*.35;else if(tx>100525)fed=17168+(tx-100525)*.32;else if(tx>47150)fed=5426+(tx-47150)*.22;else if(tx>23200)fed=1160+(tx-23200)*.12;else if(tx>11600)fed=(tx-11600)*.10;}
+    else{if(tx>731200)fed=166268+(tx-731200)*.37;else if(tx>487450)fed=74208+(tx-487450)*.35;else if(tx>201050)fed=45926+(tx-201050)*.32;else if(tx>94300)fed=10294+(tx-94300)*.22;else if(tx>46400)fed=2320+(tx-46400)*.12;else if(tx>23200)fed=(tx-23200)*.10;}
+    fed/=freq;
+    const stTax=gross*sr,ss=Math.min(gross,168600/freq)*.062,med=gross*.0145;
+    const net=gross-fed-stTax-ss-med;
+    const eSS=ss,eMed=med,futa=Math.min(annual/freq,7000/freq)*.006;
+    $('p-net').textContent=fmt(net);$('p-net-yr').textContent=fmt(net*freq);
+    $('p-rows').innerHTML=[['Gross Pay',fmt(gross),''],['Federal Tax','-'+fmt(fed),'#b91c1c'],['State Tax','-'+fmt(stTax),'#b91c1c'],['Social Security','-'+fmt(ss),'#b91c1c'],['Medicare','-'+fmt(med),'#b91c1c'],['Employer SS',fmt(eSS),'#1a6b3a'],['Employer Medicare',fmt(eMed),'#1a6b3a'],['FUTA',fmt(futa),'#1a6b3a'],['Total Employer Cost',fmt(gross+eSS+eMed+futa),'#0f1f3d']].map(([l,v,c])=>`<div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid #e5e3de;font-size:.88rem;font-family:'Inter',sans-serif"><span style="color:#6b6864">${l}</span><span style="color:${c||'inherit'};font-weight:${c?'600':'400'}">${v}</span></div>`).join('');
+    $('p-result').style.display='block';
+  }
+
+  function calcTax(){
+    const st=$('t-status').value,income=parseFloat($('t-income').value)||0,withheld=parseFloat($('t-withheld').value)||0;
+    const sd={single:14600,mfj:29200,mfs:14600,hoh:21900};
+    const ded=$('t-ded').value==='itemized'?(parseFloat($('t-itemized').value)||0):sd[st];
+    const tx=Math.max(0,income-ded);
+    let tax=0;
+    if(st==='single'||st==='mfs'){if(tx>609350)tax=183647+(tx-609350)*.37;else if(tx>243725)tax=55374+(tx-243725)*.35;else if(tx>100525)tax=17168+(tx-100525)*.32;else if(tx>47150)tax=5426+(tx-47150)*.22;else if(tx>23200)tax=1160+(tx-23200)*.12;else if(tx>11600)tax=(tx-11600)*.10;}
+    else{if(tx>731200)tax=166268+(tx-731200)*.37;else if(tx>487450)tax=74208+(tx-487450)*.35;else if(tx>201050)tax=45926+(tx-201050)*.32;else if(tx>94300)tax=10294+(tx-94300)*.22;else if(tx>46400)tax=2320+(tx-46400)*.12;else if(tx>23200)tax=(tx-23200)*.10;}
+    const rate=income>0?((tax/income)*100).toFixed(1):'0',refund=withheld-tax;
+    $('t-owed').textContent=fmt(tax);$('t-rate').textContent=rate+'%';
+    $('t-rows').innerHTML=[['Gross Income',fmt(income),''],['Deduction','-'+fmt(ded),'#b91c1c'],['Taxable Income',fmt(tx),'#0f1f3d'],['Federal Tax','-'+fmt(tax),'#b91c1c'],['Tax Withheld','+'+fmt(withheld),'#1a6b3a']].map(([l,v,c])=>`<div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid #e5e3de;font-size:.88rem;font-family:'Inter',sans-serif"><span style="color:#6b6864">${l}</span><span style="color:${c||'inherit'};font-weight:${c?'600':'400'}">${v}</span></div>`).join('');
+    $('t-refund').textContent=fmt(Math.abs(refund));$('t-refund').style.color=refund>=0?'#1a6b3a':'#b91c1c';
+    $('t-refund-lbl').textContent=refund>=0?'Estimated Refund':'Additional Tax Owed';
+    $('t-refund-box').style.background=refund>=0?'#faf5eb':'#fee2e2';
+    $('t-result').style.display='block';
+  }
+
+  function dropPL(e){e.preventDefault();if(e.dataTransfer.files[0])processPL({target:{files:e.dataTransfer.files}});}
+  function processPL(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>parsePL(e.target.result);r.readAsText(f);}
+  function loadSamplePL(){parsePL(`Date,Description,Amount
+2024-01-05,Client Payment ABC Corp,5200.00
+2024-01-08,Office Rent January,-2200.00
+2024-01-10,ATT Internet,-120.00
+2024-01-12,Client Payment XYZ LLC,3800.00
+2024-01-15,ADP Payroll,-4500.00
+2024-01-18,Amazon Office Supplies,-230.00
+2024-01-20,Zoom Subscription,-149.00
+2024-01-22,Client Payment Metro Inc,7500.00
+2024-01-25,Delta Airlines,-620.00
+2024-01-28,Facebook Ads,-350.00
+2024-02-05,Client Payment ABC Corp,5200.00
+2024-02-08,Office Rent February,-2200.00
+2024-02-14,Client Payment New Client,2500.00
+2024-02-15,ADP Payroll,-4500.00
+2024-02-28,Google Ads,-400.00
+2024-03-05,Client Payment ABC Corp,5200.00
+2024-03-07,Client Payment Smith Co,4100.00
+2024-03-08,Office Rent March,-2200.00
+2024-03-15,ADP Payroll,-4500.00
+2024-03-28,Insurance Premium,-320.00`);}
+
+  let plData=[];
+  function parsePL(csv){
+    plData=[];
+    csv.trim().split('\n').slice(1).forEach(line=>{
+      const p=line.split(',');if(p.length<3)return;
+      const desc=p.slice(1,p.length-1).join(',').trim();
+      const amt=parseFloat(p[p.length-1]);if(isNaN(amt))return;
+      const d=desc.toLowerCase();let cat,type;
+      if(amt>0){cat='Revenue';type='income';}
+      else if(d.includes('payroll')||d.includes('adp')){cat='Payroll & Wages';type='expense';}
+      else if(d.includes('rent')||d.includes('lease')){cat='Rent & Facilities';type='expense';}
+      else if(d.includes('internet')||d.includes('att')||d.includes('utility')){cat='Utilities';type='expense';}
+      else if(d.includes('amazon')||d.includes('supplies')){cat='Office Supplies';type='expense';}
+      else if(d.includes('zoom')||d.includes('subscription')||d.includes('adobe')){cat='Software';type='expense';}
+      else if(d.includes('airline')||d.includes('delta')||d.includes('hotel')){cat='Travel';type='expense';}
+      else if(d.includes('ads')||d.includes('marketing')){cat='Marketing';type='expense';}
+      else if(d.includes('insurance')){cat='Insurance';type='expense';}
+      else{cat='Other Expenses';type='expense';}
+      plData.push({desc,amt,cat,type});
+    });
+    const byC={};let totR=0,totE=0;
+    plData.forEach(t=>{if(!byC[t.cat])byC[t.cat]={type:t.type,total:0,count:0};byC[t.cat].total+=t.amt;byC[t.cat].count++;});
+    Object.values(byC).forEach(v=>{if(v.type==='income')totR+=v.total;else totE+=Math.abs(v.total);});
+    const net=totR-totE;
+    $('pl-rev').textContent=fmt(totR);$('pl-exp').textContent=fmt(totE);
+    $('pl-net').textContent=fmt(net);$('pl-net').style.color=net>=0?'#22c55e':'#ef4444';
+    const tb=$('pl-tbody');tb.innerHTML='';
+    const inc=Object.entries(byC).filter(([,v])=>v.type==='income');
+    const exp=Object.entries(byC).filter(([,v])=>v.type==='expense');
+    tb.innerHTML+=`<tr style="background:#f8f7f4"><td colspan="3" style="padding:.5rem .85rem;font-weight:700;color:#0f1f3d;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-family:'Inter',sans-serif">INCOME</td></tr>`;
+    inc.forEach(([c,d])=>{tb.innerHTML+=`<tr><td style="padding:.5rem .85rem;border-bottom:1px solid #e5e3de;font-family:'Inter',sans-serif">${c}</td><td style="padding:.5rem .85rem;border-bottom:1px solid #e5e3de;color:#9b9890;font-size:.82rem;font-family:'Inter',sans-serif">${d.count} transactions</td><td style="padding:.5rem .85rem;border-bottom:1px solid #e5e3de;text-align:right;color:#1a6b3a;font-weight:500;font-family:'Inter',sans-serif">${fmt(d.total)}</td></tr>`;});
+    tb.innerHTML+=`<tr><td colspan="2" style="padding:.6rem .85rem;font-weight:700;font-family:'Inter',sans-serif">Total Revenue</td><td style="padding:.6rem .85rem;text-align:right;font-weight:700;color:#1a6b3a;font-family:'Inter',sans-serif">${fmt(totR)}</td></tr>`;
+    tb.innerHTML+=`<tr style="background:#f8f7f4"><td colspan="3" style="padding:.5rem .85rem;font-weight:700;color:#0f1f3d;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-family:'Inter',sans-serif">EXPENSES</td></tr>`;
+    exp.forEach(([c,d])=>{tb.innerHTML+=`<tr><td style="padding:.5rem .85rem;border-bottom:1px solid #e5e3de;font-family:'Inter',sans-serif">${c}</td><td style="padding:.5rem .85rem;border-bottom:1px solid #e5e3de;color:#9b9890;font-size:.82rem;font-family:'Inter',sans-serif">${d.count} transactions</td><td style="padding:.5rem .85rem;border-bottom:1px solid #e5e3de;text-align:right;color:#b91c1c;font-weight:500;font-family:'Inter',sans-serif">-${fmt(Math.abs(d.total))}</td></tr>`;});
+    tb.innerHTML+=`<tr style="background:#f8f7f4"><td colspan="2" style="padding:.75rem .85rem;font-weight:700;font-size:.95rem;color:#0f1f3d;font-family:'Inter',sans-serif">NET PROFIT / LOSS</td><td style="padding:.75rem .85rem;text-align:right;font-weight:700;font-size:.95rem;color:${net>=0?'#1a6b3a':'#b91c1c'};font-family:'Inter',sans-serif">${fmt(net)}</td></tr>`;
+    $('pl-result').style.display='block';
+  }
+  function downloadPL(){
+    const rows=[['Category','Description','Amount']];
+    plData.forEach(t=>rows.push([t.cat,t.desc,t.amt.toFixed(2)]));
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'}));a.download='profit loss.csv';a.click();
+  }
+
+  const chatHist=[];
+  const SYS=`You are a business advisor for The Industry Accountants. Help users starting or growing a business. Give clear, practical advice about entity types, registration, taxes, startup costs. Keep answers to 2-4 short paragraphs. End with one actionable next step. Mention The Industry Accountants services when relevant.`;
+  async function sendChat(){
+    const inp=$('chat-input');const msg=inp.value.trim();if(!msg)return;inp.value='';
+    addMsg(msg,'user');chatHist.push({role:'user',content:msg});
+    const ld=addMsg('Thinking...','loading');
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:SYS,messages:chatHist})});
+      const data=await res.json();ld.remove();
+      const reply=data.content?.[0]?.text||'Try again in a moment.';
+      addMsg(reply,'bot');chatHist.push({role:'assistant',content:reply});
+    }catch(e){ld.remove();addMsg('Connection error. Please try again.','bot');}
+  }
+  function askQ(q){$('chat-input').value=q;sendChat();}
+  function addMsg(text,type){
+    const d=document.createElement('div');
+    d.style.cssText=`max-width:85%;padding:.75rem 1rem;border-radius:${type==='user'?'10px 4px 10px 10px':'4px 10px 10px 10px'};font-size:.88rem;line-height:1.6;align-self:${type==='user'?'flex-end':'flex-start'};background:${type==='user'?'#0f1f3d':type==='loading'?'#f8f7f4':'#fff'};color:${type==='user'?'#fff':'#1a1917'};border:${type==='user'?'none':'1px solid #e5e3de'};font-family:'Inter',sans-serif`;
+    d.textContent=text;const m=$('chat-msgs');m.appendChild(d);m.scrollTop=m.scrollHeight;return d;
+  }
+  </script><section class="svc-section" id="services" style="padding-top:3rem;padding-bottom:0;padding-left:4vw;padding-right:4vw">
+  <div class="svc-inner">
+    <div style="text-align:center;padding:1rem 0 1.5rem">
+      <div style="display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;font-family:'Inter',sans-serif" class="reveal">Our Services</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2.6rem,4.5vw,4rem);font-weight:400;color:var(--navy);line-height:1.1;margin-bottom:1.25rem;letter-spacing:-.02em" class="reveal">Complete Financial Solutions</h2>
+      <p style="font-size:1.05rem;color:var(--gray-600);font-weight:300;line-height:1.85;max-width:560px;margin:0 auto" class="reveal">From personal tax returns and business accounting to payroll, compliance, and financial insights, all managed securely in one place.</p>
+    </div>
+  </div>
+</section>
+
+<section class="svc-section" style="border-top:none">
+  <div class="svc-inner">
+
+    <!-- 2. TAX FILING -->
+    <div class="svc-row" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:4rem 0;border-bottom:1px solid var(--gray-200)">
+      <div style="border-radius:16px;background:#080e1d;padding:2rem;font-family:'Inter',sans-serif;display:flex;flex-direction:column">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:6px">Tax Filing</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.3;color:#fff">Your W-2 to refund in 48hrs</div>
+        <div style="background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:10px">
+          <div style="width:32px;height:40px;background:#fff;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;position:relative">
+            <div style="font-size:8px;font-weight:800;color:#0d1829">W-2</div>
+            <div style="width:18px;height:1px;background:#0d1829;opacity:.2;margin-top:3px"></div>
+            <div style="width:14px;height:1px;background:#0d1829;opacity:.2;margin-top:2px"></div>
+            <div style="width:16px;height:1px;background:#0d1829;opacity:.2;margin-top:2px"></div>
+            <div style="position:absolute;top:-4px;right:-4px;width:10px;height:10px;background:#2dd4a0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;font-weight:700">✓</div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,.9);font-weight:500">Wage & Tax Statement</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Uploaded securely · Encrypted</div>
+          </div>
+        </div>
+        <div style="text-align:center;color:rgba(255,255,255,.2);font-size:13px;margin:2px 0">↓</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.15);border-radius:7px;font-size:12px;color:rgba(255,255,255,.75)">
+            <div style="width:15px;height:15px;border-radius:50%;background:rgba(45,212,160,.15);border:1px solid #2dd4a0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2dd4a0;flex-shrink:0">✓</div>
+            Accountant reviews & prepares
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.15);border-radius:7px;font-size:12px;color:rgba(255,255,255,.75)">
+            <div style="width:15px;height:15px;border-radius:50%;background:rgba(45,212,160,.15);border:1px solid #2dd4a0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2dd4a0;flex-shrink:0">✓</div>
+            You approve & e-sign
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(45,212,160,.06);border:.5px solid rgba(45,212,160,.15);border-radius:7px;font-size:12px;color:rgba(255,255,255,.75)">
+            <div style="width:15px;height:15px;border-radius:50%;background:rgba(45,212,160,.15);border:1px solid #2dd4a0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2dd4a0;flex-shrink:0">✓</div>
+            E-filed with IRS / CRA
+          </div>
+        </div>
+        <div style="text-align:center;color:rgba(255,255,255,.2);font-size:13px;margin:2px 0">↓</div>
+        <div style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:2px">Federal Refund</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.7)">Direct deposited</div>
+          </div>
+          <div style="font-size:20px;font-weight:700;color:#c9a84c">$5,064</div>
+        </div>
+        <div style="margin-top:auto;padding-top:8px;border-top:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:6px">
+          <div style="width:5px;height:5px;border-radius:50%;background:#2dd4a0"></div>
+          <span style="font-size:11px;color:#2dd4a0">48hr turnaround guaranteed</span>
+        </div>
+      </div>
+      <div class="svc-text">
+        <span style="display:inline-block;background:var(--gold-pale);color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:999px;margin-bottom:1rem;font-family:'Inter',sans-serif">Individuals & Business</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--navy);margin-bottom:.85rem;line-height:1.2">Tax Filing</h3>
+        <p style="font-size:.95rem;color:var(--gray-600);line-height:1.8;font-weight:300;margin-bottom:1.5rem">Personal, LLC, S-Corp, 1099, and all entity types. We handle every detail of your filing, precisely, electronically, and on time, so you never have to think about it twice.</p>
+        <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem">
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Federal, state & local returns</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> All entity types, individual to corporation</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> 48 hour turnaround once documents received</div>
+        </div>
+        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+    </div>
+
+    <!-- Real-Time Bookkeeping -->
+    <div class="svc-row" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:4rem 0;border-bottom:1px solid var(--gray-200)">
+      <div class="svc-text" style="order:1">
+        <span style="display:inline-block;background:var(--gold-pale);color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:999px;margin-bottom:1rem;font-family:'Inter',sans-serif">Monthly & Annual</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--navy);margin-bottom:.85rem;line-height:1.2">Real-Time Bookkeeping</h3>
+        <p style="font-size:.95rem;color:var(--gray-600);line-height:1.8;font-weight:300;margin-bottom:1.5rem">Clean books, monthly financials, catch ups, and audit ready support delivered year round. Your numbers always current, always accurate, always ready when you need them.</p>
+        <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem">
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Monthly reconciliation & P&L reports</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Catch up and clean up bookkeeping</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Fully managed, no software to buy or learn</div>
+        </div>
+        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+            <div style="border-radius:16px;background:#080e1d;padding:2rem;font-family:'Inter',sans-serif;order:2;display:flex;flex-direction:column">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:6px">Bookkeeping</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.3;color:#fff">Year end books, delivered</div>
+        <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Annual Summary</div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:.5px solid rgba(255,255,255,.06)"><span style="color:rgba(255,255,255,.5)">Total Revenue</span><span style="color:#fff">$187,400</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:.5px solid rgba(255,255,255,.06)"><span style="color:rgba(255,255,255,.5)">Total Expenses</span><span style="color:#f87171">-$54,280</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;padding:7px 8px;margin-top:6px;background:rgba(45,212,160,.08);border-radius:6px"><span style="color:#fff">Net Profit</span><span style="color:#2dd4a0">$133,120</span></div>
+        </div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">P&L Statement</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">Balance Sheet</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.3);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">Cash Flow</span>
+          <span style="background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#2dd4a0">Tax ready</span>
+        </div>
+        <div style="margin-top:auto;padding-top:8px;border-top:.5px solid rgba(255,255,255,.08)">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+            <div style="width:5px;height:5px;border-radius:50%;background:#c9a84c"></div>
+            <span style="font-size:11px;color:#c9a84c">Clean books every month</span>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.35);padding-left:11px">Profitable business</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payroll Management -->
+    <div class="svc-row" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:4rem 0;border-bottom:1px solid var(--gray-200)">
+            <div style="border-radius:16px;background:#080e1d;padding:2rem;font-family:'Inter',sans-serif;display:flex;flex-direction:column">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c;margin-bottom:6px">Payroll</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.3;color:#fff">May 15 run, complete</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px">
+            <span style="flex:1;color:rgba(255,255,255,.75)">G. Bertelli</span>
+            <span style="color:#2dd4a0;font-weight:600">$1,684</span>
+            <span style="background:rgba(96,165,250,.1);color:#60a5fa;border-radius:999px;padding:1px 7px;font-size:10px">W-2</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px">
+            <span style="flex:1;color:rgba(255,255,255,.75)">M. Thompson</span>
+            <span style="color:#2dd4a0;font-weight:600">$2,850</span>
+            <span style="background:rgba(201,168,76,.1);color:#c9a84c;border-radius:999px;padding:1px 7px;font-size:10px">1099</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px">
+            <span style="flex:1;color:rgba(255,255,255,.75)">S. Rodriguez</span>
+            <span style="color:#2dd4a0;font-weight:600">$1,346</span>
+            <span style="background:rgba(96,165,250,.1);color:#60a5fa;border-radius:999px;padding:1px 7px;font-size:10px">W-2</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">
+          <span style="background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#2dd4a0">Taxes filed</span>
+          <span style="background:rgba(45,212,160,.08);border:.5px solid rgba(45,212,160,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#2dd4a0">Direct deposit</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">W-2s on file</span>
+          <span style="background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.2);border-radius:999px;padding:3px 9px;font-size:11px;color:#c9a84c">1099s filed</span>
+        </div>
+        <div style="margin-top:auto;padding-top:8px;border-top:.5px solid rgba(255,255,255,.08)">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:4px">
+            <span style="color:rgba(255,255,255,.5)">Total disbursed</span>
+            <span style="color:#c9a84c">$5,880</span>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.35)">Your business is growing</div>
+        </div>
+      </div>
+      <div class="svc-text">
+        <span style="display:inline-block;background:var(--gold-pale);color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:999px;margin-bottom:1rem;font-family:'Inter',sans-serif">W2 & 1099</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--navy);margin-bottom:.85rem;line-height:1.2">Payroll Management</h3>
+        <p style="font-size:.95rem;color:var(--gray-600);line-height:1.8;font-weight:300;margin-bottom:1.5rem">Reliable payroll processing and full compliance support for your team. We handle every run, every filing, and every form, so your employees are always paid correctly and on time.</p>
+        <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem">
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> W-2 employees & 1099 contractors</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Payroll tax filings (941, 940, W-2)</div>
+          <div class="feature" style="display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Clean monthly financials delivered to your portal</div>
+        </div>
+        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+    </div>
+
+
+
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- PRICING SECTION -->
+<section id="pricing" style="background:#fff;padding:7rem 5vw;border-top:1px solid var(--gray-200)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:4rem">
+      <div class="reveal" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'Inter',sans-serif">Transparent Pricing</div>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.75rem);font-weight:400;color:var(--navy);margin-bottom:.75rem">Simple. Straightforward. No Surprises.</h2>
+      <p class="reveal" style="font-size:.95rem;color:var(--gray-600);max-width:540px;margin:0 auto;font-weight:300;line-height:1.7">We believe in transparent pricing. Every engagement starts with a review — your final quote is based on your actual needs, never a one-size-fits-all number.</p>
+    </div>
+
+    <!-- Main pricing grid -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.25rem">
+
+      <!-- Personal Tax -->
+      <div class="reveal" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:2rem;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)"></div>
+        <div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'Inter',sans-serif">Personal Tax Filing</div>
+        <div style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--navy);line-height:1;margin-bottom:.35rem">$249<span style="font-size:1rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300"> starting at</span></div>
+        <p style="font-size:.82rem;color:var(--gray-600);line-height:1.6;margin-bottom:1.25rem;font-weight:300">Federal, state & local returns for individuals. All income types included.</p>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> W-2, 1099, investment income</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> All deductions reviewed</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> 48-hour turnaround</div>
+        </div>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.85rem;font-weight:600;padding:.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+
+      <!-- Self-Employed -->
+      <div class="reveal delay-100" style="background:var(--navy);border:1px solid var(--navy);border-radius:14px;padding:2rem;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)"></div>
+        <div style="position:absolute;top:1rem;right:1rem;background:var(--gold);color:#0a0800;font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:999px;font-family:'Inter',sans-serif">Most Popular</div>
+        <div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'Inter',sans-serif">Self-Employed Tax Filing</div>
+        <div style="font-family:'Playfair Display',serif;font-size:2.2rem;color:#fff;line-height:1;margin-bottom:.35rem">$399<span style="font-size:1rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif;font-weight:300"> starting at</span></div>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:1.25rem;font-weight:300">For contractors, truckers, couriers, barbers, stylists, and real estate agents.</p>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold);font-weight:600">✦</span> Schedule C, SE tax included</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold);font-weight:600">✦</span> Business expense review</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold);font-weight:600">✦</span> Quarterly estimates included</div>
+        </div>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.85rem;font-weight:700;padding:.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+
+      <!-- Business Tax -->
+      <div class="reveal delay-200" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:2rem;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)"></div>
+        <div style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'Inter',sans-serif">Business Tax Return</div>
+        <div style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--navy);line-height:1;margin-bottom:.35rem">$799<span style="font-size:1rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300"> starting at</span></div>
+        <p style="font-size:.82rem;color:var(--gray-600);line-height:1.6;margin-bottom:1.25rem;font-weight:300">LLC, S-Corp, C-Corp, and partnership returns. All entity types handled.</p>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> All entity types</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Full deduction review</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--gray-600)"><span style="color:var(--gold);font-weight:600">✦</span> Multi-state filing available</div>
+        </div>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.85rem;font-weight:600;padding:.75rem;border-radius:8px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+    </div>
+
+    <!-- Second row -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:3rem">
+
+      <!-- Bookkeeping -->
+      <div class="reveal" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:1.75rem">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-family:'Inter',sans-serif">Bookkeeping</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy);line-height:1;margin-bottom:.25rem">$299<span style="font-size:.85rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300">/mo</span></div>
+        <p style="font-size:.78rem;color:var(--gray-600);line-height:1.6;margin-bottom:1rem;font-weight:300">Monthly reconciliation, P&L, and financial statements delivered every month.</p>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;padding:.65rem;border-radius:7px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+
+      <!-- Payroll -->
+      <div class="reveal delay-100" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:1.75rem">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-family:'Inter',sans-serif">Payroll</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy);line-height:1;margin-bottom:.25rem">$99<span style="font-size:.85rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300">/mo</span></div>
+        <p style="font-size:.78rem;color:var(--gray-600);line-height:1.6;margin-bottom:1rem;font-weight:300">1–5 employees. W-2 & 1099 payroll, taxes filed, direct deposit handled.</p>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;padding:.65rem;border-radius:7px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+
+      <!-- Cross-Border -->
+      <div class="reveal delay-200" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:1.75rem">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-family:'Inter',sans-serif">Cross-Border</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy);line-height:1;margin-bottom:.25rem">$395<span style="font-size:.85rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300"> starting at</span></div>
+        <p style="font-size:.78rem;color:var(--gray-600);line-height:1.6;margin-bottom:1rem;font-weight:300">Canada-US tax, EIN, LLC formation, ITIN, and annual compliance.</p>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;padding:.65rem;border-radius:7px;font-family:'Inter',sans-serif">Get Started →</a>
+      </div>
+
+      <!-- Advisory -->
+      <div class="reveal delay-300" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:1.75rem">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-family:'Inter',sans-serif">Business Advisory</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy);line-height:1;margin-bottom:.25rem">$395<span style="font-size:.85rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300">/hr</span></div>
+        <p style="font-size:.78rem;color:var(--gray-600);line-height:1.6;margin-bottom:1rem;font-weight:300">Strategic planning sessions and business consultation with senior advisors.</p>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;padding:.65rem;border-radius:7px;font-family:'Inter',sans-serif">Book Now →</a>
+      </div>
+    </div>
+
+    <!-- Bottom note -->
+    <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:12px;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <div style="font-size:.88rem;font-weight:600;color:var(--navy);margin-bottom:.25rem">Every engagement starts with a review.</div>
+        <div style="font-size:.82rem;color:var(--gray-600);font-weight:300">Your final quote is based on your actual file — not an estimate. No hidden fees. No surprises.</div>
+      </div>
+      <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--navy);color:#fff;text-decoration:none;font-size:.85rem;font-weight:600;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif;white-space:nowrap">Get Your Custom Quote →</a>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT ASSESSMENT SECTION -->
+<section id="audit-assessment" style="background:var(--off-white);padding:7rem 5vw;border-top:1px solid var(--gray-200)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:4rem">
+      <div class="reveal" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'Inter',sans-serif">Insurance Audit Defense</div>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.75rem);font-weight:400;color:var(--navy);margin-bottom:.75rem">Audit Assessment</h2>
+      <p class="reveal" style="font-size:.95rem;color:var(--gray-600);max-width:520px;margin:0 auto;font-weight:300;line-height:1.7">Facing an insurance premium audit? We review your payroll records, reconcile your classifications, and represent your business through every step of the audit process.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:3rem">
+      <div class="reveal" style="background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:2rem">
+        <div style="width:44px;height:44px;background:var(--gold-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8922a" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);margin-bottom:.5rem">Records Review</h3>
+        <p style="font-size:.85rem;color:var(--gray-600);line-height:1.65;font-weight:300">We audit your payroll records, employee classifications, and reported exposures to ensure everything aligns with your original policy estimates.</p>
+      </div>
+      <div class="reveal delay-100" style="background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:2rem">
+        <div style="width:44px;height:44px;background:var(--gold-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8922a" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);margin-bottom:.5rem">Classification &amp; Reconciliation</h3>
+        <p style="font-size:.85rem;color:var(--gray-600);line-height:1.65;font-weight:300">We reconcile payroll figures, verify employee vs. contractor classifications, and identify overcharges that could reduce your final premium adjustment.</p>
+      </div>
+      <div class="reveal delay-200" style="background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:2rem">
+        <div style="width:44px;height:44px;background:var(--gold-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8922a" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);margin-bottom:.5rem">Audit Representation</h3>
+        <p style="font-size:.85rem;color:var(--gray-600);line-height:1.65;font-weight:300">We represent your business directly with the insurance carrier, challenge inaccurate findings, and negotiate the final premium adjustment on your behalf.</p>
+      </div>
+    </div>
+    <div class="whats-included-grid" style="background:var(--navy);border-radius:16px;padding:3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+      <div>
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.75rem;font-family:'Inter',sans-serif">What's Included</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;color:#fff;margin-bottom:1.5rem;line-height:1.3">A complete picture of your audit exposure</h3>
+        <div style="display:flex;flex-direction:column;gap:.85rem">
+          <div style="display:flex;gap:.85rem;align-items:flex-start"><span style="color:var(--gold-light);font-size:.9rem;flex-shrink:0">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.75);font-family:'Inter',sans-serif">Complete payroll and exposure records review</span></div>
+          <div style="display:flex;gap:.85rem;align-items:flex-start"><span style="color:var(--gold-light);font-size:.9rem;flex-shrink:0">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.75);font-family:'Inter',sans-serif">Employee vs. contractor classification audit</span></div>
+          <div style="display:flex;gap:.85rem;align-items:flex-start"><span style="color:var(--gold-light);font-size:.9rem;flex-shrink:0">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.75);font-family:'Inter',sans-serif">Identification of overcharges and misclassifications</span></div>
+          <div style="display:flex;gap:.85rem;align-items:flex-start"><span style="color:var(--gold-light);font-size:.9rem;flex-shrink:0">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.75);font-family:'Inter',sans-serif">Direct representation with your insurance carrier</span></div>
+          <div style="display:flex;gap:.85rem;align-items:flex-start"><span style="color:var(--gold-light);font-size:.9rem;flex-shrink:0">✦</span><span style="font-size:.88rem;color:rgba(255,255,255,.75);font-family:'Inter',sans-serif">Final premium negotiation and adjustment support</span></div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:2rem">
+        <div style="font-family:'Playfair Display',serif;font-size:1.25rem;color:#fff;margin-bottom:.5rem">Get Your Audit Assessment</div>
+        <p style="font-size:.85rem;color:rgba(255,255,255,.55);margin-bottom:1.5rem;font-weight:300;line-height:1.6">Let our experts review your records before the audit concludes. Most businesses recover overpaid premiums they never knew they owed.</p>
+        <a href="portal.html" style="display:block;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:600;padding:.9rem 2rem;border-radius:8px;text-align:center;margin-bottom:.75rem;font-family:'Inter',sans-serif">Request Full Assessment →</a>
+        <a href="#tools" style="display:block;background:transparent;color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;font-weight:500;padding:.75rem 2rem;border-radius:8px;text-align:center;border:1px solid rgba(255,255,255,.2);font-family:'Inter',sans-serif">Use Audit Risk Calculator →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CROSS-BORDER FINANCIAL SERVICES -->
+<section id="cross-border" style="background:var(--white);padding:7rem 5vw;border-top:1px solid var(--gray-200)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:4rem">
+      <div class="eyebrow reveal" style="justify-content:center">Cross-Border Financial Services</div>
+      <h2 class="sec-title reveal" style="max-width:700px;margin:0 auto .75rem">Helping Canadians Operate, Invest,<br/>and Expand Into the United States.</h2>
+      <p style="font-size:1rem;color:var(--gray-600);font-weight:300;line-height:1.75;max-width:580px;margin:0 auto">From formation to compliance, we simplify US operations for Canadians.</p>
+    </div>
+
+    <div class="cb-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem">
+
+      <!-- US Business Setup -->
+      <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:16px;padding:2.25rem;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--navy)"></div>
+        <div style="width:44px;height:44px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8922a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        </div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem">01</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--navy);margin-bottom:1rem">US Business Setup</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.65rem">
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>US LLC &amp; Corporation Formation</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>EIN Registration</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>State Selection Guidance</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Registered Agent Coordination</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>US Banking Preparation</li>
+        </ul>
+      </div>
+
+      <!-- US Tax & Filing -->
+      <div style="background:var(--navy);border:1px solid var(--navy);border-radius:16px;padding:2.25rem;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold)"></div>
+        <div style="width:44px;height:44px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8922a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem">02</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:#fff;margin-bottom:1rem">US Tax &amp; Filing</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.65rem">
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>1040-NR Filings</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>ITIN Applications</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Cross-Border Tax Guidance</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Rental &amp; Airbnb Income Reporting</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:rgba(255,255,255,.75);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Treaty Based Filing Support</li>
+        </ul>
+      </div>
+
+      <!-- Ongoing Compliance -->
+      <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:16px;padding:2.25rem;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--navy)"></div>
+        <div style="width:44px;height:44px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8922a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        </div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem">03</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--navy);margin-bottom:1rem">Ongoing Compliance</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.65rem">
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Annual Filings</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Bookkeeping</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>State Compliance</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Payroll Services</li>
+          <li style="display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--gray-600);font-weight:300"><span style="color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px">✦</span>Financial Reporting</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div style="background:var(--navy);border-radius:16px;padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
+      <div>
+        <p style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:#fff;margin-bottom:.4rem">Ready to expand into the US market?</p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);font-weight:300">From formation to compliance, we handle every step so you can focus on growing your business.</p>
+      </div>
+      <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.92rem;font-weight:600;padding:.85rem 2rem;border-radius:8px;font-family:'Inter',sans-serif;white-space:nowrap">Get Started →</a>
+    </div>
+
+  </div>
+</section>
+<!-- WHITE LABEL SUITE -->
+<section id="partners" style="background:#080e1d;padding:0;position:relative;overflow:hidden">
+
+  <!-- Hero image with overlay -->
+  <div style="position:relative;width:100%;height:520px;overflow:hidden">
+    <img loading="lazy" src="white label-img.png" alt="White Label Partner Program" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,14,29,0.92) 0%,rgba(8,14,29,0.75) 45%,rgba(8,14,29,0.3) 75%,rgba(8,14,29,0.1) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,14,29,1) 0%,transparent 40%)"></div>
+    <!-- Text over image -->
+    <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 5vw;max-width:1200px;margin:0 auto;left:0;right:0">
+      <div style="max-width:580px">
+        <div style="display:inline-flex;align-items:center;gap:.5rem;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;font-family:'Inter',sans-serif">
+          <div style="width:24px;height:1px;background:var(--gold)"></div>
+          Partner Program
+        </div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4.5vw,3.8rem);font-weight:400;color:#fff;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-.02em">White label our services.<br/>Keep your brand.</h2>
+        <p style="font-size:1rem;color:rgba(255,255,255,.82);line-height:1.8;font-weight:300;max-width:480px">Expand your service offering without expanding your team. Deliver tax, payroll, and bookkeeping under your brand while we manage the work behind the scenes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards + trust row -->
+  <div style="padding:3rem 5vw 4rem;max-width:1200px;margin:0 auto">
+
+    <!-- 3 Feature Cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem" class="wl-cards">
+
+      <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.2);border-radius:14px;padding:1.75rem;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <span style="font-size:1.1rem;font-weight:700;color:var(--gold);font-family:'Inter',sans-serif">01</span>
+        </div>
+        <h4 style="font-size:.95rem;font-weight:600;color:#fff;margin-bottom:.6rem;font-family:'Inter',sans-serif">Complete White Label Platform</h4>
+        <p style="font-size:.83rem;color:rgba(255,255,255,.75);line-height:1.7;font-weight:300">Offer tax, bookkeeping, payroll, and advisory services under your brand without building an accounting department.</p>
+      </div>
+
+      <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.2);border-radius:14px;padding:1.75rem;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <span style="font-size:1.1rem;font-weight:700;color:var(--gold);font-family:'Inter',sans-serif">02</span>
+        </div>
+        <h4 style="font-size:.95rem;font-weight:600;color:#fff;margin-bottom:.6rem;font-family:'Inter',sans-serif">Partner Tracking & Reporting</h4>
+        <p style="font-size:.83rem;color:rgba(255,255,255,.75);line-height:1.7;font-weight:300">Monitor referrals, service activity, and client engagement through your dedicated partner dashboard.</p>
+      </div>
+
+      <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.2);border-radius:14px;padding:1.75rem;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span style="font-size:1.1rem;font-weight:700;color:var(--gold);font-family:'Inter',sans-serif">03</span>
+        </div>
+        <h4 style="font-size:.95rem;font-weight:600;color:#fff;margin-bottom:.6rem;font-family:'Inter',sans-serif">Fast Turnaround</h4>
+        <p style="font-size:.83rem;color:rgba(255,255,255,.75);line-height:1.7;font-weight:300">Deliver a responsive client experience with professional support and reliable turnaround times.</p>
+      </div>
+
+    </div>
+
+    <!-- Trust row -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding-top:2rem;border-top:.5px solid rgba(255,255,255,.1)" class="wl-trust">
+      <div style="display:flex;align-items:center;gap:.85rem">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <div><div style="font-size:.85rem;font-weight:600;color:#fff;font-family:'Inter',sans-serif">20+ Years</div><div style="font-size:.72rem;color:rgba(255,255,255,.5)">Experience</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.85rem">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div><div style="font-size:.85rem;font-weight:600;color:#fff;font-family:'Inter',sans-serif">Secure</div><div style="font-size:.72rem;color:rgba(255,255,255,.5)">Client Portal</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.85rem">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div><div style="font-size:.85rem;font-weight:600;color:#fff;font-family:'Inter',sans-serif">Dedicated</div><div style="font-size:.72rem;color:rgba(255,255,255,.5)">Partner Support</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.85rem">
+        <div style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <div><div style="font-size:.85rem;font-weight:600;color:#fff;font-family:'Inter',sans-serif">Fully</div><div style="font-size:.72rem;color:rgba(255,255,255,.5)">White Labeled</div></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center;margin-top:3rem">
+      <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:700;padding:.9rem 2.25rem;border-radius:8px;font-family:'Inter',sans-serif">Apply to Partner With Us →</a>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="how" style="background:var(--off-white);padding:7rem 5vw;border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)">
+<div style="max-width:1200px;margin:0 auto">
+  <div class="how-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
+    <div>
+      <div class="eyebrow reveal">How It Works</div>
+      <h2 class="sec-title reveal">Your financial system,<br/>activated in four steps.</h2>
+      <p class="sec-sub reveal delay-100">From first click to filed return. No office visits. No paperwork. No back and forth.</p>
+      <div style="display:flex;flex-direction:column;gap:1.75rem;margin-top:2rem">
+        <div style="display:flex;gap:1.25rem;align-items:flex-start">
+          <div class="step-num"><span>1</span></div>
+          <div><h3 style="font-size:.95rem;font-weight:600;color:var(--navy);margin-bottom:.3rem">Create your account</h3><p style="font-size:.85rem;color:var(--gray-600);line-height:1.6;font-weight:300">Sign up in under 2 minutes. Your private portal is ready instantly.</p></div>
+        </div>
+        <div style="display:flex;gap:1.25rem;align-items:flex-start">
+          <div class="step-num"><span>2</span></div>
+          <div><h3 style="font-size:.95rem;font-weight:600;color:var(--navy);margin-bottom:.3rem">Complete intake form</h3><p style="font-size:.85rem;color:var(--gray-600);line-height:1.6;font-weight:300">Answer a short questionnaire tailored to your situation. No jargon, no confusion.</p></div>
+        </div>
+        <div style="display:flex;gap:1.25rem;align-items:flex-start">
+          <div class="step-num"><span>3</span></div>
+          <div><h3 style="font-size:.95rem;font-weight:600;color:var(--navy);margin-bottom:.3rem">Upload your documents</h3><p style="font-size:.85rem;color:var(--gray-600);line-height:1.6;font-weight:300">Securely upload your W2s, 1099s, and supporting documents from any device.</p></div>
+        </div>
+        <div style="display:flex;gap:1.25rem;align-items:flex-start">
+          <div class="step-num" style="background:var(--gold);flex-shrink:0"><span>4</span></div>
+          <div><h3 style="font-size:.95rem;font-weight:600;color:var(--navy);margin-bottom:.3rem">We file. You relax.</h3><p style="font-size:.85rem;color:var(--gray-600);line-height:1.6;font-weight:300">Filed within 48 hours. Track every step in real time.</p></div>
+        </div>
+      </div>
+      <div style="margin-top:2rem">
+        <a href="portal.html" class="btn-primary" style="display:inline-block;width:auto">Get Started Today →</a>
+      </div>
+    </div>
+    <!-- Portal mockup right column -->
+    <div style="position:relative">
+      <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:20px;box-shadow:0 8px 40px rgba(15,31,61,0.10);overflow:hidden">
+        <div style="background:var(--navy);padding:1.25rem 1.75rem;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-family:'Playfair Display',serif;color:var(--white);font-size:.9rem;opacity:.95">The Industry Accountants</span>
+          <span style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);font-size:.72rem;padding:5px 14px;border-radius:999px;font-weight:500;border:1px solid rgba(255,255,255,.15)">Secure Portal</span>
+        </div>
+        <div style="padding:2rem 1.75rem">
+          <div style="font-size:.82rem;color:var(--gray-400);margin-bottom:.2rem">Welcome back,</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy);margin-bottom:1.75rem;font-weight:400">Giuseppe Bertelli</div>
+          <!-- Stats row -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem">
+            <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:10px;padding:1rem .75rem;text-align:center">
+              <span style="font-weight:600;font-size:1.3rem;color:var(--navy);display:block;font-family:'Playfair Display',serif">3</span>
+              <span style="font-size:.7rem;color:var(--gray-400);display:block;margin-top:3px">Docs uploaded</span>
+            </div>
+            <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:10px;padding:1rem .75rem;text-align:center">
+              <span style="font-weight:600;font-size:.88rem;color:#1a6b3a;display:block">Review</span>
+              <span style="font-size:.7rem;color:var(--gray-400);display:block;margin-top:3px">Status</span>
+            </div>
+            <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:10px;padding:1rem .75rem;text-align:center">
+              <span style="font-weight:600;font-size:.88rem;color:var(--navy);display:block">Tax</span>
+              <span style="font-size:.7rem;color:var(--gray-400);display:block;margin-top:3px">Service</span>
+            </div>
+          </div>
+          <!-- Status steps -->
+          <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem">
+            <div style="display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;border-radius:8px;background:var(--white);border:1px solid var(--gray-200)">
+              <div style="width:9px;height:9px;border-radius:50%;background:#1a6b3a;flex-shrink:0"></div>
+              <span style="flex:1;font-size:.85rem;color:var(--gray-800)">Intake form submitted</span>
+              <span style="font-size:.75rem;font-weight:600;color:#1a6b3a">Done</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;border-radius:8px;background:var(--white);border:1px solid var(--gray-200)">
+              <div style="width:9px;height:9px;border-radius:50%;background:#1a6b3a;flex-shrink:0"></div>
+              <span style="flex:1;font-size:.85rem;color:var(--gray-800)">Documents received</span>
+              <span style="font-size:.75rem;font-weight:600;color:#1a6b3a">Done</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;border-radius:8px;background:#fdfaf2;border:1.5px solid #e8d89a">
+              <div style="width:9px;height:9px;border-radius:50%;background:#b8922a;flex-shrink:0"></div>
+              <span style="flex:1;font-size:.85rem;color:var(--navy);font-weight:500">Under review</span>
+              <span style="font-size:.75rem;font-weight:600;color:#b8922a">Active</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;border-radius:8px;background:var(--white);border:1px solid var(--gray-200)">
+              <div style="width:9px;height:9px;border-radius:50%;background:#d0cdc8;flex-shrink:0"></div>
+              <span style="flex:1;font-size:.85rem;color:var(--gray-400)">Filing complete</span>
+              <span style="font-size:.75rem;color:var(--gray-400)">Soon</span>
+            </div>
+          </div>
+          <!-- Message from accountant (inside card) -->
+          <div style="display:flex;align-items:center;gap:.85rem;padding:1rem 1.1rem;background:var(--off-white);border:1px solid var(--gray-200);border-radius:10px">
+            <div style="width:36px;height:36px;background:var(--gray-200);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📨</div>
+            <div>
+              <div style="font-size:.85rem;font-weight:600;color:var(--navy)">Message from your accountant</div>
+              <div style="font-size:.78rem;color:var(--gray-400);margin-top:2px">Your return is ready to review</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRADITIONAL VS TIA COMPARISON -->
+<section style="background:var(--navy);padding:7rem 5vw">
+  <div style="max-width:1100px;margin:0 auto;text-align:center">
+    <div class="reveal" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.75rem;font-family:'Inter',sans-serif">The Future of Accounting</div>
+    <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,2.75rem);font-weight:400;color:#fff;margin-bottom:.75rem">Traditional firms vs. The Industry Accountants</h2>
+    <p class="reveal" style="font-size:.95rem;color:rgba(255,255,255,.55);max-width:520px;margin:0 auto 3rem;font-weight:300">The accounting industry hasn't changed in 50 years. We built something that actually matches how business works today.</p>
+    <div class="reveal" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.1)">
+        <div style="padding:1rem 1.5rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)">Category</div>
+        <div style="padding:1rem 1.5rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);border-left:1px solid rgba(255,255,255,.1)">Traditional Firms</div>
+        <div style="padding:1rem 1.5rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light);border-left:1px solid rgba(255,255,255,.1)">The Industry Accountants</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Process</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Manual & paper based</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Fully digital infrastructure</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Response time</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Days to weeks</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ 48 hour turnaround, guaranteed</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Visibility</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Year-end reports only</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Real-time reporting, always on</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Access</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Office hours only</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Secure portal, 24/7 access</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Approach</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Reactive & compliance only</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Proactive strategic insight</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
+        <div style="padding:1.1rem 1.5rem;font-size:.9rem;color:rgba(255,255,255,.7);text-align:left">Experience</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.4);text-align:left;border-left:1px solid rgba(255,255,255,.06)">Generic, one size fits all</div>
+        <div style="padding:1.1rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,.85);text-align:left;border-left:1px solid rgba(255,255,255,.06)">✦ Tailored to every business</div>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem">
+      <a href="portal.html" style="display:inline-block;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:600;padding:.9rem 2.5rem;border-radius:8px;font-family:'Inter',sans-serif">Start Your Digital Transition →</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section style="background:var(--white);border-top:1px solid var(--gray-200)">
+<section class="why-wrap" style="border-top:none">
+  <div>
+    <div class="eyebrow reveal">Why Choose Us</div>
+    <h2 class="sec-title reveal">Built different.<br/>By design.</h2>
+    <div class="why-list">
+      <div class="why-item reveal"><span class="why-n">01</span><div class="why-content"><strong>Your own secure client portal</strong><span>Upload documents, track your filing status in real time, and message your accountant all in one private, encrypted space.</span></div></div>
+      <div class="why-item reveal"><span class="why-n">02</span><div class="why-content"><strong>48 hour turnaround, guaranteed</strong><span>We don't make you wait weeks. Returns are reviewed and filed fast without cutting corners.</span></div></div>
+      <div class="why-item reveal"><span class="why-n">03</span><div class="why-content"><strong>Paperless from start to finish</strong><span>No fax, no mail, no in person visits. Everything is handled digitally, from intake to e-signature to filing.</span></div></div>
+      <div class="why-item reveal"><span class="why-n">04</span><div class="why-content"><strong>Niche expertise, nationwide reach</strong><span>20+ years serving individuals, freelancers, LLCs, and growing businesses in every industry.</span></div></div>
+    </div>
+  </div>
+  <div style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:2.5rem;display:flex;flex-direction:column;gap:2rem">
+    <div style="padding-bottom:2rem;border-bottom:1px solid var(--gray-200)">
+      <div style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:.5rem;font-family:'Inter',sans-serif">Our clients say</div>
+      <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);line-height:1.6;font-style:italic">"The most seamless tax experience I've ever had. Everything was digital, fast, and completely stress free."</p>
+      <div style="margin-top:1rem;display:flex;align-items:center;gap:10px">
+        <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=80&q=80&auto=format&fit=crop&face" alt="Marcus T." style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-200)"/>
+        <span style="font-size:.82rem;color:var(--gray-400);font-family:'Inter',sans-serif">Marcus T., LLC Owner, Atlanta</span>
+      </div>
+    </div>
+    <div style="padding-bottom:2rem;border-bottom:1px solid var(--gray-200)">
+      <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);line-height:1.6;font-style:italic">"They set up our payroll, filed our S-Corp return, and gave us a financial roadmap, all in the first month. We've saved thousands and stopped dreading tax season entirely."</p>
+      <div style="margin-top:1rem;display:flex;align-items:center;gap:10px">
+        <img src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=80&q=80&auto=format&fit=crop&face" alt="Danielle R." style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-200)"/>
+        <span style="font-size:.82rem;color:var(--gray-400);font-family:'Inter',sans-serif">Danielle R., S-Corp Owner, Houston</span>
+      </div>
+    </div>
+    <div>
+      <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400;color:var(--navy);line-height:1.6;font-style:italic">"I white label their entire suite under my brand. My clients think I have a full accounting team. My revenue doubled in 6 months without adding a single employee."</p>
+      <div style="margin-top:1rem;display:flex;align-items:center;gap:10px">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&auto=format&fit=crop&face" alt="Jerome K." style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-200)"/>
+        <span style="font-size:.82rem;color:var(--gray-400);font-family:'Inter',sans-serif">Jerome K., White Label Partner</span>
+      </div>
+    </div>
+  </div>
+</section>
+</section>
+
+<!-- TRUST & SECURITY SECTION -->
+<section style="background:var(--navy);padding:5rem 5vw;border-top:1px solid rgba(255,255,255,0.06)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:3.5rem">
+      <div class="reveal" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.75rem;font-family:'Inter',sans-serif">Your Data Is Safe With Us</div>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3vw,2.75rem);font-weight:400;color:#fff;margin-bottom:1.25rem;line-height:1.2">We treat your financial information<br/>the way private banking clients expect<br/>theirs to be treated.</h2>
+      <p class="reveal" style="font-size:1rem;color:rgba(255,255,255,.45);max-width:520px;margin:0 auto;font-weight:300;line-height:1.8;font-style:italic">With precision, discretion, and zero tolerance for exposure.</p>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
+      <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:.6rem"><div style="width:8px;height:8px;border-radius:50%;background:#2dd4a0;box-shadow:0 0 8px rgba(45,212,160,0.6)"></div><span style="font-size:.82rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif">256-bit SSL Encrypted</span></div>
+        <div style="display:flex;align-items:center;gap:.6rem"><div style="width:8px;height:8px;border-radius:50%;background:#2dd4a0;box-shadow:0 0 8px rgba(45,212,160,0.6)"></div><span style="font-size:.82rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif">We Never Sell Your Data</span></div>
+        <div style="display:flex;align-items:center;gap:.6rem"><div style="width:8px;height:8px;border-radius:50%;background:#2dd4a0;box-shadow:0 0 8px rgba(45,212,160,0.6)"></div><span style="font-size:.82rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif">IRS Safeguards Rule Compliant</span></div>
+        <div style="display:flex;align-items:center;gap:.6rem"><div style="width:8px;height:8px;border-radius:50%;background:#2dd4a0;box-shadow:0 0 8px rgba(45,212,160,0.6)"></div><span style="font-size:.82rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif">FTC Safeguards Compliant</span></div>
+      </div>
+      <div style="display:flex;gap:1rem">
+        <a href="privacy.html" style="font-size:.82rem;color:rgba(255,255,255,.4);text-decoration:none;font-family:'Inter',sans-serif">Privacy Policy</a>
+        <span style="color:rgba(255,255,255,.15)">|</span>
+        <a href="terms.html" style="font-size:.82rem;color:rgba(255,255,255,.4);text-decoration:none;font-family:'Inter',sans-serif">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-brand">The Industry Accountants</span>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+    <li><a href="#tools">Financial Tools</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#audit-assessment">Audit Assessment</a></li>
+    <li><a href="#partners">Partners</a></li>
+      <li><a href="portal.html">Client Portal</a></li>
+    <li><a href="privacy.html">Privacy Policy</a></li>
+    <li><a href="terms.html">Terms of Service</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 The Industry Accountants. All rights reserved. All content, design, copy, and intellectual property are protected under copyright law. Unauthorized reproduction is strictly prohibited. · <a href="privacy.html" style="color:inherit;text-decoration:none">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none">Terms</a></span>
+  </div>
+</footer>
+
+<script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW error:', err));
+      });
+    }
+  </script>
+
+<script>
+// ── Scroll reveal animation ──
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Don't unobserve - keep visible once shown
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .step-line').forEach(el => {
+  revealObserver.observe(el);
+});
+
+// ── Smooth counter animation ──
+function animateCount(el) {
+  const target = el.getAttribute('data-count');
+  const suffix = el.getAttribute('data-suffix') || '';
+  const isFloat = target.includes('.');
+  const num = parseFloat(target);
+  const duration = 1800;
+  const start = performance.now();
+  
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const current = num * ease;
+    el.textContent = (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCount(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => {
+  counterObserver.observe(el);
+});
+
+// ── Parallax on hero ──
+window.addEventListener('scroll', () => {
+  const hero = document.querySelector('.hero-parallax');
+  if (hero) {
+    const scrolled = window.scrollY;
+    hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+  }
+});
+</script>
+
+
+
+
+
+<script>
+// ══ SCROLL REVEAL ══
+const _obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => _obs.observe(el));
+
+// ══ COUNTER ANIMATION ══
+const _cobs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const el = e.target;
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const dur = 1600;
+      const start = performance.now();
+      (function tick(now) {
+        const p = Math.min((now-start)/dur, 1);
+        const ease = 1 - Math.pow(1-p, 3);
+        const val = target * ease;
+        el.textContent = (Number.isInteger(target) ? Math.round(val).toLocaleString() : val.toFixed(1)) + suffix;
+        if(p < 1) requestAnimationFrame(tick);
+      })(start);
+      _cobs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => _cobs.observe(el));
+
+// ══ CURSOR GLOW ON HERO ══
+const hero = document.querySelector('[style*="hero-banner"]') || document.querySelector('section');
+if(hero) {
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    hero.style.setProperty('--mx', x + '%');
+    hero.style.setProperty('--my', y + '%');
+  });
+}
+
+// ══ SMOOTH NAV ON SCROLL ══
+let lastScroll = 0;
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  const curr = window.scrollY;
+  if(curr > 80) {
+    nav.style.boxShadow = '0 2px 20px rgba(15,31,61,0.08)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+  lastScroll = curr;
+}, {passive:true});
+</script>
+
+
+<!-- USAGE GATE MODAL -->
+<div id="gate-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(8,13,26,0.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1.5rem">
+  <div style="background:#0d1425;border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:2.5rem;max-width:480px;width:100%;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(201,168,76,0.08),0 24px 48px rgba(0,0,0,0.5)">
+    <div style="position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.7),transparent)"></div>
+    <button onclick="closeGateModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center">×</button>
+    <div style="width:52px;height:52px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:400;color:#f0ece4;text-align:center;margin-bottom:.5rem">You've reached your calculation limit</h2>
+    <p style="font-size:.9rem;color:rgba(255,255,255,.5);text-align:center;line-height:1.7;margin-bottom:2rem;max-width:360px;margin-left:auto;margin-right:auto">Create your account to unlock unlimited access to all tools, plus your secure client portal, document vault, and a personal consultation with our team.</p>
+    <a href="portal.html" style="display:flex;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,#c9a84c,#9a7535);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:700;padding:.9rem 1.5rem;border-radius:10px;margin-bottom:.75rem;font-family:'Inter',sans-serif">Create Your Account →</a>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem">
+      <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:rgba(255,255,255,.6)"><span style="color:#2dd4a0;flex-shrink:0">✓</span> Unlimited access to all 5 financial tools</div>
+      <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:rgba(255,255,255,.6)"><span style="color:#2dd4a0;flex-shrink:0">✓</span> Secure client portal and document vault</div>
+      <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:rgba(255,255,255,.6)"><span style="color:#2dd4a0;flex-shrink:0">✓</span> Direct messaging with your accountant</div>
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:rgba(255,255,255,.2);font-family:'Inter',sans-serif">Already have an account? <a href="portal.html" style="color:rgba(201,168,76,.6);text-decoration:none">Sign in →</a></p>
+  </div>
+</div>
+<script>
+function gatedCalc(fn){fn();}
+function closeGateModal(){document.getElementById('gate-modal').style.display='none';document.body.style.overflow='';}
+document.addEventListener('DOMContentLoaded',function(){const m=document.getElementById('gate-modal');if(m)m.addEventListener('click',function(e){if(e.target===m)closeGateModal();});});
+</script>
+<script>
+(function(){
+  function animateSvcCount(el) {
+    const target = parseFloat(el.getAttribute('data-count'));
+    const prefix = el.getAttribute('data-prefix') || '';
+    const suffix = el.getAttribute('data-suffix') || '';
+    const format = el.getAttribute('data-format');
+    const isDecimal = (el.getAttribute('data-count')||'').includes('.');
+    const dur = 1600; const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now-start)/dur,1);
+      const ease = 1-Math.pow(1-p,3);
+      const val = target*ease;
+      let display;
+      if (format==='k') display = prefix+'$'+(val/1000).toFixed(1)+'K';
+      else if (isDecimal) display = prefix+val.toFixed(1)+suffix;
+      else display = prefix+Math.round(val).toLocaleString()+suffix;
+      el.textContent = display;
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const svcObs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      const id = entry.target.id;
+      if(id==='svc-pl'){entry.target.textContent='+$0';animateSvcCount(entry.target);}
+      if(id==='svc-revenue'){entry.target.textContent='$0K';animateSvcCount(entry.target);}
+      if(id==='svc-expenses'){entry.target.textContent='$0K';animateSvcCount(entry.target);}
+      if(id==='svc-w2count'){entry.target.textContent='0';animateSvcCount(entry.target);}
+      if(id==='svc-contractorcount'){entry.target.textContent='0';animateSvcCount(entry.target);}
+      if(id==='svc-payout'){entry.target.textContent='$0';animateSvcCount(entry.target);}
+      if(id==='svc-bars'){entry.target.querySelectorAll('.svc-bar').forEach((bar,i)=>{setTimeout(()=>{bar.style.height=bar.getAttribute('data-h')+'%';},i*30);});}
+      svcObs.unobserve(entry.target);
+    });
+  },{threshold:0.15});
+  ['svc-pl','svc-revenue','svc-expenses','svc-w2count','svc-contractorcount','svc-payout','svc-bars'].forEach(id=>{
+    const el=document.getElementById(id); if(el) svcObs.observe(el);
+  });
+})();
+</script>
+<script>
+document.addEventListener('contextmenu',function(e){e.preventDefault();});
+document.addEventListener('dragstart',function(e){if(e.target.tagName==='IMG')e.preventDefault();});
+console.log('%c© The Industry Accountants','color:#c9a84c;font-size:20px;font-weight:bold;font-family:serif');
+console.log('%cAll content and design are protected by copyright law.','color:#888;font-size:12px');
+</script>
+</body>
+</html>
