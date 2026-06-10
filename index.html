@@ -718,71 +718,195 @@ function hDownloadPL(){
 </script>
 <nav>
   <a href="/" class="nav-logo">
-    <img loading="lazy" src="logo.png" alt="The Industry Accountants" style="height:52px;object-fit:contain;display:block;mix-blend-mode:multiply"/>
+    <img src="logo.png" alt="The Industry Accountants" style="height:52px;object-fit:contain;display:block;mix-blend-mode:multiply"/>
   </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#tools">Financial Tools</a></li>
+    <li><a href="business-launch-tool.html">Business Startup</a></li>
+    <li><a href="#cross-border">Cross-Border</a></li>
+    <li><a href="#tools">Free Tools</a></li>
     <li><a href="#how">How It Works</a></li>
-    <li><a href="#audit-assessment">Audit Assessment</a></li>
     <li><a href="#partners">Partners</a></li>
+    <li><a href="#pricing">Pricing</a></li>
   </ul>
   <div class="nav-actions">
     <a href="portal.html" class="btn-ghost">Client Login</a>
-    <a href="portal.html" class="btn-navy">Schedule a Consultation →</a>
+    <a href="portal.html" class="btn-navy">File My Taxes →</a>
   </div>
 </nav>
 
 <!-- HERO BANNER -->
-<section style="position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;background:linear-gradient(135deg,#080c19 0%,#0f1f3d 50%,#1a3260 100%)">
-  <img src="hero-banner.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0" loading="eager" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
-  <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,25,0.92) 0%,rgba(8,12,25,0.75) 40%,rgba(8,12,25,0.35) 65%,rgba(8,12,25,0.05) 100%)"></div>
-  <!-- Animated background -->
+<section style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:#080c19">
+  <!-- Hero image right side -->
+  <img src="hero-banner-new.png" alt="" style="position:absolute;right:0;top:0;width:65%;height:100%;object-fit:cover;object-position:left center;opacity:0" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
+  <!-- Gradient overlay — heavy left, fades right -->
+  <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,25,1) 0%,rgba(8,12,25,0.97) 30%,rgba(8,12,25,0.82) 50%,rgba(8,12,25,0.35) 70%,rgba(8,12,25,0.05) 100%)"></div>
+  <!-- Ambient gold glow -->
+  <div style="position:absolute;top:-100px;left:-100px;width:600px;height:600px;background:rgba(201,168,76,0.06);border-radius:50%;filter:blur(80px);pointer-events:none"></div>
 
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 50%,rgba(184,146,42,0.08) 0%,transparent 70%)"></div>
-  <!-- Glow orbs -->
-  <div class="glow-orb" style="width:500px;height:500px;background:rgba(184,146,42,0.12);top:-100px;left:-100px;animation-delay:0s"></div>
-  <div class="glow-orb" style="width:400px;height:400px;background:rgba(15,31,61,0.4);bottom:-50px;right:10%;animation-delay:3s"></div>
   <!-- Content -->
-  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 5vw;width:100%">
-    <div style="max-width:660px">
-      <div class="hero-animate" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1.25rem;font-family:'Inter',sans-serif">The Industry Accountants</div>
-      <h1 class="hero-animate-d1" style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:400;line-height:1.1;color:#fff;letter-spacing:-.02em;margin-bottom:1.5rem">Everything Your Finances Need.<br/><em style="color:var(--gold-light);font-style:italic">One Secure Workspace.</em></h1>
-      <p class="hero-animate-d2" style="font-size:1.1rem;color:rgba(255,255,255,.75);line-height:1.75;margin-bottom:2.5rem;font-weight:300;max-width:480px">Tax filing, payroll, bookkeeping, compliance, and cross-border services managed digitally by experienced professionals.</p>
-      <div class="hero-animate-d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem">
-        <a href="portal.html" class="btn-shimmer" style="background:var(--gold);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:600;padding:.9rem 2rem;border-radius:8px;transition:all .2s;font-family:'Inter',sans-serif;box-shadow:0 0 40px rgba(201,168,76,0.3)">File My Taxes →</a>
-        <a href="portal.html" style="background:rgba(255,255,255,.1);color:#fff;text-decoration:none;font-size:.95rem;font-weight:500;padding:.9rem 2rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);transition:all .2s;font-family:'Inter',sans-serif;backdrop-filter:blur(4px)">Book Consultation →</a>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:140px 5vw 100px;width:100%">
+    <div style="max-width:620px">
+
+      <!-- Badge -->
+      <div class="hero-animate" style="display:inline-flex;align-items:center;gap:.6rem;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1.75rem;font-family:'Inter',sans-serif">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--gold-light)"></div>
+        20+ Years of Financial Leadership
       </div>
-      <!-- Trust indicators -->
-      <div class="hero-animate-d4" style="display:flex;flex-wrap:wrap;gap:2rem;padding-top:1.75rem;border-top:1px solid rgba(255,255,255,.15)">
-        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          20+ Years Experience
-        </div>
-        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Secure Client Portal
-        </div>
-        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          Paperless &amp; Fully Digital
-        </div>
-        <div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          Serving Clients Across North America
-        </div>
+
+      <!-- Headline -->
+      <h1 class="hero-animate-d1" style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.4rem);font-weight:400;line-height:1.1;color:#fff;letter-spacing:-.02em;margin-bottom:1.5rem">
+        Build Your Business.<br/>
+        Manage Your Finances.<br/>
+        <em style="color:var(--gold-light);font-style:italic">Grow With Confidence.</em>
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="hero-animate-d2" style="font-size:1.05rem;color:rgba(255,255,255,.85);line-height:1.8;margin-bottom:2.5rem;font-weight:600;max-width:500px">
+        Professional tax filing, bookkeeping, payroll, cross-border services, and business advisory managed through one secure financial workspace.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="hero-animate-d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.75rem">
+        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:700;padding:.95rem 2.25rem;border-radius:8px;font-family:'Inter',sans-serif;box-shadow:0 0 40px rgba(201,168,76,0.25)">File My Taxes →</a>
+        <a href="business-launch-tool.html" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-size:.95rem;font-weight:500;padding:.95rem 2.25rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.25);font-family:'Inter',sans-serif;backdrop-filter:blur(4px)">Analyze My Business Idea →</a>
       </div>
+
+      <!-- Trust Bar -->
+      <div class="hero-animate-d4" style="display:flex;flex-wrap:wrap;gap:2.25rem;padding-top:1.75rem;border-top:1px solid rgba(255,255,255,.12)">
+
+        <!-- Shield with checkmark -->
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" stroke-width="1.6">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+          <span style="font-size:.8rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif;line-height:1.4">Secure<br/>Client Portal</span>
+        </div>
+
+        <!-- Padlock -->
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" stroke-width="1.6">
+            <rect x="5" y="11" width="14" height="10" rx="2"/>
+            <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+            <circle cx="12" cy="16" r="1.2" fill="var(--gold-light)"/>
+            <line x1="12" y1="17.2" x2="12" y2="19" stroke="var(--gold-light)" stroke-width="1.4"/>
+          </svg>
+          <span style="font-size:.8rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif;line-height:1.4">Bank-Level<br/>Encryption</span>
+        </div>
+
+        <!-- Person with clock -->
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" stroke-width="1.6">
+            <circle cx="9" cy="7" r="3.5"/>
+            <path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1"/>
+            <circle cx="17" cy="17" r="4"/>
+            <polyline points="17 15 17 17 19 17"/>
+          </svg>
+          <span style="font-size:.8rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif;line-height:1.4">20+ Years<br/>Experience</span>
+        </div>
+
+        <!-- Globe with grid lines -->
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-light)" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9.5"/>
+            <line x1="2.5" y1="12" x2="21.5" y2="12"/>
+            <line x1="12" y1="2.5" x2="12" y2="21.5"/>
+            <path d="M12 2.5C9.5 6 8 9 8 12s1.5 6 4 9.5"/>
+            <path d="M12 2.5C14.5 6 16 9 16 12s-1.5 6-4 9.5"/>
+          </svg>
+          <span style="font-size:.8rem;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif;line-height:1.4">Serving Clients<br/>Across North America</span>
+        </div>
+
+      </div>
+
     </div>
   </div>
-
 </section>
 
+<!-- CHOOSE YOUR STARTING POINT -->
+<section style="background:#0b0f1c;padding:3.5rem 5vw;border-bottom:1px solid rgba(255,255,255,.06)">
+  <div style="max-width:1280px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:2rem">
+      <div style="font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);font-family:'Inter',sans-serif">Choose Your Starting Point</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.85rem">
 
+      <!-- Card 1: Taxes -->
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+        <div style="display:flex;align-items:center;gap:.85rem">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="11" x2="12" y2="17"/>
+            <path d="M9.5 13.5a2.5 2.5 0 0 0 5 0c0-1.38-1.12-2-2.5-2s-2.5-.62-2.5-2a2.5 2.5 0 0 1 5 0"/>
+          </svg>
+          <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Need Help With Taxes</div>
+        </div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">File personal or business taxes securely online.</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Get Started →</div>
+      </a>
 
+      <!-- Card 2: Bookkeeping & Payroll -->
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+        <div style="display:flex;align-items:center;gap:.85rem">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Need Bookkeeping &amp; Payroll</div>
+        </div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Monthly financial management for growing businesses.</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Get Started →</div>
+      </a>
 
+      <!-- Card 3: Start a Business -->
+      <a href="business-launch-tool.html" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+        <div style="display:flex;align-items:center;gap:.85rem">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+            <path d="M12 2a7 7 0 0 1 7 7c0 2.6-1.4 4.9-3.5 6.2-.5.3-.5.8-.5 1.3V17H9v-.5c0-.5 0-1-.5-1.3A7 7 0 0 1 12 2z"/>
+          </svg>
+          <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Want To Start A Business</div>
+        </div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Analyze your idea and receive a custom opportunity report.</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Start Now →</div>
+      </a>
 
+      <!-- Card 4: Cross-Border -->
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+        <div style="display:flex;align-items:center;gap:.85rem">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <line x1="12" y1="2" x2="12" y2="22"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Need Cross-Border Services</div>
+        </div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Canada–US tax and business solutions.</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Learn More →</div>
+      </a>
 
+      <!-- Card 5: Audit Defense -->
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+        <div style="display:flex;align-items:center;gap:.85rem">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+          <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Need Audit Defense</div>
+        </div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Insurance premium audit review, reconciliation, and representation.</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Learn More →</div>
+      </a>
+
+    </div>
+  </div>
+</section>
 
 <!-- METRICS SECTION -->
 <section style="background:#fff;padding:5rem 5vw;border-bottom:1px solid var(--gray-200)">
@@ -1598,6 +1722,16 @@ function hDownloadPL(){
         <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy);line-height:1;margin-bottom:.25rem">$395<span style="font-size:.85rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300">/hr</span></div>
         <p style="font-size:.78rem;color:var(--gray-600);line-height:1.6;margin-bottom:1rem;font-weight:300">Strategic planning sessions and business consultation with senior advisors.</p>
         <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;padding:.65rem;border-radius:7px;font-family:'Inter',sans-serif">Book Now →</a>
+      </div>
+    </div>
+
+    <!-- Audit Defense — added to the 4-column row as 5th item in its own row matching same card style -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:1.25rem">
+      <div class="reveal" style="background:var(--off-white);border:1px solid var(--gray-200);border-radius:14px;padding:1.75rem">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-family:'Inter',sans-serif">Insurance Audit Defense</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy);line-height:1;margin-bottom:.25rem">$795<span style="font-size:.85rem;color:var(--gray-400);font-family:'Inter',sans-serif;font-weight:300"> starting at</span></div>
+        <p style="font-size:.78rem;color:var(--gray-600);line-height:1.6;margin-bottom:1rem;font-weight:300">Premium audit assessment, payroll review, classification verification, and full representation.</p>
+        <a href="portal.html" style="display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;padding:.65rem;border-radius:7px;font-family:'Inter',sans-serif">Request Assessment →</a>
       </div>
     </div>
 
