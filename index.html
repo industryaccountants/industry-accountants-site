@@ -39,19 +39,17 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}body{overflow-x:hidden}
     body{background:var(--white);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;border-bottom:1px solid transparent;padding:0 5vw;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,border-color .3s,box-shadow .3s}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;border-bottom:1px solid transparent;padding:0 3vw;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,border-color .3s,box-shadow .3s}
     nav.scrolled{background:rgba(13,31,61,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 2px 20px rgba(0,0,0,.3)}
     .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-    .nav-logo img{height:48px;object-fit:contain;filter:brightness(0) invert(1)}
-    nav.scrolled .nav-logo img{filter:brightness(0) invert(1)}
     .nav-wordmark{font-family:'Playfair Display',serif;font-size:1rem;color:#fff;display:none}
-    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
-    .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.88rem;transition:color .2s;font-family:'Inter',sans-serif}
+    .nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;white-space:nowrap}
+    .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.82rem;transition:color .2s;font-family:'Inter',sans-serif;white-space:nowrap}
     .nav-links a:hover{color:#c9a84c}
     .nav-actions{display:flex;align-items:center;gap:.75rem}
-    .btn-ghost{color:#fff;text-decoration:none;font-size:.88rem;font-weight:500;padding:.5rem 1.1rem;border:1.5px solid rgba(255,255,255,.35);border-radius:8px;transition:all .2s;font-family:'Inter',sans-serif}
+    .btn-ghost{color:#fff;text-decoration:none;font-size:.82rem;font-weight:500;padding:.45rem .9rem;border:1px solid rgba(255,255,255,.35);border-radius:8px;transition:all .2s;font-family:'Inter',sans-serif;white-space:nowrap}
     .btn-ghost:hover{border-color:#c9a84c;color:#c9a84c}
-    .btn-navy{background:#c9a84c;color:#0a0800;text-decoration:none;font-size:.88rem;font-weight:700;padding:.5rem 1.25rem;border-radius:8px;transition:all .2s;font-family:'Inter',sans-serif}
+    .btn-navy{background:#c9a84c;color:#0a0800;text-decoration:none;font-size:.82rem;font-weight:700;padding:.45rem 1rem;border-radius:8px;transition:all .2s;font-family:'Inter',sans-serif;white-space:nowrap}
     .btn-navy:hover{background:#e8c96d}
     .hero{padding:140px 5vw 100px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
     .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;display:flex;align-items:center;gap:8px}
@@ -719,8 +717,9 @@ function hDownloadPL(){
 
 </script>
 <nav>
-  <a href="/" class="nav-logo">
-    <img src="logo.png" alt="The Industry Accountants" style="height:52px;object-fit:contain;display:block;mix-blend-mode:multiply"/>
+  <a href="/" class="nav-logo" style="text-decoration:none;display:flex;align-items:center">
+    <img src="logo-dark.png" alt="The Industry Accountants" style="height:52px;width:auto;display:block;mix-blend-mode:lighten"/>
+  </a>
   </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
@@ -738,48 +737,50 @@ function hDownloadPL(){
 </nav>
 
 <!-- HERO BANNER -->
-<section style="position:relative;overflow:hidden;min-height:90vh;display:flex;align-items:center;background:#080c19">
+<section style="position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;background:#020817">
   <!-- Hero image right side -->
-  <img src="hero-banner-new.png" alt="" style="position:absolute;right:0;top:0;width:62%;height:100%;object-fit:cover;object-position:left center;opacity:0" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
+  <img src="hero-banner-new.png" alt="" style="position:absolute;right:0;top:0;width:65%;height:100%;object-fit:cover;object-position:75% center;opacity:0" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
   <!-- Gradient overlay — heavy left, fades right -->
-  <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,25,1) 0%,rgba(8,12,25,1) 35%,rgba(8,12,25,0.85) 50%,rgba(8,12,25,0.3) 70%,rgba(8,12,25,0.0) 100%)"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,25,1) 0%,rgba(8,12,25,1) 38%,rgba(8,12,25,0.75) 52%,rgba(8,12,25,0.2) 70%,rgba(8,12,25,0.0) 100%)"></div>
   <!-- Ambient gold glow -->
   <div style="position:absolute;top:-100px;left:-100px;width:600px;height:600px;background:rgba(201,168,76,0.06);border-radius:50%;filter:blur(80px);pointer-events:none"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,#020817 0%,#04112c 50%,#020817 100%);opacity:0.6;pointer-events:none"></div>
+  <div style="position:absolute;top:0;left:40%;width:2px;height:100%;background:linear-gradient(to bottom,transparent,rgba(30,80,160,0.08),transparent);pointer-events:none"></div>
 
   <!-- Content -->
-  <div style="position:relative;z-index:1;width:100%;padding:120px 5vw 80px">
-    <div style="max-width:560px">
+  <div style="position:relative;z-index:1;width:100%;padding:90px 5vw 40px;padding-left:max(5vw,80px)">
+    <div style="max-width:700px">
 
       <!-- Badge -->
-      <div class="hero-animate" style="display:inline-flex;align-items:center;gap:.6rem;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1.75rem;font-family:'Inter',sans-serif">
-        <div style="width:6px;height:6px;border-radius:50%;background:var(--gold-light)"></div>
+      <div class="hero-animate" style="display:inline-flex;align-items:center;gap:.45rem;background:rgba(8,13,26,0.8);border:1px solid rgba(175,135,38,0.2);border-radius:999px;padding:.28rem .85rem;font-size:.63rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:#b8962a;margin-bottom:1.25rem;font-family:'Inter',sans-serif">
+        <div style="width:5px;height:5px;border-radius:50%;background:#b8962a;flex-shrink:0"></div>
         20+ Years of Financial Leadership
       </div>
 
       <!-- Headline -->
-      <h1 class="hero-animate-d1" style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3.2vw,3rem);font-weight:400;line-height:1.15;color:#fff;letter-spacing:-.02em;margin-bottom:1.5rem">
+      <h1 class="hero-animate-d1" style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,4.5vw,4.5rem);font-weight:400;line-height:1.1;color:#fff;letter-spacing:-.02em;margin-bottom:1.5rem">
         Build Your Business.<br/>
         Manage Your Finances.<br/>
-        <em style="color:var(--gold-light);font-style:italic">Grow With Confidence.</em>
+        <em style="color:#E0B94A;font-style:italic;font-size:1.08em;font-weight:500;text-shadow:0 0 20px rgba(212,175,55,.2)">Grow With Confidence.</em>
       </h1>
 
       <!-- Subheadline -->
-      <p class="hero-animate-d2" style="font-size:1rem;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:2.5rem;font-weight:300;max-width:480px;font-family:'Inter',sans-serif">
+      <p class="hero-animate-d2" style="font-size:1rem;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:2rem;font-weight:300;max-width:560px;font-family:'Inter',sans-serif">
         Professional tax filing, bookkeeping, payroll, cross-border services, and business advisory managed through one secure financial workspace.
       </p>
 
       <!-- CTA Buttons -->
       <div class="hero-animate-d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.75rem">
-        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#0a0800;text-decoration:none;font-size:.95rem;font-weight:700;padding:.95rem 2.25rem;border-radius:8px;font-family:'Inter',sans-serif;box-shadow:0 0 40px rgba(201,168,76,0.25)">File My Taxes →</a>
-        <a href="business-launch-tool.html" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-size:.95rem;font-weight:500;padding:.95rem 2.25rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.25);font-family:'Inter',sans-serif;backdrop-filter:blur(4px)">Analyze My Business Idea →</a>
+        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#C9A84C;color:#0a0800;text-decoration:none;font-size:.88rem;font-weight:600;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif">File My Taxes →</a>
+        <a href="business-launch-tool.html" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(8,13,26,0.6);color:#fff;text-decoration:none;font-size:.88rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;border:1px solid rgba(255,255,255,.18);font-family:'Inter',sans-serif;backdrop-filter:blur(6px)">Analyze My Business Idea →</a>
       </div>
 
       <!-- Trust Bar -->
-      <div class="hero-animate-d4" style="display:flex;flex-wrap:wrap;gap:2.25rem;padding-top:1.75rem;border-top:1px solid rgba(255,255,255,.15)">
+      <div class="hero-animate-d4" style="display:flex;flex-wrap:nowrap;gap:3.5rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.12);align-items:flex-start">
 
         <!-- Shield with checkmark -->
         <div style="display:flex;align-items:center;gap:.65rem">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <polyline points="9 12 11 14 15 10"/>
           </svg>
@@ -788,7 +789,7 @@ function hDownloadPL(){
 
         <!-- Padlock -->
         <div style="display:flex;align-items:center;gap:.65rem">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
             <rect x="5" y="11" width="14" height="10" rx="2"/>
             <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
             <circle cx="12" cy="16" r="1.2" fill="#c9a84c"/>
@@ -799,7 +800,7 @@ function hDownloadPL(){
 
         <!-- Person with clock -->
         <div style="display:flex;align-items:center;gap:.65rem">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
             <circle cx="9" cy="7" r="3.5"/>
             <path d="M3 21v-1.5A5.5 5.5 0 0 1 8.5 14h1"/>
             <circle cx="17" cy="17" r="4"/>
@@ -810,14 +811,14 @@ function hDownloadPL(){
 
         <!-- Globe with grid lines -->
         <div style="display:flex;align-items:center;gap:.65rem">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8">
             <circle cx="12" cy="12" r="9.5"/>
             <line x1="2.5" y1="12" x2="21.5" y2="12"/>
             <line x1="12" y1="2.5" x2="12" y2="21.5"/>
             <path d="M12 2.5C9.5 6 8 9 8 12s1.5 6 4 9.5"/>
             <path d="M12 2.5C14.5 6 16 9 16 12s-1.5 6-4 9.5"/>
           </svg>
-          <span style="font-size:.8rem;color:rgba(255,255,255,.7);font-family:'Inter',sans-serif;line-height:1.4">Serving Clients<br/>Across North America</span>
+          <span style="font-size:.8rem;color:rgba(255,255,255,.7);font-family:'Inter',sans-serif;line-height:1.4;white-space:nowrap">Serving Clients<br/>Across North America</span>
         </div>
 
       </div>
@@ -827,7 +828,7 @@ function hDownloadPL(){
 </section>
 
 <!-- CHOOSE YOUR STARTING POINT -->
-<section style="background:#0b0f1c;padding:3.5rem 5vw;border-bottom:1px solid rgba(255,255,255,.06)">
+<section style="background:#0b0f1c;padding:2.5rem 5vw;border-bottom:1px solid rgba(255,255,255,.06)">
   <div style="max-width:1280px;margin:0 auto">
     <div style="text-align:center;margin-bottom:2rem">
       <div style="font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);font-family:'Inter',sans-serif">Choose Your Starting Point</div>
@@ -835,7 +836,7 @@ function hDownloadPL(){
     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.85rem">
 
       <!-- Card 1: Taxes -->
-      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s;box-shadow:0 0 30px rgba(22,61,130,.2);min-height:240px" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
         <div style="display:flex;align-items:center;gap:.85rem">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -850,7 +851,7 @@ function hDownloadPL(){
       </a>
 
       <!-- Card 2: Bookkeeping & Payroll -->
-      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s;box-shadow:0 0 30px rgba(22,61,130,.2);min-height:240px" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
         <div style="display:flex;align-items:center;gap:.85rem">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -860,12 +861,12 @@ function hDownloadPL(){
           </svg>
           <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Need Bookkeeping &amp; Payroll</div>
         </div>
-        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Monthly financial management for growing businesses.</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Professional financial management for growing businesses.</div>
         <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Get Started →</div>
       </a>
 
       <!-- Card 3: Start a Business -->
-      <a href="business-launch-tool.html" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+      <a href="business-launch-tool.html" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s;box-shadow:0 0 30px rgba(22,61,130,.2);min-height:240px" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
         <div style="display:flex;align-items:center;gap:.85rem">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
             <path d="M9 18h6"/>
@@ -874,12 +875,12 @@ function hDownloadPL(){
           </svg>
           <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Want To Start A Business</div>
         </div>
-        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Analyze your idea and receive a custom opportunity report.</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Analyze your idea and discover new opportunities.</div>
         <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Start Now →</div>
       </a>
 
       <!-- Card 4: Cross-Border -->
-      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s;box-shadow:0 0 30px rgba(22,61,130,.2);min-height:240px" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
         <div style="display:flex;align-items:center;gap:.85rem">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
             <circle cx="12" cy="12" r="10"/>
@@ -894,16 +895,16 @@ function hDownloadPL(){
       </a>
 
       <!-- Card 5: Audit Defense -->
-      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
+      <a href="#pricing" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1.5rem 1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.85rem;transition:all .2s;box-shadow:0 0 30px rgba(22,61,130,.2);min-height:240px" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.background='rgba(201,168,76,0.05)'" onmouseout="this.style.borderColor='rgba(255,255,255,.09)';this.style.background='rgba(255,255,255,.04)'">
         <div style="display:flex;align-items:center;gap:.85rem">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <polyline points="9 12 11 14 15 10"/>
           </svg>
-          <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Need Audit Defense</div>
+          <div style="font-size:.92rem;font-weight:700;color:#fff;line-height:1.35;font-family:'Inter',sans-serif">I Need Help With A Premium Audit Assessment</div>
         </div>
-        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Insurance premium audit review, reconciliation, and representation.</div>
-        <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Learn More →</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;font-weight:600">Received a premium audit bill? We help determine whether the amount assessed is accurate.</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--gold-light);font-family:'Inter',sans-serif;margin-top:auto">Book My Assessment →</div>
       </a>
 
     </div>
@@ -1875,7 +1876,7 @@ function hDownloadPL(){
     <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,14,29,1) 0%,transparent 40%)"></div>
     <!-- Text over image -->
     <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 5vw;max-width:1200px;margin:0 auto;left:0;right:0">
-      <div style="max-width:580px">
+      <div style="max-width:700px">
         <div style="display:inline-flex;align-items:center;gap:.5rem;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;font-family:'Inter',sans-serif">
           <div style="width:24px;height:1px;background:var(--gold)"></div>
           Partner Program
