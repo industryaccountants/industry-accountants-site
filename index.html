@@ -44,7 +44,7 @@
     .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
     .nav-wordmark{font-family:'Playfair Display',serif;font-size:1rem;color:#fff;display:none}
     .nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;white-space:nowrap}
-    .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.82rem;transition:color .2s;font-family:'Inter',sans-serif;white-space:nowrap}
+    .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.82rem;font-weight:500;transition:color .2s;font-family:'Inter',sans-serif;white-space:nowrap}
     .nav-links a:hover{color:#c9a84c}
     .nav-actions{display:flex;align-items:center;gap:.75rem}
     .btn-ghost{color:#fff;text-decoration:none;font-size:.82rem;font-weight:500;padding:.45rem .9rem;border:1px solid rgba(255,255,255,.35);border-radius:8px;transition:all .2s;font-family:'Inter',sans-serif;white-space:nowrap}
@@ -718,7 +718,7 @@ function hDownloadPL(){
 </script>
 <nav>
   <a href="/" class="nav-logo" style="text-decoration:none;display:flex;align-items:center">
-    <img src="logo-dark.png" alt="The Industry Accountants" style="height:52px;width:auto;display:block;mix-blend-mode:lighten"/>
+    <img src="logo-dark.png" alt="The Industry Accountants" style="height:66px;width:auto;display:block;mix-blend-mode:lighten"/>
   </a>
   </a>
   <ul class="nav-links">
@@ -737,9 +737,9 @@ function hDownloadPL(){
 </nav>
 
 <!-- HERO BANNER -->
-<section style="position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;background:#020817">
+<section style="position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;background:#0A1E3F">
   <!-- Hero image right side -->
-  <img src="hero-banner-new.png" alt="" style="position:absolute;right:0;top:0;width:65%;height:100%;object-fit:cover;object-position:75% center;opacity:0" onload="this.style.opacity='1';this.style.transition='opacity .8s'"/>
+  <img src="hero-banner-new.png" alt="" style="position:absolute;right:0;top:0;width:65%;height:100%;object-fit:cover;object-position:75% center;opacity:0" data-final-opacity="0.85" onload="this.style.opacity='0.85';this.style.transition='opacity .8s'"/>
   <!-- Gradient overlay — heavy left, fades right -->
   <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,12,25,1) 0%,rgba(8,12,25,1) 38%,rgba(8,12,25,0.75) 52%,rgba(8,12,25,0.2) 70%,rgba(8,12,25,0.0) 100%)"></div>
   <!-- Ambient gold glow -->
@@ -765,14 +765,15 @@ function hDownloadPL(){
       </h1>
 
       <!-- Subheadline -->
-      <p class="hero-animate-d2" style="font-size:1rem;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:2rem;font-weight:300;max-width:560px;font-family:'Inter',sans-serif">
-        Professional tax filing, bookkeeping, payroll, cross-border services, and business advisory managed through one secure financial workspace.
+      <p class="hero-animate-d2" style="font-size:1rem;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:2rem;font-weight:300;max-width:600px;font-family:'Inter',sans-serif">
+        Tax filing, bookkeeping, payroll, cross-border solutions, premium audit assessment, and business advisory services delivered through one secure financial workspace.
       </p>
 
       <!-- CTA Buttons -->
-      <div class="hero-animate-d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.75rem">
-        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#C9A84C;color:#0a0800;text-decoration:none;font-size:.88rem;font-weight:600;padding:.75rem 1.75rem;border-radius:8px;font-family:'Inter',sans-serif">File My Taxes →</a>
-        <a href="business-launch-tool.html" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(8,13,26,0.6);color:#fff;text-decoration:none;font-size:.88rem;font-weight:500;padding:.75rem 1.75rem;border-radius:8px;border:1px solid rgba(255,255,255,.18);font-family:'Inter',sans-serif;backdrop-filter:blur(6px)">Analyze My Business Idea →</a>
+      <div class="hero-animate-d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
+        <a href="portal.html" style="display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,#C9A43A 0%,#D6B24A 50%,#E0C66A 100%);color:#111111;text-decoration:none;font-size:.85rem;font-weight:600;padding:.7rem 1.5rem;border-radius:8px;font-family:'Inter',sans-serif;white-space:nowrap">File My Taxes →</a>
+        <a href="#audit-assessment" style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(8,13,26,0.6);color:#fff;text-decoration:none;font-size:.85rem;font-weight:500;padding:.7rem 1.5rem;border-radius:8px;border:1px solid rgba(201,168,76,.3);font-family:'Inter',sans-serif;backdrop-filter:blur(6px);white-space:nowrap">Premium Audit Assessment →</a>
+        <a href="business-launch-tool.html" style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(8,13,26,0.6);color:#fff;text-decoration:none;font-size:.85rem;font-weight:500;padding:.7rem 1.5rem;border-radius:8px;border:1px solid rgba(255,255,255,.18);font-family:'Inter',sans-serif;backdrop-filter:blur(6px);white-space:nowrap">Analyze My Business Idea →</a>
       </div>
 
       <!-- Trust Bar -->
