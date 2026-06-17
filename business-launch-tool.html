@@ -160,9 +160,41 @@ h1 em{color:var(--gold);font-style:italic}
 .restart-btn:hover{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)}
 
 .footer-note{text-align:center;margin-top:2.5rem;font-size:.68rem;color:rgba(255,255,255,.2);letter-spacing:.04em}
+
+/* ── NAV ── */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(8,14,29,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:0 3vw;height:64px;display:flex;align-items:center;justify-content:space-between}
+.site-nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px}
+.site-nav-logo img{height:44px;object-fit:contain;display:block;mix-blend-mode:lighten}
+.site-nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none}
+.site-nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:500;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:color .2s}
+.site-nav-links a:hover{color:#c9a84c}
+.site-nav-actions{display:flex;align-items:center;gap:.75rem}
+.site-nav-btn-ghost{color:#fff;text-decoration:none;font-size:.82rem;font-weight:500;padding:.45rem .9rem;border:1px solid rgba(255,255,255,.3);border-radius:8px;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.site-nav-btn-ghost:hover{border-color:#c9a84c;color:#c9a84c}
+.site-nav-btn-gold{background:linear-gradient(135deg,#C9A43A 0%,#D6B24A 50%,#E0C66A 100%);color:#111;text-decoration:none;font-size:.82rem;font-weight:700;padding:.45rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+/* Push body content below fixed nav */
+.wrap{padding-top:64px}
 </style>
 </head>
 <body>
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">
+    <img src="logo-dark.png" alt="The Industry Accountants" style="height:44px;width:auto;display:block;mix-blend-mode:lighten"/>
+  </a>
+  <ul class="site-nav-links">
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/business-launch-tool.html">Business Startup</a></li>
+    <li><a href="/#cross-border">Cross-Border</a></li>
+    <li><a href="/#tools">Free Tools</a></li>
+    <li><a href="/#how">How It Works</a></li>
+    <li><a href="/#partners">Partners</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+  </ul>
+  <div class="site-nav-actions">
+    <a href="/portal.html" class="site-nav-btn-ghost">Client Login</a>
+    <a href="/portal.html" class="site-nav-btn-gold">File My Taxes →</a>
+  </div>
+</nav>
 <div class="wrap">
 
   <!-- HEADER -->
