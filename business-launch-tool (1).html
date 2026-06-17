@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>From Idea to Income — The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#080e1d;
+  --navy2:#0d1829;
+  --navy3:#1a2840;
+  --gold:#c9a84c;
+  --gold2:#e0c06a;
+  --gold3:rgba(201,168,76,0.12);
+  --white:#f5f0e8;
+  --gray:#7a8099;
+  --green:#2dd4a0;
+  --red:#f87171;
+}
+
+body{
+  background:var(--navy);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  color:var(--white);
+  overflow-x:hidden;
+}
+
+/* Grid background */
+body::before{display:none}
+
+.wrap{max-width:780px;margin:0 auto;padding:3rem 1.5rem;position:relative;z-index:1}
+
+/* ── HEADER ── */
+.header{text-align:center;margin-bottom:3rem}
+.brand-tag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(201,168,76,.08);border:.5px solid rgba(201,168,76,.25);border-radius:999px;padding:.35rem 1rem;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.brand-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:400;line-height:1.1;margin-bottom:.75rem;letter-spacing:-.02em}
+h1 em{color:var(--gold);font-style:italic}
+.header-sub{font-size:1rem;color:rgba(255,255,255,.45);font-weight:300;max-width:480px;margin:0 auto;line-height:1.7}
+
+/* ── STEP INDICATOR ── */
+.steps-row{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2.5rem;position:relative}
+.step-pip{display:flex;flex-direction:column;align-items:center;gap:.4rem;flex:1;max-width:90px}
+.pip-circle{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:rgba(255,255,255,.3);transition:all .4s}
+.pip-circle.active{background:var(--gold3);border-color:var(--gold);color:var(--gold);box-shadow:0 0 0 4px rgba(201,168,76,.1)}
+.pip-circle.done{background:rgba(45,212,160,.1);border-color:var(--green);color:var(--green)}
+.pip-label{font-size:.58rem;color:rgba(255,255,255,.25);text-align:center;letter-spacing:.04em;text-transform:uppercase;transition:color .4s;line-height:1.3}
+.pip-label.active{color:var(--gold)}.pip-label.done{color:rgba(255,255,255,.4)}
+.pip-line{flex:1;height:1px;background:rgba(255,255,255,.07);margin-bottom:1.2rem;max-width:60px}
+.pip-line.done{background:var(--green)}
+
+/* ── PANELS ── */
+.panel{display:none;animation:fadeUp .5s ease}
+.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── INPUT PANEL ── */
+.input-card{background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.08);border-radius:20px;padding:2.5rem;position:relative;overflow:hidden}
+.input-card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:.5px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.5),transparent)}
+.input-label{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:block}
+.idea-input{width:100%;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.12);border-radius:12px;padding:1.1rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--white);resize:none;min-height:100px;outline:none;transition:border-color .2s;line-height:1.6}
+.idea-input::placeholder{color:rgba(255,255,255,.25)}
+.idea-input:focus{border-color:rgba(201,168,76,.4);box-shadow:0 0 0 3px rgba(201,168,76,.08)}
+.input-meta{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;margin-bottom:1.5rem}
+.input-hint{font-size:.72rem;color:rgba(255,255,255,.25)}
+.char-count{font-size:.72rem;color:rgba(255,255,255,.25);font-family:monospace}
+.examples{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem}
+.ex-chip{background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:999px;padding:.3rem .8rem;font-size:.72rem;color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s}
+.ex-chip:hover{border-color:rgba(201,168,76,.3);color:var(--gold);background:rgba(201,168,76,.06)}
+.analyze-btn{width:100%;background:var(--gold);color:#0a0800;border:none;border-radius:10px;padding:1rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.02em}
+.analyze-btn:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 30px rgba(201,168,76,.25)}
+.analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* ── ANALYZING PANEL ── */
+.analyzing-card{background:rgba(255,255,255,.03);border:.5px solid rgba(201,168,76,.2);border-radius:20px;padding:2.5rem;text-align:center}
+.spinner{width:56px;height:56px;border-radius:50%;border:2px solid rgba(201,168,76,.15);border-top-color:var(--gold);animation:spin 1s linear infinite;margin:0 auto 1.5rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.analyzing-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--white);margin-bottom:.5rem}
+.analyzing-sub{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:2rem}
+.progress-steps{display:flex;flex-direction:column;gap:.6rem;text-align:left;max-width:340px;margin:0 auto}
+.prog-item{display:flex;align-items:center;gap:.75rem;font-size:.8rem;color:rgba(255,255,255,.35);transition:color .4s}
+.prog-item.active{color:var(--white)}.prog-item.done-p{color:var(--green)}
+.prog-icon{width:20px;height:20px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0;transition:all .4s}
+.prog-item.active .prog-icon{border-color:var(--gold);background:var(--gold3);color:var(--gold)}
+.prog-item.done-p .prog-icon{border-color:var(--green);background:rgba(45,212,160,.1);color:var(--green)}
+.idea-preview{background:rgba(201,168,76,.05);border:.5px solid rgba(201,168,76,.15);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.5rem;font-size:.82rem;color:rgba(255,255,255,.6);font-style:italic;text-align:left;max-width:400px;margin-left:auto;margin-right:auto}
+
+/* ── TEASER PANEL ── */
+.teaser-card{background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
+.teaser-top{padding:2rem 2.5rem;border-bottom:.5px solid rgba(255,255,255,.06)}
+.score-row{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.score-circle{position:relative;flex-shrink:0}
+.score-circle svg{transform:rotate(-90deg)}
+.score-number{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-val{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--white);line-height:1}
+.score-lbl{font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em}
+.score-info{flex:1}
+.score-verdict{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white);margin-bottom:.35rem}
+.score-idea{font-size:.8rem;color:rgba(255,255,255,.4);font-style:italic;margin-bottom:.75rem}
+.score-bars{display:flex;flex-direction:column;gap:.4rem}
+.sbar-row{display:flex;align-items:center;gap:.75rem;font-size:.72rem}
+.sbar-label{color:rgba(255,255,255,.4);width:90px;flex-shrink:0}
+.sbar-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:999px;transition:width 1s ease .3s}
+.sbar-pct{color:rgba(255,255,255,.5);width:28px;text-align:right;flex-shrink:0;font-family:monospace}
+
+.teaser-bullets{padding:1.5rem 2.5rem;border-bottom:.5px solid rgba(255,255,255,.06)}
+.teaser-bullets-title{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.bullet-item{display:flex;align-items:flex-start;gap:.75rem;font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:.6rem;line-height:1.5}
+.bullet-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
+
+/* PAYWALL */
+.paywall{padding:2rem 2.5rem;background:rgba(201,168,76,.04)}
+.paywall-locked{display:flex;flex-direction:column;gap:1rem}
+.locked-preview{position:relative;overflow:hidden;border-radius:10px;margin-bottom:.5rem}
+.locked-rows{display:flex;flex-direction:column;gap:.4rem;filter:blur(5px);pointer-events:none;user-select:none;opacity:.5}
+.locked-row{height:14px;background:rgba(255,255,255,.08);border-radius:4px}
+.locked-row:nth-child(2){width:80%}.locked-row:nth-child(3){width:90%}.locked-row:nth-child(4){width:70%}.locked-row:nth-child(5){width:85%}
+.locked-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem}
+.lock-icon{font-size:1.5rem;color:rgba(255,255,255,.4)}
+.lock-text{font-size:.72rem;color:rgba(255,255,255,.4);text-align:center}
+.paywall-header{text-align:center}
+.pw-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--white);margin-bottom:.25rem}
+.pw-sub{font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:1rem;line-height:1.6}
+.pw-includes{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
+.pw-item{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:rgba(255,255,255,.55)}
+.pw-check{color:var(--green);font-weight:700;flex-shrink:0}
+.pay-btn{width:100%;background:var(--gold);color:#0a0800;border:none;border-radius:10px;padding:1rem;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.pay-btn:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 30px rgba(201,168,76,.3)}
+.pay-secure{text-align:center;font-size:.68rem;color:rgba(255,255,255,.25);margin-top:.6rem}
+
+/* ── FULL REPORT PANEL ── */
+.report-card{background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
+.report-header{padding:1.75rem 2.5rem;border-bottom:.5px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.report-title-wrap{}
+.report-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.25rem}
+.report-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white)}
+.report-badge{background:rgba(45,212,160,.1);border:.5px solid rgba(45,212,160,.25);border-radius:999px;padding:.3rem 1rem;font-size:.68rem;color:var(--green);font-weight:600}
+.report-body{padding:2rem 2.5rem;display:flex;flex-direction:column;gap:1.75rem}
+.report-section{}
+.rs-title{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:.5px solid rgba(255,255,255,.06)}
+.report-text{font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.8;white-space:pre-wrap}
+.report-loading{display:flex;align-items:center;gap:.75rem;font-size:.82rem;color:rgba(255,255,255,.4)}
+.mini-spin{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,.1);border-top-color:var(--gold);animation:spin 1s linear infinite;flex-shrink:0}
+.cta-bar{background:var(--navy2);border:.5px solid rgba(201,168,76,.2);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:.5rem}
+.cta-text{}
+.cta-head{font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:2px}
+.cta-sub-text{font-size:.72rem;color:rgba(255,255,255,.35)}
+.cta-link{background:var(--gold);color:#0a0800;border:none;border-radius:8px;padding:.6rem 1.4rem;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
+.cta-link:hover{background:var(--gold2)}
+
+/* ── UTILS ── */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+.restart-btn{display:block;margin:1.5rem auto 0;background:transparent;border:.5px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:.78rem;padding:.5rem 1.25rem;cursor:pointer;transition:all .2s}
+.restart-btn:hover{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)}
+
+.footer-note{text-align:center;margin-top:2.5rem;font-size:.68rem;color:rgba(255,255,255,.2);letter-spacing:.04em}
+
+/* ── NAV ── */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(8,14,29,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:0 3vw;height:64px;display:flex;align-items:center;justify-content:space-between}
+.site-nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px}
+.site-nav-logo img{height:44px;object-fit:contain;display:block;mix-blend-mode:lighten}
+.site-nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none}
+.site-nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:500;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:color .2s}
+.site-nav-links a:hover{color:#c9a84c}
+.site-nav-actions{display:flex;align-items:center;gap:.75rem}
+.site-nav-btn-ghost{color:#fff;text-decoration:none;font-size:.82rem;font-weight:500;padding:.45rem .9rem;border:1px solid rgba(255,255,255,.3);border-radius:8px;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.site-nav-btn-ghost:hover{border-color:#c9a84c;color:#c9a84c}
+.site-nav-btn-gold{background:linear-gradient(135deg,#C9A43A 0%,#D6B24A 50%,#E0C66A 100%);color:#111;text-decoration:none;font-size:.82rem;font-weight:700;padding:.45rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+/* Push body content below fixed nav */
+.wrap{padding-top:64px}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">
+    <img src="logo-dark.png" alt="The Industry Accountants" style="height:44px;width:auto;display:block;mix-blend-mode:lighten"/>
+  </a>
+  <ul class="site-nav-links">
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/business-launch-tool.html">Business Startup</a></li>
+    <li><a href="/#cross-border">Cross-Border</a></li>
+    <li><a href="/#tools">Free Tools</a></li>
+    <li><a href="/#how">How It Works</a></li>
+    <li><a href="/#partners">Partners</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+  </ul>
+  <div class="site-nav-actions">
+    <a href="/portal.html" class="site-nav-btn-ghost">Client Login</a>
+    <a href="/portal.html" class="site-nav-btn-gold">File My Taxes →</a>
+  </div>
+</nav>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand-tag"><div class="brand-dot"></div>The Industry Accountants</div>
+    <h1>From Idea to <em>Profitable Business</em></h1>
+    <p class="header-sub">Enter your business idea. Our AI analyzes viability, market potential, and gives you a complete launch roadmap.</p>
+  </div>
+
+  <!-- STEP INDICATOR -->
+  <div class="steps-row">
+    <div class="step-pip"><div class="pip-circle active" id="pip-0">1</div><div class="pip-label active" id="pipl-0">Your Idea</div></div>
+    <div class="pip-line" id="line-0"></div>
+    <div class="step-pip"><div class="pip-circle" id="pip-1">2</div><div class="pip-label" id="pipl-1">Analyzing</div></div>
+    <div class="pip-line" id="line-1"></div>
+    <div class="step-pip"><div class="pip-circle" id="pip-2">3</div><div class="pip-label" id="pipl-2">Your Score</div></div>
+    <div class="pip-line" id="line-2"></div>
+    <div class="step-pip"><div class="pip-circle" id="pip-3">4</div><div class="pip-label" id="pipl-3">Full Report</div></div>
+  </div>
+
+  <!-- PANEL 0: INPUT -->
+  <div class="panel active" id="panel-0">
+    <div class="input-card">
+      <label class="input-label">Describe your business idea</label>
+      <textarea class="idea-input" id="ideaInput" placeholder="e.g. A mobile dog grooming service for busy professionals in downtown Toronto. I want to offer premium grooming packages with online booking..." maxlength="600"></textarea>
+      <div class="input-meta">
+        <span class="input-hint">Be specific — the more detail, the better your analysis</span>
+        <span class="char-count" id="charCount">0 / 600</span>
+      </div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.3);margin-bottom:.6rem">Try an example:</div>
+      <div class="examples">
+        <div class="ex-chip" onclick="setExample('A bookkeeping and payroll service for small restaurants in Toronto. Monthly retainer model.')">Restaurant bookkeeping</div>
+        <div class="ex-chip" onclick="setExample('An online tutoring platform for high school students preparing for university entrance exams in Ontario.')">Online tutoring platform</div>
+        <div class="ex-chip" onclick="setExample('A short-term Airbnb rental management company for Canadian property owners with US vacation properties in Florida.')">Airbnb management</div>
+        <div class="ex-chip" onclick="setExample('A premium meal prep delivery service targeting busy professionals and families in the GTA.')">Meal prep delivery</div>
+      </div>
+      <button class="analyze-btn" id="analyzeBtn" onclick="startAnalysis()">Analyze My Business Idea — Free</button>
+    </div>
+  </div>
+
+  <!-- PANEL 1: ANALYZING -->
+  <div class="panel" id="panel-1">
+    <div class="analyzing-card">
+      <div class="spinner"></div>
+      <div class="analyzing-title">Analyzing your idea...</div>
+      <div class="analyzing-sub">Our AI is reviewing your concept across multiple dimensions</div>
+      <div class="idea-preview" id="ideaPreviewText"></div>
+      <div class="progress-steps">
+        <div class="prog-item" id="prog-0"><div class="prog-icon">1</div>Scanning market opportunity & demand</div>
+        <div class="prog-item" id="prog-1"><div class="prog-icon">2</div>Evaluating competition landscape</div>
+        <div class="prog-item" id="prog-2"><div class="prog-icon">3</div>Estimating startup costs & revenue</div>
+        <div class="prog-item" id="prog-3"><div class="prog-icon">4</div>Calculating viability score</div>
+        <div class="prog-item" id="prog-4"><div class="prog-icon">5</div>Preparing your teaser report</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 2: TEASER + PAYWALL -->
+  <div class="panel" id="panel-2">
+    <div class="teaser-card">
+      <div class="teaser-top">
+        <div class="score-row">
+          <div class="score-circle">
+            <svg width="90" height="90" viewBox="0 0 90 90">
+              <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/>
+              <circle cx="45" cy="45" r="38" fill="none" stroke="var(--gold)" stroke-width="6"
+                stroke-linecap="round" stroke-dasharray="239" id="scoreArc" stroke-dashoffset="239"
+                style="transition:stroke-dashoffset 1.2s ease .3s"/>
+            </svg>
+            <div class="score-number">
+              <div class="score-val" id="scoreNum">--</div>
+              <div class="score-lbl">/ 100</div>
+            </div>
+          </div>
+          <div class="score-info">
+            <div class="score-verdict" id="scoreVerdict">Analyzing...</div>
+            <div class="score-idea" id="scoreIdeaLabel"></div>
+            <div class="score-bars" id="scoreBars"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="teaser-bullets" id="teaserBullets">
+        <div class="teaser-bullets-title">Key findings (preview)</div>
+        <div id="bulletList"></div>
+      </div>
+
+      <div class="paywall">
+        <div class="paywall-locked">
+          <div class="locked-preview">
+            <div class="locked-rows">
+              <div class="locked-row"></div><div class="locked-row"></div><div class="locked-row"></div><div class="locked-row"></div><div class="locked-row"></div>
+            </div>
+            <div class="locked-overlay">
+              <div class="lock-icon">+</div>
+              <div class="lock-text">Full report locked<br/>Business plan, projections & launch roadmap</div>
+            </div>
+          </div>
+          <div class="paywall-header">
+            <div class="pw-title">Professional Financial Analysis Report</div>
+            <div class="pw-sub">Get your complete AI-generated business launch report — everything you need to validate, plan, and launch with confidence.</div>
+          </div>
+          <div class="pw-includes" style="grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem">
+            <div class="pw-item"><span class="pw-check">+</span>Market Viability Score</div>
+            <div class="pw-item"><span class="pw-check">+</span>Startup Cost Estimate</div>
+            <div class="pw-item"><span class="pw-check">+</span>Revenue Potential</div>
+            <div class="pw-item"><span class="pw-check">+</span>Competitive Analysis</div>
+            <div class="pw-item"><span class="pw-check">+</span>SWOT Analysis</div>
+            <div class="pw-item"><span class="pw-check">+</span>Launch Roadmap</div>
+            <div class="pw-item"><span class="pw-check">+</span>90-Day Action Plan</div>
+            <div class="pw-item"><span class="pw-check">+</span>Financial Projections</div>
+            <div class="pw-item"><span class="pw-check">+</span>Business Structure Rec.</div>
+            <div class="pw-item"><span class="pw-check">+</span>Tax Considerations</div>
+            <div class="pw-item" style="grid-column:1/-1"><span class="pw-check">+</span>PDF Business Blueprint</div>
+          </div>
+          <button class="pay-btn" onclick="unlockReport()">Get My Business Report — $49</button>
+          <div class="pay-secure">Secure payment via Stripe · Instant access · One-time fee</div>
+        </div>
+      </div>
+    </div>
+    <button class="restart-btn" onclick="restart()">Start over with a different idea</button>
+  </div>
+
+  <!-- PANEL 3: FULL REPORT -->
+  <div class="panel" id="panel-3">
+    <div class="report-card">
+      <div class="report-header">
+        <div class="report-title-wrap">
+          <div class="report-eyebrow">Business Launch Report</div>
+          <div class="report-title" id="reportTitle">Your Business Plan</div>
+        </div>
+        <div class="report-badge">Full Report Unlocked</div>
+      </div>
+      <div class="report-body" id="reportBody">
+        <div class="report-loading"><div class="mini-spin"></div>Generating your complete report...</div>
+      </div>
+    </div>
+    <div class="cta-bar">
+      <div class="cta-text">
+        <div class="cta-head">Ready to make this real?</div>
+        <div class="cta-sub-text">Book a free consultation — we handle the setup, filings, and bookkeeping so you can focus on growth.</div>
+      </div>
+      <button class="cta-link" onclick="window.open('portal.html','_blank')">Book a Consultation</button>
+    </div>
+    <button class="restart-btn" onclick="restart()">Analyze another idea</button>
+  </div>
+
+</div><!-- /wrap -->
+
+<div class="footer-note">The Industry Accountants · AI-Powered Business Analysis · Powered by Advanced Language Models</div>
+
+<script>
+let currentIdea = '';
+let teaserData = null;
+
+// ── Char counter ──
+document.getElementById('ideaInput').addEventListener('input', function(){
+  document.getElementById('charCount').textContent = this.value.length + ' / 600';
+});
+
+function setExample(text){
+  document.getElementById('ideaInput').value = text;
+  document.getElementById('charCount').textContent = text.length + ' / 600';
+}
+
+// ── Step management ──
+function goToStep(n){
+  document.querySelectorAll('.panel').forEach((p,i) => {
+    p.classList.toggle('active', i === n);
+  });
+  for(let i=0; i<4; i++){
+    const pip = document.getElementById('pip-'+i);
+    const lbl = document.getElementById('pipl-'+i);
+    const line = document.getElementById('line-'+i);
+    pip.classList.remove('active','done');
+    lbl.classList.remove('active','done');
+    if(line){ line.classList.remove('done'); }
+    if(i < n){ pip.classList.add('done'); lbl.classList.add('done'); if(line) line.classList.add('done'); }
+    if(i === n){ pip.classList.add('active'); lbl.classList.add('active'); }
+  }
+}
+
+// ── Analysis ──
+async function startAnalysis(){
+  const idea = document.getElementById('ideaInput').value.trim();
+  if(idea.length < 20){
+    document.getElementById('ideaInput').style.borderColor = 'rgba(248,113,113,0.5)';
+    setTimeout(() => document.getElementById('ideaInput').style.borderColor = '', 2000);
+    return;
+  }
+  currentIdea = idea;
+  document.getElementById('ideaPreviewText').textContent = '"' + idea.substring(0,120) + (idea.length>120?'...':'"');
+  goToStep(1);
+  animateProgressSteps();
+  await fetchTeaserAnalysis(idea);
+}
+
+function animateProgressSteps(){
+  const items = document.querySelectorAll('.prog-item');
+  items.forEach((item,i) => {
+    setTimeout(() => {
+      items.forEach(x => x.classList.remove('active'));
+      item.classList.add('active');
+      if(i > 0) items[i-1].classList.remove('active');
+      if(i > 0) items[i-1].classList.add('done-p');
+    }, i * 1200);
+  });
+}
+
+async function fetchTeaserAnalysis(idea){
+  const prompt = `You are a startup business analyst. Analyze this business idea and respond ONLY with valid JSON, no markdown, no explanation outside the JSON.
+
+Business idea: "${idea}"
+
+Respond with this exact JSON structure:
+{
+  "score": <number 0-100>,
+  "verdict": "<3-5 word verdict like 'High Viability' or 'Promising with Risks'>",
+  "dimensions": {
+    "market": <number 0-100>,
+    "competition": <number 0-100>,
+    "profitability": <number 0-100>,
+    "feasibility": <number 0-100>
+  },
+  "bullets": [
+    "<positive insight about the idea, 1-2 sentences>",
+    "<second positive or notable insight, 1-2 sentences>",
+    "<one key risk or challenge to consider, 1-2 sentences>"
+  ]
+}`;
+
+  try {
+    const response = await fetch('/.netlify/functions/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await response.json();
+    const raw = data.content[0].text.trim().replace(/```json|```/g,'').trim();
+    teaserData = JSON.parse(raw);
+  } catch(e){
+    // Fallback demo data
+    teaserData = {
+      score: 74,
+      verdict: "Strong Viability",
+      dimensions: { market: 78, competition: 65, profitability: 80, feasibility: 72 },
+      bullets: [
+        "This idea targets a clear and underserved market with strong demand signals and room for a differentiated offering.",
+        "The revenue model is straightforward and scalable — recurring or repeat customers are highly likely in this space.",
+        "Competition exists but can be overcome with strong positioning, consistent execution, and early customer relationships."
+      ]
+    };
+  }
+
+  // Wait for progress animation then show teaser
+  setTimeout(() => renderTeaser(), 6500);
+}
+
+function renderTeaser(){
+  const d = teaserData;
+  goToStep(2);
+
+  // Score arc
+  const circumference = 239;
+  const offset = circumference - (d.score / 100) * circumference;
+  setTimeout(() => {
+    document.getElementById('scoreArc').style.strokeDashoffset = offset;
+    document.getElementById('scoreNum').textContent = d.score;
+    // Color based on score
+    const color = d.score >= 70 ? 'var(--green)' : d.score >= 50 ? 'var(--gold)' : 'var(--red)';
+    document.getElementById('scoreArc').style.stroke = color;
+    document.getElementById('scoreNum').style.color = color;
+  }, 300);
+
+  document.getElementById('scoreVerdict').textContent = d.verdict;
+  document.getElementById('scoreIdeaLabel').textContent = '"' + currentIdea.substring(0,60) + (currentIdea.length>60?'...':'"');
+
+  // Score bars
+  const bars = document.getElementById('scoreBars');
+  bars.innerHTML = Object.entries(d.dimensions).map(([k,v]) => `
+    <div class="sbar-row">
+      <div class="sbar-label">${k.charAt(0).toUpperCase()+k.slice(1)}</div>
+      <div class="sbar-track"><div class="sbar-fill" style="width:0%;background:${v>=70?'var(--green)':v>=50?'var(--gold)':'var(--red)'}" data-w="${v}%"></div></div>
+      <div class="sbar-pct">${v}</div>
+    </div>`).join('');
+  setTimeout(() => {
+    bars.querySelectorAll('.sbar-fill').forEach(b => b.style.width = b.dataset.w);
+  }, 500);
+
+  // Bullets
+  const bulletList = document.getElementById('bulletList');
+  bulletList.innerHTML = d.bullets.map(b => `
+    <div class="bullet-item"><div class="bullet-dot"></div><span>${b}</span></div>`).join('');
+}
+
+// ── Stripe Placeholder ──
+function unlockReport(){
+  // STRIPE PLACEHOLDER
+  // Replace this with your actual Stripe Payment Link or Stripe.js integration
+  // e.g. window.location.href = 'https://buy.stripe.com/YOUR_PAYMENT_LINK';
+  
+  // For demo — simulate payment success
+  const confirmed = confirm('Stripe integration pending setup.\n\nFor demo purposes, click OK to preview the full report.');
+  if(confirmed) paymentSuccess();
+}
+
+function paymentSuccess(){
+  goToStep(3);
+  fetchFullReport();
+}
+
+async function fetchFullReport(){
+  document.getElementById('reportTitle').textContent = currentIdea.substring(0,50) + (currentIdea.length>50?'...':'');
+
+  const prompt = `You are a senior business consultant and accountant. Write a complete business launch report for the following idea. Be specific, practical, and tailored to this exact idea. Use clean plain text with section headers in ALL CAPS followed by a colon.
+
+Business idea: "${currentIdea}"
+
+Write the following sections:
+EXECUTIVE SUMMARY: (2-3 sentences)
+MARKET OPPORTUNITY: (specific market size, target customer, demand signals)
+COMPETITIVE LANDSCAPE: (who the competitors are, how to differentiate)
+REVENUE MODEL & PRICING: (specific pricing recommendations, revenue streams)
+12-MONTH FINANCIAL PROJECTIONS: (Month 1-3 startup phase, Month 4-6 early revenue, Month 7-12 growth targets with rough numbers)
+STARTUP COSTS: (itemized list of what you need to launch)
+BUSINESS ENTITY RECOMMENDATION: (LLC vs sole prop vs corporation and why, specific to this business)
+LAUNCH CHECKLIST: (10 specific action items in order)
+RISK ASSESSMENT: (top 3 risks and how to mitigate each)
+CLOSING RECOMMENDATION: (1 paragraph, direct and encouraging)
+
+Keep each section focused and practical. Total response should be thorough but not padded.`;
+
+  try {
+    const response = await fetch('/.netlify/functions/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content[0].text;
+    renderFullReport(text);
+  } catch(e){
+    renderFullReport('Unable to generate report at this time. Please try again or contact us directly at portal.html');
+  }
+}
+
+function renderFullReport(text){
+  // Parse sections from the text
+  const sections = text.split(/\n(?=[A-Z][A-Z\s&]+:)/);
+  const body = document.getElementById('reportBody');
+  
+  if(sections.length <= 1){
+    // Fallback: render as paragraphs
+    body.innerHTML = `<div class="report-section"><div class="report-text">${text}</div></div>`;
+    return;
+  }
+
+  body.innerHTML = sections.map(section => {
+    const colonIdx = section.indexOf(':');
+    if(colonIdx === -1) return `<div class="report-section"><div class="report-text">${section.trim()}</div></div>`;
+    const title = section.substring(0, colonIdx).trim();
+    const content = section.substring(colonIdx+1).trim();
+    return `
+      <div class="report-section">
+        <div class="rs-title">${title}</div>
+        <div class="report-text">${content}</div>
+      </div>`;
+  }).join('');
+}
+
+function restart(){
+  currentIdea = '';
+  teaserData = null;
+  document.getElementById('ideaInput').value = '';
+  document.getElementById('charCount').textContent = '0 / 600';
+  document.getElementById('scoreArc').style.strokeDashoffset = '239';
+  document.getElementById('scoreNum').textContent = '--';
+  document.querySelectorAll('.prog-item').forEach(p => p.classList.remove('active','done-p'));
+  document.getElementById('reportBody').innerHTML = '<div class="report-loading"><div class="mini-spin"></div>Generating your complete report...</div>';
+  goToStep(0);
+}
+// Pre-fill from URL if idea was passed
+(function(){
+  try{
+    var p=new URLSearchParams(window.location.search);
+    var idea=p.get('idea');
+    if(idea){
+      window.addEventListener('load',function(){
+        var el=document.getElementById('ideaInput');
+        if(el){el.value=idea;document.getElementById('charCount').textContent=idea.length+' / 600';}
+      });
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
