@@ -273,9 +273,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 <!-- ═══════ SCREEN 1: AUTH ═══════ -->
 <div id="screen-auth" class="screen active">
   <div class="auth-left">
-    <div class="left-logo">
-      <div class="left-badge">ITA</div>
-      <span class="left-logo-name">The Industry Accountants</span>
+    <div class="left-logo" style="display:flex;flex-direction:column;gap:10px">
+      <a href="/" style="display:flex;align-items:center;text-decoration:none">
+        <img src="logo-dark.png" alt="The Industry Accountants" style="height:52px;width:auto;display:block;mix-blend-mode:lighten"/>
+      </a>
+      <a href="/" style="display:inline-flex;align-items:center;gap:5px;font-size:.72rem;color:rgba(255,255,255,.35);text-decoration:none;font-family:'DM Sans',sans-serif;transition:color .2s;margin-left:2px" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,.35)'">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to website
+      </a>
     </div>
     <div class="left-headline">
       <h1>Financial Clarity<br><em>Starts Here.</em></h1>
@@ -301,11 +306,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
       </div>
     </div>
     <div class="left-footer">© 2026 The Industry Accountants · All data encrypted in transit and at rest</div>
+
   </div>
   <div class="auth-right">
     <div class="login-card">
       <div class="login-card-logo">
-        <div class="login-card-badge">ITA</div>
+        <img src="logo-dark.png" alt="The Industry Accountants" style="height:48px;width:auto;display:block;mix-blend-mode:lighten;margin:0 auto"/>
         <div class="login-card-title">Secure Financial Access</div>
         <div class="login-card-sub">Intelligent systems. Trusted professionals.</div>
       </div>
@@ -476,7 +482,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 <div id="screen-portal" class="screen">
   <div class="portal-topbar">
     <div class="topbar-brand">
-      <div class="topbar-badge">ITA</div>
+      <img src="logo-dark.png" alt="The Industry Accountants" style="height:38px;width:auto;display:block;mix-blend-mode:lighten"/>
       <span class="topbar-name">The Industry Accountants</span>
     </div>
     <div class="topbar-right">
