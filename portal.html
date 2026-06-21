@@ -20,13 +20,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 
 /* ── AUTH ── */
 #screen-auth{min-height:100vh;flex-direction:row}
-.auth-left{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;position:relative;overflow:hidden}
+.auth-left{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:24px 48px 40px;position:relative;overflow:hidden}
 .auth-left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(201,168,76,.07) 0%,transparent 60%)}
-.auth-right{width:480px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:40px;background:rgba(255,255,255,.03);border-left:1px solid var(--border)}
+.auth-right{width:460px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,.03);border-left:1px solid var(--border)}
 .left-badge{width:42px;height:42px;background:var(--navy3);border:1px solid var(--border-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.85rem;color:var(--gold)}
 .left-logo{display:flex;align-items:center;gap:12px}
 .left-logo-name{font-size:.9rem;color:rgba(255,255,255,.7)}
-.left-headline{margin-top:60px}
+.left-headline{margin-top:24px}
 .left-headline h1{font-family:'Playfair Display',serif;font-size:3rem;font-weight:400;line-height:1.2;margin-bottom:12px}
 .left-headline h1 em{color:var(--gold);font-style:italic}
 .left-headline p{color:var(--muted);font-size:1rem;line-height:1.65;max-width:420px}
@@ -285,23 +285,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
     <div class="left-headline">
       <h1>Financial Clarity<br><em>Starts Here.</em></h1>
       <p>Institutional-grade systems. Human oversight. Complete visibility.</p>
+      <p style="font-size:.82rem;color:rgba(201,168,76,.7);margin-top:8px;font-style:italic">Trusted by business owners across North America for more than 20 years.</p>
       <div class="left-metrics">
-        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot green"></span><span class="metric-label">Active Services</span></div><span class="metric-val">3</span></div>
-        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gold"></span><span class="metric-label">Pending Documents</span></div><span class="metric-val">1</span></div>
-        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gold"></span><span class="metric-label">New Messages</span></div><span class="metric-val">2</span></div>
-        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gray"></span><span class="metric-label">Upcoming Deadlines</span></div><span class="metric-val">1</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot green"></span><span class="metric-label">Tax Return 2025</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(45,212,160,.9)">In Review</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot green"></span><span class="metric-label">Payroll Setup</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(45,212,160,.9)">Complete</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gold"></span><span class="metric-label">Bookkeeping Review</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(201,168,76,.9)">Awaiting Docs</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gold"></span><span class="metric-label">Premium Audit Assessment</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(201,168,76,.9)">Scheduled</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gray"></span><span class="metric-label">Cross-Border Consultation</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(255,255,255,.4)">Completed</span></div>
       </div>
       <div class="left-features">
-        <div class="features-label">Client Portal Features</div>
+        <div class="features-label">Your Secure Financial Workspace</div>
         <div class="features-grid">
-          <div class="feature-item"><span class="feature-check">✓</span>Real-Time Service Tracking</div>
-          <div class="feature-item"><span class="feature-check">✓</span>Secure Financial Vault</div>
-          <div class="feature-item"><span class="feature-check">✓</span>Financial Tools</div>
-          <div class="feature-item"><span class="feature-check">✓</span>Secure Messaging</div>
-          <div class="feature-item"><span class="feature-check">✓</span>Invoice Management</div>
-          <div class="feature-item"><span class="feature-check">✓</span>Cross-Border Services</div>
-          <div class="feature-item"><span class="feature-check">✓</span>Reports Library</div>
-          <div class="feature-item"><span class="feature-check">✓</span>Compliance Monitoring</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Secure Digital Document Exchange</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Bank-Level Encryption</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Paperless Tax Filing</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Multi-Factor Authentication</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Online Bookkeeping Management</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Dedicated Advisor Support</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Client Messaging & Collaboration</div>
+          <div class="feature-item"><span class="feature-check">✓</span>20+ Years Financial Experience</div>
         </div>
       </div>
     </div>
@@ -315,7 +317,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
         <div class="login-card-title">Secure Financial Access</div>
         <div class="login-card-sub">Intelligent systems. Trusted professionals.</div>
       </div>
-      <div class="auth-tabs">
+      <div class="auth-tabs" style="display:none">
         <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign In</button>
         <button class="auth-tab" onclick="switchAuthTab('signup')">Get Started</button>
       </div>
@@ -327,6 +329,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
         <input class="auth-input" id="si-pw" type="password" placeholder="••••••••"/>
         <button class="auth-btn" id="si-btn" onclick="doSignIn()">Sign In →</button>
         <div class="auth-forgot"><a onclick="doReset()">Forgot password?</a></div>
+        <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">
+          <span style="font-size:.78rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif">New client? </span>
+          <a onclick="switchAuthTab('signup')" style="font-size:.78rem;color:#c9a84c;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;font-weight:500">Create your account →</a>
+        </div>
       </div>
       <div id="signup-form" style="display:none">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -342,10 +348,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
         <button class="auth-btn" id="su-btn" onclick="doSignUp()">Create Account →</button>
       </div>
       <div class="security-badges">
-        <div class="sec-item">🔒 256-Bit Encryption</div>
-        <div class="sec-item">🛡 Multi-Factor Authentication Ready</div>
-        <div class="sec-item">✓ Secure Client Portal</div>
-        <div class="sec-item">⚡ Industry Standard Data Protection</div>
+        <div class="sec-item">🔒 Bank-Level Encryption</div>
+        <div class="sec-item">🛡 Multi-Factor Authentication</div>
+        <div class="sec-item">📄 Secure Document Exchange</div>
+        <div class="sec-item">✓ Industry Standard Data Protection</div>
+        <div class="sec-item">👤 20+ Years Financial Experience</div>
+        <div class="sec-item">💬 Dedicated Advisor Support</div>
       </div>
     </div>
   </div>
