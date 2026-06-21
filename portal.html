@@ -19,7 +19,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .screen{display:none}.screen.active{display:flex}#screen-portal.active{display:block}
 
 /* ── AUTH ── */
-#screen-auth{min-height:100vh;flex-direction:row}
+#screen-auth{min-height:100vh;flex-direction:row;position:relative}
+.bg-dashboard-preview{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(70vw,900px);height:auto;opacity:.12;filter:blur(.5px);pointer-events:none;z-index:0}
+.bg-dashboard-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,.10) 0%,transparent 70%);pointer-events:none;z-index:0}
+.auth-left,.auth-right{position:relative;z-index:1}
 .auth-left{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:24px 48px 40px;position:relative;overflow:hidden}
 .auth-left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(201,168,76,.07) 0%,transparent 60%)}
 .auth-right{width:460px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,.03);border-left:1px solid var(--border)}
@@ -272,6 +275,87 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 
 <!-- ═══════ SCREEN 1: AUTH ═══════ -->
 <div id="screen-auth" class="screen active">
+  <div class="bg-dashboard-glow"></div>
+  <svg class="bg-dashboard-preview" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+      <linearGradient id="gprev" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e0c06a"/></linearGradient>
+    </defs>
+    <!-- Tax Return Status -->
+    <rect x="20" y="20" width="220" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="38" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Tax Return Status</text>
+    <rect x="38" y="64" width="184" height="6" rx="3" fill="#c9a84c" opacity=".5"/>
+    <rect x="38" y="80" width="140" height="6" rx="3" fill="#c9a84c" opacity=".3"/>
+    <text x="38" y="116" fill="#2dd4a0" font-family="DM Sans" font-size="11">In Review</text>
+
+    <!-- Secure Document Center -->
+    <rect x="260" y="20" width="220" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="278" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Document Center</text>
+    <rect x="278" y="62" width="184" height="22" rx="5" stroke="#c9a84c" stroke-width="1" opacity=".5"/>
+    <rect x="278" y="90" width="184" height="22" rx="5" stroke="#c9a84c" stroke-width="1" opacity=".3"/>
+
+    <!-- Payroll Overview -->
+    <rect x="500" y="20" width="200" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="518" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Payroll Overview</text>
+    <rect x="518" y="70" width="14" height="40" fill="#c9a84c" opacity=".4"/>
+    <rect x="538" y="55" width="14" height="55" fill="#c9a84c" opacity=".5"/>
+    <rect x="558" y="80" width="14" height="30" fill="#c9a84c" opacity=".4"/>
+    <rect x="578" y="60" width="14" height="50" fill="#c9a84c" opacity=".6"/>
+
+    <!-- Revenue Analytics -->
+    <rect x="720" y="20" width="160" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="736" y="48" fill="#e0c06a" font-family="DM Sans" font-size="12" font-weight="600">Revenue</text>
+    <polyline points="736,110 760,90 784,98 808,70 832,80 856,55" stroke="#c9a84c" stroke-width="2" fill="none" opacity=".6"/>
+
+    <!-- Premium Audit Assessment - emphasized -->
+    <rect x="20" y="160" width="280" height="130" rx="10" stroke="#e0c06a" stroke-width="1.6"/>
+    <text x="38" y="190" fill="#e0c06a" font-family="DM Sans" font-size="14" font-weight="700">Premium Audit Assessment</text>
+    <text x="38" y="212" fill="rgba(255,255,255,.5)" font-family="DM Sans" font-size="11">Potential Savings Review</text>
+    <circle cx="50" cy="250" r="5" fill="#c9a84c"/>
+    <text x="64" y="254" fill="#c9a84c" font-family="DM Sans" font-size="11">Scheduled</text>
+
+    <!-- Cross-Border Services -->
+    <rect x="320" y="160" width="200" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="338" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Cross-Border</text>
+    <circle cx="420" cy="240" r="30" stroke="#c9a84c" stroke-width="6" fill="none" opacity=".4"/>
+    <circle cx="420" cy="240" r="30" stroke="#e0c06a" stroke-width="6" fill="none" stroke-dasharray="60 130" opacity=".7"/>
+
+    <!-- Client Messages -->
+    <rect x="540" y="160" width="170" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="558" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Messages</text>
+    <rect x="558" y="204" width="134" height="18" rx="9" fill="#c9a84c" opacity=".25"/>
+    <rect x="558" y="230" width="100" height="18" rx="9" fill="#c9a84c" opacity=".15"/>
+    <circle cx="685" cy="180" r="9" fill="#e0c06a"/>
+    <text x="681" y="184" fill="#0a0f1c" font-family="DM Sans" font-size="9" font-weight="700">3</text>
+
+    <!-- Outstanding Tasks -->
+    <rect x="730" y="160" width="150" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="748" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Tasks</text>
+    <rect x="748" y="204" width="14" height="14" rx="3" stroke="#c9a84c" stroke-width="1.4"/>
+    <rect x="748" y="228" width="14" height="14" rx="3" fill="#c9a84c" opacity=".5"/>
+    <line x1="772" y1="211" x2="855" y2="211" stroke="#c9a84c" stroke-width="2" opacity=".4"/>
+    <line x1="772" y1="235" x2="845" y2="235" stroke="#c9a84c" stroke-width="2" opacity=".3"/>
+
+    <!-- Invoice Summary -->
+    <rect x="20" y="310" width="240" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="38" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Invoices</text>
+    <text x="38" y="375" fill="#fff" font-family="Georgia,serif" font-size="22" opacity=".7">$1,240</text>
+    <text x="38" y="396" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">1 Outstanding</text>
+
+    <!-- Advisor Communications -->
+    <rect x="280" y="310" width="260" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="298" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Advisor</text>
+    <circle cx="312" cy="370" r="14" fill="#c9a84c" opacity=".3"/>
+    <text x="336" y="368" fill="#fff" font-family="DM Sans" font-size="11" opacity=".7">Sarah M.</text>
+    <text x="336" y="384" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">Senior Advisor</text>
+
+    <!-- Bottom long bar - Bookkeeping -->
+    <rect x="560" y="310" width="320" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="578" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Bookkeeping Review</text>
+    <rect x="578" y="356" width="284" height="8" rx="4" fill="#c9a84c" opacity=".2"/>
+    <rect x="578" y="356" width="170" height="8" rx="4" fill="#c9a84c" opacity=".6"/>
+    <text x="578" y="392" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">Awaiting Documents</text>
+  </svg>
+
   <div class="auth-left">
     <div class="left-logo" style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
       <a href="/" style="display:inline-flex;align-items:center;gap:6px;font-size:.74rem;color:rgba(255,255,255,.4);text-decoration:none;font-family:'DM Sans',sans-serif;transition:color .2s" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,.4)'">
