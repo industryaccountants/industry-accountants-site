@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Client Portal — The Industry Accountants</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1829;--navy2:#162240;--navy3:#1e2f50;
+  --gold:#c9a84c;--gold2:#e8c96d;
+  --white:#fff;--offwhite:#f7f6f2;--muted:#8a93a8;
+  --border:rgba(255,255,255,0.08);--border-light:rgba(201,168,76,0.2);
+  --success:#2dd4a0;--warning:#f59e0b;--danger:#f87171;
+  --card-border:#e8e8e8;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;color:#fff}
+.screen{display:none}.screen.active{display:flex}#screen-portal.active{display:block}
+
+/* ── AUTH ── */
+#screen-auth{min-height:100vh;flex-direction:row;position:relative}
+.bg-dashboard-preview{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(70vw,900px);height:auto;opacity:.12;filter:blur(.5px);pointer-events:none;z-index:0}
+.bg-dashboard-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,.10) 0%,transparent 70%);pointer-events:none;z-index:0}
+.auth-left,.auth-right{position:relative;z-index:1}
+.auth-left{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:24px 48px 40px;position:relative;overflow:hidden}
+.auth-left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(201,168,76,.07) 0%,transparent 60%)}
+.auth-right{width:460px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px;background:rgba(255,255,255,.03);border-left:1px solid var(--border)}
+.left-badge{width:42px;height:42px;background:var(--navy3);border:1px solid var(--border-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.85rem;color:var(--gold)}
+.left-logo{display:flex;align-items:center;gap:12px}
+.left-logo-name{font-size:.9rem;color:rgba(255,255,255,.7)}
+.left-headline{margin-top:24px}
+.left-headline h1{font-family:'Playfair Display',serif;font-size:3rem;font-weight:400;line-height:1.2;margin-bottom:12px}
+.left-headline h1 em{color:var(--gold);font-style:italic}
+.left-headline p{color:var(--muted);font-size:1rem;line-height:1.65;max-width:420px}
+.left-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:48px;max-width:440px}
+.metric-item{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.metric-label{font-size:.8rem;color:var(--muted)}.metric-val{font-size:.82rem;color:var(--gold);font-weight:500}
+.metric-dot{width:8px;height:8px;border-radius:50%;margin-right:10px;flex-shrink:0}
+.metric-dot.green{background:var(--success)}.metric-dot.gold{background:var(--gold)}.metric-dot.gray{background:#4a5568}
+.left-features{margin-top:32px;max-width:440px}
+.features-label{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.feature-item{display:flex;align-items:center;gap:8px;font-size:.8rem;color:rgba(255,255,255,.65)}
+.feature-check{width:16px;height:16px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.6rem;color:var(--gold)}
+.left-footer{color:rgba(255,255,255,.2);font-size:.72rem}
+.login-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:40px;width:100%;max-width:400px}
+.login-card-badge{width:52px;height:52px;background:var(--navy3);border:1px solid var(--border-light);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);margin:0 auto 12px}
+.login-card-logo{text-align:center;margin-bottom:28px}
+.login-card-title{font-family:'Playfair Display',serif;font-size:1.25rem;color:#fff;font-weight:400}
+.login-card-sub{font-size:.78rem;color:var(--muted);font-style:italic;margin-top:4px}
+.auth-tabs{display:flex;background:rgba(255,255,255,.05);border-radius:10px;padding:3px;margin-bottom:24px}
+.auth-tab{flex:1;padding:9px;border:none;background:none;cursor:pointer;font-size:.83rem;font-family:'DM Sans',sans-serif;color:var(--muted);border-radius:8px;transition:all .2s;font-weight:500}
+.auth-tab.active{background:var(--gold);color:#0a0800;font-weight:600}
+.field-label{display:block;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.auth-input{width:100%;padding:12px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;font-size:.9rem;font-family:'DM Sans',sans-serif;color:#fff;margin-bottom:14px;outline:none;transition:border-color .2s}
+.auth-input::placeholder{color:rgba(255,255,255,.25)}.auth-input:focus{border-color:var(--gold)}
+.auth-btn{width:100%;padding:13px;background:var(--gold);color:#0a0800;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.auth-btn:hover{background:var(--gold2)}.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-msg{padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:14px;display:none}
+.auth-msg.error{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);color:#fca5a5;display:block}
+.auth-msg.success{background:rgba(45,212,160,.1);border:1px solid rgba(45,212,160,.2);color:#6ee7b7;display:block}
+.auth-forgot{text-align:center;margin-top:14px;font-size:.8rem;color:var(--muted)}.auth-forgot a{color:var(--gold);cursor:pointer}
+.security-badges{display:flex;flex-direction:column;gap:6px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.sec-item{display:flex;align-items:center;gap:8px;font-size:.72rem;color:rgba(255,255,255,.4)}
+
+/* ── ONBOARDING ── */
+#screen-onboarding{min-height:100vh;align-items:center;justify-content:center;padding:40px 20px;flex-direction:column}
+.ob-wrap{width:100%;max-width:640px}
+.ob-progress{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:32px;flex-wrap:wrap}
+.ob-step-dot{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:rgba(255,255,255,.4);font-weight:600;transition:all .3s;flex-shrink:0}
+.ob-step-dot.done{background:var(--success);border-color:var(--success);color:#fff}
+.ob-step-dot.active{background:var(--gold);border-color:var(--gold);color:#0a0800;transform:scale(1.15)}
+.ob-step-line{width:20px;height:1px;background:rgba(255,255,255,.1)}
+.ob-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:40px;width:100%}
+.ob-step{display:none}.ob-step.active{display:block}
+.ob-icon{font-size:2.5rem;margin-bottom:16px;text-align:center}
+.ob-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:400;text-align:center;margin-bottom:8px}
+.ob-sub{color:var(--muted);font-size:.9rem;text-align:center;margin-bottom:28px;line-height:1.6}
+.ob-btn{width:100%;padding:14px;background:var(--gold);color:#0a0800;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:8px}
+.ob-btn:hover{background:var(--gold2)}.ob-btn:disabled{opacity:.5;cursor:not-allowed}
+.ob-btn-outline{width:100%;padding:12px;background:transparent;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15);border-radius:10px;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px}
+.welcome-features{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.welcome-feature{display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid var(--border)}
+.welcome-feature-icon{font-size:1.2rem;flex-shrink:0}
+.welcome-feature-text{font-size:.88rem;color:rgba(255,255,255,.8)}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.svc-btn{padding:18px 14px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.04);cursor:pointer;font-size:.85rem;font-weight:500;color:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;transition:all .2s;text-align:center;line-height:1.6}
+.svc-btn:hover,.svc-btn.selected{border-color:var(--gold);background:rgba(201,168,76,.1);color:#fff}
+.svc-btn .svc-icon{font-size:1.4rem;display:block;margin-bottom:6px}
+.agreement-doc{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;margin-bottom:20px;max-height:280px;overflow-y:auto;font-size:.82rem;line-height:1.8;color:rgba(255,255,255,.7)}
+.agreement-doc h4{color:#fff;font-size:.9rem;margin-bottom:8px;margin-top:16px}.agreement-doc h4:first-child{margin-top:0}
+.agreement-checks{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.agreement-check{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:8px;border:1px solid var(--border);cursor:pointer}
+.agreement-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--gold);flex-shrink:0;margin-top:1px;cursor:pointer}
+.agreement-check label{font-size:.83rem;color:rgba(255,255,255,.75);cursor:pointer;line-height:1.5}
+.sig-field{width:100%;padding:14px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;font-size:1rem;font-family:'Playfair Display',serif;color:#fff;outline:none;margin-bottom:14px;font-style:italic}
+.sig-field:focus{border-color:var(--gold)}.sig-field::placeholder{color:rgba(255,255,255,.2);font-style:italic}
+.ob-msg{padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:14px;display:none}
+.ob-msg.error{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);color:#fca5a5;display:block}
+.ob-msg.success{background:rgba(45,212,160,.1);border:1px solid rgba(45,212,160,.2);color:#6ee7b7;display:block}
+
+/* ── PORTAL ── */
+#screen-portal{min-height:100vh;background:var(--offwhite)}
+.portal-topbar{background:var(--navy);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.topbar-brand{display:flex;align-items:center;gap:10px}
+.topbar-badge{width:32px;height:32px;background:rgba(201,168,76,.15);border:1px solid var(--border-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.7rem;color:var(--gold)}
+.topbar-name{font-family:'Playfair Display',serif;color:var(--gold);font-size:.9rem}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-email{color:rgba(255,255,255,.45);font-size:.78rem}
+.topbar-signout{color:var(--gold);cursor:pointer;font-size:.78rem;background:none;border:none;font-family:'DM Sans',sans-serif;font-weight:500}
+.notif-bell{position:relative;cursor:pointer;font-size:1.1rem}
+.notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--danger);border-radius:50%;font-size:.55rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+.portal-body{display:flex;min-height:calc(100vh - 57px)}
+.portal-sidebar{width:230px;flex-shrink:0;background:#fff;border-right:1px solid #e8e8e8;padding:20px 0;display:flex;flex-direction:column}
+.sidebar-nav-label{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#b0b0b0;padding:14px 20px 4px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:.83rem;color:#666;cursor:pointer;transition:all .15s;border-left:3px solid transparent;text-decoration:none}
+.sidebar-item:hover{background:#fafafa;color:#111}
+.sidebar-item.active{color:var(--navy);background:rgba(201,168,76,.07);border-left-color:var(--gold);font-weight:600}
+.sidebar-icon{width:18px;height:18px;flex-shrink:0;opacity:.5}
+.sidebar-item.active .sidebar-icon{opacity:1}
+.sidebar-badge{margin-left:auto;background:#f0f0f0;color:#666;font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:10px}
+.sidebar-item.active .sidebar-badge{background:var(--gold);color:#0a0800}
+.portal-main{flex:1;padding:28px 32px;overflow-y:auto}
+
+/* cards */
+.sec-card{background:#fff;border:1px solid var(--card-border);border-radius:14px;margin-bottom:20px;overflow:hidden}
+.sec-header{padding:16px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between}
+.sec-title{font-size:.9rem;font-weight:600;color:var(--navy)}
+.sec-action{font-size:.78rem;color:var(--gold);cursor:pointer;font-weight:500;background:none;border:none;font-family:'DM Sans',sans-serif}
+.sec-body{padding:18px 20px}
+
+/* welcome banner */
+.welcome-banner{background:var(--navy);border-radius:14px;padding:24px 28px;margin-bottom:20px;border:1px solid var(--border-light)}
+.wb-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.wb-greeting{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:4px}
+.wb-service{font-size:.85rem;color:var(--gold);font-weight:500}
+.wb-status-wrap{text-align:right}
+.wb-status-label{font-size:.7rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.wb-status{display:inline-block;padding:5px 14px;border-radius:20px;font-size:.78rem;font-weight:600}
+.wb-status.awaiting{background:rgba(245,158,11,.15);color:var(--warning);border:1px solid rgba(245,158,11,.2)}
+.wb-status.active{background:rgba(45,212,160,.15);color:var(--success);border:1px solid rgba(45,212,160,.2)}
+.wb-status.review{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.2)}
+.wb-next{font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:4px}
+.wb-next-action{font-size:.88rem;color:rgba(255,255,255,.85);font-weight:500;margin-bottom:16px}
+.wb-response{font-size:.75rem;color:rgba(255,255,255,.35);margin-bottom:16px}
+.wb-btns{display:flex;gap:10px;flex-wrap:wrap}
+.wb-btn-primary{padding:10px 20px;background:var(--gold);color:#0a0800;border:none;border-radius:8px;font-size:.83rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+.wb-btn-secondary{padding:10px 20px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:.83rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* proposal banner */
+.proposal-banner{background:linear-gradient(135deg,#1e2f50,#162240);border:1px solid var(--gold);border-radius:14px;padding:24px 28px;margin-bottom:20px}
+.proposal-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold);margin-bottom:8px}
+.proposal-desc{font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.6}
+.proposal-fee{font-family:'Playfair Display',serif;font-size:2rem;color:#fff;margin-bottom:16px}
+.proposal-btns{display:flex;gap:10px}
+.proposal-accept{padding:10px 24px;background:var(--gold);color:#0a0800;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+.proposal-review{padding:10px 24px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+.proposal-decline{padding:10px 18px;background:transparent;color:rgba(255,255,255,.4);border:none;border-radius:8px;font-size:.82rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* action center */
+.action-center{background:#fff;border:1px solid var(--card-border);border-radius:14px;padding:20px;margin-bottom:20px}
+.action-center-title{font-size:.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.action-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.action-btn{background:#f9f9f9;border:1px solid #eee;border-radius:12px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .15s;border:none;font-family:'DM Sans',sans-serif}
+.action-btn:hover{background:#fffbf0;border-color:var(--gold)}
+.action-btn-icon{font-size:1.4rem;margin-bottom:6px}
+.action-btn-label{font-size:.72rem;font-weight:600;color:var(--navy)}
+
+/* service status tracker */
+.tracker{display:flex;align-items:center;gap:0;margin-bottom:0}
+.tracker-step{flex:1;text-align:center;position:relative}
+.tracker-step:not(:last-child)::after{content:'';position:absolute;top:14px;left:60%;width:80%;height:2px;background:#e8e8e8;z-index:0}
+.tracker-step.done:not(:last-child)::after{background:var(--success)}
+.tracker-dot{width:28px;height:28px;border-radius:50%;background:#f0f0f0;border:2px solid #e0e0e0;display:flex;align-items:center;justify-content:center;font-size:.65rem;margin:0 auto 6px;position:relative;z-index:1}
+.tracker-dot.done{background:#ecfdf5;border-color:var(--success);color:var(--success)}
+.tracker-dot.active{background:#fffbeb;border-color:var(--gold);color:var(--gold)}
+.tracker-label{font-size:.68rem;color:#aaa;font-weight:500}
+.tracker-label.done{color:var(--success)}.tracker-label.active{color:var(--gold);font-weight:600}
+
+/* stat row */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid var(--card-border);position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.gold::after{background:var(--gold)}.stat-card.green::after{background:var(--success)}
+.stat-card.blue::after{background:#60a5fa}.stat-card.amber::after{background:var(--warning)}
+.stat-card-label{font-size:.68rem;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.stat-card-val{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy)}
+.stat-card-sub{font-size:.7rem;color:#bbb;margin-top:2px}
+
+/* service rows */
+.service-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f7f7f7}
+.service-row:last-child{border-bottom:none}
+.service-icon{width:40px;height:40px;border-radius:10px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.service-name{font-size:.88rem;font-weight:600;color:#111;margin-bottom:2px}
+.service-stage{font-size:.73rem;color:#888}
+.progress-wrap{width:100px;height:4px;background:#f0f0f0;border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600}
+.badge.green{background:#ecfdf5;color:#065f46}.badge.gold{background:#fffbeb;color:#92400e}
+.badge.blue{background:#eff6ff;color:#1e40af}.badge.red{background:#fef2f2;color:#991b1b}
+.badge.gray{background:#f3f4f6;color:#374151}
+.view-btn{padding:5px 12px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* vault */
+.vault-folders{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.vault-folder{background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:16px;cursor:pointer;transition:all .15s;text-align:center}
+.vault-folder:hover{border-color:var(--gold);background:#fffbf0}
+.vault-folder-icon{font-size:1.6rem;margin-bottom:6px}
+.vault-folder-name{font-size:.78rem;font-weight:600;color:#444}
+.vault-folder-count{font-size:.68rem;color:#aaa;margin-top:2px}
+.upload-zone{border:2px dashed #e0e0e0;border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all .2s;display:block}
+.upload-zone:hover{border-color:var(--gold);background:#fffbf0}
+.upload-zone-icon{font-size:2rem;margin-bottom:8px}
+.upload-zone p{font-size:.82rem;color:#aaa}
+.doc-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f7f7f7;font-size:.82rem}
+.doc-row:last-child{border-bottom:none}
+.upload-list{margin-top:10px;font-size:.82rem;line-height:1.9;color:#555}
+.upload-msg{margin-top:6px;font-size:.82rem;font-weight:500}
+
+/* messages */
+.msg-bubble-wrap{display:flex;flex-direction:column}
+.msg-bubble{padding:10px 14px;border-radius:10px;margin-bottom:10px;font-size:.83rem;line-height:1.6;max-width:80%}
+.msg-bubble.from-client{background:#f0f0f0;color:#111;align-self:flex-end;margin-left:auto}
+.msg-bubble.from-admin{background:var(--navy);color:#fff}
+.msg-meta{font-size:.68rem;color:#aaa;margin-top:3px}
+.msg-input-wrap{display:flex;gap:10px;margin-top:14px}
+.msg-input{flex:1;padding:10px 14px;border:1px solid #e0e0e0;border-radius:8px;font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none}
+.msg-input:focus{border-color:var(--gold)}
+.msg-send-btn{padding:10px 18px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:.83rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* invoices */
+.invoice-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #f7f7f7}
+.invoice-row:last-child{border-bottom:none}
+.invoice-amount{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy)}
+.pay-btn{padding:5px 14px;background:var(--gold);color:#0a0800;border:none;border-radius:6px;font-size:.73rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* tools */
+.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tool-card{background:#f9f9f9;border:1px solid #eee;border-radius:12px;padding:16px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:14px}
+.tool-card:hover{border-color:var(--gold);background:#fffbf0}
+.tool-icon{font-size:1.4rem;flex-shrink:0}
+.tool-name{font-size:.85rem;font-weight:600;color:#111;margin-bottom:3px}
+.tool-desc{font-size:.73rem;color:#888;line-height:1.5}
+.tool-tag{display:inline-block;margin-top:6px;padding:2px 8px;background:#fffbeb;color:#92400e;border-radius:10px;font-size:.65rem;font-weight:600}
+
+/* reports */
+.report-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #f7f7f7}
+.report-row:last-child{border-bottom:none}
+.report-name{font-size:.85rem;font-weight:500;color:#111}
+.report-date{font-size:.72rem;color:#aaa;margin-top:2px}
+.report-btn{padding:5px 12px;background:#f5f5f5;color:#333;border:1px solid #e0e0e0;border-radius:6px;font-size:.73rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* opportunities */
+.opp-item{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #f7f7f7}
+.opp-item:last-child{border-bottom:none}
+.opp-text{font-size:.83rem;color:#333;line-height:1.5}
+.opp-btn{padding:6px 14px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:.73rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0}
+
+/* settings */
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f7f7f7}
+.settings-row:last-child{border-bottom:none}
+.settings-row-label{font-size:.85rem;font-weight:500;color:#111}
+.settings-row-sub{font-size:.75rem;color:#888;margin-top:2px}
+.settings-btn{padding:6px 14px;background:#f5f5f5;color:#333;border:1px solid #e0e0e0;border-radius:6px;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+.portal-tab{display:none}
+.portal-tab.active-tab{display:block}
+.welcome-bar{margin-bottom:20px}
+.welcome-bar h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);font-weight:400}
+.welcome-bar p{color:#888;font-size:.85rem;margin-top:4px}
+</style>
+</head>
+<body>
+
+<!-- ═══════ SCREEN 1: AUTH ═══════ -->
+<div id="screen-auth" class="screen active">
+  <div class="bg-dashboard-glow"></div>
+  <svg class="bg-dashboard-preview" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+      <linearGradient id="gprev" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e0c06a"/></linearGradient>
+    </defs>
+    <!-- Tax Return Status -->
+    <rect x="20" y="20" width="220" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="38" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Tax Return Status</text>
+    <rect x="38" y="64" width="184" height="6" rx="3" fill="#c9a84c" opacity=".5"/>
+    <rect x="38" y="80" width="140" height="6" rx="3" fill="#c9a84c" opacity=".3"/>
+    <text x="38" y="116" fill="#2dd4a0" font-family="DM Sans" font-size="11">In Review</text>
+
+    <!-- Secure Document Center -->
+    <rect x="260" y="20" width="220" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="278" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Document Center</text>
+    <rect x="278" y="62" width="184" height="22" rx="5" stroke="#c9a84c" stroke-width="1" opacity=".5"/>
+    <rect x="278" y="90" width="184" height="22" rx="5" stroke="#c9a84c" stroke-width="1" opacity=".3"/>
+
+    <!-- Payroll Overview -->
+    <rect x="500" y="20" width="200" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="518" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Payroll Overview</text>
+    <rect x="518" y="70" width="14" height="40" fill="#c9a84c" opacity=".4"/>
+    <rect x="538" y="55" width="14" height="55" fill="#c9a84c" opacity=".5"/>
+    <rect x="558" y="80" width="14" height="30" fill="#c9a84c" opacity=".4"/>
+    <rect x="578" y="60" width="14" height="50" fill="#c9a84c" opacity=".6"/>
+
+    <!-- Revenue Analytics -->
+    <rect x="720" y="20" width="160" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="736" y="48" fill="#e0c06a" font-family="DM Sans" font-size="12" font-weight="600">Revenue</text>
+    <polyline points="736,110 760,90 784,98 808,70 832,80 856,55" stroke="#c9a84c" stroke-width="2" fill="none" opacity=".6"/>
+
+    <!-- Premium Audit Assessment - emphasized -->
+    <rect x="20" y="160" width="280" height="130" rx="10" stroke="#e0c06a" stroke-width="1.6"/>
+    <text x="38" y="190" fill="#e0c06a" font-family="DM Sans" font-size="14" font-weight="700">Premium Audit Assessment</text>
+    <text x="38" y="212" fill="rgba(255,255,255,.5)" font-family="DM Sans" font-size="11">Potential Savings Review</text>
+    <circle cx="50" cy="250" r="5" fill="#c9a84c"/>
+    <text x="64" y="254" fill="#c9a84c" font-family="DM Sans" font-size="11">Scheduled</text>
+
+    <!-- Cross-Border Services -->
+    <rect x="320" y="160" width="200" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="338" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Cross-Border</text>
+    <circle cx="420" cy="240" r="30" stroke="#c9a84c" stroke-width="6" fill="none" opacity=".4"/>
+    <circle cx="420" cy="240" r="30" stroke="#e0c06a" stroke-width="6" fill="none" stroke-dasharray="60 130" opacity=".7"/>
+
+    <!-- Client Messages -->
+    <rect x="540" y="160" width="170" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="558" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Messages</text>
+    <rect x="558" y="204" width="134" height="18" rx="9" fill="#c9a84c" opacity=".25"/>
+    <rect x="558" y="230" width="100" height="18" rx="9" fill="#c9a84c" opacity=".15"/>
+    <circle cx="685" cy="180" r="9" fill="#e0c06a"/>
+    <text x="681" y="184" fill="#0a0f1c" font-family="DM Sans" font-size="9" font-weight="700">3</text>
+
+    <!-- Outstanding Tasks -->
+    <rect x="730" y="160" width="150" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="748" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Tasks</text>
+    <rect x="748" y="204" width="14" height="14" rx="3" stroke="#c9a84c" stroke-width="1.4"/>
+    <rect x="748" y="228" width="14" height="14" rx="3" fill="#c9a84c" opacity=".5"/>
+    <line x1="772" y1="211" x2="855" y2="211" stroke="#c9a84c" stroke-width="2" opacity=".4"/>
+    <line x1="772" y1="235" x2="845" y2="235" stroke="#c9a84c" stroke-width="2" opacity=".3"/>
+
+    <!-- Invoice Summary -->
+    <rect x="20" y="310" width="240" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="38" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Invoices</text>
+    <text x="38" y="375" fill="#fff" font-family="Georgia,serif" font-size="22" opacity=".7">$1,240</text>
+    <text x="38" y="396" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">1 Outstanding</text>
+
+    <!-- Advisor Communications -->
+    <rect x="280" y="310" width="260" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="298" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Advisor</text>
+    <circle cx="312" cy="370" r="14" fill="#c9a84c" opacity=".3"/>
+    <text x="336" y="368" fill="#fff" font-family="DM Sans" font-size="11" opacity=".7">Sarah M.</text>
+    <text x="336" y="384" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">Senior Advisor</text>
+
+    <!-- Bottom long bar - Bookkeeping -->
+    <rect x="560" y="310" width="320" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
+    <text x="578" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Bookkeeping Review</text>
+    <rect x="578" y="356" width="284" height="8" rx="4" fill="#c9a84c" opacity=".2"/>
+    <rect x="578" y="356" width="170" height="8" rx="4" fill="#c9a84c" opacity=".6"/>
+    <text x="578" y="392" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">Awaiting Documents</text>
+  </svg>
+
+  <div class="auth-left">
+    <div class="left-logo" style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
+      <a href="/" style="display:inline-flex;align-items:center;gap:6px;font-size:.74rem;color:rgba(255,255,255,.4);text-decoration:none;font-family:'DM Sans',sans-serif;transition:color .2s" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,.4)'">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Return to The Industry Accountants
+      </a>
+      <a href="/" style="display:flex;align-items:center;text-decoration:none;margin-top:6px">
+        <img src="logo-dark.png" alt="The Industry Accountants" style="height:78px;width:auto;display:block;mix-blend-mode:lighten;filter:brightness(1.1)"/>
+      </a>
+    </div>
+    <div class="left-headline">
+      <h1>Financial Clarity<br><em>Starts Here.</em></h1>
+      <p>Institutional-grade systems. Human oversight. Complete visibility.</p>
+      <p style="font-size:.82rem;color:rgba(201,168,76,.7);margin-top:8px;font-style:italic">Trusted by business owners across North America for more than 20 years.</p>
+      <div class="left-metrics">
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot green"></span><span class="metric-label">Tax Return 2025</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(45,212,160,.9)">In Review</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot green"></span><span class="metric-label">Payroll Setup</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(45,212,160,.9)">Complete</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gold"></span><span class="metric-label">Bookkeeping Review</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(201,168,76,.9)">Awaiting Docs</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gold"></span><span class="metric-label">Premium Audit Assessment</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(201,168,76,.9)">Scheduled</span></div>
+        <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gray"></span><span class="metric-label">Cross-Border Consultation</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(255,255,255,.4)">Completed</span></div>
+      </div>
+      <div class="left-features">
+        <div class="features-label">Your Secure Financial Workspace</div>
+        <div class="features-grid">
+          <div class="feature-item"><span class="feature-check">✓</span>Secure Digital Document Exchange</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Bank-Level Encryption</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Paperless Tax Filing</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Multi-Factor Authentication</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Online Bookkeeping Management</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Dedicated Advisor Support</div>
+          <div class="feature-item"><span class="feature-check">✓</span>Client Messaging & Collaboration</div>
+          <div class="feature-item"><span class="feature-check">✓</span>20+ Years Financial Experience</div>
+        </div>
+      </div>
+    </div>
+    <div class="left-footer">© 2026 The Industry Accountants · All data encrypted in transit and at rest</div>
+
+  </div>
+  <div class="auth-right">
+    <div class="login-card">
+      <div class="login-card-logo">
+        <div class="login-card-title" style="font-size:1.4rem;margin-bottom:6px">Welcome Back</div>
+        <div class="login-card-sub" style="font-style:normal;font-size:.85rem;color:rgba(255,255,255,.5)">Access Your Financial Workspace</div>
+      </div>
+      <div class="auth-tabs" style="display:none">
+        <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign In</button>
+        <button class="auth-tab" onclick="switchAuthTab('signup')">Get Started</button>
+      </div>
+      <div id="authmsg" class="auth-msg"></div>
+      <div id="signin-form">
+        <label class="field-label">Email</label>
+        <input class="auth-input" id="si-email" type="email" placeholder="you@email.com"/>
+        <label class="field-label">Password</label>
+        <input class="auth-input" id="si-pw" type="password" placeholder="••••••••"/>
+        <button class="auth-btn" id="si-btn" onclick="doSignIn()">Sign In →</button>
+        <div class="auth-forgot"><a onclick="doReset()">Forgot password?</a></div>
+        <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">
+          <span style="font-size:.78rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif">New client? </span>
+          <a onclick="switchAuthTab('signup')" style="font-size:.78rem;color:#c9a84c;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;font-weight:500">Create your account →</a>
+        </div>
+      </div>
+      <div id="signup-form" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label class="field-label">First Name</label><input class="auth-input" id="su-first" type="text" placeholder="Jane"/></div>
+          <div><label class="field-label">Last Name</label><input class="auth-input" id="su-last" type="text" placeholder="Smith"/></div>
+        </div>
+        <label class="field-label">Email</label>
+        <input class="auth-input" id="su-email" type="email" placeholder="you@email.com"/>
+        <label class="field-label">Phone</label>
+        <input class="auth-input" id="su-phone" type="tel" placeholder="+1 (555) 000-0000"/>
+        <label class="field-label">Password (min 8 characters)</label>
+        <input class="auth-input" id="su-pw" type="password" placeholder="••••••••"/>
+        <button class="auth-btn" id="su-btn" onclick="doSignUp()">Create Account →</button>
+      </div>
+      <div class="security-badges">
+        <div class="sec-item">🔒 Bank-Level Encryption</div>
+        <div class="sec-item">🛡 Multi-Factor Authentication</div>
+        <div class="sec-item">📄 Secure Document Exchange</div>
+        <div class="sec-item">✓ Industry Standard Data Protection</div>
+        <div class="sec-item">👤 20+ Years Financial Experience</div>
+        <div class="sec-item">💬 Dedicated Advisor Support</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SCREEN 2: ONBOARDING ═══════ -->
+<div id="screen-onboarding" class="screen">
+  <div class="ob-wrap">
+
+    <div class="ob-card">
+      <div id="ob-msg" class="ob-msg"></div>
+
+      <!-- STEP 1: Account Created -->
+      <div class="ob-step" id="ob-step-1">
+        <div class="ob-icon">🎉</div>
+        <div class="ob-title">Account Created</div>
+        <div class="ob-sub">Welcome to The Industry Accountants. Your secure financial workspace is being set up.</div>
+        <button class="ob-btn" onclick="obNext()">Continue →</button>
+      </div>
+
+      <!-- STEP 2: Verify Email -->
+      <div class="ob-step" id="ob-step-2">
+        <div class="ob-icon">📧</div>
+        <div class="ob-title">Verify Your Email</div>
+        <div class="ob-sub">We sent a confirmation to <strong id="ob-email-display" style="color:var(--gold)"></strong>. Please check your inbox and click the link.</div>
+        <div style="background:rgba(201,168,76,.08);border:1px solid var(--border-light);border-radius:10px;padding:16px;margin-bottom:20px;font-size:.83rem;color:rgba(255,255,255,.7);line-height:1.8">
+          ✓ Check your inbox &nbsp;&nbsp; ✓ Click the verification link &nbsp;&nbsp; ✓ Return here
+        </div>
+        <button class="ob-btn" onclick="checkEmailVerified()">I've Verified My Email →</button>
+        <button class="ob-btn-outline" onclick="resendVerification()">Resend Email</button>
+      </div>
+
+      <!-- STEP 3: Welcome -->
+      <div class="ob-step" id="ob-step-3">
+        <div class="ob-title">Your Financial Workspace Is Ready</div>
+        <div class="ob-sub">Your documents, messages, and service requests are monitored by our team.<br/>Average response time: 1 business day.</div>
+        <div class="welcome-features">
+          <div class="welcome-feature"><span class="welcome-feature-icon">📤</span><span class="welcome-feature-text">Upload documents securely from anywhere</span></div>
+          <div class="welcome-feature"><span class="welcome-feature-icon">📊</span><span class="welcome-feature-text">Track your service progress in real time</span></div>
+          <div class="welcome-feature"><span class="welcome-feature-icon">💬</span><span class="welcome-feature-text">Message your accounting team directly</span></div>
+          <div class="welcome-feature"><span class="welcome-feature-icon">📅</span><span class="welcome-feature-text">Book consultations and strategy sessions</span></div>
+          <div class="welcome-feature"><span class="welcome-feature-icon">🔒</span><span class="welcome-feature-text">Bank-level encryption on all your data</span></div>
+        </div>
+        <div style="margin-bottom:20px;padding:14px 16px;background:rgba(201,168,76,.08);border:1px solid var(--border-light);border-radius:10px">
+          <div style="font-size:.72rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Next Step</div>
+          <div style="font-size:.85rem;color:rgba(255,255,255,.8)">Select a service and we'll guide you through the process.</div>
+        </div>
+        <button class="ob-btn" onclick="obNext()">Continue →</button>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+          <span style="font-size:.72rem;color:rgba(255,255,255,.35)">✓ Secure Client Portal</span>
+          <span style="font-size:.72rem;color:rgba(255,255,255,.35)">✓ Paperless Processing</span>
+          <span style="font-size:.72rem;color:rgba(255,255,255,.35)">✓ Professional Oversight</span>
+          <span style="font-size:.72rem;color:rgba(255,255,255,.35)">✓ Encrypted Document Storage</span>
+        </div>
+      </div>
+
+      <!-- STEP 4: Service Selection -->
+      <div class="ob-step" id="ob-step-4">
+        <div class="ob-title">Select Your Service</div>
+        <div class="ob-sub">What brings you to The Industry Accountants? You can add more services later.</div>
+        <div class="service-grid" id="ob-service-grid">
+          <button class="svc-btn" onclick="selectObService('tax-personal',this)"><span class="svc-icon">🗂</span>Personal Tax Filing</button>
+          <button class="svc-btn" onclick="selectObService('tax-business',this)"><span class="svc-icon">🏢</span>Business Tax Filing</button>
+          <button class="svc-btn" onclick="selectObService('bookkeeping',this)"><span class="svc-icon">📊</span>Bookkeeping</button>
+          <button class="svc-btn" onclick="selectObService('payroll',this)"><span class="svc-icon">💰</span>Payroll</button>
+          <button class="svc-btn" onclick="selectObService('crossborder',this)"><span class="svc-icon">🌐</span>Cross-Border Services</button>
+          <button class="svc-btn" onclick="selectObService('advisory',this)"><span class="svc-icon">📈</span>Business Advisory</button>
+        </div>
+        <button class="ob-btn" id="ob-service-btn" onclick="confirmService()" disabled>Continue →</button>
+      </div>
+
+      <!-- STEP 5: Engagement Agreement -->
+      <div class="ob-step" id="ob-step-5">
+        <div class="ob-title">Engagement Agreement</div>
+        <div class="ob-sub">Please review and sign our service agreement before we begin.</div>
+        <div class="agreement-doc">
+          <h4>Service Agreement</h4>
+          The Industry Accountants agrees to provide professional accounting, tax, payroll, bookkeeping, and related financial services to the Client as selected during onboarding. Services will be performed by qualified professionals with due care and diligence in accordance with applicable professional standards.
+          <h4>Privacy Policy</h4>
+          All client information, documents, and financial data are treated with strict confidentiality. Data is encrypted in transit and at rest using industry-standard AES-256 encryption. The Firm will not sell, share, or disclose client information to third parties except as required by law or with explicit client consent.
+          <h4>Electronic Communications Consent</h4>
+          By signing this agreement, the Client consents to receive electronic communications including invoices, receipts, status updates, and important notices via email and through the secure client portal.
+          <h4>Fee Agreement</h4>
+          Fees for services are determined after review of the client's specific requirements. A proposal will be provided prior to invoicing. Work begins only after payment is received. All fees are due upon receipt unless otherwise agreed in writing.
+        </div>
+        <div class="agreement-checks">
+          <div class="agreement-check"><input type="checkbox" id="ag-service" onchange="checkAgreements()"/><label for="ag-service">I have read and agree to the <strong>Service Agreement</strong></label></div>
+          <div class="agreement-check"><input type="checkbox" id="ag-privacy" onchange="checkAgreements()"/><label for="ag-privacy">I have read and agree to the <strong>Privacy Policy</strong></label></div>
+          <div class="agreement-check"><input type="checkbox" id="ag-fee" onchange="checkAgreements()"/><label for="ag-fee">I have read and agree to the <strong>Fee Agreement</strong></label></div>
+          <div class="agreement-check"><input type="checkbox" id="ag-electronic" onchange="checkAgreements()"/><label for="ag-electronic">I consent to <strong>Electronic Communications</strong></label></div>
+        </div>
+        <label class="field-label">Type Your Full Name as Signature</label>
+        <input class="sig-field" id="sig-name" type="text" placeholder="Your full legal name…" oninput="checkAgreements()"/>
+        <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:16px">By typing your name you are signing this agreement electronically. This is legally binding.</div>
+        <button class="ob-btn" id="ag-btn" onclick="signAgreement()" disabled>I Agree & Sign →</button>
+      </div>
+
+      <!-- STEP 6: Dashboard Access -->
+      <div class="ob-step" id="ob-step-6">
+        <div class="ob-icon">🎯</div>
+        <div class="ob-title">Your Workspace Is Ready</div>
+        <div class="ob-sub">Upload your documents or book a consultation so we can review your file and send you a proposal.</div>
+        <div style="background:rgba(45,212,160,.08);border:1px solid rgba(45,212,160,.2);border-radius:12px;padding:20px;margin-bottom:20px">
+          <div style="font-size:.85rem;color:rgba(255,255,255,.8);line-height:2.2">
+            ✅ Account Created<br>
+            ✅ Service Selected: <span id="ob-svc-confirm" style="color:var(--gold);font-weight:600"></span><br>
+            ✅ Agreement Signed<br>
+            ⏳ Upload Documents or Book Consultation<br>
+            ⏳ Proposal from Your Accountant<br>
+            ⏳ Invoice &amp; Payment<br>
+            ⏳ Work Begins
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px;text-align:center;cursor:pointer" onclick="goToDashboard('tab-vault')">
+            <div style="font-size:1.5rem;margin-bottom:8px">📤</div>
+            <div style="font-size:.85rem;font-weight:600;color:#fff;margin-bottom:4px">Upload Documents</div>
+            <div style="font-size:.73rem;color:var(--muted)">Upload your files to your Secure Financial Vault</div>
+          </div>
+          <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px;text-align:center;cursor:pointer" onclick="goToDashboard('tab-appointments')">
+            <div style="font-size:1.5rem;margin-bottom:8px">📅</div>
+            <div style="font-size:.85rem;font-weight:600;color:#fff;margin-bottom:4px">Book Consultation</div>
+            <div style="font-size:.73rem;color:var(--muted)">Schedule a call with your accountant</div>
+          </div>
+        </div>
+        <button class="ob-btn" onclick="goToDashboard('tab-dashboard')">Go to My Dashboard →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SCREEN 3: PORTAL ═══════ -->
+<div id="screen-portal" class="screen">
+  <div class="portal-topbar">
+    <div class="topbar-brand">
+      <img src="logo-dark.png" alt="The Industry Accountants" style="height:38px;width:auto;display:block;mix-blend-mode:lighten"/>
+      <span class="topbar-name">The Industry Accountants</span>
+    </div>
+    <div class="topbar-right">
+      <div class="notif-bell" onclick="showPortalTab('tab-messages')">🔔<span class="notif-badge" id="notif-count" style="display:none">0</span></div>
+      <span class="topbar-email" id="user-email"></span>
+      <button class="topbar-signout" onclick="doSignOut()">Sign Out</button>
+    </div>
+  </div>
+  <div class="portal-body">
+    <!-- SIDEBAR -->
+    <aside class="portal-sidebar">
+      <div class="sidebar-nav-label">Main</div>
+      <a class="sidebar-item active" onclick="showPortalTab('tab-dashboard')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a class="sidebar-item" onclick="showPortalTab('tab-services')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        My Services
+        <span class="sidebar-badge" id="sb-services">0</span>
+      </a>
+      <a class="sidebar-item" onclick="showPortalTab('tab-vault')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Financial Vault
+        <span class="sidebar-badge" id="sb-docs">0</span>
+      </a>
+      <a class="sidebar-item" onclick="showPortalTab('tab-messages')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Messages
+        <span class="sidebar-badge" id="sb-msgs">0</span>
+      </a>
+      <a class="sidebar-item" onclick="showPortalTab('tab-appointments')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Appointments
+      </a>
+      <a class="sidebar-item" onclick="showPortalTab('tab-invoices')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Invoices &amp; Payments
+        <span class="sidebar-badge" id="sb-invoices">0</span>
+      </a>
+      <div class="sidebar-nav-label">Tools</div>
+      <a class="sidebar-item" onclick="showPortalTab('tab-tools')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Financial Tools
+      </a>
+      <a class="sidebar-item" onclick="showPortalTab('tab-reports')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Reports Library
+      </a>
+      <a class="sidebar-item" onclick="showPortalTab('tab-settings')" href="#">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </a>
+      <!-- Back to website -->
+      <div style="margin-top:auto;padding:16px 12px;border-top:1px solid rgba(0,0,0,.06)">
+        <a href="/" style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:#9b9890;text-decoration:none;font-family:'DM Sans',sans-serif;transition:color .2s" onmouseover="this.style.color='#b8922a'" onmouseout="this.style.color='#9b9890'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          theindustryaccountants.com
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="portal-main">
+
+      <!-- DASHBOARD TAB -->
+      <div id="tab-dashboard" class="portal-tab active-tab">
+
+        <!-- Proposal Banner (shown when proposal exists) -->
+        <div id="proposal-banner" style="display:none" class="proposal-banner">
+          <div class="proposal-title">📋 Your Proposal Is Ready</div>
+          <div class="proposal-desc" id="proposal-desc">Your accountant has reviewed your file and prepared a proposal for your review.</div>
+          <div class="proposal-fee" id="proposal-fee">—</div>
+          <div class="proposal-btns">
+            <button class="proposal-accept" onclick="acceptProposal()">Accept &amp; Pay Invoice →</button>
+            <button class="proposal-review" onclick="showPortalTab('tab-invoices')">Review Details</button>
+            <button class="proposal-decline" onclick="declineProposal()">Decline</button>
+          </div>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div class="wb-top">
+            <div>
+              <div class="wb-greeting" id="wb-greeting">Good morning.</div>
+              <div class="wb-service" id="wb-service">Your Financial Workspace Is Active</div>
+            </div>
+            <div class="wb-status-wrap">
+              <div class="wb-status-label">File Status</div>
+              <div class="wb-status awaiting" id="wb-status">Awaiting Documents</div>
+            </div>
+          </div>
+          <div class="wb-next">Next Step</div>
+          <div class="wb-next-action" id="wb-next-action">Upload your documents to get started</div>
+          <div class="wb-response">Expected Response Time: 1 Business Day</div>
+          <div class="wb-btns">
+            <button class="wb-btn-primary" onclick="showPortalTab('tab-vault')">📤 Upload Documents</button>
+            <button class="wb-btn-secondary" onclick="showPortalTab('tab-messages')">💬 Message Us</button>
+            <button class="wb-btn-secondary" onclick="showPortalTab('tab-appointments')">📅 Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- Action Center -->
+        <div class="action-center">
+          <div class="action-center-title">What Would You Like To Do Today?</div>
+          <div class="action-btns">
+            <button class="action-btn" onclick="showPortalTab('tab-vault')"><div class="action-btn-icon">📤</div><div class="action-btn-label">Upload Documents</div></button>
+            <button class="action-btn" onclick="showPortalTab('tab-messages')"><div class="action-btn-icon">💬</div><div class="action-btn-label">Message Us</div></button>
+            <button class="action-btn" onclick="showPortalTab('tab-appointments')"><div class="action-btn-icon">📅</div><div class="action-btn-label">Book Consultation</div></button>
+            <button class="action-btn" onclick="showPortalTab('tab-invoices')"><div class="action-btn-icon">💳</div><div class="action-btn-label">Pay Invoice</div></button>
+          </div>
+        </div>
+
+        <!-- Service Status Tracker -->
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Service Progress</span><button class="sec-action" onclick="showPortalTab('tab-services')">View All Services →</button></div>
+          <div class="sec-body">
+            <div class="tracker" id="service-tracker">
+              <div class="tracker-step done"><div class="tracker-dot done">✓</div><div class="tracker-label done">Received</div></div>
+              <div class="tracker-step active"><div class="tracker-dot active">→</div><div class="tracker-label active">Review</div></div>
+              <div class="tracker-step"><div class="tracker-dot">3</div><div class="tracker-label">Preparing</div></div>
+              <div class="tracker-step"><div class="tracker-dot">4</div><div class="tracker-label">Signature</div></div>
+              <div class="tracker-step"><div class="tracker-dot">5</div><div class="tracker-label">Filed</div></div>
+              <div class="tracker-step"><div class="tracker-dot">6</div><div class="tracker-label">Complete</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stat-row">
+          <div class="stat-card gold"><div class="stat-card-label">Active Services</div><div class="stat-card-val" id="stat-services">—</div><div class="stat-card-sub">Managed accounts</div></div>
+          <div class="stat-card amber"><div class="stat-card-label">Pending Documents</div><div class="stat-card-val" id="stat-pending">—</div><div class="stat-card-sub">Awaiting upload</div></div>
+          <div class="stat-card blue"><div class="stat-card-label">Messages</div><div class="stat-card-val" id="stat-msgs">—</div><div class="stat-card-sub">Unread</div></div>
+          <div class="stat-card green"><div class="stat-card-label">Documents</div><div class="stat-card-val" id="stat-docs">—</div><div class="stat-card-sub">In your vault</div></div>
+        </div>
+
+        <!-- Vault Summary -->
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Secure Financial Vault</span><button class="sec-action" onclick="showPortalTab('tab-vault')">View Vault →</button></div>
+          <div class="sec-body">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy)" id="vault-doc-count">0</div><div style="font-size:.75rem;color:#aaa;margin-top:2px">Documents Stored</div></div>
+              <div style="text-align:right"><div style="font-size:.75rem;color:#aaa">Last Upload</div><div style="font-size:.83rem;color:#333;margin-top:2px" id="vault-last-upload">—</div></div>
+            </div>
+            <label class="upload-zone" for="dash-file-input" style="padding:16px">
+              <div style="font-size:1.4rem;margin-bottom:4px">☁</div>
+              <p>Click to upload documents</p>
+            </label>
+            <input type="file" id="dash-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx" style="display:none" onchange="uploadPortalFiles(this)"/>
+            <div class="upload-list" id="dash-upload-list"></div>
+            <div class="upload-msg" id="dash-upload-msg"></div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Recent Activity</span></div>
+          <div class="sec-body" id="overview-activity"><p style="color:#aaa;font-size:.85rem">No activity yet.</p></div>
+        </div>
+
+        <!-- Opportunities -->
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Opportunities</span></div>
+          <div class="sec-body" id="opportunities-body">
+            <div class="opp-item"><div class="opp-text">You may qualify for additional deductions. Our team can review your file for savings opportunities.</div><button class="opp-btn" onclick="showPortalTab('tab-messages')">Learn More</button></div>
+            <div class="opp-item"><div class="opp-text">Consider a bookkeeping review to keep your financials organized year-round.</div><button class="opp-btn" onclick="showPortalTab('tab-appointments')">Book Now</button></div>
+            <div class="opp-item"><div class="opp-text">Cross-border planning may reduce your overall tax burden if you operate in multiple jurisdictions.</div><button class="opp-btn" onclick="showPortalTab('tab-messages')">Learn More</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MY SERVICES TAB -->
+      <div id="tab-services" class="portal-tab">
+        <div class="welcome-bar"><h2>My Services</h2><p>Track the progress of all your active services.</p></div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Active Services</span></div>
+          <div class="sec-body" id="services-list"><div style="color:#aaa;font-size:.85rem">Loading…</div></div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Add Another Service</span></div>
+          <div class="sec-body">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div class="vault-folder"><div class="vault-folder-icon">🗂</div><div class="vault-folder-name">Tax Filing</div><div class="vault-folder-count" style="color:var(--gold)">+ Add</div></div>
+              <div class="vault-folder"><div class="vault-folder-icon">💰</div><div class="vault-folder-name">Payroll</div><div class="vault-folder-count" style="color:var(--gold)">+ Add</div></div>
+              <div class="vault-folder"><div class="vault-folder-icon">📊</div><div class="vault-folder-name">Bookkeeping</div><div class="vault-folder-count" style="color:var(--gold)">+ Add</div></div>
+              <div class="vault-folder"><div class="vault-folder-icon">🌐</div><div class="vault-folder-name">Cross-Border</div><div class="vault-folder-count" style="color:var(--gold)">+ Add</div></div>
+              <div class="vault-folder"><div class="vault-folder-icon">📈</div><div class="vault-folder-name">Advisory</div><div class="vault-folder-count" style="color:var(--gold)">+ Add</div></div>
+              <div class="vault-folder"><div class="vault-folder-icon">🤝</div><div class="vault-folder-name">White Label</div><div class="vault-folder-count" style="color:var(--gold)">+ Add</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VAULT TAB -->
+      <div id="tab-vault" class="portal-tab">
+        <div class="welcome-bar"><h2>Secure Financial Vault</h2><p>All documents are encrypted and stored securely.</p></div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Your Folders</span></div>
+          <div class="sec-body">
+            <div class="vault-folders" id="vault-folders"></div>
+            <label class="upload-zone" for="vault-file-input">
+              <div class="upload-zone-icon">☁</div>
+              <p>Drop files here or click to upload</p>
+              <p style="font-size:.72rem;margin-top:4px">PDF, JPG, PNG, DOC up to 25MB</p>
+            </label>
+            <input type="file" id="vault-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx" style="display:none" onchange="uploadPortalFiles(this)"/>
+            <div class="upload-list" id="vault-upload-list"></div>
+            <div class="upload-msg" id="vault-upload-msg"></div>
+          </div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">All Files</span></div>
+          <div class="sec-body" id="vault-docs-list"><p style="color:#aaa;font-size:.85rem">No documents yet.</p></div>
+        </div>
+      </div>
+
+      <!-- MESSAGES TAB -->
+      <div id="tab-messages" class="portal-tab">
+        <div class="welcome-bar"><h2>Message Us</h2><p>Secure direct communication with your accounting team. Response within 1 business day.</p></div>
+        <div class="sec-card">
+          <div class="sec-header">
+            <span class="sec-title">Conversation</span>
+            <select id="msg-dept" style="font-size:.78rem;border:1px solid #e0e0e0;border-radius:6px;padding:4px 8px;color:#555;font-family:inherit">
+              <option>General Support</option>
+              <option>Tax Services</option>
+              <option>Payroll Services</option>
+              <option>Bookkeeping Services</option>
+              <option>Cross-Border Services</option>
+              <option>Partner Support</option>
+            </select>
+          </div>
+          <div class="sec-body">
+            <div class="msg-bubble-wrap" id="messages-list" style="min-height:200px;max-height:400px;overflow-y:auto;margin-bottom:12px">
+              <p style="color:#aaa;font-size:.85rem;text-align:center;padding:20px 0">No messages yet. Send us a message below.</p>
+            </div>
+            <div class="msg-input-wrap">
+              <input class="msg-input" id="msg-input" type="text" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendMessage()"/>
+              <button class="msg-send-btn" onclick="sendMessage()">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPOINTMENTS TAB -->
+      <div id="tab-appointments" class="portal-tab">
+        <div class="welcome-bar"><h2>Appointments</h2><p>Book a consultation or strategy session with your team.</p></div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Book a Consultation</span></div>
+          <div class="sec-body">
+            <div class="tool-grid" style="margin-bottom:20px">
+              <div class="tool-card"><div class="tool-icon">🗂</div><div><div class="tool-name">Tax Planning Session</div><div class="tool-desc">30 min strategy call with your tax specialist</div></div></div>
+              <div class="tool-card"><div class="tool-icon">💰</div><div><div class="tool-name">Payroll Review</div><div class="tool-desc">30 min review of your payroll setup</div></div></div>
+              <div class="tool-card"><div class="tool-icon">📊</div><div><div class="tool-name">Bookkeeping Review</div><div class="tool-desc">45 min deep dive into your books</div></div></div>
+              <div class="tool-card"><div class="tool-icon">🌐</div><div><div class="tool-name">Cross-Border Strategy</div><div class="tool-desc">60 min Canada-US planning session</div></div></div>
+              <div class="tool-card"><div class="tool-icon">📈</div><div><div class="tool-name">Business Advisory</div><div class="tool-desc">60 min strategic planning session</div></div></div>
+              <div class="tool-card"><div class="tool-icon">🤝</div><div><div class="tool-name">Partner Strategy</div><div class="tool-desc">45 min partner program discussion</div></div></div>
+            </div>
+            <div style="background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:24px;text-align:center">
+              <div style="font-size:1.5rem;margin-bottom:8px">📅</div>
+              <div style="font-size:.88rem;font-weight:600;color:#111;margin-bottom:4px">Book via our scheduling system</div>
+              <div style="font-size:.78rem;color:#888;margin-bottom:14px">Choose a time that works for you</div>
+              <a href="https://calendly.com/theindustryaccountants" target="_blank" style="display:inline-block;padding:10px 24px;background:var(--navy);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none">Book Now →</a>
+            </div>
+          </div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Upcoming Appointments</span></div>
+          <div class="sec-body" id="appointments-list"><p style="color:#aaa;font-size:.85rem">No upcoming appointments.</p></div>
+        </div>
+      </div>
+
+      <!-- INVOICES TAB -->
+      <div id="tab-invoices" class="portal-tab">
+        <div class="welcome-bar"><h2>Invoices &amp; Payments</h2><p>View your balance, outstanding invoices, and payment history.</p></div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Outstanding</span></div>
+          <div class="sec-body" id="invoices-outstanding"><p style="color:#aaa;font-size:.85rem">No outstanding invoices.</p></div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Payment History</span></div>
+          <div class="sec-body" id="invoices-history"><p style="color:#aaa;font-size:.85rem">No payment history.</p></div>
+        </div>
+      </div>
+
+      <!-- FINANCIAL TOOLS TAB -->
+      <div id="tab-tools" class="portal-tab">
+        <div class="welcome-bar"><h2>Financial Tools</h2><p>Professional tools to support your financial planning.</p></div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Available Tools</span></div>
+          <div class="sec-body">
+            <div class="tool-grid">
+              <div class="tool-card" onclick="window.open('business-launch-tool.html','_blank')">
+                <div class="tool-icon">💡</div>
+                <div><div class="tool-name">Business Idea Analyzer</div><div class="tool-desc">Professional viability and market opportunity assessment</div><span class="tool-tag">Free</span></div>
+              </div>
+              <div class="tool-card">
+                <div class="tool-icon">📊</div>
+                <div><div class="tool-name">Income Tax Estimator</div><div class="tool-desc">Estimate your federal and state tax liability</div><span class="tool-tag">Free</span></div>
+              </div>
+              <div class="tool-card">
+                <div class="tool-icon">💰</div>
+                <div><div class="tool-name">Payroll Calculator</div><div class="tool-desc">Review payroll costs and employer obligations</div><span class="tool-tag">Free</span></div>
+              </div>
+              <div class="tool-card">
+                <div class="tool-icon">📈</div>
+                <div><div class="tool-name">P&amp;L Generator</div><div class="tool-desc">Build a profit and loss statement</div><span class="tool-tag">Premium — $49</span></div>
+              </div>
+              <div class="tool-card">
+                <div class="tool-icon">🔍</div>
+                <div><div class="tool-name">Audit Assessment</div><div class="tool-desc">Compliance review and risk factor analysis</div><span class="tool-tag">Premium — $49</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORTS LIBRARY TAB -->
+      <div id="tab-reports" class="portal-tab">
+        <div class="welcome-bar"><h2>Reports Library</h2><p>Your purchased reports, tax intelligence, and business assessments.</p></div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">My Reports</span></div>
+          <div class="sec-body" id="reports-list">
+            <p style="color:#aaa;font-size:.85rem">No reports yet. Use a Financial Tool to generate your first report.</p>
+          </div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Order a Report</span></div>
+          <div class="sec-body">
+            <div class="tool-grid">
+              <div class="tool-card"><div class="tool-icon">📋</div><div><div class="tool-name">Tax Intelligence Report</div><div class="tool-desc">Estimated tax position, potential savings, action plan</div><span class="tool-tag">$49</span></div></div>
+              <div class="tool-card"><div class="tool-icon">💰</div><div><div class="tool-name">Payroll Intelligence Report</div><div class="tool-desc">Payroll cost analysis, obligations, recommendations</div><span class="tool-tag">$49</span></div></div>
+              <div class="tool-card"><div class="tool-icon">🔍</div><div><div class="tool-name">Audit Intelligence Report</div><div class="tool-desc">Compliance review, risk factors, recommendations</div><span class="tool-tag">$49</span></div></div>
+              <div class="tool-card"><div class="tool-icon">📈</div><div><div class="tool-name">Business Intelligence Report</div><div class="tool-desc">P&amp;L analysis, profitability insights, action plan</div><span class="tool-tag">$49</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div id="tab-settings" class="portal-tab">
+        <div class="welcome-bar"><h2>Settings</h2><p>Manage your account and preferences.</p></div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Account</span></div>
+          <div class="sec-body">
+            <div class="settings-row"><div><div class="settings-row-label" id="set-name">—</div><div class="settings-row-sub">Full Name</div></div><button class="settings-btn">Edit</button></div>
+            <div class="settings-row"><div><div class="settings-row-label" id="set-email">—</div><div class="settings-row-sub">Email Address</div></div><button class="settings-btn">Edit</button></div>
+            <div class="settings-row"><div><div class="settings-row-label">••••••••</div><div class="settings-row-sub">Password</div></div><button class="settings-btn" onclick="doReset()">Reset</button></div>
+          </div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Service Team</span></div>
+          <div class="sec-body">
+            <div class="settings-row"><div><div class="settings-row-label">Tax Services Department</div><div class="settings-row-sub">Personal &amp; business tax filing</div></div><button class="settings-btn" onclick="showPortalTab('tab-messages')">Message</button></div>
+            <div class="settings-row"><div><div class="settings-row-label">Payroll Services Department</div><div class="settings-row-sub">Payroll processing and compliance</div></div><button class="settings-btn" onclick="showPortalTab('tab-messages')">Message</button></div>
+            <div class="settings-row"><div><div class="settings-row-label">Bookkeeping Services Department</div><div class="settings-row-sub">Monthly reconciliation and reporting</div></div><button class="settings-btn" onclick="showPortalTab('tab-messages')">Message</button></div>
+            <div class="settings-row"><div><div class="settings-row-label">Cross-Border Services Department</div><div class="settings-row-sub">Canada-US tax and compliance</div></div><button class="settings-btn" onclick="showPortalTab('tab-messages')">Message</button></div>
+          </div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Notifications</span></div>
+          <div class="sec-body">
+            <div class="settings-row"><div><div class="settings-row-label">Email Notifications</div><div class="settings-row-sub">Status updates, invoices, messages</div></div><button class="settings-btn">On</button></div>
+            <div class="settings-row"><div><div class="settings-row-label">Portal Notifications</div><div class="settings-row-sub">In-app alerts</div></div><button class="settings-btn">On</button></div>
+          </div>
+        </div>
+        <div class="sec-card">
+          <div class="sec-header"><span class="sec-title">Security</span></div>
+          <div class="sec-body">
+            <div class="settings-row"><div><div class="settings-row-label">Two-Factor Authentication</div><div class="settings-row-sub">Add an extra layer of security</div></div><button class="settings-btn">Enable</button></div>
+            <div class="settings-row"><div><div class="settings-row-label">Active Sessions</div><div class="settings-row-sub">Manage devices</div></div><button class="settings-btn">View</button></div>
+          </div>
+        </div>
+        <div style="margin-top:20px;text-align:center">
+          <button onclick="doSignOut()" style="padding:10px 24px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;font-size:.85rem;color:#666;cursor:pointer;font-family:'DM Sans',sans-serif">Sign Out</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+var SURL='https://zshxoqbewsxmstlnzwvr.supabase.co';
+var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaHhvcWJld3N4bXN0bG56d3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDA1NTIsImV4cCI6MjA5MTg3NjU1Mn0.IXCe-xUdBkspmvtC32tb8_0saN41rKUB6QD6xUcZXC0';
+var sb=supabase.createClient(SURL,SKEY,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
+
+var STATE={user:null,client:null,services:[],obStep:1,obTotalSteps:6,selectedService:null};
+
+var SVC_CONFIG={
+  'tax-personal':{name:'Personal Tax Filing',icon:'🗂',folders:['Personal Tax','Government Documents','Signed Agreements','Historical Returns']},
+  'tax-business':{name:'Business Tax Filing',icon:'🏢',folders:['Business Tax','Corporate Records','Government Documents','Signed Agreements']},
+  'bookkeeping':{name:'Bookkeeping',icon:'📊',folders:['Bookkeeping','Financial Statements','Signed Agreements']},
+  'payroll':{name:'Payroll',icon:'💰',folders:['Payroll','Government Documents','Signed Agreements']},
+  'crossborder':{name:'Cross-Border Services',icon:'🌐',folders:['Cross-Border','Personal Tax','Business Tax','Government Documents']},
+  'advisory':{name:'Business Advisory',icon:'📈',folders:['Financial Statements','Corporate Records','Signed Agreements']}
+};
+
+// ── SCREENS ──
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');s.style.display='none';});
+  var el=document.getElementById(id);
+  el.classList.add('active');
+  el.style.display=(id==='screen-portal')?'block':'flex';
+}
+
+// ── AUTH ──
+function switchAuthTab(tab){
+  document.getElementById('signin-form').style.display=tab==='signin'?'block':'none';
+  document.getElementById('signup-form').style.display=tab==='signup'?'block':'none';
+  document.querySelectorAll('.auth-tab').forEach(function(t,i){t.classList.toggle('active',(i===0&&tab==='signin')||(i===1&&tab==='signup'));});
+  showAuthMsg('','');
+}
+function showAuthMsg(msg,type){var el=document.getElementById('authmsg');el.textContent=msg;el.className='auth-msg'+(msg?' '+type:'');}
+
+async function doSignIn(){
+  var email=document.getElementById('si-email').value.trim();
+  var pw=document.getElementById('si-pw').value;
+  if(!email||!pw)return showAuthMsg('Please enter email and password.','error');
+  var btn=document.getElementById('si-btn');btn.disabled=true;btn.textContent='Signing in…';
+  var r=await sb.auth.signInWithPassword({email:email,password:pw});
+  btn.disabled=false;btn.textContent='Sign In →';
+  if(r.error)return showAuthMsg(r.error.message,'error');
+  STATE.user=r.data.user;await routeUser();
+}
+
+async function doSignUp(){
+  var first=document.getElementById('su-first').value.trim();
+  var last=document.getElementById('su-last').value.trim();
+  var email=document.getElementById('su-email').value.trim();
+  var phone=document.getElementById('su-phone').value.trim();
+  var pw=document.getElementById('su-pw').value;
+  if(!first||!last||!email||!pw)return showAuthMsg('Please fill in all required fields.','error');
+  if(pw.length<8)return showAuthMsg('Password must be at least 8 characters.','error');
+  var btn=document.getElementById('su-btn');btn.disabled=true;btn.textContent='Creating account…';
+  var r=await sb.auth.signUp({email:email,password:pw,options:{data:{full_name:first+' '+last,first_name:first,last_name:last,phone:phone}}});
+  btn.disabled=false;btn.textContent='Create Account →';
+  if(r.error)return showAuthMsg(r.error.message,'error');
+  STATE.user=r.data.user;
+  document.getElementById('ob-email-display').textContent=email;
+  startOnboarding(r.data.session?3:2);
+}
+
+async function doReset(){
+  var email=document.getElementById('si-email').value.trim();
+  if(!email)return showAuthMsg('Enter your email first.','error');
+  var r=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://theindustryaccountants.com/portal.html'});
+  if(r.error)return showAuthMsg(r.error.message,'error');
+  showAuthMsg('Password reset email sent!','success');
+}
+
+async function doSignOut(){await sb.auth.signOut();STATE.user=null;STATE.client=null;showScreen('screen-auth');}
+
+// ── ROUTING ──
+async function routeUser(){
+  if(!STATE.user)return showScreen('screen-auth');
+  var meta=STATE.user.user_metadata||{};
+  await sb.from('profiles').upsert({id:STATE.user.id,email:STATE.user.email,full_name:meta.full_name||'',first_name:meta.first_name||'',last_name:meta.last_name||'',phone:meta.phone||''},{onConflict:'id'});
+  var cr=await sb.from('clients').select('*').eq('user_id',STATE.user.id).maybeSingle();
+  STATE.client=cr.data;
+  if(!STATE.client){document.getElementById('ob-email-display').textContent=STATE.user.email;startOnboarding(3);return;}
+  var step=STATE.client.onboarding_step;
+  var done=['dashboard_active','documents_uploaded','processing','complete'];
+  if(done.includes(step)){loadPortal();}
+  else{var m={'registered':2,'email_verified':3,'welcome_seen':4,'service_selected':5,'agreement_signed':6,'deposit_paid':6};startOnboarding(m[step]||3);}
+}
+
+// ── ONBOARDING ──
+function buildProgressDots(){}
+
+function startOnboarding(step){STATE.obStep=step||1;showScreen('screen-onboarding');showObStep(STATE.obStep);}
+function showObStep(n){STATE.obStep=n;document.querySelectorAll('.ob-step').forEach(function(s){s.classList.remove('active');});var el=document.getElementById('ob-step-'+n);if(el)el.classList.add('active');buildProgressDots();showObMsg('','');}
+function obNext(){showObStep(STATE.obStep+1);saveOnboardingStep();}
+function showObMsg(msg,type){var el=document.getElementById('ob-msg');el.textContent=msg;el.className='ob-msg'+(msg?' '+type:'');}
+
+async function saveOnboardingStep(){
+  if(!STATE.user)return;
+  var stepNames=['','registered','email_verified','welcome_seen','service_selected','agreement_signed','deposit_paid','dashboard_active'];
+  var stepName=stepNames[STATE.obStep]||'registered';
+  var meta=STATE.user.user_metadata||{};
+  var profCheck=await sb.from('profiles').select('id').eq('id',STATE.user.id).maybeSingle();
+  if(!profCheck.data){await sb.from('profiles').upsert({id:STATE.user.id,email:STATE.user.email,full_name:meta.full_name||'',first_name:meta.first_name||'',last_name:meta.last_name||'',phone:meta.phone||''},{onConflict:'id'});}
+  if(STATE.client){await sb.from('clients').update({onboarding_step:stepName}).eq('id',STATE.client.id);}
+  else{var r=await sb.from('clients').insert({user_id:STATE.user.id,email:STATE.user.email,onboarding_step:stepName,full_name:meta.full_name||'',phone:meta.phone||''}).select().single();if(r.data)STATE.client=r.data;}
+}
+
+async function checkEmailVerified(){
+  var r=await sb.auth.getUser();
+  if(r.data&&r.data.user){STATE.user=r.data.user;showObStep(3);saveOnboardingStep();}
+  else showObMsg('Email not yet verified. Please check your inbox.','error');
+}
+async function resendVerification(){if(!STATE.user)return;await sb.auth.resend({type:'signup',email:STATE.user.email});showObMsg('Verification email resent!','success');}
+
+function selectObService(svc,btn){
+  STATE.selectedService=svc;
+  document.querySelectorAll('#ob-service-grid .svc-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  document.getElementById('ob-service-btn').disabled=false;
+}
+
+async function confirmService(){
+  if(!STATE.selectedService)return;
+  await saveOnboardingStep();
+  if(STATE.client){
+    await sb.from('client_services').insert({client_id:STATE.client.id,service_type:STATE.selectedService,status:'awaiting_payment'});
+    await sb.from('clients').update({onboarding_step:'service_selected'}).eq('id',STATE.client.id);
+  }
+  showObStep(5);
+}
+
+function checkAgreements(){
+  var all=document.getElementById('ag-service').checked&&document.getElementById('ag-privacy').checked&&document.getElementById('ag-fee').checked&&document.getElementById('ag-electronic').checked;
+  var name=document.getElementById('sig-name').value.trim();
+  document.getElementById('ag-btn').disabled=!(all&&name.length>3);
+}
+
+async function signAgreement(){
+  var sigName=document.getElementById('sig-name').value.trim();
+  if(!sigName||sigName.length<3)return showObMsg('Please enter your full legal name.','error');
+  document.getElementById('ag-btn').disabled=true;document.getElementById('ag-btn').textContent='Saving…';
+  if(STATE.client){
+    await sb.from('agreements').insert({client_id:STATE.client.id,signed_name:sigName,agreed_service_agreement:true,agreed_privacy_policy:true,agreed_fee_agreement:true,agreed_electronic_comms:true,service_types:[STATE.selectedService],document_version:'1.0'});
+    await sb.from('clients').update({onboarding_step:'agreement_signed'}).eq('id',STATE.client.id);
+  }
+  var svc=SVC_CONFIG[STATE.selectedService];
+  showObStep(6);
+  var el=document.getElementById('ob-svc-confirm');if(el)el.textContent=svc?svc.name:STATE.selectedService;
+}
+
+async function goToDashboard(tab){
+  if(STATE.client)await sb.from('clients').update({onboarding_step:'dashboard_active'}).eq('id',STATE.client.id);
+  await loadPortal();
+  if(tab&&tab!=='tab-dashboard')setTimeout(function(){showPortalTab(tab);},100);
+}
+
+// ── PORTAL ──
+function getGreeting(){var h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening';}
+function fmtSvc(s){var c=SVC_CONFIG[s];return c?c.name:(s||'Service').replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});}
+function statusBadge(s){
+  var m={'active':'green','in_progress':'blue','awaiting_payment':'gold','awaiting_docs':'gold','under_review':'blue','complete':'green','cancelled':'gray','paid':'green','sent':'gold','overdue':'red'};
+  var l={'active':'Active','in_progress':'In Progress','awaiting_payment':'Awaiting Payment','awaiting_docs':'Awaiting Docs','under_review':'Under Review','complete':'Complete','cancelled':'Cancelled','paid':'Paid','sent':'Due','overdue':'Overdue'};
+  return '<span class="badge '+(m[s]||'gray')+'">'+(l[s]||s||'Active')+'</span>';
+}
+
+async function loadPortal(){
+  showScreen('screen-portal');
+  var meta=STATE.user.user_metadata||{};
+  var name=meta.first_name||(meta.full_name||'').split(' ')[0]||'';
+  document.getElementById('user-email').textContent=STATE.user.email;
+  document.getElementById('set-name').textContent=meta.full_name||STATE.user.email;
+  document.getElementById('set-email').textContent=STATE.user.email;
+  var greeting=getGreeting()+(name?', '+name+'.':'.');
+  document.getElementById('wb-greeting').textContent=greeting;
+
+  if(!STATE.client){var cr=await sb.from('clients').select('*').eq('user_id',STATE.user.id).maybeSingle();STATE.client=cr.data;}
+  if(!STATE.client)return;
+  window._clientId=STATE.client.id;
+
+  // Services
+  var svcsR=await sb.from('client_services').select('*').eq('client_id',STATE.client.id).order('created_at');
+  STATE.services=svcsR.data||[];
+  document.getElementById('stat-services').textContent=STATE.services.length||'1';
+  document.getElementById('sb-services').textContent=STATE.services.length||'1';
+  renderServicesTab();
+  renderVaultFolders();
+  updateWelcomeBanner();
+
+  // Docs
+  var docsR=await sb.from('documents').select('*').eq('client_id',STATE.client.id).order('created_at',{ascending:false});
+  var docs=docsR.data||[];
+  document.getElementById('stat-docs').textContent=docs.length;
+  document.getElementById('sb-docs').textContent=docs.length;
+  document.getElementById('stat-pending').textContent=docs.filter(function(d){return d.status==='received';}).length;
+  document.getElementById('vault-doc-count').textContent=docs.length;
+  if(docs.length>0)document.getElementById('vault-last-upload').textContent=new Date(docs[0].created_at).toLocaleDateString();
+  renderDocsList(docs);
+
+  // Messages
+  var msgsR=await sb.from('messages').select('*').eq('client_id',STATE.client.id).order('created_at');
+  var msgs=msgsR.data||[];
+  var unread=msgs.filter(function(m){return m.is_from_admin&&m.status!=='read';}).length;
+  document.getElementById('stat-msgs').textContent=unread;
+  document.getElementById('sb-msgs').textContent=unread;
+  if(unread>0){var nb=document.getElementById('notif-count');nb.textContent=unread;nb.style.display='flex';}
+  renderMessages(msgs);
+
+  // Invoices
+  var invR=await sb.from('invoices').select('*').eq('client_id',STATE.client.id).order('created_at',{ascending:false});
+  var invs=invR.data||[];
+  var outstanding=invs.filter(function(i){return i.status==='sent'||i.status==='overdue';}).length;
+  document.getElementById('sb-invoices').textContent=outstanding;
+  renderInvoices(invs);
+  checkForProposal(invs);
+
+  // Activity
+  var updR=await sb.from('status_updates').select('*').eq('client_id',STATE.client.id).eq('is_visible_to_client',true).order('created_at',{ascending:false}).limit(8);
+  renderActivity(updR.data||[]);
+
+  // Real-time
+  sb.channel('portal-'+STATE.client.id)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'status_updates',filter:'client_id=eq.'+STATE.client.id},function(p){if(p.new.is_visible_to_client)prependActivity(p.new);})
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'client_id=eq.'+STATE.client.id},function(p){if(p.new.is_from_admin)appendMessage(p.new);})
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'invoices',filter:'client_id=eq.'+STATE.client.id},function(p){checkForProposal([p.new]);})
+    .subscribe();
+}
+
+function updateWelcomeBanner(){
+  var svc=STATE.services[0];
+  if(svc){
+    document.getElementById('wb-service').textContent=fmtSvc(svc.service_type);
+    var statusMap={'awaiting_payment':'Awaiting Payment','awaiting_docs':'Awaiting Documents','active':'Active','in_progress':'In Progress','under_review':'Under Review','complete':'Complete'};
+    var statusCls={'awaiting_payment':'awaiting','awaiting_docs':'awaiting','active':'active','in_progress':'review','under_review':'review','complete':'active'};
+    var s=svc.status||'awaiting_docs';
+    var wbStatus=document.getElementById('wb-status');
+    wbStatus.textContent=statusMap[s]||s;
+    wbStatus.className='wb-status '+(statusCls[s]||'awaiting');
+    var nextMap={'awaiting_payment':'Complete your payment to activate your service','awaiting_docs':'Upload your documents to get started','active':'Your file is active and being processed','in_progress':'Your accountant is working on your file','under_review':'Your file is under review','complete':'Your service is complete'};
+    document.getElementById('wb-next-action').textContent=nextMap[s]||'Upload your documents to get started';
+  }
+}
+
+function checkForProposal(invs){
+  var proposal=invs.find(function(i){return i.status==='sent'&&i.description&&i.description.toLowerCase().includes('proposal');});
+  var banner=document.getElementById('proposal-banner');
+  if(proposal){
+    banner.style.display='block';
+    document.getElementById('proposal-fee').textContent='$'+parseFloat(proposal.amount_total||0).toLocaleString('en-US',{minimumFractionDigits:2});
+    if(proposal.notes)document.getElementById('proposal-desc').textContent=proposal.notes;
+  }else{banner.style.display='none';}
+}
+
+async function acceptProposal(){document.getElementById('proposal-banner').style.display='none';showPortalTab('tab-invoices');}
+function declineProposal(){document.getElementById('proposal-banner').style.display='none';}
+
+function renderServicesTab(){
+  var svcs=STATE.services.length?STATE.services:[{service_type:STATE.selectedService||'tax-personal',status:'awaiting_docs',progress_pct:20,current_stage:'Received'}];
+  document.getElementById('services-list').innerHTML=svcs.map(function(s){
+    var cfg=SVC_CONFIG[s.service_type]||{};
+    var prog=s.progress_pct||20;
+    return '<div class="service-row">'+
+      '<div style="display:flex;align-items:center;gap:14px"><div class="service-icon">'+(cfg.icon||'📋')+'</div>'+
+      '<div><div class="service-name">'+fmtSvc(s.service_type)+'</div><div class="service-stage">Stage: '+(s.current_stage||'Received')+'</div></div></div>'+
+      '<div style="display:flex;align-items:center;gap:12px">'+
+      '<div><div class="progress-wrap"><div class="progress-fill" style="width:'+prog+'%"></div></div><div style="font-size:.68rem;color:#bbb;margin-top:2px;text-align:right">'+prog+'%</div></div>'+
+      statusBadge(s.status)+
+      '</div></div>';
+  }).join('');
+}
+
+function renderVaultFolders(){
+  var allFolders=new Set(['Signed Agreements','Government Documents']);
+  var svcs=STATE.services.length?STATE.services:[{service_type:STATE.selectedService||'tax-personal'}];
+  svcs.forEach(function(s){var cfg=SVC_CONFIG[s.service_type];if(cfg)cfg.folders.forEach(function(f){allFolders.add(f);});});
+  var icons={'Personal Tax':'🗂','Business Tax':'🏢','Payroll':'💰','Bookkeeping':'📊','Cross-Border':'🌐','Corporate Records':'🏛','Government Documents':'🏛','Signed Agreements':'✍','Historical Returns':'📁','Financial Statements':'📈'};
+  document.getElementById('vault-folders').innerHTML=Array.from(allFolders).map(function(f){
+    return '<div class="vault-folder"><div class="vault-folder-icon">'+(icons[f]||'📂')+'</div><div class="vault-folder-name">'+f+'</div><div class="vault-folder-count">— files</div></div>';
+  }).join('');
+}
+
+function renderDocsList(docs){
+  if(!docs.length)return;
+  var html=docs.map(function(d){
+    return '<div class="doc-row"><span style="color:#333">📄 '+d.file_name+'</span>'+
+      '<div style="display:flex;align-items:center;gap:10px">'+statusBadge(d.status||'received')+'<span style="color:#bbb;font-size:.72rem">'+new Date(d.created_at).toLocaleDateString()+'</span></div></div>';
+  }).join('');
+  document.getElementById('vault-docs-list').innerHTML=html;
+}
+
+function renderMessages(msgs){
+  if(!msgs.length)return;
+  document.getElementById('messages-list').innerHTML=msgs.map(function(m){
+    return '<div class="msg-bubble-wrap"><div class="msg-bubble '+(m.is_from_admin?'from-admin':'from-client')+'">'+m.body+'</div>'+
+      '<div class="msg-meta" style="'+(m.is_from_admin?'':'text-align:right')+'">'+new Date(m.created_at).toLocaleString()+'</div></div>';
+  }).join('');
+}
+
+function appendMessage(m){
+  var wrap=document.getElementById('messages-list');
+  var div=document.createElement('div');div.className='msg-bubble-wrap';
+  div.innerHTML='<div class="msg-bubble '+(m.is_from_admin?'from-admin':'from-client')+'">'+m.body+'</div><div class="msg-meta">'+new Date(m.created_at).toLocaleString()+'</div>';
+  wrap.appendChild(div);wrap.scrollTop=wrap.scrollHeight;
+}
+
+async function sendMessage(){
+  var input=document.getElementById('msg-input');
+  var body=input.value.trim();
+  if(!body||!STATE.client)return;
+  var dept=document.getElementById('msg-dept').value;
+  input.value='';
+  appendMessage({body:body,is_from_admin:false,created_at:new Date().toISOString()});
+  await sb.from('messages').insert({client_id:STATE.client.id,sender_id:STATE.user.id,body:body,is_from_admin:false,department:dept});
+}
+
+function renderInvoices(invs){
+  var outstanding=invs.filter(function(i){return i.status==='sent'||i.status==='overdue';});
+  var history=invs.filter(function(i){return i.status==='paid'||i.status==='refunded';});
+  if(outstanding.length){
+    document.getElementById('invoices-outstanding').innerHTML=outstanding.map(function(inv){
+      return '<div class="invoice-row">'+
+        '<div><div style="font-size:.85rem;font-weight:500;color:#111">'+(inv.service_type?fmtSvc(inv.service_type):'Professional Services')+'</div>'+
+        '<div style="font-size:.73rem;color:#aaa">Due: '+new Date(inv.due_date||inv.created_at).toLocaleDateString()+'</div></div>'+
+        '<div style="display:flex;align-items:center;gap:12px">'+statusBadge(inv.status)+
+        '<div class="invoice-amount">$'+parseFloat(inv.amount_total||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</div>'+
+        (inv.invoice_url?'<a href="'+inv.invoice_url+'" target="_blank" class="pay-btn">Pay Now</a>':'')+'</div></div>';
+    }).join('');
+  }
+  if(history.length){
+    document.getElementById('invoices-history').innerHTML=history.map(function(inv){
+      return '<div class="invoice-row">'+
+        '<div><div style="font-size:.85rem;font-weight:500;color:#111">'+(inv.service_type?fmtSvc(inv.service_type):'Professional Services')+'</div>'+
+        '<div style="font-size:.73rem;color:#aaa">Paid: '+new Date(inv.paid_at||inv.created_at).toLocaleDateString()+'</div></div>'+
+        '<div style="display:flex;align-items:center;gap:12px">'+statusBadge(inv.status)+
+        '<div class="invoice-amount">$'+parseFloat(inv.amount_total||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</div></div></div>';
+    }).join('');
+  }
+}
+
+function renderActivity(updates){
+  if(!updates.length)return;
+  document.getElementById('overview-activity').innerHTML=updates.map(function(u){
+    return '<div style="padding:10px 0;border-bottom:1px solid #f7f7f7">'+
+      '<div style="font-size:.83rem;color:#333;margin-bottom:2px">'+u.message+'</div>'+
+      '<div style="font-size:.72rem;color:#aaa">'+new Date(u.created_at).toLocaleString()+'</div></div>';
+  }).join('');
+}
+
+function prependActivity(u){
+  var el=document.getElementById('overview-activity');
+  var div=document.createElement('div');div.style='padding:10px 0;border-bottom:1px solid #f7f7f7';
+  div.innerHTML='<div style="font-size:.83rem;color:#333;margin-bottom:2px">'+u.message+'</div><div style="font-size:.72rem;color:#aaa">Just now</div>';
+  el.prepend(div);
+}
+
+// ── PORTAL TABS ──
+function showPortalTab(tabId){
+  document.querySelectorAll('.portal-tab').forEach(function(t){t.classList.remove('active-tab');});
+  var tab=document.getElementById(tabId);if(tab)tab.classList.add('active-tab');
+  document.querySelectorAll('.sidebar-item').forEach(function(item){item.classList.remove('active');});
+  var tabMap={'tab-dashboard':0,'tab-services':1,'tab-vault':2,'tab-messages':3,'tab-appointments':4,'tab-invoices':5,'tab-tools':6,'tab-reports':7,'tab-settings':8};
+  var items=document.querySelectorAll('.sidebar-item');
+  var idx=tabMap[tabId];if(idx!==undefined&&items[idx])items[idx].classList.add('active');
+}
+
+// ── FILE UPLOAD ──
+async function uploadPortalFiles(inputEl){
+  var clientId=STATE.client?STATE.client.id:window._clientId;
+  if(!clientId){alert('Session not ready. Please refresh.');return;}
+  var session=(await sb.auth.getSession()).data.session;
+  var jwt=session?session.access_token:null;
+  var isDash=inputEl.id==='dash-file-input';
+  var listEl=document.getElementById(isDash?'dash-upload-list':'vault-upload-list');
+  var msgEl=document.getElementById(isDash?'dash-upload-msg':'vault-upload-msg');
+  listEl.innerHTML='';msgEl.textContent='';
+  var allOk=true;
+  for(var i=0;i<inputEl.files.length;i++){
+    var f=inputEl.files[i];
+    var row=document.createElement('div');row.textContent='📄 '+f.name+' — Uploading…';listEl.appendChild(row);
+    try{
+      var mr=await fetch('/.netlify/functions/upload-document',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({file_name:f.name,file_type:f.type||'application/octet-stream',file_size:f.size,document_type:'client_upload',tax_year:new Date().getFullYear(),client_id:clientId,jwt:jwt})});
+      var meta=await mr.json();if(!meta.signed_url)throw new Error(meta.error||'No upload URL');
+      var pr=await fetch(meta.signed_url,{method:'PUT',headers:{'Content-Type':f.type||'application/octet-stream'},body:f});
+      if(!pr.ok)throw new Error('Upload failed: '+pr.status);
+      row.textContent='✅ '+f.name+' — Uploaded';row.style.color='#16a34a';
+    }catch(e){row.textContent='❌ '+f.name+' — '+e.message;row.style.color='#dc2626';allOk=false;}
+  }
+  msgEl.textContent=allOk?'All files uploaded successfully!':'Some files failed. Please retry.';
+  msgEl.style.color=allOk?'#16a34a':'#dc2626';
+  var dr=await sb.from('documents').select('id,file_name,status,created_at').eq('client_id',clientId).order('created_at',{ascending:false});
+  var docs=dr.data||[];
+  document.getElementById('stat-docs').textContent=docs.length;document.getElementById('sb-docs').textContent=docs.length;
+  document.getElementById('vault-doc-count').textContent=docs.length;
+  if(docs.length>0)document.getElementById('vault-last-upload').textContent=new Date(docs[0].created_at).toLocaleDateString();
+  renderDocsList(docs);inputEl.value='';
+}
+
+// ── INIT ──
+window.addEventListener('load',function(){
+  sb.auth.getSession().then(function(r){if(r.data&&r.data.session){STATE.user=r.data.session.user;routeUser();}});
+  sb.auth.onAuthStateChange(function(event,session){if(event==='SIGNED_IN'&&session&&!STATE.user){STATE.user=session.user;routeUser();}});
+});
+</script>
+</body>
+</html>
