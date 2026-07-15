@@ -20,8 +20,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 
 /* ── AUTH ── */
 #screen-auth{min-height:100vh;flex-direction:row;position:relative}
-.bg-dashboard-preview{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(70vw,900px);height:auto;opacity:.12;filter:blur(.5px);pointer-events:none;z-index:0}
-.bg-dashboard-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,.10) 0%,transparent 70%);pointer-events:none;z-index:0}
+.bg-dashboard-preview{display:none}
+.bg-dashboard-glow{display:none}
 .auth-left,.auth-right{position:relative;z-index:1}
 .auth-left{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:24px 48px 40px;position:relative;overflow:hidden}
 .auth-left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(201,168,76,.07) 0%,transparent 60%)}
@@ -29,7 +29,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .left-badge{width:42px;height:42px;background:var(--navy3);border:1px solid var(--border-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.85rem;color:var(--gold)}
 .left-logo{display:flex;align-items:center;gap:12px}
 .left-logo-name{font-size:.9rem;color:rgba(255,255,255,.7)}
-.left-headline{margin-top:24px}
+.left-headline{margin-top:24px;margin-bottom:6px}
 .left-headline h1{font-family:'Playfair Display',serif;font-size:3rem;font-weight:400;line-height:1.2;margin-bottom:12px}
 .left-headline h1 em{color:var(--gold);font-style:italic}
 .left-headline p{color:var(--muted);font-size:1rem;line-height:1.65;max-width:420px}
@@ -275,102 +275,28 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 
 <!-- ═══════ SCREEN 1: AUTH ═══════ -->
 <div id="screen-auth" class="screen active">
-  <div class="bg-dashboard-glow"></div>
-  <svg class="bg-dashboard-preview" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" fill="none">
-    <defs>
-      <linearGradient id="gprev" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e0c06a"/></linearGradient>
-    </defs>
-    <!-- Tax Return Status -->
-    <rect x="20" y="20" width="220" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="38" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Tax Return Status</text>
-    <rect x="38" y="64" width="184" height="6" rx="3" fill="#c9a84c" opacity=".5"/>
-    <rect x="38" y="80" width="140" height="6" rx="3" fill="#c9a84c" opacity=".3"/>
-    <text x="38" y="116" fill="#2dd4a0" font-family="DM Sans" font-size="11">In Review</text>
-
-    <!-- Secure Document Center -->
-    <rect x="260" y="20" width="220" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="278" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Document Center</text>
-    <rect x="278" y="62" width="184" height="22" rx="5" stroke="#c9a84c" stroke-width="1" opacity=".5"/>
-    <rect x="278" y="90" width="184" height="22" rx="5" stroke="#c9a84c" stroke-width="1" opacity=".3"/>
-
-    <!-- Payroll Overview -->
-    <rect x="500" y="20" width="200" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="518" y="48" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Payroll Overview</text>
-    <rect x="518" y="70" width="14" height="40" fill="#c9a84c" opacity=".4"/>
-    <rect x="538" y="55" width="14" height="55" fill="#c9a84c" opacity=".5"/>
-    <rect x="558" y="80" width="14" height="30" fill="#c9a84c" opacity=".4"/>
-    <rect x="578" y="60" width="14" height="50" fill="#c9a84c" opacity=".6"/>
-
-    <!-- Revenue Analytics -->
-    <rect x="720" y="20" width="160" height="120" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="736" y="48" fill="#e0c06a" font-family="DM Sans" font-size="12" font-weight="600">Revenue</text>
-    <polyline points="736,110 760,90 784,98 808,70 832,80 856,55" stroke="#c9a84c" stroke-width="2" fill="none" opacity=".6"/>
-
-    <!-- Premium Audit Assessment - emphasized -->
-    <rect x="20" y="160" width="280" height="130" rx="10" stroke="#e0c06a" stroke-width="1.6"/>
-    <text x="38" y="190" fill="#e0c06a" font-family="DM Sans" font-size="14" font-weight="700">Premium Audit Assessment</text>
-    <text x="38" y="212" fill="rgba(255,255,255,.5)" font-family="DM Sans" font-size="11">Potential Savings Review</text>
-    <circle cx="50" cy="250" r="5" fill="#c9a84c"/>
-    <text x="64" y="254" fill="#c9a84c" font-family="DM Sans" font-size="11">Scheduled</text>
-
-    <!-- Cross-Border Services -->
-    <rect x="320" y="160" width="200" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="338" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Cross-Border</text>
-    <circle cx="420" cy="240" r="30" stroke="#c9a84c" stroke-width="6" fill="none" opacity=".4"/>
-    <circle cx="420" cy="240" r="30" stroke="#e0c06a" stroke-width="6" fill="none" stroke-dasharray="60 130" opacity=".7"/>
-
-    <!-- Client Messages -->
-    <rect x="540" y="160" width="170" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="558" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Messages</text>
-    <rect x="558" y="204" width="134" height="18" rx="9" fill="#c9a84c" opacity=".25"/>
-    <rect x="558" y="230" width="100" height="18" rx="9" fill="#c9a84c" opacity=".15"/>
-    <circle cx="685" cy="180" r="9" fill="#e0c06a"/>
-    <text x="681" y="184" fill="#0a0f1c" font-family="DM Sans" font-size="9" font-weight="700">3</text>
-
-    <!-- Outstanding Tasks -->
-    <rect x="730" y="160" width="150" height="130" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="748" y="190" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Tasks</text>
-    <rect x="748" y="204" width="14" height="14" rx="3" stroke="#c9a84c" stroke-width="1.4"/>
-    <rect x="748" y="228" width="14" height="14" rx="3" fill="#c9a84c" opacity=".5"/>
-    <line x1="772" y1="211" x2="855" y2="211" stroke="#c9a84c" stroke-width="2" opacity=".4"/>
-    <line x1="772" y1="235" x2="845" y2="235" stroke="#c9a84c" stroke-width="2" opacity=".3"/>
-
-    <!-- Invoice Summary -->
-    <rect x="20" y="310" width="240" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="38" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Invoices</text>
-    <text x="38" y="375" fill="#fff" font-family="Georgia,serif" font-size="22" opacity=".7">$1,240</text>
-    <text x="38" y="396" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">1 Outstanding</text>
-
-    <!-- Advisor Communications -->
-    <rect x="280" y="310" width="260" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="298" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Advisor</text>
-    <circle cx="312" cy="370" r="14" fill="#c9a84c" opacity=".3"/>
-    <text x="336" y="368" fill="#fff" font-family="DM Sans" font-size="11" opacity=".7">Sarah M.</text>
-    <text x="336" y="384" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">Senior Advisor</text>
-
-    <!-- Bottom long bar - Bookkeeping -->
-    <rect x="560" y="310" width="320" height="110" rx="10" stroke="url(#gprev)" stroke-width="1.2"/>
-    <text x="578" y="340" fill="#e0c06a" font-family="DM Sans" font-size="13" font-weight="600">Bookkeeping Review</text>
-    <rect x="578" y="356" width="284" height="8" rx="4" fill="#c9a84c" opacity=".2"/>
-    <rect x="578" y="356" width="170" height="8" rx="4" fill="#c9a84c" opacity=".6"/>
-    <text x="578" y="392" fill="rgba(255,255,255,.4)" font-family="DM Sans" font-size="10">Awaiting Documents</text>
-  </svg>
 
   <div class="auth-left">
-    <div class="left-logo" style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
+    <div class="left-logo" style="display:flex;flex-direction:column;gap:14px;margin-top:40px">
       <a href="/" style="display:inline-flex;align-items:center;gap:6px;font-size:.74rem;color:rgba(255,255,255,.4);text-decoration:none;font-family:'DM Sans',sans-serif;transition:color .2s" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,.4)'">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         Return to The Industry Accountants
       </a>
       <a href="/" style="display:flex;align-items:center;text-decoration:none;margin-top:6px">
-        <img src="logo-dark.png" alt="The Industry Accountants" style="height:78px;width:auto;display:block;mix-blend-mode:lighten;filter:brightness(1.1)"/>
+        <img src="logo.png" alt="The Industry Accountants" style="height:90px;width:auto;display:block;mix-blend-mode:screen"/>
       </a>
     </div>
     <div class="left-headline">
       <h1>Financial Clarity<br><em>Starts Here.</em></h1>
-      <p>Institutional-grade systems. Human oversight. Complete visibility.</p>
-      <p style="font-size:.82rem;color:rgba(201,168,76,.7);margin-top:8px;font-style:italic">Trusted by business owners across North America for more than 20 years.</p>
-      <div class="left-metrics">
+      <p style="line-height:1.75;font-size:.95rem">Your taxes, bookkeeping, payroll, premium audits, and business finances managed securely in one place.</p>
+      <p style="font-size:.88rem;color:rgba(201,168,76,.8);margin-top:10px;font-style:italic;font-weight:500">Trusted by business owners across North America for more than 20 years, delivering thousands of successful tax filings, bookkeeping services, payroll solutions, and premium audit engagements.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.75rem">
+        <a onclick="switchAuthTab('signup')" style="display:inline-flex;align-items:center;justify-content:center;width:190px;background:linear-gradient(135deg,#C9A43A 0%,#D6B24A 50%,#E0C66A 100%);color:#111;text-decoration:none;font-size:.83rem;font-weight:700;padding:.78rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;cursor:pointer">File My Taxes →</a>
+        <a onclick="switchAuthTab('signup')" style="display:inline-flex;align-items:center;justify-content:center;width:190px;background:rgba(8,13,26,0.7);color:#fff;text-decoration:none;font-size:.83rem;font-weight:500;padding:.78rem 1rem;border-radius:8px;border:1px solid rgba(201,168,76,.4);font-family:'DM Sans',sans-serif;cursor:pointer">Get Audit Help →</a>
+        <a href="business-launch-tool.html" style="display:inline-flex;align-items:center;justify-content:center;width:190px;background:rgba(8,13,26,0.7);color:#fff;text-decoration:none;font-size:.83rem;font-weight:500;padding:.78rem 1rem;border-radius:8px;border:1px solid rgba(255,255,255,.22);font-family:'DM Sans',sans-serif;">Start My Business →</a>
+      </div>
+
+      <div class="left-metrics" style="margin-top:28px">
         <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot green"></span><span class="metric-label">Tax Return 2025</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(45,212,160,.9)">In Review</span></div>
         <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot green"></span><span class="metric-label">Payroll Setup</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(45,212,160,.9)">Complete</span></div>
         <div class="metric-item"><div style="display:flex;align-items:center"><span class="metric-dot gold"></span><span class="metric-label">Bookkeeping Review</span></div><span class="metric-val" style="font-size:.72rem;color:rgba(201,168,76,.9)">Awaiting Docs</span></div>
@@ -394,6 +320,63 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
     <div class="left-footer">© 2026 The Industry Accountants · All data encrypted in transit and at rest</div>
 
   </div>
+  <!-- CENTER: Decorative Dashboard Preview -->
+  <div style="flex:0 0 340px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:40px 0">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:320px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,.06) 0%,transparent 70%);pointer-events:none"></div>
+    <svg width="300" height="480" viewBox="0 0 300 480" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.28;filter:blur(.3px);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0.3) 0%,rgba(0,0,0,1) 30%,rgba(0,0,0,1) 70%,rgba(0,0,0,0) 100%);mask-image:linear-gradient(to right,rgba(0,0,0,0.3) 0%,rgba(0,0,0,1) 30%,rgba(0,0,0,1) 70%,rgba(0,0,0,0) 100%)">
+      <defs>
+        <linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e0c06a"/></linearGradient>
+      </defs>
+      <!-- Your Financial Workspace - featured card -->
+      <rect x="10" y="10" width="280" height="130" rx="10" stroke="#e0c06a" stroke-width="1.8"/>
+      <text x="26" y="36" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="11" font-weight="700">Your Financial Workspace</text>
+      <line x1="26" y1="44" x2="274" y2="44" stroke="#c9a84c" stroke-width=".8" opacity=".4"/>
+      <text x="26" y="62" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif" font-size="9.5">Documents Uploaded</text>
+      <text x="274" y="62" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600" text-anchor="end">12</text>
+      <text x="26" y="80" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif" font-size="9.5">Messages</text>
+      <text x="274" y="80" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600" text-anchor="end">3 New</text>
+      <text x="26" y="98" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif" font-size="9.5">Tax Filing Progress</text>
+      <rect x="170" y="89" width="90" height="6" rx="3" fill="#c9a84c" opacity=".2"/>
+      <rect x="170" y="89" width="56" height="6" rx="3" fill="#c9a84c" opacity=".7"/>
+      <text x="26" y="118" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif" font-size="9.5">Assigned Advisor</text>
+      <text x="274" y="118" fill="#2dd4a0" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600" text-anchor="end">Sarah M.</text>
+      <!-- Tax Return Status -->
+      <rect x="10" y="155" width="135" height="90" rx="8" stroke="url(#dg)" stroke-width="1.2"/>
+      <text x="22" y="177" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600">Tax Return 2025</text>
+      <circle cx="22" cy="220" r="4" fill="#00ff99"/>
+      <text x="32" y="224" fill="#00ff99" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">In Review</text>
+      <!-- Payroll -->
+      <rect x="155" y="155" width="135" height="90" rx="8" stroke="url(#dg)" stroke-width="1.2"/>
+      <text x="167" y="177" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600">Payroll</text>
+      <rect x="167" y="188" width="10" height="30" fill="#c9a84c" opacity=".4"/>
+      <rect x="182" y="180" width="10" height="38" fill="#c9a84c" opacity=".5"/>
+      <rect x="197" y="192" width="10" height="26" fill="#c9a84c" opacity=".4"/>
+      <rect x="212" y="184" width="10" height="34" fill="#c9a84c" opacity=".6"/>
+      <!-- Premium Audit - highlighted -->
+      <rect x="10" y="258" width="280" height="80" rx="8" stroke="#e0c06a" stroke-width="1.6"/>
+      <text x="26" y="280" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="10" font-weight="700">Premium Audit Assessment</text>
+      <text x="26" y="298" fill="rgba(255,255,255,.5)" font-family="DM Sans,sans-serif" font-size="9">Potential Savings Review</text>
+      <circle cx="26" cy="323" r="4" fill="#ffa020"/>
+      <text x="36" y="327" fill="#ffa020" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Scheduled</text>
+      <!-- Messages -->
+      <rect x="10" y="352" width="135" height="80" rx="8" stroke="url(#dg)" stroke-width="1.2"/>
+      <text x="22" y="374" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600">Messages</text>
+      <rect x="22" y="384" width="106" height="14" rx="7" fill="#c9a84c" opacity=".2"/>
+      <rect x="22" y="404" width="80" height="14" rx="7" fill="#c9a84c" opacity=".12"/>
+      <circle cx="133" cy="363" r="7" fill="#e0c06a"/>
+      <text x="130" y="367" fill="#0a0f1c" font-family="DM Sans,sans-serif" font-size="7.5" font-weight="700">3</text>
+      <!-- Cross-Border -->
+      <rect x="155" y="352" width="135" height="80" rx="8" stroke="url(#dg)" stroke-width="1.2"/>
+      <text x="167" y="374" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600">Cross-Border</text>
+      <circle cx="222" cy="405" r="20" stroke="#c9a84c" stroke-width="5" fill="none" opacity=".3"/>
+      <circle cx="222" cy="405" r="20" stroke="#e0c06a" stroke-width="5" fill="none" stroke-dasharray="42 85" opacity=".7"/>
+      <!-- Invoices bottom -->
+      <rect x="10" y="446" width="280" height="26" rx="6" stroke="url(#dg)" stroke-width="1"/>
+      <text x="22" y="464" fill="rgba(255,255,255,.5)" font-family="DM Sans,sans-serif" font-size="9">Invoice Outstanding</text>
+      <text x="274" y="464" fill="#e0c06a" font-family="DM Sans,sans-serif" font-size="9" font-weight="600" text-anchor="end">$1,240</text>
+    </svg>
+  </div>
+
   <div class="auth-right">
     <div class="login-card">
       <div class="login-card-logo">
