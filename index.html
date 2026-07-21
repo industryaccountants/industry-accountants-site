@@ -173,93 +173,94 @@
     }
 
     /* ── MOBILE (600px) ── */
-    @media(max-width:600px){
-      /* Global */
-      .sec{padding:3rem 4vw!important}
-      .svc-section{padding:3rem 4vw!important}
-      .why-wrap{padding:3rem 4vw!important}
-      .partner-sec{padding:3rem 4vw!important}
-      footer{padding:2rem 4vw!important}
-      .proof-bar{gap:1.5rem;padding:1.25rem 4vw}
-
-      /* Nav */
+    @media(max-width:768px){
+      /* ── NAV ── */
       nav{padding:0 4vw!important;height:60px}
+      .nav-links{display:none!important}
+      .btn-ghost{display:none!important}
+      .btn-navy{font-size:.78rem!important;padding:.4rem .8rem!important}
 
-      /* Hero */
-      .hero{padding-top:80px!important;padding-left:4vw!important;padding-right:4vw!important}
-      .hero h1{font-size:clamp(1.9rem,7vw,2.8rem)!important}
-      .hero-sub{font-size:.88rem!important}
-      .hero-trust{gap:.75rem!important;flex-wrap:wrap}
+      /* ── HERO ── */
+      section[style*="min-height:92vh"]{min-height:auto!important;padding-bottom:3rem}
+      div[style*="padding:90px 5vw"]{padding:90px 4vw 3rem!important;padding-left:4vw!important}
+      div[style*="max-width:680px"]{max-width:100%!important}
+      h1[class*="hero-animate"]{font-size:clamp(1.8rem,6vw,2.8rem)!important;line-height:1.15!important}
+      img[src="hero-banner-new.png"]{width:100%!important;top:0!important;opacity:.25!important}
 
-      /* Hero pills */
-      .hero-animate-d4{display:flex;flex-wrap:wrap;gap:.4rem}
-      .hero-animate-d4 a{font-size:.72rem!important;padding:.35rem .75rem!important}
+      /* Hero buttons - stack vertically */
+      div[class*="hero-animate-d3"]{flex-direction:column!important;gap:.75rem!important}
+      div[class*="hero-animate-d3"] a{width:100%!important;justify-content:center!important;min-width:unset!important}
 
-      /* Services header */
-      .svc-grid{grid-template-columns:1fr}
-      .svc-row{grid-template-columns:1fr!important;gap:1.5rem!important}
+      /* Trust bar - wrap on mobile */
+      div[class*="hero-animate-d4"]{flex-wrap:wrap!important;gap:1rem 2rem!important}
 
-      /* Stats */
-      .stat-grid{grid-template-columns:1fr 1fr}
+      /* ── STARTING POINT CARDS ── */
+      div[style*="grid-template-columns:repeat(5,1fr)"]{grid-template-columns:1fr!important}
 
-      /* Steps */
-      .steps-grid{grid-template-columns:1fr;gap:1.5rem}
+      /* ── PRICING ── */
+      div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
+      div[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important}
 
-      /* Tools tabs */
-      #home-tool-tabs{flex-wrap:wrap!important;gap:.4rem!important}
-      #home-tool-tabs button{font-size:.78rem!important;padding:.5rem .75rem!important}
+      /* ── SERVICES ── */
+      div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+      div[style*="grid-template-columns:repeat(2,1fr)"]{grid-template-columns:1fr!important}
 
-      /* Calculator grids */
-      .tool-3col{grid-template-columns:1fr 1fr!important}
-      .tool-2col{grid-template-columns:1fr!important}
+      /* ── METRICS / STATS ── */
+      div[style*="grid-template-columns:repeat(4,1fr)"].stat{grid-template-columns:1fr 1fr!important}
 
-      /* Business launch */
-      .biz-launch-stats{flex-direction:column!important;gap:.75rem!important}
-      .biz-launch-divider{display:none!important}
+      /* ── TOOLS TABS ── */
+      div[style*="display:flex;justify-content:center;gap:.6rem"]{flex-wrap:wrap!important;gap:.4rem!important}
+      div[style*="display:flex;justify-content:center;gap:.6rem"] button{font-size:.75rem!important;padding:.45rem .75rem!important}
 
-      /* What's Included dark navy box */
-      .whats-included-grid{grid-template-columns:1fr!important;gap:2rem!important;padding:1.75rem!important}
+      /* ── FROM IDEA SECTION ── */
+      div[style*="max-width:1200px;margin:0 auto;padding:4rem 5vw"]{padding:3rem 4vw!important}
 
-      /* Cross border cards */
-      .cb-cards{grid-template-columns:1fr!important}
+      /* ── CROSS BORDER ── */
+      div[style*="grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem"]{grid-template-columns:1fr!important}
 
-      /* White label hero */
-      .wl-hero-text h2{font-size:clamp(1.8rem,6vw,2.5rem)!important}
+      /* ── PARTNERS HERO ── */
+      div[style*="position:relative;width:100%;height:520px"]{height:auto!important;min-height:340px!important}
+      div[style*="grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem"]{grid-template-columns:1fr!important}
+      div[style*="grid-template-columns:repeat(4,1fr);gap:1rem;padding-top:2rem"]{grid-template-columns:1fr 1fr!important}
 
-      /* White label cards */
-      .wl-cards{grid-template-columns:1fr!important}
+      /* ── HOW IT WORKS ── */
+      section[id="how"] div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
 
-      /* White label trust row */
-      .wl-trust{grid-template-columns:1fr 1fr!important}
+      /* ── COMPARISON TABLE ── */
+      div[style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr 1fr 1fr!important;font-size:.75rem!important}
 
-      /* Why choose us */
-      .why-list{gap:1.25rem}
+      /* ── WHY CHOOSE US ── */
+      .why-wrap{grid-template-columns:1fr!important;gap:2rem!important;padding:3rem 4vw!important}
 
-      /* Testimonials */
-      .testi-card{padding:1.25rem!important}
+      /* ── AUDIT ASSESSMENT ── */
+      div[style*="display:grid;grid-template-columns:1fr 1fr;gap:4rem"]{grid-template-columns:1fr!important;gap:2rem!important}
 
-      /* Footer */
-      .footer-inner{flex-direction:column;text-align:center;gap:1.5rem}
-      .footer-links{justify-content:center;flex-wrap:wrap}
+      /* ── FOOTER ── */
+      .footer-inner{flex-direction:column!important;text-align:center!important;gap:1rem!important}
+      .footer-links{flex-wrap:wrap!important;justify-content:center!important}
 
-      /* Audit section cards */
-      .audit-cards{grid-template-columns:1fr!important}
-
-      /* How It Works */
-      .how-grid{grid-template-columns:1fr!important;gap:2rem!important}
-      .how-grid > div:last-child{display:none}
-      .how-portal{flex-direction:column!important}
-
-      /* Sections general padding */
-      section{padding-left:4vw!important;padding-right:4vw!important}
+      /* ── GENERAL SECTION PADDING ── */
+      .sec{padding:3rem 4vw!important}
+      section[style*="padding:7rem 5vw"]{padding:3rem 4vw!important}
+      section[style*="padding:5rem 5vw"]{padding:3rem 4vw!important}
+      section[style*="padding:4rem 5vw"]{padding:2.5rem 4vw!important}
     }
 
-    /* ── SMALL MOBILE (390px) ── */
-    @media(max-width:390px){
-      .hero h1{font-size:1.75rem!important}
-      .stat-grid{grid-template-columns:1fr}
-      .wl-trust{grid-template-columns:1fr!important}
-      #home-tool-tabs button{font-size:.7rem!important}
+    @media(max-width:480px){
+      /* Hero headline even smaller */
+      h1[class*="hero-animate"]{font-size:1.7rem!important}
+
+      /* Pricing second row - stack to 1 col */
+      div[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr!important}
+
+      /* Starting point cards */
+      div[style*="grid-template-columns:repeat(5,1fr)"]{grid-template-columns:1fr!important}
+
+      /* Comparison table - simplify */
+      div[style*="grid-template-columns:1fr 1fr 1fr"] div{font-size:.7rem!important;padding:.6rem .5rem!important}
+
+      /* Stat cards */
+      div[style*="grid-template-columns:repeat(4,1fr)"] .stat-card{padding:1.25rem!important}
     }
   
     .home-tool-panel { display: none; }
