@@ -269,6 +269,51 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .welcome-bar{margin-bottom:20px}
 .welcome-bar h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);font-weight:400}
 .welcome-bar p{color:#888;font-size:.85rem;margin-top:4px}
+
+    @media(max-width:768px){
+      /* Auth screen - stack vertically */
+      #screen-auth{flex-direction:column!important}
+      .auth-left{padding:24px 5vw 2rem!important;min-height:auto}
+      .auth-right{width:100%!important;padding:1.5rem 5vw 3rem!important;border-left:none!important;border-top:1px solid rgba(255,255,255,.08)}
+
+      /* Hide center dashboard column on mobile */
+      #screen-auth > div[style*="flex:0 0 340px"]{display:none!important}
+
+      /* Logo smaller on mobile */
+      .left-logo img{height:60px!important}
+
+      /* CTA buttons stack */
+      div[style*="display:flex;flex-wrap:wrap;gap:1.1rem"]{flex-direction:column!important}
+      div[style*="display:flex;flex-wrap:wrap;gap:1.1rem"] a{width:100%!important;text-align:center!important}
+
+      /* Metric cards - 2 col on mobile */
+      .left-metrics{grid-template-columns:1fr 1fr!important}
+
+      /* Features grid - 1 col */
+      .features-grid{grid-template-columns:1fr!important}
+
+      /* Portal body - hide sidebar, full width */
+      .portal-sidebar{display:none!important}
+      .portal-content{margin-left:0!important;width:100%!important}
+
+      /* Topbar */
+      .portal-topbar{padding:0 4vw!important}
+      .topbar-email{display:none!important}
+
+      /* Tab content padding */
+      .portal-tab{padding:1.25rem 4vw!important}
+
+      /* Onboarding */
+      .ob-container{padding:1.5rem!important;margin:1rem!important}
+      .ob-title{font-size:1.3rem!important}
+    }
+
+    @media(max-width:480px){
+      .auth-left{padding:20px 4vw 1.5rem!important}
+      .left-headline h2{font-size:1.6rem!important}
+      .left-metrics{grid-template-columns:1fr!important}
+      .login-card{padding:1.5rem!important}
+    }
 </style>
 </head>
 <body>
@@ -283,7 +328,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
         Return to The Industry Accountants
       </a>
       <a href="https://theindustryaccountants.com" style="display:flex;align-items:center;text-decoration:none;margin-top:6px">
-        <img src="logo.png" alt="The Industry Accountants" style="height:90px;width:auto;display:block;mix-blend-mode:lighten;filter:brightness(1.1)"/>
+        <img src="logo-ita.png" alt="The Industry Accountants" style="height:90px;width:auto;display:block;mix-blend-mode:screen"/>
       </a>
     </div>
     <div class="left-headline">
